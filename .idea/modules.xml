@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LGP.iml" filepath="$PROJECT_DIR$/.idea/modules/LGP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LGP_main.iml" filepath="$PROJECT_DIR$/.idea/modules/LGP_main.iml" group="LGP" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LGP_test.iml" filepath="$PROJECT_DIR$/.idea/modules/LGP_test.iml" group="LGP" />
+    </modules>
+  </component>
+</project>
