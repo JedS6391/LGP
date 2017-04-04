@@ -5,33 +5,63 @@ import lgp.core.environment.ComponentLoaderBuilder
 import lgp.core.modules.ModuleInformation
 import java.io.FileReader
 
-class Row<out T>(val data: List<Attribute<T>>)
+/**
+ * An instance in a [CsvDataset].
+ *
+ * @param T the type of the attributes.
+ * @property data a collection of attributes.
+ */
+class Row<out T>(data: List<Attribute<T>>) : Instance<T>(data)
 
-class CsvDataset<out T>(val rows: List<Row<T>>) : Dataset<T>
+/**
+ * A data set from a CSV file.
+ */
+class CsvDataset<out T>(rows: List<Row<T>>) : Dataset<T>(rows)
 
-class CsvDatasetLoader<T> private constructor(val filename: String,
+/**
+ * Loads a collection of instances from a CSV file.
+ *
+ * @param T Type of the attributes in the instances.
+ * @property filename CSV file to load instances from.
+ * @property parseFunction Function to parse each attribute in the file.
+ */
+class CsvDatasetLoader<T> constructor(val filename: String,
                                               val parseFunction: (String) -> T)
     : DatasetLoader<T> {
 
     private constructor(builder: Builder<T>) : this(builder.filename, builder.parseFunction)
 
+    /**
+     * Builds an instance of [CsvDatasetLoader].
+     *
+     * @param U the type that the [CsvDatasetLoader] will load attributes as.
+     */
     class Builder<U> : ComponentLoaderBuilder<CsvDatasetLoader<U>> {
 
         lateinit var filename: String
         lateinit var parseFunction: (String) -> U
 
+        /**
+         * Sets the filename of the CSV file to load the data set from.
+         */
         fun filename(name: String): Builder<U> {
             this.filename = name
 
             return this
         }
 
+        /**
+         * Sets the function to use when parsing attributes from the data set file.
+         */
         fun parseFunction(function: (String) -> U): Builder<U> {
             this.parseFunction = function
 
             return this
         }
 
+        /**
+         * Builds the instance with the given configuration information.
+         */
         override fun build(): CsvDatasetLoader<U> {
             return CsvDatasetLoader(this)
         }

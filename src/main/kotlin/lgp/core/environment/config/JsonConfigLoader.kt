@@ -11,8 +11,10 @@ import java.io.IOException
  *
  * This loader provides a builder, so that the loader can be built up
  * rather than explicitly providing values required.
+ *
+ * @property filename JSON file to load configuration information from.
  */
-class JsonConfigLoader private constructor(val filename: String) : ConfigLoader {
+class JsonConfigLoader constructor(val filename: String) : ConfigLoader {
 
     private constructor(builder: Builder) : this(builder.filename)
 
@@ -48,8 +50,6 @@ class JsonConfigLoader private constructor(val filename: String) : ConfigLoader 
          * @return a [JsonConfigLoader] with the information given to the builder.
          */
         override fun build(): JsonConfigLoader {
-            // TODO: Verify that correct configuration information
-            // has been given to builder
             return JsonConfigLoader(this)
         }
     }

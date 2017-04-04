@@ -1,23 +1,40 @@
 package lgp.core.environment
 
+import lgp.core.environment.config.Config
 import lgp.core.environment.config.ConfigLoader
-import lgp.core.environment.config.JsonConfigLoader
+import lgp.core.environment.constants.ConstantLoader
+import lgp.core.environment.dataset.DatasetLoader
+import lgp.core.environment.operations.OperationLoader
+import lgp.core.evolution.registers.RegisterSet
+import lgp.core.modules.ModuleLoader
 
 
-public class Environment<T> {
+public open class Environment<T> {
 
-    class Builder<U> : ComponentLoaderBuilder<Environment<U>> {
+    private var configLoader: ConfigLoader? = null
+    private var constantLoader: ConstantLoader<T>? = null
+    private var datasetLoader: DatasetLoader<T>? = null
+    private var operationLoader: OperationLoader<T>? = null
+    private var defaultValueProvider: DefaultValueProvider<T>? = null
+    private val moduleLoader: ModuleLoader
 
-        lateinit var configLoader: ConfigLoader
+    private var config: Config? = null
 
-        fun configurationLoader(loader: ConfigLoader): Builder<U> {
-            this.configLoader = loader
+    constructor(configLoader: ConfigLoader, constantLoader: ConstantLoader<T>,
+                datasetLoader: DatasetLoader<T>, operationLoader: OperationLoader<T>,
+                defaultValueProvider: DefaultValueProvider<T>) {
 
-            return this
-        }
+        this.configLoader = configLoader
+        this.constantLoader = constantLoader
+        this.datasetLoader = datasetLoader
+        this.operationLoader = operationLoader
+        this.defaultValueProvider = defaultValueProvider
+        this.moduleLoader = ModuleLoader()
 
-        override fun build(): Environment<U> {
-            TODO("not implemented")
-        }
+        this.load()
+    }
+
+    private fun load() {
+        this.config = this.configLoader?.load()
     }
 }
