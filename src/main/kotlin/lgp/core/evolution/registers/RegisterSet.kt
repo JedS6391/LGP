@@ -4,19 +4,80 @@ import lgp.core.environment.DefaultValueProvider
 import lgp.core.environment.dataset.Attribute
 import lgp.core.environment.dataset.Instance
 
+/**
+ * Represents the type of a register.
+ */
 enum class RegisterType {
+    /**
+     * A register that contains input values from a data set instance.
+     */
     Input,
+
+    /**
+     * A register that can be used for calculations and will be loaded
+     * with some default value (given by a [DefaultValueProvider]).
+     */
     Calculation,
+
+    /**
+     * A register that is read-only and will be initialised with values
+     * from a set of constants in the LGP environment.
+     */
     Constant,
+
+    /**
+     * A register that does not fall in some known range will have unknown
+     * type. This type primarily serves as a default case when mapping register
+     * index ranges to register types.
+     */
     Unknown
 }
 
+/**
+ * Thrown when a write operation is attempted on a [RegisterType.Constant] register.
+ *
+ * @param message A message accompanying the exception.
+ */
 class RegisterAccessException(message: String) : Exception(message)
 
+/**
+ * Thrown when the number of values being written to a particular register range,
+ * does not match the size of the range.
+ *
+ * @param message A message accompanying the exception.
+ */
 class RegisterWriteRangeException(message: String) : Exception(message)
 
+/**
+ * Represents a collection of [Register]s.
+ *
+ * The collection is broken into three separate ranges, for the three different
+ * types of registers that are available to an LGP program. In a diagram form, the
+ * ranges look something like:
+ *
+ * ```
+ *     +-------+-------------+----------+
+ *     | Input | Calculation | Constant |
+ *     +-------+-------------+----------+
+ * ```
+ *
+ * Input registers are used to store the value of attributes in an instance from some
+ * data set. These input registers will have their value loaded from an instance before
+ * evaluating an LGP program on some fitness case (an instance). The number of input registers
+ * should be specified to match the number of attributes in each data set instance that the LGP
+ * environment is performing evolution on.
+ *
+ * Calculation registers are freely available registers that can be used in an LGP program.
+ * They are initialised with some default value when the register set is initialised. The
+ * default value can be controlled by passing a specific [DefaultValueProvider].
+ *
+ * Constant registers are used to store a fixed set of constants, that are read-only to an
+ * LGP program. The values of the registers will be loaded from constants specified during
+ * initialisation of the register set.
+ *
+ * @param T The type of the value that each register contains.
+ */
 class RegisterSet<T> {
-
     val totalRegisters: Int
 
     // Bounds for different register types
@@ -30,8 +91,11 @@ class RegisterSet<T> {
 
     private val defaultValueProvider: DefaultValueProvider<T>
 
-    private var registers: MutableList<Register<T>>
+    internal val registers: MutableList<Register<T>>
 
+    /**
+     * The total number of registers in this register set.
+     */
     val count: Int get() = this.registers.size
 
 
@@ -63,9 +127,7 @@ class RegisterSet<T> {
 
         this.defaultValueProvider = defaultValueProvider
 
-        // Use an array list in the hope that a fixed size data structure that is not added to
-        // will give us speed improvements when accessing registers.
-        this.registers = ArrayList(this.totalRegisters)
+        this.registers = mutableListOf()
 
         // Make sure every register slot has a default value.
         this.clear()
@@ -74,25 +136,43 @@ class RegisterSet<T> {
         this.writeConstants(constants)
     }
 
-    private fun clear() {
-        for (r in 0 .. this.totalRegisters - 1) {
-            this.registers.add(r, Register(this.defaultValueProvider.value, r))
-        }
+    internal constructor(source: RegisterSet<T>) {
+        this.totalRegisters = source.totalRegisters
+
+        this.inputRegisters = source.inputRegisters
+        this.calculationRegisters = source.calculationRegisters
+        this.constantRegisters = source.constantRegisters
+
+        this.inputRegistersCount = source.inputRegistersCount
+        this.calculationRegistersCount = source.calculationRegistersCount
+        this.constantRegistersCount = source.constantRegistersCount
+
+        this.defaultValueProvider = source.defaultValueProvider
+        this.registers = mutableListOf()
+        this.registers.addAll(source.registers)
     }
 
-    private fun registerType(index: Int): RegisterType {
-        return when (index) {
-            in this.inputRegisters -> RegisterType.Input
-            in this.calculationRegisters -> RegisterType.Calculation
-            in this.constantRegisters -> RegisterType.Constant
-            else -> RegisterType.Unknown // Hopefully we'll never get here but we need an exhaustive case.
-        }
-    }
-
-    fun read(index: Int): Register<T> {
+    fun register(index: Int): Register<T> {
         return this.registers[index]
     }
 
+    /**
+     * Get the value the of the register at the given index.
+     *
+     * @param index The register to read from.
+     * @returns The value of the register at the given index.
+     */
+    fun read(index: Int): T {
+        return this.registers[index].value
+    }
+
+    /**
+     * Sets the value of the register at the given index.
+     *
+     * @param index The register to write to.
+     * @param value The value to write to the register.
+     * @throws RegisterAccessException When the index refers to a constant register.
+     */
     fun write(index: Int, value: T) {
         val type = this.registerType(index)
 
@@ -104,10 +184,13 @@ class RegisterSet<T> {
         }
     }
 
-    private fun overwrite(index: Int, value: T) {
-        this.registers[index] = Register(value, index)
-    }
-
+    /**
+     * Writes an instance from some data set to the register sets input registers.
+     *
+     * NOTE: The number of input registers of the set must match the number of attributes in the instance.
+     *
+     * @param data An instance to write to the input registers.
+     */
     fun writeInstance(data: Instance<T>) {
         // The number of attributes must match the number of input registers
         assert(this.inputRegistersCount == data.attributes.size)
@@ -117,6 +200,25 @@ class RegisterSet<T> {
                 data.attributes().map(Attribute<T>::value),
                 this.inputRegisters
         )
+    }
+
+    fun registerType(index: Int): RegisterType {
+        return when (index) {
+            in this.inputRegisters -> RegisterType.Input
+            in this.calculationRegisters -> RegisterType.Calculation
+            in this.constantRegisters -> RegisterType.Constant
+            else -> RegisterType.Unknown // Hopefully we'll never get here but we need an exhaustive case.
+        }
+    }
+
+    private fun clear() {
+        for (r in 0 .. this.totalRegisters - 1) {
+            this.registers.add(r, Register(this.defaultValueProvider.value, r))
+        }
+    }
+
+    private fun overwrite(index: Int, value: T) {
+        this.registers[index] = Register(value, index)
     }
 
     private fun writeConstants(constants: List<T>) {
@@ -147,3 +249,8 @@ class RegisterSet<T> {
         return sb.toString()
     }
 }
+
+fun <T> RegisterSet<T>.copy(): RegisterSet<T> {
+    return RegisterSet(this)
+}
+

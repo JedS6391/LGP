@@ -19,7 +19,7 @@ abstract class UnaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(Arity
      */
     override fun execute(arguments: Arguments<T>): T {
         return when {
-            arguments.size() != this.arity.arity -> throw ArityException("UnaryOperation takes 1 argument but was given ${arguments.size()}.")
+            arguments.size() != this.arity.number -> throw ArityException("UnaryOperation takes 1 argument but was given ${arguments.size()}.")
             else -> this.func(arguments)
         }
     }

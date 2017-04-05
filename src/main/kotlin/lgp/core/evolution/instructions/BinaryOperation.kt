@@ -19,7 +19,7 @@ abstract class BinaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(Arit
      */
     override fun execute(arguments: Arguments<T>): T {
         return when {
-            arguments.size() != this.arity.arity -> throw ArityException("BinaryOperation takes 2 argument but was given ${arguments.size()}.")
+            arguments.size() != this.arity.number -> throw ArityException("BinaryOperation takes 2 argument but was given ${arguments.size()}.")
             else -> this.func(arguments)
         }
     }
