@@ -9,7 +9,9 @@
               <CompilerSettings />
             </option>
             <option name="k2jsCompilerArguments">
-              <K2JSCompilerArguments />
+              <K2JSCompilerArguments>
+                <option name="moduleKind" value="plain" />
+              </K2JSCompilerArguments>
             </option>
             <option name="k2jvmCompilerArguments">
               <K2JVMCompilerArguments>
@@ -21,7 +23,7 @@
                 <option name="loadBuiltInsFromDependencies" value="true" />
                 <option name="languageVersion" value="1.1" />
                 <option name="apiVersion" value="1.1" />
-                <option name="coroutinesWarn" value="true" />
+                <option name="coroutinesEnable" value="true" />
               </K2JVMCompilerArguments>
             </option>
             <option name="_commonCompilerArguments">
@@ -31,7 +33,7 @@
                 <option name="pluginClasspaths">
                   <array />
                 </option>
-                <option name="coroutinesWarn" value="true" />
+                <option name="coroutinesEnable" value="true" />
                 <option name="pluginOptions">
                   <array />
                 </option>
