@@ -29,14 +29,19 @@ class ModuleLoader {
         // Cache miss... need to go through the class loader.
         val clazz = this.javaClass.classLoader.loadClass(name)
 
+        // The only way to check if the loaded class is a valid module is to create
+        // a new instance and then test the result of casting.
+
+        val instance = clazz.newInstance()
+
         when {
-            !this.javaClass.isAssignableFrom(clazz) -> {
-                // The name provided doesn't match any modules the class loader knows about.
-                throw InvalidModuleException("Provided class $name is not a valid Module.")
-            }
-            else -> {
+            instance is Module -> {
                 // We know that the class is an implementation of `Module` so the cast is valid.
                 this.moduleCache[name] = clazz as Class<out Module>
+            }
+            else -> {
+                // The name provided doesn't match any modules the class loader knows about.
+                throw InvalidModuleException("Provided class $name is not a valid Module.")
             }
         }
 
