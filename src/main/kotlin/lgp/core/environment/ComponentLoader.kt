@@ -3,25 +3,31 @@ package lgp.core.environment
 import lgp.core.modules.Module
 
 /**
- * Defines an implementation that can build a [ComponentLoader].
+ * A builder that can build a [ComponentLoader].
  *
- * Primarily used when making an implementation of [ComponentLoader] so that the
- * [ComponentLoader] provides a simple way to be built.
+ * Primarily used when creating an implementation of [ComponentLoader] so that the loader
+ * provides a simple way to be built, particularly when used through Java. In Kotlin, it is
+ * preferred to use named arguments to the constructor of the loader.
+ *
+ * @param TComponentLoader A type that this builder is responsible for building.
  */
 interface ComponentLoaderBuilder<out TComponentLoader> {
     fun build(): TComponentLoader
 }
 
 /**
- * Defines a [Module] that is able to load components that are required by the environment.
+ * A [Module] that is able to load components.
  *
- * @param TComponent the type of component that this loader is able to load.
+ * The implementer controls how a component the loader is responsible for is loaded
+ * and consumers should be indifferent to the implementation details.
+ *
+ * @param TComponent The type of component that this loader is able to load.
  */
 interface ComponentLoader<out TComponent> : Module {
     /**
      * Loads a component.
      *
-     * @returns a component of type [TComponent].
+     * @returns A component of type [TComponent].
      */
     fun load(): TComponent
 }

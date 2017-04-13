@@ -1,9 +1,17 @@
 package lgp.core.environment.constants
 
-import lgp.core.environment.ComponentLoaderBuilder
 import lgp.core.modules.ModuleInformation
 
-class FloatConstantLoader constructor(constants: List<String>)
+/**
+ * An implementation of [ConstantLoader] that loads constants as a collection of [Double]s.
+ *
+ * We get around having to implement a lot of this ourselves by subclassing [GenericConstantLoader]
+ * with a parsing function suitable for converting the raw strings to doubles.
+ *
+ * @param constants A collection of raw constants.
+ * @see [GenericConstantLoader]
+ */
+class DoubleConstantLoader constructor(constants: List<String>)
     : GenericConstantLoader<Double>(constants, String::toDouble) {
 
     // Give this loader a custom description since it is provided as part of the core package.

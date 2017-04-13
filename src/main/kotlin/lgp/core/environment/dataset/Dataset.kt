@@ -1,11 +1,11 @@
 package lgp.core.environment.dataset
 
 /**
- * An attribute from some data set.
+ * An attribute of an instance in some data set.
  *
- * @param T the type of the attribute.
- * @property name the name of the this attribute in the data set.
- * @property value the value of this attribute in the data set.
+ * @param T The type of the attribute.
+ * @property name The name of the this attribute in the data set.
+ * @property value The value of this attribute in the data set.
  */
 data class Attribute<out T>(val name: String, val value: T)
 
@@ -14,13 +14,19 @@ data class Attribute<out T>(val name: String, val value: T)
  *
  * [Instance]s are made up of a collection of [Attribute]s.
  *
- * @param T the type of the [Attribute]s that make up this instance.
- * @property attributes the collection of [Attribute]s that this instance represents.
+ * **NOTE:** Similarly as for [Dataset]s, custom implementations of instances can be
+ * defined but some functionality is marked so that it is not able to be overridden (see
+ * any functions marked `final`).
+ *
+ *
+ * @param TAttribute The type of the [Attribute]s that make up this instance.
+ * @property attributes A collection of [Attribute]s that this instance represents.
+ * @see [Dataset]
  */
-open class Instance<out T>(val attributes: List<Attribute<T>>) {
+open class Instance<out TAttribute>(val attributes: List<Attribute<TAttribute>>) {
     // By default, the last attribute is the class attribute. We don't let consumers
     // of instances change the class attribute, it can only be changed globally at the
-    // dataset level.
+    // data set level.
     internal var classAttributeIndex: Int = this.attributes.size - 1
 
     /**
@@ -28,7 +34,7 @@ open class Instance<out T>(val attributes: List<Attribute<T>>) {
      *
      * @returns The class attribute.
      */
-    fun classAttribute(): Attribute<T> {
+    final fun classAttribute(): Attribute<TAttribute> {
         return this.attributes[classAttributeIndex]
     }
 
@@ -37,10 +43,9 @@ open class Instance<out T>(val attributes: List<Attribute<T>>) {
      *
      * @returns The non-class attributes.
      */
-    fun attributes(filterClassAttribute: Boolean = true): List<Attribute<T>> {
+    final fun attributes(filterClassAttribute: Boolean = true): List<Attribute<TAttribute>> {
         return this.attributes.filterIndexed { index, _ ->
-            // Filter the class attribute when the flag is set
-            // !(a ∧ b) == (!a ∨ !b) by De Morgan's laws
+            // Filter the class attribute when the flag is set [!(a ∧ b) == (!a ∨ !b) by De Morgan's laws]
             ((index != this.classAttributeIndex) || !filterClassAttribute)
         }
     }
@@ -49,21 +54,37 @@ open class Instance<out T>(val attributes: List<Attribute<T>>) {
 /**
  * A basic data set made up of a collection of [Instance]s.
  *
- * @param T the type of the attributes that the instances in this data set represents.
- * @property instances the instances belonging to this dataset.
+ * An abstract implementation is provided in order to permit the freedom to have differing
+ * implementation details per [DatasetLoader].
+ *
+ * Despite this liberal approach, there are some parts of the implementation that are rigid:
+ *
+ * - Any extending classes need to pass a list of instances to the constructor appropriately; clearly this
+ * can be customised to the intended use case.
+ * - The shape of the data set is specified as a collection of instances and functions for specifying the
+ * class attribute of these instances, as well as information about the number of attributes/instances are
+ * provided which can not be modified (see the functions marked `final`).
+ *
+ * While the behaviour for these functions could be modified, care would need to be taken.
+ *
+ * @param TAttribute The type of the attributes that the instances in this data set represents.
+ * @property instances The instances belonging to this data set.
  */
-abstract class Dataset<out T>(val instances: List<Instance<T>>) {
+abstract class Dataset<out TAttribute>(val instances: List<Instance<TAttribute>>) {
 
-    private var classIndex: Int = 0
+    // The index of the attribute that is used as the class attribute for each instance.
+    // Note: By default this is set to be the last attribute.
+    private var classIndex: Int = this.numAttributes() - 1
 
     /**
      * Sets the index of the class [Attribute] for each [Instance].
      *
      * @param index An index such that 0 <= idx < len(instances).
      */
-    fun setClassAttribute(index: Int) {
+    final fun setClassAttribute(index: Int) {
         this.classIndex = index
 
+        // Mark each instances class attribute
         for (instance in this.instances) {
             instance.classAttributeIndex = this.classIndex
         }
@@ -74,7 +95,7 @@ abstract class Dataset<out T>(val instances: List<Instance<T>>) {
      *
      * @returns The number of instances in this data set.
      */
-    fun numInstances(): Int {
+    final fun numInstances(): Int {
         return this.instances.size
     }
 
@@ -83,7 +104,7 @@ abstract class Dataset<out T>(val instances: List<Instance<T>>) {
      *
      * @returns The number of attributes in each instance in the data set.
      */
-    fun numAttributes(): Int {
+    final fun numAttributes(): Int {
         return when {
             // Protect for the case when there are no instances (and hence no attributes).
             this.numInstances() == 0 -> 0

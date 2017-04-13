@@ -3,6 +3,7 @@ package lgp.core.environment.operations
 import lgp.core.environment.ComponentLoaderBuilder
 import lgp.core.evolution.instructions.Operation
 import lgp.core.modules.ModuleInformation
+import lgp.core.modules.ModuleLoader
 
 /**
  * A simple operation loader implementation that simply loads a set of operations
@@ -53,8 +54,10 @@ class DefaultOperationLoader<T> constructor(val operationNames: List<String>): O
      * @returns A list of [Operation]s.
      */
     override fun load(): List<Operation<T>> {
+        val moduleLoader = ModuleLoader()
+
         return this.operationNames.map { name ->
-            Class.forName(name).newInstance() as Operation<T>
+            moduleLoader.instanceOf(name) as Operation<T>
         }
     }
 

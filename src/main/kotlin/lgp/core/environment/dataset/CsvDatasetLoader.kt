@@ -5,16 +5,22 @@ import lgp.core.environment.ComponentLoaderBuilder
 import lgp.core.modules.ModuleInformation
 import java.io.FileReader
 
+//  These helper classes aren't strictly necessary, but they help to make the
+// types used by the loader look a little bit nicer.
+
 /**
  * An instance in a [CsvDataset].
  *
  * @param T the type of the attributes.
  * @property data a collection of attributes.
+ * @suppress
  */
 class Row<out T>(data: List<Attribute<T>>) : Instance<T>(data)
 
 /**
  * A data set from a CSV file.
+ *
+ * @suppress
  */
 class CsvDataset<out T>(rows: List<Row<T>>) : Dataset<T>(rows)
 
@@ -26,7 +32,7 @@ class CsvDataset<out T>(rows: List<Row<T>>) : Dataset<T>(rows)
  * @property parseFunction Function to parse each attribute in the file.
  */
 class CsvDatasetLoader<T> constructor(val filename: String,
-                                              val parseFunction: (String) -> T)
+                                      val parseFunction: (String) -> T)
     : DatasetLoader<T> {
 
     private constructor(builder: Builder<T>) : this(builder.filename, builder.parseFunction)
