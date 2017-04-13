@@ -6,6 +6,8 @@ import lgp.core.modules.ModuleInformation
 
 /**
  * Performs subtraction on two Double arguments.
+ *
+ * @suppress
  */
 class Subtraction : BinaryOperation<Double>(
         func = { args: Arguments<Double> ->

@@ -6,6 +6,8 @@ import lgp.core.modules.ModuleInformation
 
 /**
  * Performs the sine function on a single Double argument.
+ *
+ * @suppress
  */
 class Sine : UnaryOperation<Double>(
         func = { args: Arguments<Double> -> Math.sin(args.get(0)) }
