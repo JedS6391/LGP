@@ -130,7 +130,7 @@ class RegisterSet<T> {
         this.registers = mutableListOf()
 
         // Make sure every register slot has a default value.
-        this.clear()
+        this.initialise()
 
         // Initialise the constant registers
         this.writeConstants(constants)
@@ -149,7 +149,10 @@ class RegisterSet<T> {
 
         this.defaultValueProvider = source.defaultValueProvider
         this.registers = mutableListOf()
-        this.registers.addAll(source.registers)
+
+        for (register in source.registers) {
+            this.registers.add(register.index, Register(register))
+        }
     }
 
     fun register(index: Int): Register<T> {
@@ -211,7 +214,19 @@ class RegisterSet<T> {
         }
     }
 
-    private fun clear() {
+    fun reset() {
+        // A reset is similar to a clear operation except that it only sets the value of the input and calculation
+        // registers to default values.
+        for (r in this.inputRegisters) {
+            this.registers[r] = Register(this.defaultValueProvider.value, r)
+        }
+
+        for (r in this.calculationRegisters) {
+            this.registers[r] = Register(this.defaultValueProvider.value, r)
+        }
+    }
+
+    private fun initialise() {
         for (r in 0 .. this.totalRegisters - 1) {
             this.registers.add(r, Register(this.defaultValueProvider.value, r))
         }

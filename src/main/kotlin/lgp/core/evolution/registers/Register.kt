@@ -12,6 +12,9 @@ package lgp.core.evolution.registers
  */
 class Register<T>(var value: T, val index: Int) {
 
+    // TODO: Deep copy value?
+    constructor(source: Register<T>) : this(source.value, source.index)
+
     /**
      * Converts this register into an argument to be consumed by operations.
      *
