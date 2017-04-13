@@ -9,9 +9,7 @@
               <CompilerSettings />
             </option>
             <option name="k2jsCompilerArguments">
-              <K2JSCompilerArguments>
-                <option name="moduleKind" value="plain" />
-              </K2JSCompilerArguments>
+              <K2JSCompilerArguments />
             </option>
             <option name="k2jvmCompilerArguments">
               <K2JVMCompilerArguments>
@@ -63,8 +61,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.code.gson:gson:1.7.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.opencsv:opencsv:3.7" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:1.7.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.opencsv:opencsv:3.7" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.3.2" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.1.1" level="project" />
