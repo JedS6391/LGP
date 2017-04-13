@@ -7,20 +7,30 @@ import lgp.core.evolution.instructions.Operation
 import lgp.core.evolution.registers.RandomRegisterGenerator
 import lgp.core.evolution.registers.Register
 import lgp.core.evolution.registers.RegisterType
+import lgp.core.evolution.registers.copy
 import lgp.core.modules.ModuleInformation
 
 import java.util.Random
 import kotlin.coroutines.experimental.buildSequence
 
-class BaseInstructionGenerator<T>(private val environment: Environment<T>) : InstructionGenerator<T>() {
-    private val rg = Random()
+/**
+ * @suppress
+ */
+class BaseInstructionGenerator<T> : InstructionGenerator<T> {
+
+    private val environment: Environment<T>
+    private val rg: Random
     private val operationPool: List<Operation<T>>
     private val registerGenerator: RandomRegisterGenerator<T>
 
-    init {
+    constructor(environment: Environment<T>) : super(environment.registerSet.copy()) {
+        this.environment = environment
+        this.rg = Random()
         this.operationPool = environment.operations
-        this.registerGenerator = RandomRegisterGenerator(environment.registerSet)
+        this.registerGenerator = RandomRegisterGenerator(this.registers)
     }
+
+
 
     override fun next(): Sequence<Instruction<T>> = buildSequence {
         while (true) {

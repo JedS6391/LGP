@@ -8,13 +8,16 @@ import lgp.core.evolution.registers.Register
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.ModuleInformation
 
+/**
+ * @suppress
+ */
 class BaseInstruction<T>(
         override val operation: Operation<T>,
         private val destination: Register<T>,
         private val operands: List<Register<T>>
 ) : Instruction<T>() {
 
-    override fun execute(registers: RegisterSet<T>) {
+    override fun execute() {
         val arguments = Arguments(this.operands.map(Register<T>::toArgument))
 
         this.destination.value = this.operation.execute(arguments)
