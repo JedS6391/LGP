@@ -5,6 +5,7 @@ import lgp.core.evolution.population.Program
 
 // Maybe wrap with a data class instead?
 typealias FitnessCase<T> = Instance<T>
+typealias FitnessFunction<T> = (Program<T>, List<FitnessCase<T>>) -> Double
 
 class FitnessContext<T>(
         private val fitnessCases: List<FitnessCase<T>>,
@@ -12,7 +13,7 @@ class FitnessContext<T>(
         private val program: Program<T>,
 
         // TODO: Is this function type enough?
-        private val fitnessFunction: (Program<T>, List<FitnessCase<T>>) -> Double
+        private val fitnessFunction: FitnessFunction<T>
 )
 {
 

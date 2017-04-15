@@ -30,8 +30,6 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
         this.registerGenerator = RandomRegisterGenerator(this.registers)
     }
 
-
-
     override fun next(): Sequence<Instruction<T>> = buildSequence {
         while (true) {
             yield(this@BaseInstructionGenerator.generateRandomInstruction())
