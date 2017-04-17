@@ -73,24 +73,24 @@ val defaultValueProvider = object : DefaultValueProvider<Double> {
         get() = 0.0
 }
 
-// Fitness function. 
-val fitnessFunction: FitnessFunction<Double> = { program, cases ->
-    // Some implementation of a fitness function that tests the 
-    // program against each case and computes the fitness. Left
-    // out for the sake of brevity, but see the full example for more.
-    ...
-}
+// Fitness function. We'll use the classification error 
+// implementation from the fitness functions module.
+val ce = FitnessFunctions.CE({ o ->
+	// Map output to class by rounding down to nearest value
+   Math.floor(o)
+})
+
 
 // We've declared all our dependencies, so we can build an LGP environment.
 // When constructing an environment, any initialisation components 
 // will be resolved.
-val environment = Environment<Double>(
+val env = Environment<Double>(
         configLoader,
         constantLoader,
         datasetLoader,
         operationLoader,
         defaultValueProvider,
-        fitnessFunction
+        fitnessFunction = ce
 )
 ```
 
