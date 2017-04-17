@@ -1,5 +1,6 @@
 package lgp.core.evolution.instructions
 
+import lgp.core.environment.Environment
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.Module
 
@@ -23,8 +24,8 @@ import lgp.core.modules.Module
  *
  * @param T The type that the instructions generated operate on.
  */
-// TODO: Should we explicitly expose the Iterable<Instruction<T>> interface and allow the generator itself to be iterated over.
-abstract class InstructionGenerator<T>(val registers: RegisterSet<T>) : Module {
+abstract class InstructionGenerator<T>(val environment: Environment<T>) : Module {
+
     /**
      * Gives a sequence of instructions.
      */

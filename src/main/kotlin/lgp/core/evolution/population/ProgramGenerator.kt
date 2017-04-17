@@ -20,7 +20,6 @@ import kotlin.coroutines.experimental.buildSequence
  * @property instructionGenerator A reference to an instruction generator.
  */
 abstract class ProgramGenerator<T>(val environment: Environment<T>, val instructionGenerator: InstructionGenerator<T>) : Module {
-
     /**
      * Generates a sequence of programs by yielding the result
      * of the overridden function [generateProgram].

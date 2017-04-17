@@ -7,7 +7,7 @@ package lgp.core.modules
  * place in the system, meaning that custom modules can be built
  * to provide custom functionality to the system.
  */
-public interface Module {
+interface Module {
     /**
      * Provides information about the module.
      */

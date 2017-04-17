@@ -1,5 +1,6 @@
 package lgp.core.environment.config
 
+import com.google.gson.annotations.SerializedName
 import java.util.ArrayList
 
 /**
