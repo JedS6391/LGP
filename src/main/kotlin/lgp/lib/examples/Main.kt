@@ -5,17 +5,11 @@ import lgp.core.environment.Environment
 import lgp.core.environment.ModuleContainer
 import lgp.core.environment.RegisteredModuleType
 import lgp.core.environment.config.JsonConfigLoader
-import lgp.core.environment.constants.DoubleConstantLoader
 import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.CsvDatasetLoader
 import lgp.core.environment.operations.DefaultOperationLoader
-import lgp.core.evolution.fitness.FitnessCase
-import lgp.core.evolution.fitness.FitnessContext
-import lgp.core.evolution.fitness.FitnessFunction
-import lgp.core.evolution.instructions.Operation
+import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.population.Population
-import lgp.core.evolution.population.Program
-import lgp.core.modules.Module
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgramGenerator
 
@@ -64,28 +58,10 @@ class Main {
                     get() = 0.0
             }
 
-            // Mean-squared error fitness function
-            val mse: FitnessFunction<Double> = { program, cases ->
-                var fitness = 0.0
-
-                for (case in cases) {
-                    // Make sure the registers are in a default state
-                    program.registers.reset()
-
-                    // Load the case
-                    program.registers.writeInstance(case)
-
-                    program.execute()
-
-                    // Just use the first register as output
-                    val actual: Double = program.registers.read(0)
-                    val expected: Double = case.classAttribute().value
-
-                    fitness += Math.pow((actual - expected), 2.0)
-                }
-
-                ((1.0 / cases.size.toDouble()) * fitness)
-            }
+            val ce = FitnessFunctions.CE({ o ->
+                // Map output to class by rounding down to nearest value
+                Math.floor(o)
+            })
 
             // Create a new environment with these loaders.
             val environment = Environment<Double>(
@@ -94,7 +70,7 @@ class Main {
                     datasetLoader,
                     operationLoader,
                     defaultValueProvider,
-                    fitnessFunction = mse
+                    fitnessFunction = ce
             )
 
             val container = ModuleContainer(
