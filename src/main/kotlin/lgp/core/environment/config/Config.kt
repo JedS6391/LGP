@@ -31,21 +31,6 @@ class Config {
     var maximumProgramLength = 200
 
     /**
-     * The types of the registers used by the LGP environment. Custom types can be used meaning that
-     * custom operations/operations can be defined for those custom register types.
-     *
-     * **NOTE:** The register type dictates the types used throughout the entire environment.
-     */
-    var registerType = "java.lang.Double"
-
-    /**
-     * The location of a data set to be loaded by an appropriate [lgp.core.environment.dataset.DatasetLoader].
-     */
-    // TODO: Default to example directory or something along those lines.
-    var datasetFilename = ""
-
-
-    /**
      * A collection of fully-qualified class names specifying the classes of
      * [lgp.core.evolution.instructions.Operation]s to be loaded into an [lgp.core.environment.Environment].
      *

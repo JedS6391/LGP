@@ -7,27 +7,62 @@ import lgp.core.environment.dataset.Dataset
 import lgp.core.environment.dataset.DatasetLoader
 import lgp.core.environment.operations.OperationLoader
 import lgp.core.evolution.fitness.FitnessFunction
+import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.instructions.Operation
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.Module
 
+class ModuleRegistrationException : Exception("All module types must have a module implementation registered to them.")
+
+/**
+ * Represents the different modules that are able to be registered with an environment.
+ *
+ * Any module that is a *Register Component* should be specified here.
+ */
+// TODO: Find a way to make this more automatic.
 enum class RegisteredModuleType {
+
+    /**
+     * A module that provides a concrete [lgp.core.evolution.instructions.InstructionGenerator] implementation.
+     */
     InstructionGenerator,
+
+    /**
+     * A module that provides a concrete [lgp.core.evolution.population.ProgramGenerator] implementation.
+     */
     ProgramGenerator
 }
 
+/**
+ * A container that provides modules that need to be registered with an environment.
+ *
+ * @property modules A mapping of modules that can be registered to a function that constructs that module.
+ */
 data class ModuleContainer(val modules: Map<RegisteredModuleType, () -> Module>) {
 
     // All instances are provided as singletons
     private val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
 
+    /**
+     * Provides an instance of the module type given.
+     *
+     * The module will be loaded and cast to the type given.
+     *
+     * @param type The type of of module to get an instance of.
+     * @param TModule The type to cast the module as.
+     */
     fun <TModule> instance(type: RegisteredModuleType): TModule {
         if (type in instanceCache)
             return instanceCache[type] as TModule
 
         val moduleBuilder = this.modules[type]
+
+        // Because the module building function could potentially be null
+        // due to the way maps work, we can't just directly call it so we
+        // have to make an ugly call to `invoke`.
         val module = moduleBuilder?.invoke()
 
+        // Cache this instance
         instanceCache[type] = module!!
 
         return module as TModule
@@ -35,6 +70,21 @@ data class ModuleContainer(val modules: Map<RegisteredModuleType, () -> Module>)
 
 }
 
+/**
+ * A central repository for core components of the LGP system.
+ *
+ * An environment should be built by providing the correct components. The environment will
+ * maintain these components so that can be accessed by the LGP system from wherever they are needed.
+ *
+ * The components required by the environment are split into three categories:
+ *
+ *     1. Construction components: Given to an environment at construction time.
+ *     2. Initialisation components: Resolved internally given valid construction components.
+ *     3. Registered components: Resolved manually by registering with an environment after construction.
+ *
+ * After an environment is built and all components are resolved, it can be used to initiate the core
+ * evolution process of LGP.
+ */
 open class Environment<T> {
 
     // Dependencies that we require at construction time
@@ -57,6 +107,19 @@ open class Environment<T> {
     lateinit var container: ModuleContainer
 
     // TODO: Should a default environment be provided?
+    /**
+     * Builds an environment with the specified construction components.
+     *
+     * @param configLoader A component that can load configuration information.
+     * @param constantLoader A component that can load constants.
+     * @param datasetLoader A component that can load the dataset for an LGP system.
+     * @param operationLoader A component that can load operations for the LGP system.
+     * @param defaultValueProvider A component that provides default values for the registers in the register set.
+     * @param fitnessFunction A function used to evaluate the fitness of LGP programs.
+     * @param initialise Whether or not initialised components should be initialised automatically.
+     */
+    // TODO: Move all components to an object to make constructor smaller.
+    // TODO: Allow custom initialisation method for initialisation components.
     constructor(configLoader: ConfigLoader, constantLoader: ConstantLoader<T>,
                 datasetLoader: DatasetLoader<T>, operationLoader: OperationLoader<T>,
                 defaultValueProvider: DefaultValueProvider<T>, fitnessFunction: FitnessFunction<T>,
@@ -105,15 +168,27 @@ open class Environment<T> {
         }.all { b -> b}
     }
 
+    /**
+     * Registers the modules given by a container.
+     *
+     * @param container A container that specifies modules to be registered.
+     * @throws ModuleRegistrationException When an implementation is not provided for a registered module type.
+     */
     fun registerModules(container: ModuleContainer) {
         if (!this.validateModules(container)) {
-            throw Exception("All module types must have a module implementation registered to them.")
+            throw ModuleRegistrationException()
         }
 
         this.container = container
     }
 
-    fun <TModule> registeredModule(type: RegisteredModuleType): TModule {
+    /**
+     * Fetches an instance of the module registered for a particular module type.
+     *
+     * @param type The type of registered module to fetch.
+     * @param TModule The type the module will be cast as.
+     */
+    fun <TModule : Module> registeredModule(type: RegisteredModuleType): TModule {
         return this.container.instance<TModule>(type)
     }
 
