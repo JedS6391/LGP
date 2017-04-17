@@ -4,10 +4,7 @@ import lgp.core.environment.Environment
 import lgp.core.evolution.instructions.Instruction
 import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.instructions.Operation
-import lgp.core.evolution.registers.RandomRegisterGenerator
-import lgp.core.evolution.registers.Register
-import lgp.core.evolution.registers.RegisterType
-import lgp.core.evolution.registers.copy
+import lgp.core.evolution.registers.*
 import lgp.core.modules.ModuleInformation
 
 import java.util.Random
@@ -18,19 +15,17 @@ import kotlin.coroutines.experimental.buildSequence
  */
 class BaseInstructionGenerator<T> : InstructionGenerator<T> {
 
-    private val environment: Environment<T>
     private val rg: Random
     private val operationPool: List<Operation<T>>
+    private val registers: RegisterSet<T>
     private val registerGenerator: RandomRegisterGenerator<T>
 
-    constructor(environment: Environment<T>) : super(environment.registerSet.copy()) {
-        this.environment = environment
+    constructor(environment: Environment<T>) : super(environment) {
         this.rg = Random()
         this.operationPool = environment.operations
+        this.registers = this.environment.registerSet.copy()
         this.registerGenerator = RandomRegisterGenerator(this.registers)
     }
-
-
 
     override fun next(): Sequence<Instruction<T>> = buildSequence {
         while (true) {
@@ -40,7 +35,7 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
 
     private fun generateRandomInstruction(): Instruction<T> {
         // Choose a random output register
-        val output = this.getRandomInputAndCalculationRegisters(1).first()
+        val outputIndex = this.getRandomInputAndCalculationRegisters(1).first().index
 
         // Choose a random operator
         val operatorIndex = rg.nextInt(this.operationPool.size)
@@ -57,28 +52,28 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
             // the operation, we've already chosen one of the arguments registers as a constant register.
             val nonConstRegister = this.getRandomInputAndCalculationRegisters(operation.arity.number - 1)
 
-            val inputs = mutableListOf<Register<T>>()
+            val inputIndices = mutableListOf<Int>()
 
             // We don't always want the constant register to be in the same position in an instruction.
             val prob = this.rg.nextFloat()
 
             when {
                 prob < 0.5 -> {
-                    inputs.add(constRegister)
-                    inputs.addAll(nonConstRegister)
+                    inputIndices.add(constRegister.index)
+                    inputIndices.addAll(nonConstRegister.map(Register<T>::index))
                 }
                 else -> {
-                    inputs.addAll(nonConstRegister)
-                    inputs.add(constRegister)
+                    inputIndices.addAll(nonConstRegister.map(Register<T>::index))
+                    inputIndices.add(constRegister.index)
                 }
             }
 
-            return BaseInstruction(operation, output, inputs)
+            return BaseInstruction(operation, outputIndex, inputIndices)
         } else {
             // Choose some random input registers depending on the arity of the operation
             val inputs = this.getRandomInputAndCalculationRegisters(operation.arity.number)
 
-            return BaseInstruction(operation, output, inputs)
+            return BaseInstruction(operation, outputIndex, inputs.map(Register<T>::index))
         }
     }
 

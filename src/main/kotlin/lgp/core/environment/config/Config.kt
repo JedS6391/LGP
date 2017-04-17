@@ -1,5 +1,6 @@
 package lgp.core.environment.config
 
+import com.google.gson.annotations.SerializedName
 import java.util.ArrayList
 
 /**
@@ -73,4 +74,9 @@ class Config {
      * How many additional calculation registers should be provided to an LGP program.
      */
     var numCalculationRegisters = 10
+
+    /**
+     * How many individuals should be generated in the initial population.
+     */
+    var populationSize = 100
 }

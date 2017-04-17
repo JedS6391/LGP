@@ -10,7 +10,7 @@ class BaseProgram<T>(instructions: Sequence<Instruction<T>>, registerSet: Regist
 
     override fun execute() {
         for (instruction in this.instructions) {
-            instruction.execute()
+            instruction.execute(this.registers)
         }
     }
 

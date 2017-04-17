@@ -2,6 +2,7 @@ package lgp.core.environment.config
 
 import com.google.gson.Gson
 import lgp.core.environment.ComponentLoaderBuilder
+import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 import java.io.FileReader
 import java.io.IOException
@@ -24,7 +25,6 @@ import java.io.IOException
  * @property filename JSON file to load configuration information from.
  */
 class JsonConfigLoader constructor(private val filename: String) : ConfigLoader {
-
     /**
      * Creates an instance of [JsonConfigLoader] using the given builder.
      *
