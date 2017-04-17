@@ -13,36 +13,39 @@ import lgp.core.modules.ModuleInformation
  */
 class BaseInstruction<T>(
         override val operation: Operation<T>,
-        private val destination: Register<T>,
-        private val operands: List<Register<T>>
+        private val destination: Int, // Index of destination register
+        private val operands: List<Int> // Indices of operand registers
 ) : Instruction<T>() {
 
-    override fun execute() {
-        val arguments = Arguments(this.operands.map(Register<T>::toArgument))
+    override fun execute(registers: RegisterSet<T>) {
+        val arguments = Arguments(this.operands.map { idx ->
+            // Find the appropriate register and map it to an argument value type
+            registers.register(idx).toArgument()
+        })
 
-        this.destination.value = this.operation.execute(arguments)
+        registers.write(this.destination, this.operation.execute(arguments))
     }
 
     override fun toString(): String {
         val representation = StringBuilder()
 
         representation.append("r[")
-        representation.append(this.destination.index)
+        representation.append(this.destination)
         representation.append("] = ")
 
         // TODO: Sanity check length of registers
         if (this.operation.arity === Arity.Unary) {
             representation.append(this.operation.representation)
             representation.append("(r[")
-            representation.append(this.operands[0].index)
+            representation.append(this.operands[0])
             representation.append("])")
         } else if (this.operation.arity === Arity.Binary) {
             representation.append("r[")
-            representation.append(this.operands[0].index)
+            representation.append(this.operands[0])
             representation.append("]")
             representation.append(this.operation.representation)
             representation.append("r[")
-            representation.append(this.operands[1].index)
+            representation.append(this.operands[1])
             representation.append("]")
         }
 
