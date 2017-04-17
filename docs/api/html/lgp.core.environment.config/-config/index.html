@@ -1,0 +1,106 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Config - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.environment.config</a>&nbsp;/&nbsp;<a href=".">Config</a><br/>
+<br/>
+<h1>Config</h1>
+<code><span class="keyword">class </span><span class="identifier">Config</span></code>
+<p>Represents the parameters that can be set for the an LGP environment.</p>
+<p>An implementation of <a href="../-config-loader.html">ConfigLoader</a> can load Configs from a specified source.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">Config</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Represents the parameters that can be set for the an LGP environment.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="constants.html">constants</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">constants</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code>
+<p>Any values to be used as constants in an LGP program.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="constants-rate.html">constantsRate</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">constantsRate</span><span class="symbol">: </span><span class="identifier">Double</span></code>
+<p>The probability with which instructions in an LGP program will contain a constant value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="initial-maximum-program-length.html">initialMaximumProgramLength</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">initialMaximumProgramLength</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>The maximum length of a program generated during population initialisation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="initial-minimum-program-length.html">initialMinimumProgramLength</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">initialMinimumProgramLength</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>The minimum length of a program generated during population initialisation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="maximum-program-length.html">maximumProgramLength</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">maximumProgramLength</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>The upper bound for program length during the evolution process.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="minimum-program-length.html">minimumProgramLength</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">minimumProgramLength</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>The lower bound for program length during the evolution process.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="num-calculation-registers.html">numCalculationRegisters</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">numCalculationRegisters</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>How many additional calculation registers should be provided to an LGP program.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="operations.html">operations</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">operations</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code>
+<p>A collection of fully-qualified class names specifying the classes of
+<a href="../../lgp.core.evolution.instructions/-operation/index.html">lgp.core.evolution.instructions.Operation</a>s to be loaded into an <a href="../../lgp.core.environment/-environment/index.html">lgp.core.environment.Environment</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="population-size.html">populationSize</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">populationSize</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>How many individuals should be generated in the initial population.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -25,7 +25,7 @@ To build an environment, the following construction components are required:
 - `DefaultValueProvider`
 - `FitnessFunction`
 
-To find further information about these components, see the API documentation.
+To find further information about these components, see the [API documentation](../API/html/index.html).
 
 These components are primarily those related to loading information into the environment (at initialisation time), or functionality that is used throughout the system but is customisable.
 

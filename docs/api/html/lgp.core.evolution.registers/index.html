@@ -1,0 +1,99 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>lgp.core.evolution.registers - </title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href=".">lgp.core.evolution.registers</a><br/>
+<br/>
+<h2>Package lgp.core.evolution.registers</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-argument/index.html">Argument</a></td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Argument</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>An <a href="-argument/index.html">Argument</a> is essentially just the value of a particular <a href="-register/index.html">Register</a>,
+but in the context of an <a href="../lgp.core.evolution.instructions/-operation/index.html">lgp.core.evolution.instructions.Operation</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-arguments/index.html">Arguments</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Arguments</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A simple collection of <a href="-argument/index.html">Argument</a>s.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-random-register-generator/index.html">RandomRegisterGenerator</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RandomRegisterGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Generates an infinite random sequence of registers from the register set given.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-register/index.html">Register</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Register</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A register that is available to an LGP program.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-register-set/index.html">RegisterSet</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RegisterSet</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Represents a collection of <a href="-register/index.html">Register</a>s.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-register-type/index.html">RegisterType</a></td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">RegisterType</span></code>
+<p>Represents the type of a register.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-register-access-exception/index.html">RegisterAccessException</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RegisterAccessException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code>
+<p>Thrown when a write operation is attempted on a <a href="-register-type/-constant.html">RegisterType.Constant</a> register.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-register-write-range-exception/index.html">RegisterWriteRangeException</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RegisterWriteRangeException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code>
+<p>Thrown when the number of values being written to a particular register range,
+does not match the size of the range.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="copy.html">copy</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <a href="-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">copy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

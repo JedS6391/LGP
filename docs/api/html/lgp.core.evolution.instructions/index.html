@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>lgp.core.evolution.instructions - </title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href=".">lgp.core.evolution.instructions</a><br/>
+<br/>
+<h2>Package lgp.core.evolution.instructions</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-arity/index.html">Arity</a></td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">Arity</span></code>
+<p>The arity of an operation, specifying how many arguments it can take.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-binary-operation/index.html">BinaryOperation</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>An operation that has an arity of two (i.e. its function takes 2 arguments).</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-instruction/index.html">Instruction</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Instruction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code></td>
+</tr>
+<tr>
+<td>
+<a href="-instruction-generator/index.html">InstructionGenerator</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">InstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>A generator of instructions in an LGP system.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-operation/index.html">Operation</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Operation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>An operation has an <a href="-arity/index.html">Arity</a> and some function that it can perform on <a href="../lgp.core.evolution.registers/-arguments/index.html">Arguments</a> given to it.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-unary-operation/index.html">UnaryOperation</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">UnaryOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>An operation that has an arity of one (i.e. its function takes 1 argument).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-arity-exception/index.html">ArityException</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ArityException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code>
+<p>Thrown when the <a href="-arity/index.html">Arity</a> of an <a href="-operation/index.html">Operation</a> does not match the number of
+<a href="#">Argument</a>s given to it.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

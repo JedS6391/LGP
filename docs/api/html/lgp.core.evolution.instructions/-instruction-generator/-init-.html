@@ -1,0 +1,27 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>InstructionGenerator.<init> - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.evolution.instructions</a>&nbsp;/&nbsp;<a href="index.html">InstructionGenerator</a>&nbsp;/&nbsp;<a href=".">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<code><span class="identifier">InstructionGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.instructions.InstructionGenerator$<init>(lgp.core.environment.Environment((lgp.core.evolution.instructions.InstructionGenerator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<p>A generator of instructions in an LGP system.</p>
+<p>The functionality is left up to the implementer, but the basic skeleton exposes a simple API,
+that allows the instruction generator to be iterated over as a sequence of instructors, for example:</p>
+<pre><code>val instructionGenerator = SomeInstructionGenerator()
+// Iterate through the sequence of instructions
+for (instruction in instructionGenerator.next()) {
+    doSomethingWith(instruction)
+}</code></pre>
+<p>An instruction generator expects that a set of registers is provided to it. Note that this register
+set will provide registers</p>
+<h3>Parameters</h3>
+
+<p><a name="T"></a>
+<code>T</code> - The type that the instructions generated operate on.
+</BODY>
+</HTML>

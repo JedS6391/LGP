@@ -42,6 +42,18 @@ kotlin {
     }
 }
 
+task dokkaApiHtml(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/../docs/api/html"
+}
+
+
+task dokkaApiJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'javadoc'
+    outputDirectory = "$buildDir/../docs/api/javadoc"
+}
+
 jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
+

@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Dataset - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.environment.dataset</a>&nbsp;/&nbsp;<a href=".">Dataset</a><br/>
+<br/>
+<h1>Dataset</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Dataset</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TAttribute</span><span class="symbol">&gt;</span></code>
+<p>A basic data set made up of a collection of <a href="../-instance/index.html">Instance</a>s.</p>
+<p>An abstract implementation is provided in order to permit the freedom to have differing
+implementation details per <a href="../-dataset-loader.html">DatasetLoader</a>.</p>
+<p>Despite this liberal approach, there are some parts of the implementation that are rigid:</p>
+<ul><li>Any extending classes need to pass a list of instances to the constructor appropriately; clearly this
+can be customised to the intended use case.</li>
+<li>The shape of the data set is specified as a collection of instances and functions for specifying the
+class attribute of these instances, as well as information about the number of attributes/instances are
+provided which can not be modified (see the functions marked <code>final</code>).</li>
+</ul>
+<p>While the behaviour for these functions could be modified, care would need to be taken.</p>
+<h3>Parameters</h3>
+
+<p><a name="TAttribute"></a>
+<code>TAttribute</code> - The type of the attributes that the instances in this data set represents.
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">Dataset</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.Dataset$<init>(kotlin.collections.List((lgp.core.environment.dataset.Instance((lgp.core.environment.dataset.Dataset.TAttribute)))))/instances">instances</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-instance/index.html"><span class="identifier">Instance</span></a><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<p>A basic data set made up of a collection of <a href="../-instance/index.html">Instance</a>s.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="instances.html">instances</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">instances</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-instance/index.html"><span class="identifier">Instance</span></a><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>The instances belonging to this data set.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="num-attributes.html">numAttributes</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">numAttributes</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>The number of attributes in each instance in the data set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="num-instances.html">numInstances</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">numInstances</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>The number of instances in this data set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="set-class-attribute.html">setClassAttribute</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setClassAttribute</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.Dataset$setClassAttribute(kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Sets the index of the class <a href="../-attribute/index.html">Attribute</a> for each <a href="../-instance/index.html">Instance</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

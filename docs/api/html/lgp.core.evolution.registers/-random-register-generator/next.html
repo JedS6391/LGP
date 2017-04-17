@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>RandomRegisterGenerator.next - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.evolution.registers</a>&nbsp;/&nbsp;<a href="index.html">RandomRegisterGenerator</a>&nbsp;/&nbsp;<a href=".">next</a><br/>
+<br/>
+<h1>next</h1>
+
+<p><a name="lgp.core.evolution.registers.RandomRegisterGenerator$next()"></a>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Provides an infinite, random sequence of registers.</p>
+<p><strong>Returns</strong><br/>
+A sequence of registers.</p>
+
+<p><a name="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType)"></a>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Returns a sequence of registers with the specified type.</p>
+<h3>Parameters</h3>
+
+<p><a name="type"></a>
+<code>type</code> - A type of register to filter by.
+<p><strong>Returns</strong><br/>
+A sequence of registers such that type(register) == type.</p>
+
+<p><a name="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))"></a>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/a">a</span><span class="symbol">:</span>&nbsp;<a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/b">b</span><span class="symbol">:</span>&nbsp;<a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/predicate">predicate</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Returns a sequence of integers where <a href="next.html#lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/predicate">predicate</a> determines
+whether the next register is of type <a href="next.html#lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/a">a</a> or type <a href="next.html#lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/b">b</a>.</p>
+<h3>Parameters</h3>
+
+<p><a name="a"></a>
+<code>a</code> - The first register type.
+<p><a name="b"></a>
+<code>b</code> - The second register type.
+<p><a name="predicate"></a>
+<code>predicate</code> - A function that determines between register type a and b.
+</BODY>
+</HTML>

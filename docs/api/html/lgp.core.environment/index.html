@@ -1,0 +1,76 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>lgp.core.environment - </title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href=".">lgp.core.environment</a><br/>
+<br/>
+<h2>Package lgp.core.environment</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-component-loader/index.html">ComponentLoader</a></td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">ComponentLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TComponent</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>A <a href="../lgp.core.modules/-module/index.html">Module</a> that is able to load components.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-component-loader-builder/index.html">ComponentLoaderBuilder</a></td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">ComponentLoaderBuilder</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TComponentLoader</span><span class="symbol">&gt;</span></code>
+<p>A builder that can build a <a href="-component-loader/index.html">ComponentLoader</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-default-value-provider/index.html">DefaultValueProvider</a></td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">DefaultValueProvider</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TValue</span><span class="symbol">&gt;</span></code>
+<p>An implementation will be able to provide default values to some consumer.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-environment/index.html">Environment</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Environment</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A central repository for core components of the LGP system.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-module-container/index.html">ModuleContainer</a></td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">ModuleContainer</span></code>
+<p>A container that provides modules that need to be registered with an environment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-registered-module-type/index.html">RegisteredModuleType</a></td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">RegisteredModuleType</span></code>
+<p>Represents the different modules that are able to be registered with an environment.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-module-registration-exception/index.html">ModuleRegistrationException</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ModuleRegistrationException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
