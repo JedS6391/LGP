@@ -10,7 +10,9 @@
 <h1>&lt;init&gt;</h1>
 <code><span class="identifier">Instance</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.Instance$<init>(kotlin.collections.List((lgp.core.environment.dataset.Attribute((lgp.core.environment.dataset.Instance.TAttribute)))))/attributes">attributes</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-attribute/index.html"><span class="identifier">Attribute</span></a><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>An instance in a <a href="../-dataset/index.html">Dataset</a>.</p>
-<p><a href="index.html">Instance</a>s are made up of a collection of <a href="../-attribute/index.html">Attribute</a>s.</p>
+<p><a href="index.html">Instance</a>s are made up of a collection of <a href="../-attribute/index.html">Attribute</a>s. A particular attribute is marked
+as the class attribute and the rest are marked as input attributes. The indices of these
+attributes can be controlled via the <a href="../-dataset/index.html">Dataset</a> the instance belongs to.</p>
 <p><strong>NOTE:</strong> Similarly as for <a href="../-dataset/index.html">Dataset</a>s, custom implementations of instances can be
 defined but some functionality is marked so that it is not able to be overridden (see
 any functions marked <code>final</code>).</p>
