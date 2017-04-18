@@ -64,4 +64,27 @@ class Config {
      * How many individuals should be generated in the initial population.
      */
     var populationSize = 100
+
+    /*
+     * Each instances attributes are loaded into a programs register set at execution time.
+     *
+     * [inputAttributesLowIndex] refers to the lower bound of the range of attributes to load.
+     * [inputAttributesHighIndex] refers to the upper bound of the range of attributes to load.
+     * [classAttributeIndex] refers to the index of an attribute which acts as the class attribute.
+     */
+
+    /**
+     * A lower bound of attributes from the data set to load into the registers.
+     */
+    var inputAttributesLowIndex = 0
+
+    /**
+     * An upper bound of attributes from the data set to load into the registers.
+     */
+    var inputAttributesHighIndex = 0
+
+    /**
+     * An index of an attribute from the data set that will act as a class attribute.
+     */
+    var classAttributeIndex = 0
 }

@@ -22,7 +22,7 @@ class Row<out T>(data: List<Attribute<T>>) : Instance<T>(data)
  *
  * @suppress
  */
-class CsvDataset<out T>(rows: List<Row<T>>) : Dataset<T>(rows)
+class CsvDataset<T>(rows: List<Row<T>>) : Dataset<T>(rows)
 
 /**
  * Loads a collection of instances from a CSV file.
