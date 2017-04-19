@@ -27,7 +27,7 @@ To build an environment, the following construction components are required:
 * ``DefaultValueProvider``
 * ``FitnessFunction``
 
-To find further information about these components, see `the API documentation. <../../../api/html/index.html>`_
+To find further information about these components, see `the API documentation. <https://jeds6391.github.io/LGP/>`_
 
 These components are primarily those related to loading information into the environment (at initialisation time), or functionality that is used throughout the system but is customisable.
 
