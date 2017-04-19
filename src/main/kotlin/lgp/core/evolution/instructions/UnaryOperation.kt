@@ -5,7 +5,7 @@ import lgp.core.evolution.registers.Arguments
 /**
  * An operation that has an arity of one (i.e. its function takes 1 argument).
  */
-abstract class UnaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(Arity.Unary, func) {
+abstract class UnaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(BaseArity.Unary, func) {
 
     /**
      * Applies the operations function to the argument(s) given.

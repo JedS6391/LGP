@@ -24,8 +24,8 @@ object FitnessFunctions {
      * on the actual and expected values. The actual value is whatever is in
      * register 0 after program execution.
      */
-    @JvmField
-    val MSE: FitnessFunction<Double> = { program, cases ->
+    @JvmStatic
+    fun MSE(): FitnessFunction<Double> = { program, cases ->
         var fitness = 0.0
 
         for (case in cases) {

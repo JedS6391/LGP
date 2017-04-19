@@ -1,6 +1,7 @@
 package lgp.lib
 
 import lgp.core.evolution.instructions.Arity
+import lgp.core.evolution.instructions.BaseArity
 import lgp.core.evolution.instructions.Instruction
 import lgp.core.evolution.instructions.Operation
 import lgp.core.evolution.registers.Arguments
@@ -34,12 +35,12 @@ class BaseInstruction<T>(
         representation.append("] = ")
 
         // TODO: Sanity check length of registers
-        if (this.operation.arity === Arity.Unary) {
+        if (this.operation.arity === BaseArity.Unary) {
             representation.append(this.operation.representation)
             representation.append("(r[")
             representation.append(this.operands[0])
             representation.append("])")
-        } else if (this.operation.arity === Arity.Binary) {
+        } else if (this.operation.arity === BaseArity.Binary) {
             representation.append("r[")
             representation.append(this.operands[0])
             representation.append("]")
