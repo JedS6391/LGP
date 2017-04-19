@@ -10,14 +10,14 @@ These operations change the values of the registers during the execution of an L
 
 In this implementation, operations are a component of instructions. Instructions are core to an LGP program, as a sequence of instructions is an essential component to a program. For more information on instructions, see **TODO**.
 
-The ``lgp.lib.operations`` module defines a set of default operations that can be used in a few common situations (see `the API documentation <https://jeds6391.github.io/LGP/api/html/lgp.lib.operations/index.html>`_ for more on the default operations), but the ``Operation`` API can be used to build custom operations suitable to a particular problem domain.
+The `lgp.lib.operations <https://jeds6391.github.io/LGP/api/html/lgp.lib.operations/index.html>`_ module defines a set of default operations that can be used in a few common situations, but the ``Operation`` API can be used to build custom operations suitable to a particular problem domain.
 
 API
 ===
 
 Operations are an abstract concept in the API, which are composed of an arity (i.e. how many arguments does the operation have), and a function that operates on a set of arity arguments and produces a value that has the same type as the arguments.
 
-The ``lgp.core.evolution.instructions`` module provides types for defining operations.
+The `lgp.core.evolution.instructions <https://jeds6391.github.io/LGP/api/html/lgp.core.evolution.instructions/index.html>`_ module provides types for defining operations.
 
 Arity
 -----
@@ -37,11 +37,18 @@ The ``Arity`` interface defines a way for an operation to specify how many argum
 Function
 --------
 
-The ``Function<T>`` type is simply a type alias for ``(Arguments<T>) -> T``. That is to say, a function type takes a collection of ``Argument``s of some type ``T`` and maps those arguments to a value in the domain of ``T``.
+The ``Function<T>`` type is simply a type alias for ``(Arguments<T>) -> T``. That is to say, a function type takes a collection of arguments of some type ``T`` and maps those arguments to a value in the domain of ``T``.
 
-Because functions have a simple interface (they are really just a lambda function), it is straight-forward to define custom functions. The only *gotcha* with functions is that they are disjoint from the arity, so care must be taken to ensure that when executing the function at the operation level, the number of arguments is checked. This will be made clearer in the **Operation** section.
+Because functions have a simple interface (they are really just a lambda function), it is straight-forward to define custom functions. The only *gotcha* with functions is that they are disjoint from the arity, so care must be taken to ensure that when executing the function at the operation level, the number of arguments is checked. This will be made clearer in the `Operation`_ section.
 
-For now, lets imagine a function that takes 3 arguments (perhaps it will belong to an operation that has a ternary arity as defined in the previous section), :math:`x`, :math:`y`, :math:`z` and computes the value :math:`x + y - z`. This function is going to operate on double values to keep it simple, but any type for the function could be used.
+For now, lets imagine a function that takes 3 arguments (perhaps it will belong to an operation that has a ternary arity as defined in the previous section) and computes the function :eq:`f`.
+
+.. math::
+    :label: f
+
+    f(x, y, z) = x + y - z
+
+This function is going to operate on double values to keep it simple, but the function could operate on values of any type.
 
 .. code-block:: kotlin
 
