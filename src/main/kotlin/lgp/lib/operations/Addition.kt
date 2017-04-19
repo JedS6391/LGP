@@ -6,8 +6,6 @@ import lgp.core.modules.ModuleInformation
 
 /**
  * Performs addition on two Double arguments.
- *
- * @suppress
  */
 class Addition : BinaryOperation<Double>(Addition.Companion::add) {
 
