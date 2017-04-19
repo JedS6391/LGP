@@ -4,6 +4,15 @@ import lgp.core.evolution.registers.Arguments
 import lgp.core.modules.Module
 
 /**
+ * The type of function that operations perform.
+ *
+ * @param T The type of the arguments
+ * @param arguments A set of arguments
+ * @returns A value of the same type as the arguments.
+ */
+typealias Function<T> = (arguments: Arguments<T>) -> T
+
+/**
  * An operation has an [Arity] and some function that it can perform on [Arguments] given to it.
  *
  * Operations are specified as [Module]s, meaning that custom operations can be implemented and use
@@ -16,7 +25,7 @@ import lgp.core.modules.Module
  * @param arity How many arguments the operations function takes.
  * @param func A function mapping arguments to some value.
  */
-abstract class Operation<T>(val arity: Arity, val func: (Arguments<T>) -> T ) : Module {
+abstract class Operation<T>(val arity: Arity, val func: Function<T>) : Module {
     /**
      * A way to express an operation in a textual format.
      */

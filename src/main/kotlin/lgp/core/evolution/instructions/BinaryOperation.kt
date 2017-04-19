@@ -5,7 +5,7 @@ import lgp.core.evolution.registers.Arguments
 /**
  * An operation that has an arity of two (i.e. its function takes 2 arguments).
  */
-abstract class BinaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(Arity.Binary, func) {
+abstract class BinaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(BaseArity.Binary, func) {
 
     /**
      * Applies the operations function to the argument(s) given.
