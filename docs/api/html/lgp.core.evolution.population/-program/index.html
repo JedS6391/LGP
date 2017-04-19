@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Program - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.evolution.population</a>&nbsp;/&nbsp;<a href=".">Program</a><br/>
+<br/>
+<h1>Program</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Program</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>A program in the LGP population.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">Program</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.Program$<init>(kotlin.sequences.Sequence((lgp.core.evolution.instructions.Instruction((lgp.core.evolution.population.Program.T)))), lgp.core.evolution.registers.RegisterSet((lgp.core.evolution.population.Program.T)))/instructions">instructions</span><span class="symbol">:</span>&nbsp;<span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.population.Program$<init>(kotlin.sequences.Sequence((lgp.core.evolution.instructions.Instruction((lgp.core.evolution.population.Program.T)))), lgp.core.evolution.registers.RegisterSet((lgp.core.evolution.population.Program.T)))/registers">registers</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<p>A program in the LGP population.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="instructions.html">instructions</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">instructions</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="registers.html">registers</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">registers</span><span class="symbol">: </span><a href="../../lgp.core.evolution.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../lgp.core.modules/-module/information.html">information</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
+<p>Provides information about the module.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="execute.html">execute</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">execute</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../lgp.lib/-base-program/index.html">BaseProgram</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">BaseProgram</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Program</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CsvDatasetLoader.Builder - </title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">lgp.core.environment.dataset</a>&nbsp;/&nbsp;<a href="../index.html">CsvDatasetLoader</a>&nbsp;/&nbsp;<a href=".">Builder</a><br/>
+<br/>
+<h1>Builder</h1>
+<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment/-component-loader-builder/index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><a href="../index.html"><span class="identifier">CsvDatasetLoader</span></a><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Builds an instance of <a href="../index.html">CsvDatasetLoader</a>.</p>
+<h3>Parameters</h3>
+
+<p><a name="U"></a>
+<code>U</code> - the type that the <a href="../index.html">CsvDatasetLoader</a> will load attributes as.
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">Builder</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Builds an instance of <a href="../index.html">CsvDatasetLoader</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="filename.html">filename</a></td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">filename</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="parse-function.html">parseFunction</a></td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">parseFunction</span><span class="symbol">: </span><span class="symbol">(</span><span class="identifier">String</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">U</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="build.html">build</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">build</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../index.html"><span class="identifier">CsvDatasetLoader</span></a><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
+<p>Builds the instance with the given configuration information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="filename.html">filename</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">filename</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader.Builder$filename(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
+<p>Sets the filename of the CSV file to load the data set from.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="parse-function.html">parseFunction</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">parseFunction</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader.Builder$parseFunction(kotlin.Function1((kotlin.String, lgp.core.environment.dataset.CsvDatasetLoader.Builder.U)))/function">function</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">String</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">U</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
+<p>Sets the function to use when parsing attributes from the data set file.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

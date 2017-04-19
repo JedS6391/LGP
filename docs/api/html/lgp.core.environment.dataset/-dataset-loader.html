@@ -1,0 +1,50 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>DatasetLoader - </title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="index.html">lgp.core.environment.dataset</a>&nbsp;/&nbsp;<a href=".">DatasetLoader</a><br/>
+<br/>
+<h1>DatasetLoader</h1>
+<code><span class="keyword">interface </span><span class="identifier">DatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>An extended <a href="../lgp.core.environment/-component-loader/index.html">ComponentLoader</a> that loads a <a href="-dataset/index.html">Dataset</a>.</p>
+<p>The source of the data set is controllable by any implementor, all that is required is that the
+raw data is gathered into a <a href="-dataset/index.html">Dataset</a> instance, while satisfying the type constraint <a href="#">TData</a> for
+individual attributes in the data set.</p>
+<h3>Parameters</h3>
+
+<p><a name="TData"></a>
+<code>TData</code> - Type of attributes in the data set.
+<p><strong>See Also</strong><br/>
+<p><a href="-dataset/index.html">Dataset</a></p>
+</p>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../lgp.core.environment/-component-loader/load.html">load</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">load</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TComponent</span></code>
+<p>Loads a component.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-csv-dataset-loader/index.html">CsvDatasetLoader</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">CsvDatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">DatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Loads a collection of instances from a CSV file.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

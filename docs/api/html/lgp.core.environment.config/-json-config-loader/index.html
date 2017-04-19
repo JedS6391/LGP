@@ -1,0 +1,76 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>JsonConfigLoader - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.environment.config</a>&nbsp;/&nbsp;<a href=".">JsonConfigLoader</a><br/>
+<br/>
+<h1>JsonConfigLoader</h1>
+<code><span class="keyword">class </span><span class="identifier">JsonConfigLoader</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-config-loader.html"><span class="identifier">ConfigLoader</span></a></code>
+<p>An implementation of <a href="../-config-loader.html">ConfigLoader</a> that loads configuration from a JSON file.</p>
+<p>A builder is provided that should be primarily used when creating an instance through
+the Java API.</p>
+<p><strong>NOTE:</strong> This implementation caches the results of loading configuration, because the loader
+is immutable - that is, once it is created it can not be altered to load configuration from
+an alternate location.</p>
+<p>This means that the we can cache the result of loading configuration
+because we don't want to get changes in configuration when it is loaded in different places
+throughout an LGP run (i.e. the result of calling <a href="load.html">JsonConfigLoader.load</a> should be deterministic
+in the context of an LGP run.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-builder/index.html">Builder</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Builder</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-component-loader-builder/index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><span class="identifier">JsonConfigLoader</span><span class="symbol">&gt;</span></code>
+<p>A custom <a href="../../lgp.core.environment/-component-loader-builder/index.html">ComponentLoaderBuilder</a> implementation for building a JsonConfigLoader instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">JsonConfigLoader</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.config.JsonConfigLoader$<init>(kotlin.String)/filename">filename</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code>
+<p>An implementation of <a href="../-config-loader.html">ConfigLoader</a> that loads configuration from a JSON file.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="information.html">information</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
+<p>Provides information about the module.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="load.html">load</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">load</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-config/index.html"><span class="identifier">Config</span></a></code>
+<p>Loads an instance of <a href="../-config/index.html">Config</a> by parsing the JSON file associated
+with this loader.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
