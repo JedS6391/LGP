@@ -5,4 +5,4 @@ LGP
    :maxdepth: 2
    :caption: Contents:
 
-   guide/guide
+   api/api
