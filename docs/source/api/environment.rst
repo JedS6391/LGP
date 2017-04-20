@@ -1,9 +1,11 @@
 Environment
 ***********
 
-.. note:: The examples in this document are expressed using the Kotlin language, but translation to Java is trivial.
+The first step in using the LGP system is to build an environment for the problem being solved.
 
-The first step in using the LGP system is to build an environment for the problem being solved. This environment acts as a central repository for core components of the LGP system, such as configuration information, datasets, modules for various operations performed during evolution, etc. It can be thought of as the context in which the LGP system is being used as the environment used will directly influence the results.
+This environment acts as a central repository for core components of the LGP system, such as configuration information, datasets, modules for various operations performed during evolution, etc.
+
+It can be thought of as the context in which the LGP system is being used as the environment used will directly influence the results.
 
 The components needed to build an environment are split into three main categories:
 
@@ -27,11 +29,14 @@ To build an environment, the following construction components are required:
 * ``DefaultValueProvider``
 * ``FitnessFunction``
 
-To find further information about these components, see `the API documentation. <https://jeds6391.github.io/LGP/>`_
+To find further information about these components, see `the API documentation. <https://jeds6391.github.io/LGP/api/html/lgp.core.environment/index.html>`_
 
 These components are primarily those related to loading information into the environment (at initialisation time), or functionality that is used throughout the system but is customisable.
 
-For example, to build up an ``Environment`` instance with the correct construction components.
+Example
+-------
+
+To build up an ``Environment`` instance with the correct construction components is the main initiation step to getting started using the LGP system, and as such requires a bit of dependency gathering.
 
 .. note:: The type for the various loaders is specified explicitly in the example, but generally the type will be inferred from the arguments when using the Kotlin API. This examples uses the `Double` type, meaning that programs generated will operate on registers containing Double-precision floating-point format numbers.
 
@@ -97,10 +102,12 @@ For example, to build up an ``Environment`` instance with the correct constructi
             fitnessFunction = ce
     )
 
+This will create an environment with the construction components given and begin the process of initialising any initialisation components.
+
 Initialisation Components
 =========================
 
-These components are automatically initialised by an environment when a set of suitable construction components have been given. These components are generally associated with a loader and are a sort of global state that isn't affected by the LGP system, for example:
+These components are automatically initialised by an environment when a set of suitable construction components have been given. These components are generally associated with a ``ComponentLoader`` and are a sort of global state that isn't affected by the LGP system, for example:
 
 - Configuration
 - Constants
@@ -110,12 +117,21 @@ These components are automatically initialised by an environment when a set of s
 
 The Register Set is slightly different in that it depends on information provided by the construction dependencies and is initialised internally as a global reference register set, so that programs can acquire a fresh register set at any time.
 
+Nothing special needs to be done for initialisation components - provided that the construction components given were valid, the components will be automatically initialised as appropriate.
+
 Registered Components
 =====================
 
-Registered components are essentially those that are circular in their dependency graph. That is, a registered component requires a reference to the environment in order to operate, but the environment also needs a reference to the component itself so that it can be accessed within the context of the LGP system, hence these components have to be resolved after the environment has been built.
+Registered components are essentially those that are circular in their dependency graph.
 
-Generally, registered dependencies will be custom implementations of core components used during the evolution process, such as custom generation schemes for instructions and programs. The reason these components generally have a dependency on the environment is that they are designed to be as flexible as possible, therefore allowing custom components to have access to the entire environment is useful.
+That is, a registered component requires a reference to the environment in order to operate, but the environment also needs a reference to the component itself so that it can be accessed within the context of the LGP system, hence these components have to be resolved after the environment has been built.
+
+Generally, registered dependencies will be custom implementations of core components used during the evolution process, such as custom generation schemes for instructions and programs.
+
+The reason these components generally have a dependency on the environment is that they are designed to be as flexible as possible, therefore allowing custom components to have access to the entire environment is useful.
+
+Example
+-------
 
 To illustrate how registered components are used - continuing from the above example.
 
@@ -156,3 +172,10 @@ To illustrate how registered components are used - continuing from the above exa
 
 
 With all components resolved, the environment is ready to be used for the main process of evolution.
+
+API
+===
+
+See `lgp.core.environment. <https://jeds6391.github.io/LGP/api/html/lgp.core.environment/index.html>`_
+
+
