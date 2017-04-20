@@ -15,12 +15,10 @@ class Addition : BinaryOperation<Double>(Addition.Companion::add) {
         }
     }
 
-    override val representation: String
-        get() = " + "
+    override val representation = " + "
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "An operation for performing the addition function on two Double arguments."
-    }
+    override val information = ModuleInformation(
+        description = "An operation for performing the addition function on two Double arguments."
+    )
 
 }

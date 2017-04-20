@@ -89,8 +89,7 @@ class JsonConfigLoader constructor(private val filename: String) : ConfigLoader 
         return this.memoizedConfig
     }
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "A loader than can load configuration from a JSON file."
-    }
+    override val information = ModuleInformation(
+        description = "A loader than can load configuration from a JSON file."
+    )
 }

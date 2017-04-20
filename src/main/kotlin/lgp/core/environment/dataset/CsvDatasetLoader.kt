@@ -97,8 +97,7 @@ class CsvDatasetLoader<T> constructor(val filename: String,
         }
     }
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "A loader than can load data sets from CSV files."
-    }
+    override val information = ModuleInformation(
+        description = "A loader than can load data sets from CSV files."
+    )
 }

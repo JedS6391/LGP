@@ -13,8 +13,7 @@ class Sine : UnaryOperation<Double>(
     override val representation: String
         get() = "sin"
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "An operation for performing the sine function on a single Double argument."
-    }
+    override val information = ModuleInformation (
+        description = "An operation for performing the sine function on a single Double argument."
+    )
 }

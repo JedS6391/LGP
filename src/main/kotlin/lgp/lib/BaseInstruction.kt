@@ -1,9 +1,6 @@
 package lgp.lib
 
-import lgp.core.evolution.instructions.Arity
-import lgp.core.evolution.instructions.BaseArity
-import lgp.core.evolution.instructions.Instruction
-import lgp.core.evolution.instructions.Operation
+import lgp.core.evolution.instructions.*
 import lgp.core.evolution.registers.Arguments
 import lgp.core.evolution.registers.Register
 import lgp.core.evolution.registers.RegisterSet
@@ -53,8 +50,8 @@ class BaseInstruction<T>(
         return representation.toString()
     }
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "A simple instruction that puts the output of an operation on operand registers into a destination register."
-    }
+    override val information = ModuleInformation(
+        description = "A simple instruction that puts the output of an operation on" +
+                      " operand registers into a destination register."
+    )
 }

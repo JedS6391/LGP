@@ -14,8 +14,7 @@ class BaseProgram<T>(instructions: Sequence<Instruction<T>>, registerSet: Regist
         }
     }
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "A simple program that executes instructions sequentially."
-    }
+    override val information = ModuleInformation(
+        description = "A simple program that executes instructions sequentially."
+    )
 }

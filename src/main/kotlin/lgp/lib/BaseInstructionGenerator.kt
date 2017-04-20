@@ -88,8 +88,7 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
         return inputs
     }
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "A simple instruction generator."
-    }
+    override val information = ModuleInformation (
+        description = "A simple instruction generator."
+    )
 }

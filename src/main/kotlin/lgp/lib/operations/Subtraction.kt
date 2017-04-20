@@ -12,11 +12,9 @@ class Subtraction : BinaryOperation<Double>(
             args.get(0) - args.get(1)
         }
 ) {
-    override val representation: String
-        get() = " - "
+    override val representation = " - "
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "An operation for performing the subtraction function on two Double arguments."
-    }
+    override val information = ModuleInformation(
+        description = "An operation for performing the subtraction function on two Double arguments."
+    )
 }

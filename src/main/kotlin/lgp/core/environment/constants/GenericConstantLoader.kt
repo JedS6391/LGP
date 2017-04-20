@@ -92,8 +92,7 @@ open class GenericConstantLoader<out T> constructor(private val constants: List<
         return this.memoizedConstants
     }
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "A loader than can parse specified constants into any type specified using a given function."
-    }
+    override val information = ModuleInformation(
+        description = "A loader than can parse specified constants into any type specified using a given function."
+    )
 }

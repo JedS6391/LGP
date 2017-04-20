@@ -30,11 +30,9 @@ class BaseProgramGenerator<T>(environment: Environment<T>)
         return program
     }
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "A simple program generator."
-    }
-
+    override val information = ModuleInformation(
+        description = "A simple program generator."
+    )
 }
 
 // A random integer between a and b.

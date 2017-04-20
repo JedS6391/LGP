@@ -15,8 +15,7 @@ class DoubleConstantLoader constructor(constants: List<String>)
     : GenericConstantLoader<Double>(constants, String::toDouble) {
 
     // Give this loader a custom description since it is provided as part of the core package.
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "A loader than can parse specified constants into floats."
-    }
+    override val information = ModuleInformation (
+        description = "A loader than can parse specified constants into floats."
+    )
 }

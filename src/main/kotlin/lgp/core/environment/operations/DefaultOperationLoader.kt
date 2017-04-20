@@ -61,8 +61,7 @@ class DefaultOperationLoader<T> constructor(val operationNames: List<String>): O
         }
     }
 
-    override val information: ModuleInformation = object : ModuleInformation {
-        override val description: String
-            get() = "A loader than can load operations from a collection of strings naming those operations by class."
-    }
+    override val information = ModuleInformation(
+        description = "A loader than can load operations from a collection of strings naming those operations by class."
+    )
 }
