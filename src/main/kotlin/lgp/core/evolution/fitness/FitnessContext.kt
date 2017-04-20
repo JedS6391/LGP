@@ -9,7 +9,16 @@ typealias FitnessCase<T> = Instance<T>
 /**
  * A mapping of program to fitness cases using a given fitness function.
  *
- * Used to evaluate the fitness of a program on a collection of fitness cases.
+ * When a context is asked for the fitness of the program it encapsulates,
+ * it will execute the program on each of the fitness cases, and collect the
+ * program outputs.
+ *
+ * These program outputs are feed into a fitness function to determine a fitness
+ * metric for that program in the given context.
+ *
+ * @property fitnessCases A collection of fitness cases to evaluate the program on.
+ * @property program A program to evaluate.
+ * @property fitnessFunction A function to determine the fitness of a program by its outputs.
  */
 class FitnessContext<T>(
         /**
@@ -29,7 +38,8 @@ class FitnessContext<T>(
 
         // TODO: Is this function type enough?
         /**
-         * A function that tests the given program on the given fitness cases.
+         * A function that evaluates the fitness of the program based on its outputs
+         * and the fitness cases.
          */
         private val fitnessFunction: FitnessFunction<T>
 )
@@ -41,6 +51,23 @@ class FitnessContext<T>(
      * @returns A double value as returned by the fitness function.
      */
     fun fitness(): Double {
-        return this.fitnessFunction(this.program, this.fitnessCases)
+        // Collect the results of the program for each fitness case.
+        val outputs: List<T> = this.fitnessCases.map { case ->
+            // Make sure the registers are in a default state
+            this.program.registers.reset()
+
+            // Load the case
+            this.program.registers.writeInstance(case)
+
+            // Run the program...
+            this.program.execute()
+
+            // ... and gather a result from register zero
+            // TODO: Make this configurable
+            // TODO: How to handle multiple outputs?
+            this.program.registers.read(0)
+        }
+
+        return this.fitnessFunction(outputs, this.fitnessCases)
     }
 }
