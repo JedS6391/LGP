@@ -1,14 +1,15 @@
 package lgp.core.evolution.fitness
 
-import lgp.core.evolution.population.Program
-
 /**
  * Computes the fitness of an individual program on a set of input-output examples.
  *
  * The fitness value should always be a simple double but the way in which the value
  * is determined can be customised depending on the type of program/fitness cases.
+ *
+ * A fitness function is really just a function that maps a set of program outputs
+ * with a set of examples in some way.
  */
-typealias FitnessFunction<T> = (Program<T>, List<FitnessCase<T>>) -> Double
+typealias FitnessFunction<T> = (List<T>, List<FitnessCase<T>>) -> Double
 
 /**
  * A collection of standard fitness functions.
@@ -25,24 +26,12 @@ object FitnessFunctions {
      * register 0 after program execution.
      */
     @JvmStatic
-    fun MSE(): FitnessFunction<Double> = { program, cases ->
-        var fitness = 0.0
+    fun MSE(): FitnessFunction<Double> = { outputs, cases ->
+        val fitness = cases.zip(outputs).map { (case, actual) ->
+            val expected = case.classAttribute().value
 
-        for (case in cases) {
-            // Make sure the registers are in a default state
-            program.registers.reset()
-
-            // Load the case
-            program.registers.writeInstance(case)
-
-            program.execute()
-
-            // Just use the first register as output
-            val actual: Double = program.registers.read(0)
-            val expected: Double = case.classAttribute().value
-
-            fitness += Math.pow((actual - expected), 2.0)
-        }
+            Math.pow((actual - expected), 2.0)
+        }.sum()
 
         ((1.0 / cases.size.toDouble()) * fitness)
     }
@@ -58,27 +47,13 @@ object FitnessFunctions {
      */
     @JvmStatic
     fun CE(mappingFunction: (Double) -> Double): FitnessFunction<Double> {
-        val ce: FitnessFunction<Double> = { program, cases ->
-            var fitness = 0.0
+        val ce: FitnessFunction<Double> = { outputs, cases ->
+            cases.zip(outputs).map { (case, output) ->
+                val expected = case.classAttribute().value
+                val actual = mappingFunction(output)
 
-            for (case in cases) {
-                // TODO: Seem to repeat this logic. Perhaps it could be a property of fitness functions?
-                // Make sure the registers are in a default state
-                program.registers.reset()
-
-                // Load the case
-                program.registers.writeInstance(case)
-
-                program.execute()
-
-                // Just use the first register as output, mapping it to the domain of class values.
-                val actual: Double = mappingFunction(program.registers.read(0))
-                val expected: Double = case.classAttribute().value
-
-                fitness += if (actual != expected) 1 else 0
-            }
-
-            fitness
+                if (actual != expected) 1.0 else 0.0
+            }.sum()
         }
 
         return ce

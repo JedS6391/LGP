@@ -7,9 +7,8 @@ import lgp.core.evolution.population.Program
  * An evaluation of a program on a set of fitness cases.
  *
  * @param fitness The fitness of the program as determined by the fitness function on the cases given by a fitness context.
- * @param result The final result of the program tested.
  */
-data class Evaluation<out T>(val fitness: Double, val result: T)
+data class Evaluation(val fitness: Double)
 
 /**
  * Provides a way to evaluate the fitness of a program.
@@ -27,19 +26,16 @@ class FitnessEvaluator<T> {
      * @returns An evaluation of the program.
      */
     // TODO: Could environment be an instance variable?
-    fun evaluate(program: Program<T>, environment: Environment<T>): Evaluation<T> {
+    fun evaluate(program: Program<T>, environment: Environment<T>): Evaluation {
         // Build a fitness context for this program
-        val context = FitnessContext<T>(
+        val context = FitnessContext(
                 program = program,
                 fitnessCases = environment.dataset.instances, // We want to test the program on the dataset given
                 fitnessFunction = environment.fitnessFunction // User specified fitness function
         )
 
         return Evaluation(
-                fitness = context.fitness(),
-                // TODO: This should be a parameter
-                // TODO: How to handle multiple program outputs (is this required?)
-                result = program.registers.read(0)
+                fitness = context.fitness()
         )
     }
 }
