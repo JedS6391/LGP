@@ -93,4 +93,6 @@ class Config {
     var mutationRate = 0.5
 
     var generations = 50
+
+    var numOffspring = 50
 }

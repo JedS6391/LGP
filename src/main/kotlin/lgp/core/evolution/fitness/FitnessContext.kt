@@ -58,6 +58,9 @@ class FitnessContext<T>(
             this.program.registers.read(0)
         }
 
-        return this.fitnessFunction(outputs, this.fitnessCases)
+        // Copy the fitness to the program for later accesses
+        this.program.fitness = this.fitnessFunction(outputs, this.fitnessCases)
+
+        return this.program.fitness
     }
 }
