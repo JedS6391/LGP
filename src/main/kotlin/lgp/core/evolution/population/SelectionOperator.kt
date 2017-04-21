@@ -8,5 +8,5 @@ abstract class SelectionOperator<T>(private val environment: Environment<T>) : M
     // Should selection be one at a time from a population and up-to the consuming population
     // to figure out what to do with it. Or should, it return a new collection of individuals
     // determined from the original population.
-    abstract fun select(population: Population<T>): Program<T>
+    abstract fun select(individuals: List<Program<T>>): List<Program<T>>
 }

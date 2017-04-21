@@ -21,26 +21,16 @@ typealias FitnessCase<T> = Instance<T>
  * @property fitnessFunction A function to determine the fitness of a program by its outputs.
  */
 class FitnessContext<T>(
-        /**
-         * A collection of fitness cases to evaluate the program on.
-         *
+        /*
          * Fitness cases are just instances in a dataset which will be loaded into
          * the program as a set of input registers, and the output of the program
          * compared to the output attribute of the fitness case by the fitness
          * function of the given context.
          */
         private val fitnessCases: List<FitnessCase<T>>,
-
-        /**
-         * A program that the fitness cases are evaluated on.
-         */
         private val program: Program<T>,
 
         // TODO: Is this function type enough?
-        /**
-         * A function that evaluates the fitness of the program based on its outputs
-         * and the fitness cases.
-         */
         private val fitnessFunction: FitnessFunction<T>
 )
 {
