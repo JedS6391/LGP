@@ -7,4 +7,6 @@ abstract class Instruction<T> : Module {
     abstract val operation: Operation<T>
 
     abstract fun execute(registers: RegisterSet<T>)
+
+    abstract fun copy(): Instruction<T>
 }

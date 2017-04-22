@@ -9,7 +9,7 @@ import lgp.core.modules.Module
  * A program in the LGP population.
  */
 abstract class Program<T>(
-        val instructions: Sequence<Instruction<T>>,
+        var instructions: MutableList<Instruction<T>>,
         val registers: RegisterSet<T>
 ) : Module {
 

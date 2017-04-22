@@ -4,7 +4,6 @@ import lgp.core.environment.Environment
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 import java.util.*
-import kotlin.collections.HashSet
 
 abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
     // TODO: What should this return?
@@ -14,22 +13,21 @@ abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
     abstract fun select(individuals: List<Program<T>>): List<Program<T>>
 }
 
-class TournamentSelection<T>(environment: Environment<T>) : SelectionOperator<T>(environment) {
+class TournamentSelection<T>(environment: Environment<T>, val tournamentSize: Int) : SelectionOperator<T>(environment) {
     override val information = ModuleInformation("Tournament Selection")
 
     override fun select(individuals: List<Program<T>>): List<Program<T>> {
-        val offspring = (0..this.environment.config.numOffspring).map {
+        val offspring = (0..this.environment.config.numOffspring - 1).map {
             // TODO: Allow tournament size to be configured through config
-            this.tournament(individuals, 4)
+            this.tournament(individuals, tournamentSize)
         }
 
         // TODO: Make sure a copy of the individuals is returned
         return offspring
     }
 
-    private fun tournament(individuals: List<Program<T>>, tournamentSize: Int): Program<T> {
+    fun tournament(individuals: List<Program<T>>, tournamentSize: Int): Program<T> {
         val rg = Random()
-
         var winner = rg.choice(individuals)
 
         for (k in 0..tournamentSize - 1) {
@@ -40,7 +38,8 @@ class TournamentSelection<T>(environment: Environment<T>) : SelectionOperator<T>
             }
         }
 
-        // TODO: Need to return a copy, not the original
+        // We need to return a copy so that the copy
+        // can be mutated without changing the original.
         return winner.copy()
     }
 }
