@@ -98,6 +98,7 @@ class Crossover<T>(environment: Environment<T>,
         newInd2.addAll(s1)
 
         newInd1.addAll(ind1.slice((i1 + s1.size)..ind1.lastIndex))
+        newInd2.addAll(ind2.slice((i2 + s2.size)..ind2.lastIndex))
 
         mother.instructions = newInd1
         father.instructions = newInd2
