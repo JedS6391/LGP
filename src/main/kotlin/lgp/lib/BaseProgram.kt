@@ -6,8 +6,8 @@ import lgp.core.evolution.registers.RegisterSet
 import lgp.core.evolution.registers.copy
 import lgp.core.modules.ModuleInformation
 
-class BaseProgram<T>(instructions: Sequence<Instruction<T>>, registerSet: RegisterSet<T>)
-    : Program<T>(instructions, registerSet) {
+class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSet<T>)
+    : Program<T>(instructions.toMutableList(), registerSet) {
 
     override fun execute() {
         for (instruction in this.instructions) {
@@ -17,9 +17,20 @@ class BaseProgram<T>(instructions: Sequence<Instruction<T>>, registerSet: Regist
 
     override fun copy(): BaseProgram<T> {
         return BaseProgram(
-                instructions = this.instructions,
+                instructions = this.instructions.map(Instruction<T>::copy),
                 registerSet = this.registers.copy()
         )
+    }
+
+    override fun toString(): String {
+        val sb = StringBuilder()
+
+        this.instructions.map { instruction ->
+            sb.append(instruction.toString())
+            sb.append('\n')
+        }
+
+        return sb.toString()
     }
 
     override val information = ModuleInformation(

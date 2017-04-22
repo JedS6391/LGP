@@ -25,7 +25,7 @@ class BaseProgramGenerator<T>(environment: Environment<T>)
         val instructions = this.instructionGenerator.next().take(length)
 
         // Each program gets its own copy of the register set
-        val program = BaseProgram(instructions, this.environment.registerSet.copy())
+        val program = BaseProgram(instructions.toList(), this.environment.registerSet.copy())
 
         return program
     }

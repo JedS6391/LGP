@@ -24,6 +24,14 @@ class BaseInstruction<T>(
         registers.write(this.destination, this.operation.execute(arguments))
     }
 
+    override fun copy(): Instruction<T> {
+        return BaseInstruction(
+                operation = this.operation,
+                destination = this.destination,
+                operands = this.operands
+        )
+    }
+
     override fun toString(): String {
         val representation = StringBuilder()
 
