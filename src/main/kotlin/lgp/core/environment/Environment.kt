@@ -33,13 +33,13 @@ enum class RegisteredModuleType {
      */
     ProgramGenerator,
 
-
-
     SelectionOperator,
 
     RecombinationOperator,
 
-    MutationOperator
+    MacroMutationOperator,
+
+    MicroMutationOperator
 }
 
 /**

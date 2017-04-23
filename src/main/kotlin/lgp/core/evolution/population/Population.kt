@@ -17,15 +17,19 @@ class Population<T>(val environment: Environment<T>) {
             RegisteredModuleType.RecombinationOperator
     )
 
-    private val mutate: MutationOperator<T> = this.environment.registeredModule(
-            RegisteredModuleType.MutationOperator
+    private val microMutate: MutationOperator<T> = this.environment.registeredModule(
+            RegisteredModuleType.MicroMutationOperator
+    )
+
+    private val macroMutate: MutationOperator<T> = this.environment.registeredModule(
+            RegisteredModuleType.MacroMutationOperator
     )
 
     private val fitnessEvaluator: FitnessEvaluator<T> = FitnessEvaluator()
 
     lateinit var individuals: MutableList<Program<T>>
 
-    private fun initialise() {
+     private fun initialise() {
         val programGenerator: ProgramGenerator<T> = this.environment.registeredModule(RegisteredModuleType.ProgramGenerator)
 
         this.individuals = programGenerator.next()
@@ -46,11 +50,11 @@ class Population<T>(val environment: Environment<T>) {
         }
 
         var best = initialEvaluations.sortedBy(Evaluation::fitness).first()
-        val gen = 0
+        var gen = 0
 
-        while (gen < this.environment.config.generations) {
+        while (gen++ < this.environment.config.generations) {
             // Randomly select 2 * n individuals from the population without replacement (n = population size)
-            val intermediatePopulation = (0..(2 * this.individuals.size)).map { rg.choice(this.individuals) }
+            val intermediatePopulation = (0..(2 * this.individuals.size - 1)).map { rg.choice(this.individuals) }
 
             // 3. Perform two fitness tournaments of size n.
             // We change this step to allow for different selection operators. All we care about
@@ -60,20 +64,29 @@ class Population<T>(val environment: Environment<T>) {
             val children = this.select.select(intermediatePopulation)
 
             // 5. Modify the two winners by one or more variation operators for certain probabilities
-            // Modify the children by iterating in pairs and combining/mutating with some probability.
-            children.pairwise().map { (mother, father) ->
+            (0..children.size - 1 step 2).map { idx ->
+                val mother = children[idx]
+                val father = children[idx + 1]
+
                 // Combine mother and father with some prob.
                 if (rg.nextGaussian() < this.environment.config.crossoverRate) {
                     this.combine.combine(mother, father)
                 }
 
                 // Mutate mother or father (or both) with some prob.
-                if (rg.nextGaussian() < this.environment.config.mutationRate) {
-                    this.mutate.mutate(mother)
+                if (rg.nextGaussian() < this.environment.config.microMutationRate) {
+                    println(mother.registers)
+                    this.microMutate.mutate(mother)
+
+                    println(mother.registers)
+                } else if (rg.nextGaussian() < this.environment.config.macroMutationRate) {
+                    this.macroMutate.mutate(mother)
                 }
 
-                if (rg.nextGaussian() < this.environment.config.mutationRate) {
-                    this.mutate.mutate(father)
+                if (rg.nextGaussian() < this.environment.config.microMutationRate) {
+                    this.microMutate.mutate(father)
+                } else if (rg.nextGaussian() < this.environment.config.macroMutationRate) {
+                    this.macroMutate.mutate(father)
                 }
             }
 
@@ -89,6 +102,8 @@ class Population<T>(val environment: Environment<T>) {
 
             best = if (bestChild.fitness < best.fitness) bestChild else best
 
+            println(best.fitness)
+
             // The children are copies of individuals in the population, so add the copies
             // to the population.
             this.individuals.addAll(children)
@@ -103,11 +118,5 @@ class Population<T>(val environment: Environment<T>) {
  * Return a random element from the given list.
  */
 fun <T> Random.choice(list: List<T>): T {
-    return list[this.nextDouble().toInt() * list.size]
-}
-
-fun <T> List<T>.pairwise(): List<Pair<T, T>> {
-    return this.mapIndexed { index, e ->
-        Pair(e, this[index + 1])
-    }
+    return list[(this.nextDouble() * list.size).toInt()]
 }

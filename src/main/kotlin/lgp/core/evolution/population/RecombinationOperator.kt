@@ -42,7 +42,10 @@ class Crossover<T>(environment: Environment<T>,
         var i2 = rg.nextInt(ind2.size)
 
         // Make sure points are close enough to each other
-        while (Math.abs(i1 - i2) > Math.min(ind1.size - 1, maximumCrossoverDistance)) {
+        // TODO: Potentially infinite loop
+        var i = 0
+
+        while (Math.abs(i1 - i2) > Math.min(ind1.size - 1, maximumCrossoverDistance) && i++ < 20) {
             i1 = rg.nextInt(ind1.size)
             i2 = rg.nextInt(ind2.size)
         }
@@ -58,7 +61,10 @@ class Crossover<T>(environment: Environment<T>,
 
         // 3. While the difference in segment length |len(s1) - len(s2)| > ds_max reselect segment length len(s2).
         // We also take care of 4. Assure len(s1) <= len(s2)
-        while (Math.abs(s1.size - s2.size) > maximumSegmentLengthDifference || s1.size > s2.size) {
+        // TODO: Potentially infinite loop
+        i = 0
+
+        while ((Math.abs(s1.size - s2.size) > maximumSegmentLengthDifference || s1.size > s2.size) && i++ < 20) {
             s1Len = rg.randInt(1, Math.min(ind1.size - i1, maximumSegmentLength))
             s2Len = rg.randInt(1, Math.min(ind2.size - i2, maximumSegmentLength))
 
