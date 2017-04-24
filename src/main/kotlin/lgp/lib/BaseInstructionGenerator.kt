@@ -16,7 +16,7 @@ import kotlin.coroutines.experimental.buildSequence
 class BaseInstructionGenerator<T> : InstructionGenerator<T> {
 
     private val rg: Random
-    private val operationPool: List<Operation<T>>
+    val operationPool: List<Operation<T>>
     private val registers: RegisterSet<T>
     private val registerGenerator: RandomRegisterGenerator<T>
 
@@ -73,7 +73,7 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
             // Choose some random input registers depending on the arity of the operation
             val inputs = this.getRandomInputAndCalculationRegisters(operation.arity.number)
 
-            return BaseInstruction(operation, outputIndex, inputs.map(Register<T>::index))
+            return BaseInstruction(operation, outputIndex, inputs.map(Register<T>::index).toMutableList())
         }
     }
 

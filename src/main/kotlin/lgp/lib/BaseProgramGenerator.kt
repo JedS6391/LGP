@@ -13,7 +13,7 @@ import java.util.*
 /**
  * @suppress
  */
-class BaseProgramGenerator<T>(environment: Environment<T>)
+class BaseProgramGenerator<T>(environment: Environment<T>, val sentinelTrueValue: T)
     : ProgramGenerator<T>(environment, instructionGenerator = environment.registeredModule(RegisteredModuleType.InstructionGenerator)) {
 
     private val rg = Random()
@@ -25,7 +25,7 @@ class BaseProgramGenerator<T>(environment: Environment<T>)
         val instructions = this.instructionGenerator.next().take(length)
 
         // Each program gets its own copy of the register set
-        val program = BaseProgram(instructions.toList(), this.environment.registerSet.copy())
+        val program = BaseProgram(instructions.toList(), this.environment.registerSet.copy(), this.sentinelTrueValue)
 
         return program
     }

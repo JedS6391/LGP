@@ -10,12 +10,14 @@ import lgp.core.modules.ModuleInformation
  * @suppress
  */
 class BaseInstruction<T>(
-        override val operation: Operation<T>,
-        private val destination: Int, // Index of destination register
-        private val operands: List<Int> // Indices of operand registers
+        override var operation: Operation<T>,
+        var destination: Int, // Index of destination register
+        var operands: MutableList<Int> // Indices of operand registers
 ) : Instruction<T>() {
 
     override fun execute(registers: RegisterSet<T>) {
+        println(registers)
+
         val arguments = Arguments(this.operands.map { idx ->
             // Find the appropriate register and map it to an argument value type
             registers.register(idx).toArgument()
