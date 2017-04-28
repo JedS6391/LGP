@@ -18,6 +18,28 @@ typealias FitnessFunction<T> = (List<T>, List<FitnessCase<T>>) -> Double
  */
 object FitnessFunctions {
 
+    @JvmStatic
+    fun SE(): FitnessFunction<Double> = { outputs, cases ->
+        val fitness = cases.zip(outputs).map { (case, actual) ->
+            val expected = case.classAttribute().value
+
+            Math.abs(expected - actual)
+        }.sum()
+
+        fitness / outputs.size.toDouble()
+    }
+
+    @JvmStatic
+    fun SSE(): FitnessFunction<Double> = { outputs, cases ->
+        val fitness = cases.zip(outputs).map { (case, actual) ->
+            val expected = case.classAttribute().value
+
+            Math.pow((actual - expected), 2.0)
+        }.sum()
+
+        fitness
+    }
+
     /**
      * Mean-Squared Error fitness function for programs that operate on doubles.
      *
