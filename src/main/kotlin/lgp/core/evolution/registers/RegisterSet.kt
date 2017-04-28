@@ -81,9 +81,9 @@ class RegisterSet<T> {
     val totalRegisters: Int
 
     // Bounds for different register types
-    private val inputRegisters: IntRange
-    private val calculationRegisters: IntRange
-    private val constantRegisters: IntRange
+    val inputRegisters: IntRange
+    val calculationRegisters: IntRange
+    val constantRegisters: IntRange
 
     private val inputRegistersCount: Int
     private val calculationRegistersCount: Int
@@ -91,7 +91,7 @@ class RegisterSet<T> {
 
     private val defaultValueProvider: DefaultValueProvider<T>
 
-    internal val registers: MutableList<Register<T>>
+    val registers: MutableList<Register<T>>
 
     /**
      * The total number of registers in this register set.
@@ -232,7 +232,7 @@ class RegisterSet<T> {
         }
     }
 
-    private fun overwrite(index: Int, value: T) {
+    fun overwrite(index: Int, value: T) {
         this.registers[index] = Register(value, index)
     }
 

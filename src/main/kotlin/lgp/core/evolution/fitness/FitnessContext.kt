@@ -21,26 +21,16 @@ typealias FitnessCase<T> = Instance<T>
  * @property fitnessFunction A function to determine the fitness of a program by its outputs.
  */
 class FitnessContext<T>(
-        /**
-         * A collection of fitness cases to evaluate the program on.
-         *
+        /*
          * Fitness cases are just instances in a dataset which will be loaded into
          * the program as a set of input registers, and the output of the program
          * compared to the output attribute of the fitness case by the fitness
          * function of the given context.
          */
         private val fitnessCases: List<FitnessCase<T>>,
-
-        /**
-         * A program that the fitness cases are evaluated on.
-         */
         private val program: Program<T>,
 
         // TODO: Is this function type enough?
-        /**
-         * A function that evaluates the fitness of the program based on its outputs
-         * and the fitness cases.
-         */
         private val fitnessFunction: FitnessFunction<T>
 )
 {
@@ -51,6 +41,9 @@ class FitnessContext<T>(
      * @returns A double value as returned by the fitness function.
      */
     fun fitness(): Double {
+        // Make sure the programs effective instructions have been found
+        this.program.findEffectiveProgram()
+
         // Collect the results of the program for each fitness case.
         val outputs: List<T> = this.fitnessCases.map { case ->
             // Make sure the registers are in a default state
@@ -65,9 +58,12 @@ class FitnessContext<T>(
             // ... and gather a result from register zero
             // TODO: Make this configurable
             // TODO: How to handle multiple outputs?
-            this.program.registers.read(0)
+            this.program.registers.read(this.program.outputRegisterIndex)
         }
 
-        return this.fitnessFunction(outputs, this.fitnessCases)
+        // Copy the fitness to the program for later accesses
+        this.program.fitness = this.fitnessFunction(outputs, this.fitnessCases)
+
+        return this.program.fitness
     }
 }

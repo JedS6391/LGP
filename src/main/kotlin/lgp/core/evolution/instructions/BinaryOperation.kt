@@ -24,3 +24,5 @@ abstract class BinaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(Base
         }
     }
 }
+
+abstract class BranchOperation<T>(func: (Arguments<T>) -> T) : BinaryOperation<T>(func)

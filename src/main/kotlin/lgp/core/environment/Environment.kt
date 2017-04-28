@@ -20,6 +20,7 @@ class ModuleRegistrationException : Exception("All module types must have a modu
  * Any module that is a *Register Component* should be specified here.
  */
 // TODO: Find a way to make this more automatic.
+// TODO: Investigate using sealed class.
 enum class RegisteredModuleType {
 
     /**
@@ -30,7 +31,15 @@ enum class RegisteredModuleType {
     /**
      * A module that provides a concrete [lgp.core.evolution.population.ProgramGenerator] implementation.
      */
-    ProgramGenerator
+    ProgramGenerator,
+
+    SelectionOperator,
+
+    RecombinationOperator,
+
+    MacroMutationOperator,
+
+    MicroMutationOperator
 }
 
 /**
@@ -120,6 +129,7 @@ open class Environment<T> {
      */
     // TODO: Move all components to an object to make constructor smaller.
     // TODO: Allow custom initialisation method for initialisation components.
+    // TODO: Default value provider and fitness function could be given in config?
     constructor(configLoader: ConfigLoader, constantLoader: ConstantLoader<T>,
                 datasetLoader: DatasetLoader<T>, operationLoader: OperationLoader<T>,
                 defaultValueProvider: DefaultValueProvider<T>, fitnessFunction: FitnessFunction<T>,
@@ -157,7 +167,6 @@ open class Environment<T> {
         this.dataset.inputAttributes(this.config.inputAttributesLowIndex..this.config.inputAttributesHighIndex)
 
         this.registerSet = RegisterSet(
-                // -1 is to care for class attribute
                 inputRegisters = this.dataset.numInputs(),
                 calculationRegisters = this.config.numCalculationRegisters,
                 constants = this.constants,

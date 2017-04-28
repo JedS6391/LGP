@@ -87,4 +87,16 @@ class Config {
      * An index of an attribute from the data set that will act as a class attribute.
      */
     var classAttributeIndex = 0
+
+    var crossoverRate = 0.5
+
+    var microMutationRate = 0.5
+
+    var macroMutationRate = 0.5
+
+    var generations = 50
+
+    var numOffspring = 50
+
+    var branchInitialisationRate = 0.0
 }
