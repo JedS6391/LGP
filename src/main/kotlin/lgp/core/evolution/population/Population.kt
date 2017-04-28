@@ -49,7 +49,7 @@ class Population<T>(val environment: Environment<T>) {
             this.fitnessEvaluator.evaluate(individual, this.environment)
         }
 
-        var best = initialEvaluations.sortedBy(Evaluation::fitness).first()
+        var best = initialEvaluations.sortedBy(Evaluation<T>::fitness).first()
         var gen = 0
 
         while (gen++ < this.environment.config.generations) {
@@ -75,10 +75,7 @@ class Population<T>(val environment: Environment<T>) {
 
                 // Mutate mother or father (or both) with some prob.
                 if (rg.nextGaussian() < this.environment.config.microMutationRate) {
-                    println(mother.registers)
                     this.microMutate.mutate(mother)
-
-                    println(mother.registers)
                 } else if (rg.nextGaussian() < this.environment.config.macroMutationRate) {
                     this.macroMutate.mutate(mother)
                 }
@@ -98,18 +95,33 @@ class Population<T>(val environment: Environment<T>) {
                 this.fitnessEvaluator.evaluate(individual, this.environment)
             }
 
-            val bestChild = evaluations.sortedBy(Evaluation::fitness).first()
+            val bestChild = evaluations.sortedBy(Evaluation<T>::fitness).first()
 
             best = if (bestChild.fitness < best.fitness) bestChild else best
-
-            println(best.fitness)
 
             // The children are copies of individuals in the population, so add the copies
             // to the population.
             this.individuals.addAll(children)
+
+            this.computeStatistics(evaluations, best)
         }
 
-        println(best)
+        println("Best Program:")
+        println(best.individual)
+
+        best.individual.findEffectiveProgram()
+
+        println("Effective Program:")
+        for (instruction in best.individual.effectiveInstructions) {
+            println(instruction)
+        }
+    }
+
+    private fun computeStatistics(evaluations: List<Evaluation<T>>, best: Evaluation<T>) {
+        val averageFitness = (evaluations.map(Evaluation<T>::fitness).sum() / evaluations.size.toDouble())
+        val bestFitness = best.fitness
+
+        println("avg. fitness = $averageFitness, best fitness = $bestFitness")
     }
 
 }
