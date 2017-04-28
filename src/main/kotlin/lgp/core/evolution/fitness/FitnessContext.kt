@@ -41,6 +41,9 @@ class FitnessContext<T>(
      * @returns A double value as returned by the fitness function.
      */
     fun fitness(): Double {
+        // Make sure the programs effective instructions have been found
+        this.program.findEffectiveProgram()
+
         // Collect the results of the program for each fitness case.
         val outputs: List<T> = this.fitnessCases.map { case ->
             // Make sure the registers are in a default state
@@ -55,7 +58,7 @@ class FitnessContext<T>(
             // ... and gather a result from register zero
             // TODO: Make this configurable
             // TODO: How to handle multiple outputs?
-            this.program.registers.read(0)
+            this.program.registers.read(this.program.outputRegisterIndex)
         }
 
         // Copy the fitness to the program for later accesses
