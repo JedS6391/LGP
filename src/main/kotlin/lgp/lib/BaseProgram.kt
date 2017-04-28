@@ -9,7 +9,9 @@ import lgp.core.evolution.registers.copy
 import lgp.core.modules.ModuleInformation
 
 class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSet<T>, val sentinelTrueValue: T)
-    : Program<T>(instructions.toMutableList(), registerSet) {
+    // TODO: Configurable output register
+    // By Default we are choosing the first calculation register.
+    : Program<T>(instructions.toMutableList(), registerSet, outputRegisterIndex = registerSet.calculationRegisters.start) {
 
     override fun execute() {
         var branchResult = true
@@ -21,7 +23,7 @@ class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSe
                 branchResult -> {
                     instruction.execute(this.registers)
 
-                    val output = this.registers.register((instruction as BaseInstruction<T>).destination).value
+                    val output = instruction.destination
                     branchResult = ((instruction.operation !is BranchOperation<T>) ||
                                     (instruction.operation is BranchOperation<T>
                                          && output == this.sentinelTrueValue))
@@ -42,11 +44,11 @@ class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSe
     }
 
     override fun findEffectiveProgram() {
-        val effectiveRegisters = mutableSetOf(this.outputRegisterIdx)
+        val effectiveRegisters = mutableSetOf(this.outputRegisterIndex)
         val effectiveInstructions = mutableListOf<Instruction<T>>()
 
         for ((i, instruction) in instructions.reversed().withIndex()) {
-            val instr = instruction as BaseInstruction<T>
+            val instr = instruction
 
             if (instr.operation is BranchOperation<T>) {
                 if (instr in effectiveInstructions) {
@@ -54,7 +56,7 @@ class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSe
                         operand !in effectiveRegisters &&
                         this.registers.registerType(operand) != RegisterType.Constant
                     }
-                    .forEach { effectiveRegisters.add(it) }
+                    .forEach { operand -> effectiveRegisters.add(operand) }
                 }
 
                 continue
