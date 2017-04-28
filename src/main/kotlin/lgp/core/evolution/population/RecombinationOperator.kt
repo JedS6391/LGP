@@ -34,7 +34,9 @@ class Crossover<T>(environment: Environment<T>,
         var ind2 = father.instructions
 
         if (ind1.size > ind2.size) {
-            var (ind1, ind2) = swap(ind1, ind2)
+            val temp = ind1
+            ind1 = ind2
+            ind2 = temp
         }
 
         // Find crossover points
@@ -111,10 +113,6 @@ class Crossover<T>(environment: Environment<T>,
     }
 
     override val information = ModuleInformation("Linear Crossover operator")
-}
-
-fun <T> swap(a: T, b: T): Pair<T, T> {
-    return Pair(b, a)
 }
 
 fun Random.randInt(min: Int, max: Int): Int {

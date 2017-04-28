@@ -97,4 +97,6 @@ class Config {
     var generations = 50
 
     var numOffspring = 50
+
+    var branchInitialisationRate = 0.0
 }

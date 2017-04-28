@@ -3,13 +3,12 @@ package lgp.core.evolution.population
 import lgp.core.environment.Environment
 import lgp.core.environment.RegisteredModuleType
 import lgp.core.evolution.instructions.InstructionGenerator
+import lgp.core.evolution.instructions.RegisterIndex
 import lgp.core.evolution.registers.RandomRegisterGenerator
 import lgp.core.evolution.registers.Register
 import lgp.core.evolution.registers.RegisterType
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
-import lgp.lib.BaseInstruction
-import lgp.lib.BaseProgram
 import java.util.*
 
 abstract class MutationOperator<T>(val environment: Environment<T>) : Module {
@@ -57,7 +56,7 @@ class MacroMutationOperator<T>(
             val instruction = this.instructionGenerator.next().take(1).first()
 
             if (effectiveRegisters.isNotEmpty()) {
-                (instruction as BaseInstruction<T>).destination = random.choice(effectiveRegisters)
+                instruction.destination = random.choice(effectiveRegisters)
 
                 individual.instructions.add(i, instruction)
             }
@@ -105,14 +104,14 @@ class MicroMutationOperator<T>(
         if (individual.effectiveInstructions.size == 0)
             return
 
-        val instruction = random.choice(individual.effectiveInstructions) as BaseInstruction<T>
+        val instruction = random.choice(individual.effectiveInstructions)
 
         // 2. Randomly select mutation type register | operator | constant with
         // probability p_regmut | p_opermut | p_constmut and with p_regmut +
         // p_opermut + p_constmut = 1.
         // Assumption: p_constmut = 1 - (p_regmut + p_opermut).
         val p = random.nextGaussian()
-        var mutationType = when {
+        val mutationType = when {
             (p < registerMutationRate) -> {
                 MicroMutationType.Register
             }
@@ -151,13 +150,13 @@ class MicroMutationOperator<T>(
                     val idx = instruction.operands.indexOf(reg)
 
                     if (random.nextGaussian() < constantsRate) {
-                        instruction.operands[idx] = registerGenerator.next(RegisterType.Constant).take(1).first().index
+                        instruction.operands[idx] = registerGenerator.next(RegisterType.Constant).first().index
                     } else {
                         instruction.operands[idx] = registerGenerator.next(
                                 a = RegisterType.Input,
                                 b = RegisterType.Calculation,
                                 predicate = { random.nextDouble() < 0.5 }
-                        ).take(1).first().index
+                        ).first().index
                     }
                 }
             }
@@ -167,21 +166,25 @@ class MicroMutationOperator<T>(
 
                 // Assure that the arity of the new operation matches with
                 // the number of operands the instruction has.
-                while (instruction.operands.size < op.arity.number) {
-                    val reg = if (random.nextGaussian() < constantsRate) {
-                        registerGenerator.next(RegisterType.Constant).take(1).first().index
-                    } else {
-                        registerGenerator.next(
-                                a = RegisterType.Input,
-                                b = RegisterType.Calculation,
-                                predicate = { random.nextDouble() < 0.5 }
-                        ).take(1).first().index
+                // If we're going to a reduced arity instruction, we can just truncate the operands
+                if (instruction.operands.size > op.arity.number) {
+                    instruction.operands = instruction.operands.slice(0..op.arity.number - 1)
+                } else if (instruction.operands.size < op.arity.number) {
+                    // Otherwise, if we're increasing the arity, just add random input
+                    // and calculation registers until the arity is met.
+                    while (instruction.operands.size < op.arity.number) {
+                        val reg = if (random.nextGaussian() < constantsRate) {
+                            registerGenerator.next(RegisterType.Constant).first()
+                        } else {
+                            registerGenerator.next(
+                                    a = RegisterType.Input,
+                                    b = RegisterType.Calculation,
+                                    predicate = { random.nextDouble() < 0.5 }
+                            ).first()
+                        }
+
+                        instruction.operands.add(reg.index)
                     }
-
-                    println(instruction.operands.size)
-                    println(op.arity.number)
-
-                    instruction.operands.add(reg)
                 }
 
                 instruction.operation = op
@@ -190,7 +193,7 @@ class MicroMutationOperator<T>(
                 // 5. If constant mutation then
                 // (a) Randomly select an (effective) instruction with a constant c.
                 // TODO: Refactor this.
-                var instr = random.choice(individual.effectiveInstructions) as BaseInstruction<T>
+                var instr = random.choice(individual.effectiveInstructions)
                 var constantRegisters = instr.operands.filter { operand ->
                     individual.registers.registerType(operand) == RegisterType.Constant
                 }
@@ -198,7 +201,7 @@ class MicroMutationOperator<T>(
                 var limit  = 0
 
                 while (constantRegisters.isEmpty() && limit++ < individual.effectiveInstructions.size) {
-                    instr = random.choice(individual.effectiveInstructions) as BaseInstruction<T>
+                    instr = random.choice(individual.effectiveInstructions)
 
                     constantRegisters = instr.operands.filter { operand ->
                         individual.registers.registerType(operand) == RegisterType.Constant
@@ -209,20 +212,21 @@ class MicroMutationOperator<T>(
                 if (limit < individual.effectiveInstructions.size) {
                     // (b) Change constant c through a standard deviation σ_const
                     // from the current value: c := c + N(0, σ_const)
+                    // NOTE: We allow for different types of mutation of values
+                    // depending on the type, but in general a standard deviation
+                    // should be used.
 
-                    // Use the first operand that refers to a constant register
-                    // and get the index of that operand.
+                    // Use the first operand that refers to a constant register.
                     val reg = constantRegisters.first()
-                    val idx = instr.operands.indexOf(reg)
+                    val oldValue = individual.registers.read(reg)
 
                     // Compute a new value using the current constant register value.
-                    val newValue = this.constantMutationFunc(individual.registers.register(reg).value)
+                    val newValue = this.constantMutationFunc(oldValue)
 
-                    // Add new constant register at end of the register set to prevent
-                    // indirectly changing the constants of other instructions.
-                    individual.registers.registers.add(Register(newValue, individual.registers.count))
-
-                    instr.operands[idx] = individual.registers.count - 1
+                    // Because each individual has its own register set, we can
+                    // just overwrite the constant register value.
+                    // TODO: Perhaps better to keep original constants for diversity?
+                    individual.registers.overwrite(reg, newValue)
                 }
             }
         }
@@ -231,14 +235,14 @@ class MicroMutationOperator<T>(
     override val information = ModuleInformation("Algorithm 6.2 ((effective) micro mutation).")
 }
 
-internal fun <T> findEffectiveCalculationRegisters(individual: Program<T>, stopPoint: Int): List<Int> {
-    val effectiveRegisters = mutableListOf(individual.outputRegisterIdx)
+internal fun <T> findEffectiveCalculationRegisters(individual: Program<T>, stopPoint: Int): List<RegisterIndex> {
+    val effectiveRegisters = mutableListOf(individual.outputRegisterIndex)
 
     for ((i, instruction) in individual.instructions.reversed().withIndex()) {
         if (i == stopPoint)
             break
 
-        if ((instruction as BaseInstruction<T>).destination in effectiveRegisters) {
+        if (instruction.destination in effectiveRegisters) {
             effectiveRegisters.remove(instruction.destination)
 
             for (operand in instruction.operands) {
