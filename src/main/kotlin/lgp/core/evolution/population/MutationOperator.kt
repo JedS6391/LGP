@@ -5,34 +5,74 @@ import lgp.core.environment.RegisteredModuleType
 import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.instructions.RegisterIndex
 import lgp.core.evolution.registers.RandomRegisterGenerator
-import lgp.core.evolution.registers.Register
 import lgp.core.evolution.registers.RegisterType
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 import java.util.*
 
+/**
+ * A search operator used during evolution to mutate an individual from a population.
+ *
+ * The individual is mutated in place, that is a call to [MutationOperator.mutate] will directly
+ * modify the given individual.
+ *
+ * @param T The type of programs being mutated.
+ * @property environment The environment evolution is being performed within.
+ */
 abstract class MutationOperator<T>(val environment: Environment<T>) : Module {
+    /**
+     * Mutates the individual given using some mutation method.
+     */
     abstract fun mutate(individual: Program<T>)
 }
 
-enum class MacroMutationType {
+// Used internally to make the macro/micro mutation code a bit clearer.
+private enum class MacroMutationType {
     Insertion,
     Deletion
 }
 
-// Algorithm 6.1 ((effective) instruction mutation)
+private enum class MicroMutationType {
+    Register,
+    Operator,
+    Constant
+}
+
+/**
+ * A [MutationOperator] implementation that performs effective macro mutations.
+ *
+ * For more information, see Algorithm 6.1 from Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).
+ *
+ * Note that [insertionRate] + [deletionRate] should be equal to 1.
+ *
+ * @property environment The environment evolution is being performed within.
+ * @property insertionRate The probability with which instructions should be inserted.
+ * @property deletionRate The probability with which instructions should be deleted.
+ */
 class MacroMutationOperator<T>(
         environment: Environment<T>,
         val insertionRate: Double,      // p_ins
         val deletionRate: Double        // p_del
 ) : MutationOperator<T>(environment) {
 
+    init {
+        // Give a nasty runtime message if we get invalid parameters.
+        assert((insertionRate + deletionRate) == 1.0)
+    }
+
     val minimumProgramLength = this.environment.config.minimumProgramLength
     val maximumProgramLength = this.environment.config.maximumProgramLength
-    val instructionGenerator = this.environment.registeredModule<InstructionGenerator<T>>(RegisteredModuleType.InstructionGenerator)
     val random = Random()
+    val instructionGenerator = this.environment.registeredModule<InstructionGenerator<T>>(
+            RegisteredModuleType.InstructionGenerator
+    )
 
+    /**
+     * Performs a single, effective macro mutation to the individual given.
+     */
     override fun mutate(individual: Program<T>) {
+        // Make sure the individuals effective program is found before mutating, since
+        // we need it to perform effective mutations.
         individual.findEffectiveProgram()
 
         val programLength = individual.instructions.size
@@ -55,6 +95,7 @@ class MacroMutationOperator<T>(
             val effectiveRegisters = findEffectiveCalculationRegisters(individual, i)
             val instruction = this.instructionGenerator.next().take(1).first()
 
+            // Can only perform a mutation if there is an effective register to choose from.
             if (effectiveRegisters.isNotEmpty()) {
                 instruction.destination = random.choice(effectiveRegisters)
 
@@ -72,19 +113,24 @@ class MacroMutationOperator<T>(
                 individual.instructions.remove(instruction)
             }
         }
-
     }
 
     override val information = ModuleInformation("Algorithm 6.1 ((effective) instruction mutation).")
 }
 
-enum class MicroMutationType {
-    Register,
-    Operator,
-    Constant
-}
-
-// Algorithm 6.2 ((effective) micro mutation)
+/**
+ * A [MutationOperator] implementation that performs effective micro mutations.
+ *
+ * For more information, see Algorithm 6.2 from Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).
+ *
+ * Note that the constant mutation rate is 1 - ([registerMutationRate] - [operatorMutationRate]), which should
+ * be taken into account when choosing values for these parameters.
+ *
+ * @property environment The environment evolution is being performed within.
+ * @property registerMutationRate The rate with which registers should be mutated.
+ * @property operatorMutationRate The rate with which operates should be mutated.
+ * @property constantMutationFunc A function that can mutate values in the domain of [T].
+ */
 class MicroMutationOperator<T>(
         environment: Environment<T>,
         val registerMutationRate: Double,
@@ -96,6 +142,9 @@ class MicroMutationOperator<T>(
     val operations = this.environment.operations
     val random = Random()
 
+    /**
+     * Performs a single, effective micro mutation to the individual given.
+     */
     override fun mutate(individual: Program<T>) {
         // 1. Randomly select an (effective) instruction from program gp.
         individual.findEffectiveProgram()
@@ -192,7 +241,6 @@ class MicroMutationOperator<T>(
             else -> {
                 // 5. If constant mutation then
                 // (a) Randomly select an (effective) instruction with a constant c.
-                // TODO: Refactor this.
                 var instr = random.choice(individual.effectiveInstructions)
                 var constantRegisters = instr.operands.filter { operand ->
                     individual.registers.registerType(operand) == RegisterType.Constant

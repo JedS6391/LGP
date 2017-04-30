@@ -39,6 +39,9 @@ abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
  * The algorithm removes each tournament winner from the population, meaning that the original
  * population given will have it's size decreased by 2 (due to two fitness tournaments),
  * and 2 winners will be produced.
+ *
+ * @property environment The environment evolution is being performed within.
+ * @property tournamentSize The size of the tournaments to be held (selection pressure).
  */
 class BinaryTournamentSelection<T>(environment: Environment<T>,
                                    val tournamentSize: Int) : SelectionOperator<T>(environment) {
@@ -189,4 +192,11 @@ fun <T> Random.sample(population: List<T>, k: Int): List<T> {
     }
 
     return result
+}
+
+/**
+ * Return a random element from the given list.
+ */
+fun <T> Random.choice(list: List<T>): T {
+    return list[(this.nextDouble() * list.size).toInt()]
 }

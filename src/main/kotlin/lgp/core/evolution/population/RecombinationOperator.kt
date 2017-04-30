@@ -30,10 +30,10 @@ abstract class RecombinationOperator<T>(val environment: Environment<T>) : Modul
  *
  * For more information, see Algorithm 5.1 from Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).
  *
- * @param environment The environment evolution is being performed within.
- * @param maximumSegmentLength An upper bound on the size of the segments exchanged between the individuals.
- * @param maximumCrossoverDistance An upper bound on the number of instructions between the two chosen segments.
- * @param maximumSegmentLengthDifference An upper bound on the difference between the two segment lengths.
+ * @property environment The environment evolution is being performed within.
+ * @property maximumSegmentLength An upper bound on the size of the segments exchanged between the individuals.
+ * @property maximumCrossoverDistance An upper bound on the number of instructions between the two chosen segments.
+ * @property maximumSegmentLengthDifference An upper bound on the difference between the two segment lengths.
  */
 class LinearCrossover<T>(environment: Environment<T>,
                          val maximumSegmentLength: Int,
