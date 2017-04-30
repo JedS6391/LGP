@@ -15,14 +15,16 @@
 <td>
 <a href="-arity/index.html">Arity</a></td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">Arity</span></code></td>
+<code><span class="keyword">interface </span><span class="identifier">Arity</span></code>
+<p>The arity of an operation, specifying how many arguments it can take.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="-base-arity/index.html">BaseArity</a></td>
 <td>
 <code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">BaseArity</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-arity/index.html"><span class="identifier">Arity</span></a></code>
-<p>The arity of an operation, specifying how many arguments it can take.</p>
+<p>A base arity implementation that provides arity for instructions with one or two arguments.</p>
 </td>
 </tr>
 <tr>
@@ -35,9 +37,17 @@
 </tr>
 <tr>
 <td>
+<a href="-branch-operation/index.html">BranchOperation</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BranchOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-binary-operation/index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="-instruction/index.html">Instruction</a></td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Instruction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code></td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Instruction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>An instruction in an LGP program.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -73,8 +83,7 @@
 <a href="-arity-exception/index.html">ArityException</a></td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">ArityException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code>
-<p>Thrown when the <a href="-arity/index.html">Arity</a> of an <a href="-operation/index.html">Operation</a> does not match the number of
-<a href="#">Argument</a>s given to it.</p>
+<p>Thrown when the <a href="-arity/index.html">Arity</a> of an <a href="-operation/index.html">Operation</a> does not match the number of <a href="#">Argument</a>s given to it.</p>
 </td>
 </tr>
 </tbody>
@@ -89,6 +98,12 @@
 <code><span class="keyword">typealias </span><span class="identifier">Function</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<span class="symbol">(</span><span class="identifier">arguments</span><span class="symbol">:</span>&nbsp;<a href="../lgp.core.evolution.registers/-arguments/index.html"><span class="identifier">Arguments</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span></code>
 <p>The type of function that operations perform.</p>
 </td>
+</tr>
+<tr>
+<td>
+<a href="-register-index.html">RegisterIndex</a></td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">RegisterIndex</span>&nbsp;<span class="symbol">=</span>&nbsp;<span class="identifier">Int</span></code></td>
 </tr>
 </tbody>
 </table>

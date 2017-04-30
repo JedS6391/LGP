@@ -8,6 +8,12 @@ import lgp.core.modules.ModuleInformation
 import java.util.*
 import kotlin.streams.toList
 
+/**
+ * A model for evolution using a steady-state algorithm.
+ *
+ * For more information, see Algorithm 2.1 (LGP Algorithm) from Linear Genetic Programming
+ * (Brameier, M., Banzhaf, W. 2001).
+ */
 class SteadyState<T>(environment: Environment<T>) : EvolutionModel<T>(environment) {
 
     private val select: SelectionOperator<T> = this.environment.registeredModule(
@@ -30,7 +36,7 @@ class SteadyState<T>(environment: Environment<T>) : EvolutionModel<T>(environmen
 
     lateinit var individuals: MutableList<Program<T>>
 
-    override fun initialise() {
+    private fun initialise() {
         val programGenerator: ProgramGenerator<T> = this.environment.registeredModule(RegisteredModuleType.ProgramGenerator)
 
         this.individuals = programGenerator.next()

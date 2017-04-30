@@ -45,7 +45,6 @@ private enum class MicroMutationType {
  *
  * Note that [insertionRate] + [deletionRate] should be equal to 1.
  *
- * @property environment The environment evolution is being performed within.
  * @property insertionRate The probability with which instructions should be inserted.
  * @property deletionRate The probability with which instructions should be deleted.
  */
@@ -60,10 +59,10 @@ class MacroMutationOperator<T>(
         assert((insertionRate + deletionRate) == 1.0)
     }
 
-    val minimumProgramLength = this.environment.config.minimumProgramLength
-    val maximumProgramLength = this.environment.config.maximumProgramLength
-    val random = Random()
-    val instructionGenerator = this.environment.registeredModule<InstructionGenerator<T>>(
+    private val minimumProgramLength = this.environment.config.minimumProgramLength
+    private val maximumProgramLength = this.environment.config.maximumProgramLength
+    private val random = Random()
+    private val instructionGenerator = this.environment.registeredModule<InstructionGenerator<T>>(
             RegisteredModuleType.InstructionGenerator
     )
 
@@ -126,7 +125,6 @@ class MacroMutationOperator<T>(
  * Note that the constant mutation rate is 1 - ([registerMutationRate] - [operatorMutationRate]), which should
  * be taken into account when choosing values for these parameters.
  *
- * @property environment The environment evolution is being performed within.
  * @property registerMutationRate The rate with which registers should be mutated.
  * @property operatorMutationRate The rate with which operates should be mutated.
  * @property constantMutationFunc A function that can mutate values in the domain of [T].
@@ -138,9 +136,9 @@ class MicroMutationOperator<T>(
         val constantMutationFunc: (T) -> T
 ) : MutationOperator<T>(environment) {
 
-    val constantsRate = this.environment.config.constantsRate
-    val operations = this.environment.operations
-    val random = Random()
+    private val constantsRate = this.environment.config.constantsRate
+    private val operations = this.environment.operations
+    private val random = Random()
 
     /**
      * Performs a single, effective micro mutation to the individual given.

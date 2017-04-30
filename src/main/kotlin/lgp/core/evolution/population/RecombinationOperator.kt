@@ -30,10 +30,10 @@ abstract class RecombinationOperator<T>(val environment: Environment<T>) : Modul
  *
  * For more information, see Algorithm 5.1 from Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).
  *
- * @property environment The environment evolution is being performed within.
  * @property maximumSegmentLength An upper bound on the size of the segments exchanged between the individuals.
  * @property maximumCrossoverDistance An upper bound on the number of instructions between the two chosen segments.
  * @property maximumSegmentLengthDifference An upper bound on the difference between the two segment lengths.
+ * @see <a href="http://www.springer.com/gp/book/9780387310299">http://www.springer.com/gp/book/9780387310299</a>
  */
 class LinearCrossover<T>(environment: Environment<T>,
                          val maximumSegmentLength: Int,
@@ -44,9 +44,12 @@ class LinearCrossover<T>(environment: Environment<T>,
     private val random = Random()
 
     // Make life easier with some local variables
-    val minimumProgramLength = this.environment.config.minimumProgramLength
-    val maximumProgramLength = this.environment.config.maximumProgramLength
+    private val minimumProgramLength = this.environment.config.minimumProgramLength
+    private val maximumProgramLength = this.environment.config.maximumProgramLength
 
+    /**
+     * Combines the two individuals given by exchanging two segments of instructions.
+     */
     override fun combine(mother: Program<T>, father: Program<T>) {
         // 1. Randomly select an instruction position i[k] (crossover point) in program gp[k] (k in {1, 2})
         // with len(gp[1]) <= len(gp[2]) and distance |i[1] - i[2]| <= min(len(gp[1]) -1, dc_max)

@@ -33,14 +33,13 @@ abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
  * Performs Binary Tournament Selection as described in Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).
  *
  * The steps involved are:
- *     1. Randomly select 2 * N_ts individuals from the population without replacement.
- *     2. Perform two fitness tournaments of size N_ts.
+ * 1. Randomly select 2 * N_ts individuals from the population without replacement.
+ * 2. Perform two fitness tournaments of size N_ts.
  *
  * The algorithm removes each tournament winner from the population, meaning that the original
  * population given will have it's size decreased by 2 (due to two fitness tournaments),
  * and 2 winners will be produced.
  *
- * @property environment The environment evolution is being performed within.
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  */
 class BinaryTournamentSelection<T>(environment: Environment<T>,
@@ -48,6 +47,9 @@ class BinaryTournamentSelection<T>(environment: Environment<T>,
 
     private val random = Random()
 
+    /**
+     * Selects two individuals from the population given using tournament selection.
+     */
     override fun select(population: MutableList<Program<T>>): List<Program<T>> {
         // Select individuals from the population without replacement.
         val selected = random.sample(population, 2 * this.tournamentSize).toMutableList()
@@ -78,9 +80,8 @@ class BinaryTournamentSelection<T>(environment: Environment<T>,
  * The size of the tournaments is determined by [tournamentSize]. Each winner of a tournament
  * is removed from the set of individuals selected to participate in the tournaments.
  *
- * @property environment The environment evolution is being performed within.
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
- * @see <a href="https://en.wikipedia.org/wiki/Tournament_selection">
+ * @see <a href="https://en.wikipedia.org/wiki/Tournament_selection"></a>
  */
 class TournamentSelection<T>(environment: Environment<T>,
                              val tournamentSize: Int) : SelectionOperator<T>(environment) {
@@ -142,7 +143,7 @@ internal fun <T> tournament(
 /**
  * Chooses k unique random elements from the population given.
  *
- * @see <a href="https://hg.python.org/cpython/file/2.7/Lib/random.py#l295">
+ * @see <a href="https://hg.python.org/cpython/file/2.7/Lib/random.py#l295"></a>
  */
 fun <T> Random.sample(population: List<T>, k: Int): List<T> {
 

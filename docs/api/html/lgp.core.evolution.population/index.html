@@ -13,16 +13,58 @@
 <tbody>
 <tr>
 <td>
-<a href="-population/index.html">Population</a></td>
+<a href="-binary-tournament-selection/index.html">BinaryTournamentSelection</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Population</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">class </span><span class="identifier">BinaryTournamentSelection</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-selection-operator/index.html"><span class="identifier">SelectionOperator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Performs Binary Tournament Selection as described in Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-evolution-model/index.html">EvolutionModel</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>A model that can be used to perform evolution within in a specific environment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-linear-crossover/index.html">LinearCrossover</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">LinearCrossover</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-recombination-operator/index.html"><span class="identifier">RecombinationOperator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A <a href="-recombination-operator/index.html">RecombinationOperator</a> that implements Linear Crossover for two individuals.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-macro-mutation-operator/index.html">MacroMutationOperator</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">MacroMutationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-mutation-operator/index.html"><span class="identifier">MutationOperator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A <a href="-mutation-operator/index.html">MutationOperator</a> implementation that performs effective macro mutations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-micro-mutation-operator/index.html">MicroMutationOperator</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">MicroMutationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-mutation-operator/index.html"><span class="identifier">MutationOperator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A <a href="-mutation-operator/index.html">MutationOperator</a> implementation that performs effective micro mutations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-mutation-operator/index.html">MutationOperator</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">MutationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>A search operator used during evolution to mutate an individual from a population.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="-program/index.html">Program</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Program</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
-<p>A program in the LGP population.</p>
+<p>An LGP program that is composed of instructions that operate on registers.</p>
 </td>
 </tr>
 <tr>
@@ -31,6 +73,55 @@
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
 <p>Generates <a href="-program/index.html">Program</a> instances to be used in an LGP population.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-recombination-operator/index.html">RecombinationOperator</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">RecombinationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>A search operator used during evolution to combine two individuals from a population.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-selection-operator/index.html">SelectionOperator</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SelectionOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>A search operator used during evolution to select a subset of individuals from a population.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-steady-state/index.html">SteadyState</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SteadyState</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A model for evolution using a steady-state algorithm.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-tournament-selection/index.html">TournamentSelection</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">TournamentSelection</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-selection-operator/index.html"><span class="identifier">SelectionOperator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A <a href="-selection-operator/index.html">SelectionOperator</a> implementation that selects individuals using Tournament Selection.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extensions for External Classes</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="java.util.-random/index.html">java.util.Random</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="kotlin.collections.-mutable-list/index.html">kotlin.collections.MutableList</a></td>
+<td>
 </td>
 </tr>
 </tbody>
