@@ -79,7 +79,7 @@ class SimpleFunction {
                                 TournamentSelection(environment, tournamentSize = 2)
                             },
                             RegisteredModuleType.RecombinationOperator to {
-                                Crossover(
+                                LinearCrossover(
                                         environment,
                                         maximumSegmentLength = 6,
                                         maximumCrossoverDistance = 5,
@@ -111,8 +111,8 @@ class SimpleFunction {
             environment.registerModules(container)
 
             // Find the best individual with these parameters.
-            val population = Population(environment)
-            population.evolve()
+            val model = SteadyState(environment)
+            model.evolve()
         }
     }
 }

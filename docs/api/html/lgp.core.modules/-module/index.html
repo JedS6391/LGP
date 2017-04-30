@@ -39,9 +39,19 @@ to provide custom functionality to the system.</p>
 </tr>
 <tr>
 <td>
+<a href="../../lgp.core.evolution.population/-evolution-model/index.html">EvolutionModel</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Module</span></code>
+<p>A model that can be used to perform evolution within in a specific environment.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../../lgp.core.evolution.instructions/-instruction/index.html">Instruction</a></td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Instruction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Module</span></code></td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Instruction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Module</span></code>
+<p>An instruction in an LGP program.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -49,6 +59,14 @@ to provide custom functionality to the system.</p>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">InstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Module</span></code>
 <p>A generator of instructions in an LGP system.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../../lgp.core.evolution.population/-mutation-operator/index.html">MutationOperator</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">MutationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Module</span></code>
+<p>A search operator used during evolution to mutate an individual from a population.</p>
 </td>
 </tr>
 <tr>
@@ -64,7 +82,7 @@ to provide custom functionality to the system.</p>
 <a href="../../lgp.core.evolution.population/-program/index.html">Program</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Program</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Module</span></code>
-<p>A program in the LGP population.</p>
+<p>An LGP program that is composed of instructions that operate on registers.</p>
 </td>
 </tr>
 <tr>
@@ -73,6 +91,22 @@ to provide custom functionality to the system.</p>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Module</span></code>
 <p>Generates <a href="../../lgp.core.evolution.population/-program/index.html">Program</a> instances to be used in an LGP population.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../../lgp.core.evolution.population/-recombination-operator/index.html">RecombinationOperator</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">RecombinationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Module</span></code>
+<p>A search operator used during evolution to combine two individuals from a population.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../../lgp.core.evolution.population/-selection-operator/index.html">SelectionOperator</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SelectionOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Module</span></code>
+<p>A search operator used during evolution to select a subset of individuals from a population.</p>
 </td>
 </tr>
 </tbody>

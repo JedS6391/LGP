@@ -1,0 +1,17 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>MicroMutationOperator.<init> - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.evolution.population</a>&nbsp;/&nbsp;<a href="index.html">MicroMutationOperator</a>&nbsp;/&nbsp;<a href=".">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<code><span class="identifier">MicroMutationOperator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.MicroMutationOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.MicroMutationOperator.T)), kotlin.Double, kotlin.Double, kotlin.Function1((lgp.core.evolution.population.MicroMutationOperator.T, )))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.population.MicroMutationOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.MicroMutationOperator.T)), kotlin.Double, kotlin.Double, kotlin.Function1((lgp.core.evolution.population.MicroMutationOperator.T, )))/registerMutationRate">registerMutationRate</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.population.MicroMutationOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.MicroMutationOperator.T)), kotlin.Double, kotlin.Double, kotlin.Function1((lgp.core.evolution.population.MicroMutationOperator.T, )))/operatorMutationRate">operatorMutationRate</span><span class="symbol">:</span>&nbsp;<span class="identifier">Double</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.population.MicroMutationOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.MicroMutationOperator.T)), kotlin.Double, kotlin.Double, kotlin.Function1((lgp.core.evolution.population.MicroMutationOperator.T, )))/constantMutationFunc">constantMutationFunc</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span></code>
+<p>A <a href="../-mutation-operator/index.html">MutationOperator</a> implementation that performs effective micro mutations.</p>
+<p>For more information, see Algorithm 6.2 from Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).</p>
+<p>Note that the constant mutation rate is 1 - (<a href="-init-.html#lgp.core.evolution.population.MicroMutationOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.MicroMutationOperator.T)), kotlin.Double, kotlin.Double, kotlin.Function1((lgp.core.evolution.population.MicroMutationOperator.T, )))/registerMutationRate">registerMutationRate</a> - <a href="-init-.html#lgp.core.evolution.population.MicroMutationOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.MicroMutationOperator.T)), kotlin.Double, kotlin.Double, kotlin.Function1((lgp.core.evolution.population.MicroMutationOperator.T, )))/operatorMutationRate">operatorMutationRate</a>), which should
+be taken into account when choosing values for these parameters.</p>
+</BODY>
+</HTML>

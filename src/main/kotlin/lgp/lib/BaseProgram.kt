@@ -8,6 +8,9 @@ import lgp.core.evolution.registers.RegisterType
 import lgp.core.evolution.registers.copy
 import lgp.core.modules.ModuleInformation
 
+/**
+ * @suppress
+ */
 class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSet<T>, val sentinelTrueValue: T)
     // TODO: Configurable output register
     // By Default we are choosing the first calculation register.

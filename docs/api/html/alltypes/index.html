@@ -17,6 +17,12 @@
 </tr>
 <tr>
 <td>
+<a href="../lgp.lib.operations/-and/index.html">lgp.lib.operations.And</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.core.evolution.registers/-argument/index.html">lgp.core.evolution.registers.Argument</a></td>
 <td>
 <p>An <a href="../lgp.core.evolution.registers/-argument/index.html">Argument</a> is essentially just the value of a particular <a href="../lgp.core.evolution.registers/-register/index.html">Register</a>,
@@ -34,14 +40,14 @@ but in the context of an <a href="../lgp.core.evolution.instructions/-operation/
 <td>
 <a href="../lgp.core.evolution.instructions/-arity/index.html">lgp.core.evolution.instructions.Arity</a></td>
 <td>
+<p>The arity of an operation, specifying how many arguments it can take.</p>
 </td>
 </tr>
 <tr>
 <td>
 <a href="../lgp.core.evolution.instructions/-arity-exception/index.html">lgp.core.evolution.instructions.ArityException</a></td>
 <td>
-<p>Thrown when the <a href="../lgp.core.evolution.instructions/-arity/index.html">Arity</a> of an <a href="../lgp.core.evolution.instructions/-operation/index.html">Operation</a> does not match the number of
-<a href="#">Argument</a>s given to it.</p>
+<p>Thrown when the <a href="../lgp.core.evolution.instructions/-arity/index.html">Arity</a> of an <a href="../lgp.core.evolution.instructions/-operation/index.html">Operation</a> does not match the number of <a href="#">Argument</a>s given to it.</p>
 </td>
 </tr>
 <tr>
@@ -55,13 +61,7 @@ but in the context of an <a href="../lgp.core.evolution.instructions/-operation/
 <td>
 <a href="../lgp.core.evolution.instructions/-base-arity/index.html">lgp.core.evolution.instructions.BaseArity</a></td>
 <td>
-<p>The arity of an operation, specifying how many arguments it can take.</p>
-</td>
-</tr>
-<tr>
-<td>
-<a href="../lgp.lib/-base-program/index.html">lgp.lib.BaseProgram</a></td>
-<td>
+<p>A base arity implementation that provides arity for instructions with one or two arguments.</p>
 </td>
 </tr>
 <tr>
@@ -69,6 +69,25 @@ but in the context of an <a href="../lgp.core.evolution.instructions/-operation/
 <a href="../lgp.core.evolution.instructions/-binary-operation/index.html">lgp.core.evolution.instructions.BinaryOperation</a></td>
 <td>
 <p>An operation that has an arity of two (i.e. its function takes 2 arguments).</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-binary-tournament-selection/index.html">lgp.core.evolution.population.BinaryTournamentSelection</a></td>
+<td>
+<p>Performs Binary Tournament Selection as described in Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.lib.operations/kotlin.-boolean/index.html">kotlin.Boolean</a> (extensions in package lgp.lib.operations)</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.instructions/-branch-operation/index.html">lgp.core.evolution.instructions.BranchOperation</a></td>
+<td>
 </td>
 </tr>
 <tr>
@@ -150,6 +169,19 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.lib.operations/-division/index.html">lgp.lib.operations.Division</a></td>
+<td>
+<p>Performs division on two Double arguments.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.lib.operations/kotlin.-double/index.html">kotlin.Double</a> (extensions in package lgp.lib.operations)</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.core.environment.constants/-double-constant-loader/index.html">lgp.core.environment.constants.DoubleConstantLoader</a></td>
 <td>
 <p>An implementation of <a href="../lgp.core.environment.constants/-constant-loader.html">ConstantLoader</a> that loads constants as a collection of <a href="#">Double</a>s.</p>
@@ -167,6 +199,20 @@ specified by the name of the package + class it can be found in.</p>
 <a href="../lgp.core.evolution.fitness/-evaluation/index.html">lgp.core.evolution.fitness.Evaluation</a></td>
 <td>
 <p>An evaluation of a program on a set of fitness cases.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-evolution-model/index.html">lgp.core.evolution.population.EvolutionModel</a></td>
+<td>
+<p>A model that can be used to perform evolution within in a specific environment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.lib.operations/-exponent/index.html">lgp.lib.operations.Exponent</a></td>
+<td>
+<p>Performs exponentiation on two Double arguments.</p>
 </td>
 </tr>
 <tr>
@@ -228,6 +274,7 @@ specified by the name of the package + class it can be found in.</p>
 <td>
 <a href="../lgp.core.evolution.instructions/-instruction/index.html">lgp.core.evolution.instructions.Instruction</a></td>
 <td>
+<p>An instruction in an LGP program.</p>
 </td>
 </tr>
 <tr>
@@ -253,8 +300,23 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
-<a href="../lgp.lib.examples/-main/index.html">lgp.lib.examples.Main</a></td>
+<a href="../lgp.core.evolution.population/-linear-crossover/index.html">lgp.core.evolution.population.LinearCrossover</a></td>
 <td>
+<p>A <a href="../lgp.core.evolution.population/-recombination-operator/index.html">RecombinationOperator</a> that implements Linear Crossover for two individuals.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-macro-mutation-operator/index.html">lgp.core.evolution.population.MacroMutationOperator</a></td>
+<td>
+<p>A <a href="../lgp.core.evolution.population/-mutation-operator/index.html">MutationOperator</a> implementation that performs effective macro mutations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-micro-mutation-operator/index.html">lgp.core.evolution.population.MicroMutationOperator</a></td>
+<td>
+<p>A <a href="../lgp.core.evolution.population/-mutation-operator/index.html">MutationOperator</a> implementation that performs effective micro mutations.</p>
 </td>
 </tr>
 <tr>
@@ -294,6 +356,33 @@ does/what it is for.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.lib.operations/-multiplication/index.html">lgp.lib.operations.Multiplication</a></td>
+<td>
+<p>Performs multiplication on two Double arguments.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/kotlin.collections.-mutable-list/index.html">kotlin.collections.MutableList</a> (extensions in package lgp.core.evolution.population)</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-mutation-operator/index.html">lgp.core.evolution.population.MutationOperator</a></td>
+<td>
+<p>A search operator used during evolution to mutate an individual from a population.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.lib.operations/-not/index.html">lgp.lib.operations.Not</a></td>
+<td>
+<p>Performs the bitwise not function on a single Double argument.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.core.evolution.instructions/-operation/index.html">lgp.core.evolution.instructions.Operation</a></td>
 <td>
 <p>An operation has an <a href="../lgp.core.evolution.instructions/-arity/index.html">Arity</a> and some function that it can perform on <a href="../lgp.core.evolution.registers/-arguments/index.html">Arguments</a> given to it.</p>
@@ -308,7 +397,7 @@ does/what it is for.</p>
 </tr>
 <tr>
 <td>
-<a href="../lgp.core.evolution.population/-population/index.html">lgp.core.evolution.population.Population</a></td>
+<a href="../lgp.lib.operations/-or/index.html">lgp.lib.operations.Or</a></td>
 <td>
 </td>
 </tr>
@@ -316,7 +405,7 @@ does/what it is for.</p>
 <td>
 <a href="../lgp.core.evolution.population/-program/index.html">lgp.core.evolution.population.Program</a></td>
 <td>
-<p>A program in the LGP population.</p>
+<p>An LGP program that is composed of instructions that operate on registers.</p>
 </td>
 </tr>
 <tr>
@@ -328,7 +417,7 @@ does/what it is for.</p>
 </tr>
 <tr>
 <td>
-<a href="../lgp.lib/java.util.-random/index.html">java.util.Random</a> (extensions in package lgp.lib)</td>
+<a href="../lgp.core.evolution.population/java.util.-random/index.html">java.util.Random</a> (extensions in package lgp.core.evolution.population)</td>
 <td>
 </td>
 </tr>
@@ -337,6 +426,13 @@ does/what it is for.</p>
 <a href="../lgp.core.evolution.registers/-random-register-generator/index.html">lgp.core.evolution.registers.RandomRegisterGenerator</a></td>
 <td>
 <p>Generates an infinite random sequence of registers from the register set given.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-recombination-operator/index.html">lgp.core.evolution.population.RecombinationOperator</a></td>
+<td>
+<p>A search operator used during evolution to combine two individuals from a population.</p>
 </td>
 </tr>
 <tr>
@@ -351,6 +447,12 @@ does/what it is for.</p>
 <a href="../lgp.core.evolution.registers/-register-access-exception/index.html">lgp.core.evolution.registers.RegisterAccessException</a></td>
 <td>
 <p>Thrown when a write operation is attempted on a <a href="../lgp.core.evolution.registers/-register-type/-constant.html">RegisterType.Constant</a> register.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.instructions/-register-index.html">lgp.core.evolution.instructions.RegisterIndex</a></td>
+<td>
 </td>
 </tr>
 <tr>
@@ -391,6 +493,20 @@ does not match the size of the range.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.evolution.population/-selection-operator/index.html">lgp.core.evolution.population.SelectionOperator</a></td>
+<td>
+<p>A search operator used during evolution to select a subset of individuals from a population.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.examples/-simple-function/index.html">lgp.examples.SimpleFunction</a></td>
+<td>
+<p>An example of setting up an environment to use LGP to find programs for the function <code>x^2 + 2x + 2</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.lib.operations/-sine/index.html">lgp.lib.operations.Sine</a></td>
 <td>
 <p>Performs the sine function on a single Double argument.</p>
@@ -398,9 +514,23 @@ does not match the size of the range.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.evolution.population/-steady-state/index.html">lgp.core.evolution.population.SteadyState</a></td>
+<td>
+<p>A model for evolution using a steady-state algorithm.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.lib.operations/-subtraction/index.html">lgp.lib.operations.Subtraction</a></td>
 <td>
 <p>Performs subtraction on two Double arguments.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-tournament-selection/index.html">lgp.core.evolution.population.TournamentSelection</a></td>
+<td>
+<p>A <a href="../lgp.core.evolution.population/-selection-operator/index.html">SelectionOperator</a> implementation that selects individuals using Tournament Selection.</p>
 </td>
 </tr>
 <tr>
