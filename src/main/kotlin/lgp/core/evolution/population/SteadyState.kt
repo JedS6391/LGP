@@ -4,10 +4,11 @@ import lgp.core.environment.Environment
 import lgp.core.environment.RegisteredModuleType
 import lgp.core.evolution.fitness.Evaluation
 import lgp.core.evolution.fitness.FitnessEvaluator
+import lgp.core.modules.ModuleInformation
 import java.util.*
 import kotlin.streams.toList
 
-class Population<T>(val environment: Environment<T>) {
+class SteadyState<T>(environment: Environment<T>) : EvolutionModel<T>(environment) {
 
     private val select: SelectionOperator<T> = this.environment.registeredModule(
             RegisteredModuleType.SelectionOperator
@@ -29,7 +30,7 @@ class Population<T>(val environment: Environment<T>) {
 
     lateinit var individuals: MutableList<Program<T>>
 
-     private fun initialise() {
+    override fun initialise() {
         val programGenerator: ProgramGenerator<T> = this.environment.registeredModule(RegisteredModuleType.ProgramGenerator)
 
         this.individuals = programGenerator.next()
@@ -37,7 +38,7 @@ class Population<T>(val environment: Environment<T>) {
                                            .toMutableList()
     }
 
-    fun evolve() {
+    override fun evolve() {
         val rg = Random()
 
         // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
@@ -53,17 +54,8 @@ class Population<T>(val environment: Environment<T>) {
         var gen = 0
 
         while (gen++ < this.environment.config.generations) {
-            // Randomly select 2 * n individuals from the population without replacement (n = population size)
-            val intermediatePopulation = (0..(2 * this.individuals.size - 1)).map { rg.choice(this.individuals) }
+            val children = this.select.select(this.individuals)
 
-            // 3. Perform two fitness tournaments of size n.
-            // We change this step to allow for different selection operators. All we care about
-            // is that we use the selection operator and we get copies of some individuals in the
-            // population.
-            // 4. Make temporary copies of the two tournament winners. (Selection operator should handle this)
-            val children = this.select.select(intermediatePopulation)
-
-            // 5. Modify the two winners by one or more variation operators for certain probabilities
             (0..children.size - 1 step 2).map { idx ->
                 val mother = children[idx]
                 val father = children[idx + 1]
@@ -87,9 +79,6 @@ class Population<T>(val environment: Environment<T>) {
                 }
             }
 
-            // 6. Evaluate the fitness of the children
-            // 7. If the currently best-fit individual is replaced by one of the children validate the
-            //    new best program using unknown data.
             // TODO: Do validation step
             val evaluations = children.map { individual ->
                 this.fitnessEvaluator.evaluate(individual, this.environment)
@@ -124,11 +113,5 @@ class Population<T>(val environment: Environment<T>) {
         println("avg. fitness = $averageFitness, best fitness = $bestFitness")
     }
 
-}
-
-/**
- * Return a random element from the given list.
- */
-fun <T> Random.choice(list: List<T>): T {
-    return list[(this.nextDouble() * list.size).toInt()]
+    override val information = ModuleInformation("Algorithm 2.1 (LGP Algorithm)")
 }
