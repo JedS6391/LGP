@@ -6,6 +6,7 @@ import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.CsvDatasetLoader
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.fitness.FitnessFunctions
+import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.population.*
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgramGenerator
@@ -69,16 +70,16 @@ class SimpleFunction {
             // Set up registered modules
             val container = ModuleContainer(
                     modules = mapOf(
-                            RegisteredModuleType.InstructionGenerator to {
+                            CoreModuleType.InstructionGenerator to {
                                 BaseInstructionGenerator(environment)
                             },
-                            RegisteredModuleType.ProgramGenerator to {
+                            CoreModuleType.ProgramGenerator to {
                                 BaseProgramGenerator(environment, sentinelTrueValue = 1.0)
                             },
-                            RegisteredModuleType.SelectionOperator to {
+                            CoreModuleType.SelectionOperator to {
                                 TournamentSelection(environment, tournamentSize = 2)
                             },
-                            RegisteredModuleType.RecombinationOperator to {
+                            CoreModuleType.RecombinationOperator to {
                                 LinearCrossover(
                                         environment,
                                         maximumSegmentLength = 6,
@@ -86,14 +87,14 @@ class SimpleFunction {
                                         maximumSegmentLengthDifference = 3
                                 )
                             },
-                            RegisteredModuleType.MacroMutationOperator to {
+                            CoreModuleType.MacroMutationOperator to {
                                 MacroMutationOperator(
                                         environment,
                                         insertionRate = 0.67,
                                         deletionRate = 0.33
                                 )
                             },
-                            RegisteredModuleType.MicroMutationOperator to {
+                            CoreModuleType.MicroMutationOperator to {
                                 MicroMutationOperator(
                                         environment,
                                         registerMutationRate = 0.5,

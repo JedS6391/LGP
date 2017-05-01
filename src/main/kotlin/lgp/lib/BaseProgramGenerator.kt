@@ -1,7 +1,7 @@
 package lgp.lib
 
+import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
-import lgp.core.environment.RegisteredModuleType
 import lgp.core.evolution.instructions.BranchOperation
 import lgp.core.evolution.instructions.Instruction
 import lgp.core.evolution.instructions.RegisterIndex
@@ -20,7 +20,7 @@ import java.util.*
  * @suppress
  */
 class BaseProgramGenerator<T>(environment: Environment<T>, val sentinelTrueValue: T)
-    : ProgramGenerator<T>(environment, instructionGenerator = environment.registeredModule(RegisteredModuleType.InstructionGenerator)) {
+    : ProgramGenerator<T>(environment, instructionGenerator = environment.registeredModule(CoreModuleType.InstructionGenerator)) {
 
     private val random = Random()
 
