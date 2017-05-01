@@ -6,3 +6,4 @@ LGP
    :caption: Contents:
 
    api/api
+   lgp/lgp

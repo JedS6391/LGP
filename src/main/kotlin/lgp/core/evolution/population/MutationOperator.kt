@@ -1,7 +1,7 @@
 package lgp.core.evolution.population
 
+import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
-import lgp.core.environment.RegisteredModuleType
 import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.instructions.RegisterIndex
 import lgp.core.evolution.registers.RandomRegisterGenerator
@@ -63,7 +63,7 @@ class MacroMutationOperator<T>(
     private val maximumProgramLength = this.environment.config.maximumProgramLength
     private val random = Random()
     private val instructionGenerator = this.environment.registeredModule<InstructionGenerator<T>>(
-            RegisteredModuleType.InstructionGenerator
+            CoreModuleType.InstructionGenerator
     )
 
     /**

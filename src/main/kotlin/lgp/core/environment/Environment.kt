@@ -12,33 +12,61 @@ import lgp.core.evolution.instructions.Operation
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.Module
 
-class ModuleRegistrationException : Exception("All module types must have a module implementation registered to them.")
+// TODO: Move code relating to modules to another file (or even to the modules package?).
+
+/**
+ * Exception thrown when no [Module] is registered for a requested [RegisteredModuleType].
+ */
+class MissingModuleException(message: String) : Exception(message)
+
+/**
+ * Exception thrown when a [Module] is cast as a type that is not valid for it.
+ */
+class ModuleCastException(message: String) : Exception(message)
 
 /**
  * Represents the different modules that are able to be registered with an environment.
  *
- * Any module that is a *Register Component* should be specified here.
+ * Any module that is able to be registered with the [Environment] as a *registered component*
+ * should have a module type defined for it using this interface.
+ *
+ * @see [CoreModuleType] for an example implementation.
  */
-// TODO: Find a way to make this more automatic.
-// TODO: Investigate using sealed class.
-enum class RegisteredModuleType {
+interface RegisteredModuleType
+
+/**
+ * A mapping for core modules to a module type value.
+ */
+enum class CoreModuleType : RegisteredModuleType {
 
     /**
-     * A module that provides a concrete [lgp.core.evolution.instructions.InstructionGenerator] implementation.
+     * An [InstructionGenerator] implementation.
      */
     InstructionGenerator,
 
     /**
-     * A module that provides a concrete [lgp.core.evolution.population.ProgramGenerator] implementation.
+     * A [ProgramGenerator] implementation.
      */
     ProgramGenerator,
 
+    /**
+     * A [SelectionOperator] implementation.
+     */
     SelectionOperator,
 
+    /**
+     * A [RecombinationOperator] implementation.
+     */
     RecombinationOperator,
 
+    /**
+     * A [MacroMutationOperator] implementation.
+     */
     MacroMutationOperator,
 
+    /**
+     * A [MicroMutationOperator] implementation.
+     */
     MicroMutationOperator
 }
 
@@ -50,72 +78,109 @@ enum class RegisteredModuleType {
 data class ModuleContainer(val modules: Map<RegisteredModuleType, () -> Module>) {
 
     // All instances are provided as singletons
-    private val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
+    val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
 
     /**
      * Provides an instance of the module type given.
      *
-     * The module will be loaded and cast to the type given.
+     * The module will be loaded and cast to the type given if possible to cast to that type.
      *
      * @param type The type of of module to get an instance of.
      * @param TModule The type to cast the module as.
+     * @return An instance of the module registered for the given module type.
+     * @throws MissingModuleException When no builder has been registered for the type of module requested.
+     * @throws ModuleCastException When the requested module can't be cast to the type given.
      */
-    fun <TModule> instance(type: RegisteredModuleType): TModule {
+    inline fun <reified TModule : Module> instance(type: RegisteredModuleType): TModule {
         if (type in instanceCache)
             return instanceCache[type] as TModule
 
+        // If no module builder exists (i.e. it is null) then we can assume that
+        // no module builder has been registered for this module type, despite it
+        // being requested by from somewhere.
         val moduleBuilder = this.modules[type]
+                ?: throw MissingModuleException("No module builder registered for $type.")
 
-        // Because the module building function could potentially be null
-        // due to the way maps work, we can't just directly call it so we
-        // have to make an ugly call to `invoke`.
-        val module = moduleBuilder?.invoke()
+        // At this stage, we at least know that the module builder is valid so we can go ahead and execute it.
+        // However, we need to check that the module can actually be cast as the type requested.
+        // Doing this means that we don't have to do unchecked casts anywhere and gives protection against
+        // invalid casts from calling code.
+        val module = moduleBuilder() as? TModule
+                ?: throw ModuleCastException("Unable to cast $type module as ${TModule::class.java.simpleName}.")
 
-        // Cache this instance
-        instanceCache[type] = module!!
+        // Cache this instance for later usages since it is valid when cast to the type given.
+        instanceCache[type] = module
 
-        return module as TModule
+        return module
     }
 
 }
 
 /**
- * A central repository for core components of the LGP system.
+ * A central repository for core components made available to the LGP system.
  *
  * An environment should be built by providing the correct components. The environment will
  * maintain these components so that can be accessed by the LGP system from wherever they are needed.
  *
  * The components required by the environment are split into three categories:
  *
- *     1. Construction components: Given to an environment at construction time.
- *     2. Initialisation components: Resolved internally given valid construction components.
- *     3. Registered components: Resolved manually by registering with an environment after construction.
+ * 1. Construction components: Given to an environment at construction time.
+ * 2. Initialisation components: Resolved internally given valid construction components.
+ * 3. Registered components: Resolved manually by registering with an environment after construction.
  *
  * After an environment is built and all components are resolved, it can be used to initiate the core
  * evolution process of LGP.
  */
 open class Environment<T> {
 
-    // Dependencies that we require at construction time
+    // Dependencies that we require at construction time and are used during initialisation
+    // but aren't needed after that.
     private val configLoader: ConfigLoader
     private val constantLoader: ConstantLoader<T>
     private val datasetLoader: DatasetLoader<T>
     private val operationLoader: OperationLoader<T>
     private val defaultValueProvider: DefaultValueProvider<T>
+
+    /**
+     * A function that can measure the fitness of a program.
+     *
+     * This property should be provided at construction time.
+     */
     val fitnessFunction: FitnessFunction<T>
 
     // Dependencies that come from the loaders given to the environment and are not necessarily
     // needed until the environment is initialised.
+
+    /**
+     * Contains the various configuration options available to the LGP system.
+     */
     lateinit var config: Config
+
+    /**
+     * A set of constants loaded using the [ConstantLoader] given at construction time.
+     */
     lateinit var constants: List<T>
+
+    /**
+     * A dataset loaded using the [DatasetLoader] given at construction time.
+     */
     lateinit var dataset: Dataset<T>
+
+    /**
+     * A set of operations loaded using the [OperationLoader] given at construction time.
+     */
     lateinit var operations: List<Operation<T>>
 
+    /**
+     * A set of registers that is built at initialisation time.
+     */
     lateinit var registerSet: RegisterSet<T>
 
+    /**
+     * A container for the various registered component modules that the environment maintains.
+     */
     lateinit var container: ModuleContainer
 
-    // TODO: Should a default environment be provided?
     /**
      * Builds an environment with the specified construction components.
      *
@@ -130,10 +195,12 @@ open class Environment<T> {
     // TODO: Move all components to an object to make constructor smaller.
     // TODO: Allow custom initialisation method for initialisation components.
     // TODO: Default value provider and fitness function could be given in config?
-    constructor(configLoader: ConfigLoader, constantLoader: ConstantLoader<T>,
-                datasetLoader: DatasetLoader<T>, operationLoader: OperationLoader<T>,
-                defaultValueProvider: DefaultValueProvider<T>, fitnessFunction: FitnessFunction<T>,
-                initialise: Boolean = true) {
+    constructor(configLoader: ConfigLoader,
+                constantLoader: ConstantLoader<T>,
+                datasetLoader: DatasetLoader<T>,
+                operationLoader: OperationLoader<T>,
+                defaultValueProvider: DefaultValueProvider<T>,
+                fitnessFunction: FitnessFunction<T>) {
 
         this.configLoader = configLoader
         this.constantLoader = constantLoader
@@ -143,8 +210,7 @@ open class Environment<T> {
         this.fitnessFunction = fitnessFunction
 
         // Kick off initialisation
-        if (initialise)
-            this.initialise()
+        this.initialise()
     }
 
     private fun initialise() {
@@ -174,34 +240,29 @@ open class Environment<T> {
         )
     }
 
-    private fun validateModules(container: ModuleContainer): Boolean {
-        // Check all module types have an implementation
-        return RegisteredModuleType.values().map { type ->
-            type in container.modules
-        }.all { b -> b}
-    }
-
     /**
      * Registers the modules given by a container.
      *
      * @param container A container that specifies modules to be registered.
-     * @throws ModuleRegistrationException When an implementation is not provided for a registered module type.
      */
     fun registerModules(container: ModuleContainer) {
-        if (!this.validateModules(container)) {
-            throw ModuleRegistrationException()
-        }
-
         this.container = container
     }
 
     /**
      * Fetches an instance of the module registered for a particular module type.
      *
+     * The environment assumes that a module type will have a builder registered to
+     * if it is being requested. If this fails, then a [MissingModuleException] will
+     * be thrown, indicating that an instance of a particular module type was requested
+     * but could not fulfilled.
+     *
      * @param type The type of registered module to fetch.
      * @param TModule The type the module will be cast as.
+     * @return An instance of the module registered for the given module type.
+     * @throws MissingModuleException When no builder has been registered for the type of module requested.
      */
-    fun <TModule : Module> registeredModule(type: RegisteredModuleType): TModule {
+    inline fun <reified TModule : Module> registeredModule(type: RegisteredModuleType): TModule {
         return this.container.instance<TModule>(type)
     }
 
