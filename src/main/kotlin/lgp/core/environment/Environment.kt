@@ -75,7 +75,7 @@ enum class CoreModuleType : RegisteredModuleType {
  *
  * @property modules A mapping of modules that can be registered to a function that constructs that module.
  */
-data class ModuleContainer(val modules: Map<RegisteredModuleType, () -> Module>) {
+data class ModuleContainer(val modules: MutableMap<RegisteredModuleType, () -> Module>) {
 
     // All instances are provided as singletons
     val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
@@ -179,7 +179,7 @@ open class Environment<T> {
     /**
      * A container for the various registered component modules that the environment maintains.
      */
-    lateinit var container: ModuleContainer
+    var container: ModuleContainer
 
     /**
      * Builds an environment with the specified construction components.
@@ -208,6 +208,9 @@ open class Environment<T> {
         this.operationLoader = operationLoader
         this.defaultValueProvider = defaultValueProvider
         this.fitnessFunction = fitnessFunction
+
+        // Empty module container to begin
+        this.container = ModuleContainer(modules = mutableMapOf())
 
         // Kick off initialisation
         this.initialise()
@@ -250,12 +253,25 @@ open class Environment<T> {
     }
 
     /**
+     * Register a module builder with a particular module type.
+     *
+     * @param type The type of module to associate this builder with.
+     * @param builder A function that can create the module.
+     */
+    fun <T : Module> registerModule(type: RegisteredModuleType, builder: () -> T) {
+        this.container.modules[type] = builder
+    }
+
+    /**
      * Fetches an instance of the module registered for a particular module type.
      *
      * The environment assumes that a module type will have a builder registered to
      * if it is being requested. If this fails, then a [MissingModuleException] will
      * be thrown, indicating that an instance of a particular module type was requested
      * but could not fulfilled.
+     *
+     * Usually, the type parameter needn't be explicitly given, as it can be inferred
+     * from the type of value the result is being assigned to.
      *
      * @param type The type of registered module to fetch.
      * @param TModule The type the module will be cast as.
