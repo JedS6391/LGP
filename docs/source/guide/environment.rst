@@ -3,9 +3,12 @@ Environment
 
 The first step in using the LGP system is to build an environment for the problem being solved.
 
-This environment acts as a central repository for core components of the LGP system, such as configuration information, datasets, modules for various operations performed during evolution, etc.
+Overview
+========
 
-It can be thought of as the context in which the LGP system is being used as the environment used will directly influence the results.
+This environment acts as a central repository for core *components* of the LGP system, such as configuration information, datasets, modules for various operations performed during evolution, etc.
+
+It can be thought of as the *context* in which the LGP system is being used as the environment used will directly influence the results.
 
 The components needed to build an environment are split into three main categories:
 
@@ -13,7 +16,7 @@ The components needed to build an environment are split into three main categori
 2. *Initialisation Components*
 3. *Registered Components*
 
-The order of the components is important, as the environment needs certain components in order to be built, but other components depend on the environment. The order of components will be discussed further in the following sections.
+The order of the components *is* important, as the environment needs certain components in order to be built, but other components depend on the environment. The order of components will be discussed further in the following sections.
 
 Construction Components
 =======================
@@ -29,7 +32,7 @@ To build an environment, the following construction components are required:
 * ``DefaultValueProvider``
 * ``FitnessFunction``
 
-To find further information about these components, see `the API documentation. <https://jeds6391.github.io/LGP/api/html/lgp.core.environment/index.html>`_
+.. note:: To find further information about these components, see `the API documentation. <https://jeds6391.github.io/LGP/api/html/lgp.core.environment/index.html>`_
 
 These components are primarily those related to loading information into the environment (at initialisation time), or functionality that is used throughout the system but is customisable.
 
@@ -102,12 +105,12 @@ To build up an ``Environment`` instance with the correct construction components
             fitnessFunction = ce
     )
 
-This will create an environment with the construction components given and begin the process of initialising any initialisation components.
+This will create an environment with the construction components given and begin the process of loading any initialisation components.
 
 Initialisation Components
 =========================
 
-These components are automatically initialised by an environment when a set of suitable construction components have been given. These components are generally associated with a ``ComponentLoader`` and are a sort of global state that isn't affected by the LGP system, for example:
+These components are automatically loaded by an environment when a set of suitable construction components have been given. These components are generally associated with a ``ComponentLoader`` and are a sort of *global state* that isn't affected by the LGP system, for example:
 
 - Configuration
 - Constants
@@ -115,20 +118,22 @@ These components are automatically initialised by an environment when a set of s
 - Operations
 - Register Set
 
-The Register Set is slightly different in that it depends on information provided by the construction dependencies and is initialised internally as a global reference register set, so that programs can acquire a fresh register set at any time.
+The Register Set is slightly different in that it depends on information provided by the construction dependencies and is initialised internally as a *global reference* register set, so that programs can acquire a fresh register set at any time.
 
-Nothing special needs to be done for initialisation components - provided that the construction components given were valid, the components will be automatically initialised as appropriate.
+Nothing special needs to be done for initialisation components - provided that the construction components given were valid, the components will be automatically loaded as appropriate.
 
 Registered Components
 =====================
 
-Registered components are essentially those that are circular in their dependency graph.
+Registered components are essentially those that have a circular dependency graph.
 
 That is, a registered component requires a reference to the environment in order to operate, but the environment also needs a reference to the component itself so that it can be accessed within the context of the LGP system, hence these components have to be resolved after the environment has been built.
 
-Generally, registered dependencies will be custom implementations of core components used during the evolution process, such as custom generation schemes for instructions and programs.
+Generally, registered dependencies will be custom implementations of core components used during the evolution process, such as custom generation schemes for instructions and programs, or custom search operators.
 
 The reason these components generally have a dependency on the environment is that they are designed to be as flexible as possible, therefore allowing custom components to have access to the entire environment is useful.
+
+When registering these components, it is done by associating a module type (i.e. the type of component) with a builder for that module. A builder is really just a function that can build a new instance of that module.
 
 Example
 -------
@@ -146,7 +151,7 @@ To illustrate how registered components are used - continuing from the above exa
             datasetLoader,
             operationLoader,
             defaultValueProvider,
-            fitnessFunction
+            fitnessFunction = ce
     )
 
     // Now that we have an environment with resolved construction
@@ -155,23 +160,39 @@ To illustrate how registered components are used - continuing from the above exa
 
     // Build up a container for any modules that need to be registered.
     // The container acts as a way for the environment to resolve
-    // dependencies. There should be an appropriate builder function
-    // for each RegisteredModuleType value
+    // dependencies in bulk.
     val container = ModuleContainer(
         modules = mapOf(
-            RegisteredModuleType.InstructionGenerator to
+            CoreModuleType.InstructionGenerator to
             { BaseInstructionGenerator(env) },
 
-            RegisteredModuleType.ProgramGenerator to
-            { BaseProgramGenerator(env) }
+            CoreModuleType.ProgramGenerator to
+            { BaseProgramGenerator(env) },
+
+            // More module registrations as necessary
+            ...
         )
     )
 
     // Inform the environment of these modules
     env.registerModules(container)
 
+    // Alternatively, we can register modules one-by-one.
+    environment.registerModule(
+        CoreModuleType.SelectionOperator,
+        { TournamentSelection(environment, tournamentSize = 2) }
+    )
 
-With all components resolved, the environment is ready to be used for the main process of evolution.
+
+With all components resolved, the environment is ready to be used for the main process of evolution, using some evolutionary model.
+
+.. note::
+
+    It is only necessary to provide a builder for modules types that are guaranteed to requested from the environment.
+
+    If the environment is being used by some custom consumer, then it is permitted to only provide builders for module types that it will request.
+
+    If a module is requested that hasn't been registered with a builder then an exception detailing the missing module will be thrown.
 
 API
 ===
