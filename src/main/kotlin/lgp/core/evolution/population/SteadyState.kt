@@ -7,6 +7,8 @@ import lgp.core.evolution.fitness.Evaluation
 import lgp.core.evolution.fitness.FitnessEvaluator
 import lgp.core.modules.ModuleInformation
 import java.util.*
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import kotlin.streams.toList
 
 /**
@@ -45,7 +47,7 @@ class SteadyState<T>(environment: Environment<T>) : EvolutionModel<T>(environmen
                                            .toMutableList()
     }
 
-    override fun evolve() {
+    override fun evolve(): EvolutionResult<T> {
         val rg = Random()
 
         // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
@@ -53,9 +55,9 @@ class SteadyState<T>(environment: Environment<T>) : EvolutionModel<T>(environmen
         this.initialise()
 
         // Determine the initial fitness of the individuals in the population
-        val initialEvaluations = this.individuals.map { individual ->
+        val initialEvaluations = this.individuals.pmap { individual ->
             this.fitnessEvaluator.evaluate(individual, this.environment)
-        }
+        }.toList()
 
         var best = initialEvaluations.sortedBy(Evaluation<T>::fitness).first()
 
@@ -63,14 +65,11 @@ class SteadyState<T>(environment: Environment<T>) : EvolutionModel<T>(environmen
             // Stop early whenever we can.
             // TODO: Make this configurable based on some threshold.
             if (best.fitness == 0.0)
-                return
+                return EvolutionResult(best.individual, this.individuals)
 
             val children = this.select.select(this.individuals)
 
-            (0..children.size - 1 step 2).map { idx ->
-                val mother = children[idx]
-                val father = children[idx + 1]
-
+            children.pairwise().pmap { (mother, father) ->
                 // Combine mother and father with some prob.
                 if (rg.nextGaussian() < this.environment.config.crossoverRate) {
                     this.combine.combine(mother, father)
@@ -91,7 +90,7 @@ class SteadyState<T>(environment: Environment<T>) : EvolutionModel<T>(environmen
             }
 
             // TODO: Do validation step
-            val evaluations = children.map { individual ->
+            val evaluations = children.pmap { individual ->
                 this.fitnessEvaluator.evaluate(individual, this.environment)
             }
 
@@ -103,26 +102,52 @@ class SteadyState<T>(environment: Environment<T>) : EvolutionModel<T>(environmen
             // to the population.
             this.individuals.addAll(children)
 
-            this.printStatistics(gen, evaluations, best)
+            this.printStatistics(gen, best)
         }
 
-        println("Best Program:")
-        println(best.individual)
-
-        best.individual.findEffectiveProgram()
-
-        println("Effective Program:")
-        for (instruction in best.individual.effectiveInstructions) {
-            println(instruction)
-        }
+        return EvolutionResult(best.individual, this.individuals)
     }
 
-    private fun printStatistics(generation: Int, evaluations: List<Evaluation<T>>, best: Evaluation<T>) {
-        val averageFitness = (evaluations.map(Evaluation<T>::fitness).sum() / evaluations.size.toDouble())
+    private fun printStatistics(generation: Int, best: Evaluation<T>) {
+        var meanFitness = 0.0
+        var meanProgramLength = 0.0
+        var meanEffectiveProgramLength = 0.0
         val bestFitness = best.fitness
 
-        println("gen = $generation | avg. fitness = $averageFitness, best fitness = $bestFitness")
+        this.individuals.forEach { individual ->
+            meanFitness += individual.fitness
+            meanProgramLength += individual.instructions.size
+            meanEffectiveProgramLength += individual.effectiveInstructions.size
+        }
+
+        meanFitness /= this.individuals.size
+        meanProgramLength /= this.individuals.size
+        meanEffectiveProgramLength /= this.individuals.size
+
+        // Use the mean that we've already calculated.
+        val standardDeviation = this.individuals.map(Program<T>::fitness)
+                                                .standardDeviation(mean = meanFitness)
+
+        println("gen = $generation | avg. fitness = $meanFitness, std. dev. = $standardDeviation, best fitness = $bestFitness, " +
+                "avg. program length = $meanProgramLength, avg. (effective) program length = $meanEffectiveProgramLength")
     }
 
     override val information = ModuleInformation("Algorithm 2.1 (LGP Algorithm)")
+}
+
+fun List<Double>.standardDeviation(mean: Double = this.average()): Double {
+    val variance = this.map { x -> Math.pow(x - mean, 2.0) }.sum()
+    val stdDev = Math.pow((variance / this.size), 0.5)
+
+    return stdDev
+}
+
+fun <T, R> List<T>.pmap(transform: (T) -> R) : List<R> {
+    return this.parallelStream().map(transform).toList()
+}
+
+fun <T> List<T>.pairwise(): List<Pair<T, T>> {
+    return (0..this.size - 1 step 2).map { idx ->
+        Pair(this[idx], this[idx + 1])
+    }
 }
