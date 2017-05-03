@@ -127,6 +127,13 @@ but in the context of an <a href="../lgp.core.evolution.instructions/-operation/
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.environment/-core-module-type/index.html">lgp.core.environment.CoreModuleType</a></td>
+<td>
+<p>A mapping for core modules to a module type value.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.core.environment.dataset/-csv-dataset-loader/index.html">lgp.core.environment.dataset.CsvDatasetLoader</a></td>
 <td>
 <p>Loads a collection of instances from a CSV file.</p>
@@ -165,6 +172,7 @@ specified by the name of the package + class it can be found in.</p>
 <td>
 <a href="../lgp.core.environment/-default-value-providers/index.html">lgp.core.environment.DefaultValueProviders</a></td>
 <td>
+<p>A collection of useful <a href="../lgp.core.environment/-default-value-provider/index.html">DefaultValueProvider</a> implementations.</p>
 </td>
 </tr>
 <tr>
@@ -191,7 +199,7 @@ specified by the name of the package + class it can be found in.</p>
 <td>
 <a href="../lgp.core.environment/-environment/index.html">lgp.core.environment.Environment</a></td>
 <td>
-<p>A central repository for core components of the LGP system.</p>
+<p>A central repository for core components made available to the LGP system.</p>
 </td>
 </tr>
 <tr>
@@ -206,6 +214,20 @@ specified by the name of the package + class it can be found in.</p>
 <a href="../lgp.core.evolution.population/-evolution-model/index.html">lgp.core.evolution.population.EvolutionModel</a></td>
 <td>
 <p>A model that can be used to perform evolution within in a specific environment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-evolution-result/index.html">lgp.core.evolution.population.EvolutionResult</a></td>
+<td>
+<p>The best individual and final population from the result of evolution.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-evolution-statistics/index.html">lgp.core.evolution.population.EvolutionStatistics</a></td>
+<td>
+<p>A container for any statistics from evolution.</p>
 </td>
 </tr>
 <tr>
@@ -307,6 +329,12 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.evolution.population/kotlin.collections.-list/index.html">kotlin.collections.List</a> (extensions in package lgp.core.evolution.population)</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.core.evolution.population/-macro-mutation-operator/index.html">lgp.core.evolution.population.MacroMutationOperator</a></td>
 <td>
 <p>A <a href="../lgp.core.evolution.population/-mutation-operator/index.html">MutationOperator</a> implementation that performs effective macro mutations.</p>
@@ -321,9 +349,30 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.environment/-missing-module-exception/index.html">lgp.core.environment.MissingModuleException</a></td>
+<td>
+<p>Exception thrown when no <a href="../lgp.core.modules/-module/index.html">Module</a> is registered for a requested <a href="../lgp.core.environment/-registered-module-type.html">RegisteredModuleType</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.population/-models/index.html">lgp.core.evolution.population.Models</a></td>
+<td>
+<p>A collection of built-in evolution models.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.core.modules/-module/index.html">lgp.core.modules.Module</a></td>
 <td>
 <p>A module in the LGP system.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.environment/-module-cast-exception/index.html">lgp.core.environment.ModuleCastException</a></td>
+<td>
+<p>Exception thrown when a <a href="../lgp.core.modules/-module/index.html">Module</a> is cast as a type that is not valid for it.</p>
 </td>
 </tr>
 <tr>
@@ -346,12 +395,6 @@ does/what it is for.</p>
 <a href="../lgp.core.modules/-module-loader/index.html">lgp.core.modules.ModuleLoader</a></td>
 <td>
 <p>Provides a way to load <a href="../lgp.core.modules/-module/index.html">Module</a>s by their name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<a href="../lgp.core.environment/-module-registration-exception/index.html">lgp.core.environment.ModuleRegistrationException</a></td>
-<td>
 </td>
 </tr>
 <tr>
@@ -479,7 +522,7 @@ does not match the size of the range.</p>
 </tr>
 <tr>
 <td>
-<a href="../lgp.core.environment/-registered-module-type/index.html">lgp.core.environment.RegisteredModuleType</a></td>
+<a href="../lgp.core.environment/-registered-module-type.html">lgp.core.environment.RegisteredModuleType</a></td>
 <td>
 <p>Represents the different modules that are able to be registered with an environment.</p>
 </td>
@@ -489,6 +532,26 @@ does not match the size of the range.</p>
 <a href="../lgp.core.environment.dataset/-row/index.html">lgp.core.environment.dataset.Row</a></td>
 <td>
 <p>An instance in a <a href="#">CsvDataset</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution/-run-result/index.html">lgp.core.evolution.RunResult</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution/-runner/index.html">lgp.core.evolution.Runner</a></td>
+<td>
+<p>A service capable of running evolution with a particular model in a particular environment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution/-runners/index.html">lgp.core.evolution.Runners</a></td>
+<td>
+<p>A collection of built-in evolution runners.</p>
 </td>
 </tr>
 <tr>
@@ -510,13 +573,6 @@ does not match the size of the range.</p>
 <a href="../lgp.lib.operations/-sine/index.html">lgp.lib.operations.Sine</a></td>
 <td>
 <p>Performs the sine function on a single Double argument.</p>
-</td>
-</tr>
-<tr>
-<td>
-<a href="../lgp.core.evolution.population/-steady-state/index.html">lgp.core.evolution.population.SteadyState</a></td>
-<td>
-<p>A model for evolution using a steady-state algorithm.</p>
 </td>
 </tr>
 <tr>

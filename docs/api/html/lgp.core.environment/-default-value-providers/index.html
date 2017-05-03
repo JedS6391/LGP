@@ -9,6 +9,7 @@
 <br/>
 <h1>DefaultValueProviders</h1>
 <code><span class="keyword">object </span><span class="identifier">DefaultValueProviders</span></code>
+<p>A collection of useful <a href="../-default-value-provider/index.html">DefaultValueProvider</a> implementations.</p>
 <h3>Functions</h3>
 <table>
 <tbody>
@@ -24,19 +25,25 @@
 <td>
 <a href="lambda-value-provider.html">lambdaValueProvider</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">lambdaValueProvider</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.DefaultValueProviders$lambdaValueProvider(kotlin.Function0((lgp.core.environment.DefaultValueProviders.lambdaValueProvider.T)))/func">func</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">lambdaValueProvider</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.DefaultValueProviders$lambdaValueProvider(kotlin.Function0((lgp.core.environment.DefaultValueProviders.lambdaValueProvider.T)))/func">func</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A <a href="../-default-value-provider/index.html">DefaultValueProvider</a> that executes the given function when a value is requested.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="random-double-value-provider.html">randomDoubleValueProvider</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">randomDoubleValueProvider</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">randomDoubleValueProvider</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code>
+<p>A <a href="../-default-value-provider/index.html">DefaultValueProvider</a> that gives a random, uniformly distributed double value in [0.0, 1.0).</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="random-gaussian-value-provider.html">randomGaussianValueProvider</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">randomGaussianValueProvider</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">randomGaussianValueProvider</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code>
+<p>A <a href="../-default-value-provider/index.html">DefaultValueProvider</a> that gives a random, normally distributed value with mean 0.0 and std. dev. 1.0.</p>
+</td>
 </tr>
 </tbody>
 </table>
