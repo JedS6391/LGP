@@ -5,8 +5,8 @@ import lgp.core.environment.config.JsonConfigLoader
 import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.CsvDatasetLoader
 import lgp.core.environment.operations.DefaultOperationLoader
+import lgp.core.evolution.Runners
 import lgp.core.evolution.fitness.FitnessFunctions
-import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.population.*
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgramGenerator
@@ -69,7 +69,7 @@ class SimpleFunction {
 
             // Set up registered modules
             val container = ModuleContainer(
-                    modules = mapOf(
+                    modules = mutableMapOf(
                             CoreModuleType.InstructionGenerator to {
                                 BaseInstructionGenerator(environment)
                             },
@@ -109,11 +109,39 @@ class SimpleFunction {
                     )
             )
 
+            // Alternatively...
+            /*
+                environment.registerModule(
+                    CoreModuleType.InstructionGenerator,
+                    { BaseInstructionGenerator(environment) }
+                )
+                environment.registerModule(
+                    CoreModuleType.ProgramGenerator,
+                    { BaseProgramGenerator(environment, sentinelTrueValue = 1.0) }
+                )
+                ... For each module
+             */
+
             environment.registerModules(container)
 
             // Find the best individual with these parameters.
-            val model = SteadyState(environment)
-            model.evolve()
+            val model = Models.SteadyState(environment)
+            //val result = model.evolve()
+
+            //result.best.effectiveInstructions.forEach(::println)
+            val runner = Runners.DistributedRunner(environment, model, runs = 10)
+            val result = runner.run()
+
+            result.results.forEachIndexed { run, res ->
+                println("Run ${run + 1} (best fitness = ${res.best.fitness})")
+                res.best.effectiveInstructions.forEach(::println)
+                println("\nStats (last run only):\n")
+
+                for ((k, v) in res.statistics.last().data) {
+                    println("$k = $v")
+                }
+                println("")
+            }
         }
     }
 }
