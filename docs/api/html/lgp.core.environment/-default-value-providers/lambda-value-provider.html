@@ -10,5 +10,16 @@
 <h1>lambdaValueProvider</h1>
 <a name="lgp.core.environment.DefaultValueProviders$lambdaValueProvider(kotlin.Function0((lgp.core.environment.DefaultValueProviders.lambdaValueProvider.T)))"></a>
 <code><span class="identifier">@JvmStatic</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">lambdaValueProvider</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.DefaultValueProviders$lambdaValueProvider(kotlin.Function0((lgp.core.environment.DefaultValueProviders.lambdaValueProvider.T)))/func">func</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A <a href="../-default-value-provider/index.html">DefaultValueProvider</a> that executes the given function when a value is requested.</p>
+<p>This allows for arbitrary logic to be provided by simply giving a lambda function
+that can be executed.</p>
+<h3>Parameters</h3>
+
+<p><a name="T"></a>
+<code>T</code> - The type of value that this provider gives.
+<p><a name="func"></a>
+<code>func</code> - A function that takes no arguments and returns a value in the domain of T.
+<p><strong>Return</strong><br/>
+A provider that gives the result of a function execution as its value.</p>
 </BODY>
 </HTML>

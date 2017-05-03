@@ -53,12 +53,31 @@
 </tr>
 </tbody>
 </table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="copy.html">copy</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">copy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="evolve.html">evolve</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">evolve</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-evolution-result/index.html"><span class="identifier">EvolutionResult</span></a><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span></code>
+<p>Starts the process of evolution using this model.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3>Inheritors</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="../-steady-state/index.html">SteadyState</a></td>
+<a href="../-models/-steady-state/index.html">SteadyState</a></td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">SteadyState</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A model for evolution using a steady-state algorithm.</p>

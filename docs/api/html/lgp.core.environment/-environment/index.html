@@ -9,13 +9,14 @@
 <br/>
 <h1>Environment</h1>
 <code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Environment</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
-<p>A central repository for core components of the LGP system.</p>
+<p>A central repository for core components made available to the LGP system.</p>
 <p>An environment should be built by providing the correct components. The environment will
 maintain these components so that can be accessed by the LGP system from wherever they are needed.</p>
 <p>The components required by the environment are split into three categories:</p>
-<pre><code><pre><code>    1. Construction components: Given to an environment at construction time.</code></pre>
-<pre><code>    2. Initialisation components: Resolved internally given valid construction components.</code></pre>
-<pre><code>    3. Registered components: Resolved manually by registering with an environment after construction.</code></pre></code></pre>
+<ol><li>Construction components: Given to an environment at construction time.</li>
+<li>Initialisation components: Resolved internally given valid construction components.</li>
+<li>Registered components: Resolved manually by registering with an environment after construction.</li>
+</ol>
 <p>After an environment is built and all components are resolved, it can be used to initiate the core
 evolution process of LGP.</p>
 <h3>Constructors</h3>
@@ -25,7 +26,7 @@ evolution process of LGP.</p>
 <td>
 <a href="-init-.html">&lt;init&gt;</a></td>
 <td>
-<code><span class="identifier">Environment</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)), kotlin.Boolean)/configLoader">configLoader</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.config/-config-loader.html"><span class="identifier">ConfigLoader</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)), kotlin.Boolean)/constantLoader">constantLoader</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.constants/-constant-loader.html"><span class="identifier">ConstantLoader</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)), kotlin.Boolean)/datasetLoader">datasetLoader</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-dataset-loader.html"><span class="identifier">DatasetLoader</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)), kotlin.Boolean)/operationLoader">operationLoader</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.operations/-operation-loader.html"><span class="identifier">OperationLoader</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)), kotlin.Boolean)/defaultValueProvider">defaultValueProvider</span><span class="symbol">:</span>&nbsp;<a href="../-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)), kotlin.Boolean)/fitnessFunction">fitnessFunction</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.fitness/-fitness-function.html"><span class="identifier">FitnessFunction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)), kotlin.Boolean)/initialise">initialise</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;true<span class="symbol">)</span></code>
+<code><span class="identifier">Environment</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)))/configLoader">configLoader</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.config/-config-loader.html"><span class="identifier">ConfigLoader</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)))/constantLoader">constantLoader</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.constants/-constant-loader.html"><span class="identifier">ConstantLoader</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)))/datasetLoader">datasetLoader</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-dataset-loader.html"><span class="identifier">DatasetLoader</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)))/operationLoader">operationLoader</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.operations/-operation-loader.html"><span class="identifier">OperationLoader</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)))/defaultValueProvider">defaultValueProvider</span><span class="symbol">:</span>&nbsp;<a href="../-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$<init>(lgp.core.environment.config.ConfigLoader, lgp.core.environment.constants.ConstantLoader((lgp.core.environment.Environment.T)), lgp.core.environment.dataset.DatasetLoader((lgp.core.environment.Environment.T)), lgp.core.environment.operations.OperationLoader((lgp.core.environment.Environment.T)), lgp.core.environment.DefaultValueProvider((lgp.core.environment.Environment.T)), kotlin.Function2((kotlin.collections.List((lgp.core.environment.Environment.T)), kotlin.collections.List((lgp.core.environment.dataset.Instance(()))), kotlin.Double)))/fitnessFunction">fitnessFunction</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.fitness/-fitness-function.html"><span class="identifier">FitnessFunction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>Builds an environment with the specified construction components.</p>
 </td>
 </tr>
@@ -38,49 +39,71 @@ evolution process of LGP.</p>
 <td>
 <a href="config.html">config</a></td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">config</span><span class="symbol">: </span><a href="../../lgp.core.environment.config/-config/index.html"><span class="identifier">Config</span></a></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">config</span><span class="symbol">: </span><a href="../../lgp.core.environment.config/-config/index.html"><span class="identifier">Config</span></a></code>
+<p>Contains the various configuration options available to the LGP system.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="constants.html">constants</a></td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">constants</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">constants</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A set of constants loaded using the <a href="../../lgp.core.environment.constants/-constant-loader.html">ConstantLoader</a> given at construction time.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="container.html">container</a></td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">container</span><span class="symbol">: </span><a href="../-module-container/index.html"><span class="identifier">ModuleContainer</span></a></code></td>
+<code><span class="keyword">var </span><span class="identifier">container</span><span class="symbol">: </span><a href="../-module-container/index.html"><span class="identifier">ModuleContainer</span></a></code>
+<p>A container for the various registered component modules that the environment maintains.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="dataset.html">dataset</a></td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">dataset</span><span class="symbol">: </span><a href="../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">dataset</span><span class="symbol">: </span><a href="../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A dataset loaded using the <a href="../../lgp.core.environment.dataset/-dataset-loader.html">DatasetLoader</a> given at construction time.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="fitness-function.html">fitnessFunction</a></td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">fitnessFunction</span><span class="symbol">: </span><a href="../../lgp.core.evolution.fitness/-fitness-function.html"><span class="identifier">FitnessFunction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">fitnessFunction</span><span class="symbol">: </span><a href="../../lgp.core.evolution.fitness/-fitness-function.html"><span class="identifier">FitnessFunction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A function that can measure the fitness of a program.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="operations.html">operations</a></td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">operations</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">operations</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>A set of operations loaded using the <a href="../../lgp.core.environment.operations/-operation-loader.html">OperationLoader</a> given at construction time.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="register-set.html">registerSet</a></td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">registerSet</span><span class="symbol">: </span><a href="../../lgp.core.evolution.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">registerSet</span><span class="symbol">: </span><a href="../../lgp.core.evolution.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A set of registers that is built at initialisation time.</p>
+</td>
 </tr>
 </tbody>
 </table>
 <h3>Functions</h3>
 <table>
 <tbody>
+<tr>
+<td>
+<a href="register-module.html">registerModule</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">registerModule</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.Environment$registerModule(lgp.core.environment.RegisteredModuleType, kotlin.Function0((lgp.core.environment.Environment.registerModule.T)))/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.Environment$registerModule(lgp.core.environment.RegisteredModuleType, kotlin.Function0((lgp.core.environment.Environment.registerModule.T)))/builder">builder</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Register a module builder with a particular module type.</p>
+</td>
+</tr>
 <tr>
 <td>
 <a href="register-modules.html">registerModules</a></td>
@@ -93,7 +116,7 @@ evolution process of LGP.</p>
 <td>
 <a href="registered-module.html">registeredModule</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">registeredModule</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.Environment$registeredModule(lgp.core.environment.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type/index.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TModule</span></code>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">registeredModule</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.Environment$registeredModule(lgp.core.environment.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TModule</span></code>
 <p>Fetches an instance of the module registered for a particular module type.</p>
 </td>
 </tr>

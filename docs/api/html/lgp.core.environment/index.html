@@ -29,6 +29,14 @@
 </tr>
 <tr>
 <td>
+<a href="-core-module-type/index.html">CoreModuleType</a></td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">CoreModuleType</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a></code>
+<p>A mapping for core modules to a module type value.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="-default-value-provider/index.html">DefaultValueProvider</a></td>
 <td>
 <code><span class="keyword">interface </span><span class="identifier">DefaultValueProvider</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TValue</span><span class="symbol">&gt;</span></code>
@@ -39,14 +47,16 @@
 <td>
 <a href="-default-value-providers/index.html">DefaultValueProviders</a></td>
 <td>
-<code><span class="keyword">object </span><span class="identifier">DefaultValueProviders</span></code></td>
+<code><span class="keyword">object </span><span class="identifier">DefaultValueProviders</span></code>
+<p>A collection of useful <a href="-default-value-provider/index.html">DefaultValueProvider</a> implementations.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="-environment/index.html">Environment</a></td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Environment</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
-<p>A central repository for core components of the LGP system.</p>
+<p>A central repository for core components made available to the LGP system.</p>
 </td>
 </tr>
 <tr>
@@ -59,9 +69,9 @@
 </tr>
 <tr>
 <td>
-<a href="-registered-module-type/index.html">RegisteredModuleType</a></td>
+<a href="-registered-module-type.html">RegisteredModuleType</a></td>
 <td>
-<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">RegisteredModuleType</span></code>
+<code><span class="keyword">interface </span><span class="identifier">RegisteredModuleType</span></code>
 <p>Represents the different modules that are able to be registered with an environment.</p>
 </td>
 </tr>
@@ -72,9 +82,19 @@
 <tbody>
 <tr>
 <td>
-<a href="-module-registration-exception/index.html">ModuleRegistrationException</a></td>
+<a href="-missing-module-exception/index.html">MissingModuleException</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">ModuleRegistrationException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code></td>
+<code><span class="keyword">class </span><span class="identifier">MissingModuleException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code>
+<p>Exception thrown when no <a href="../lgp.core.modules/-module/index.html">Module</a> is registered for a requested <a href="-registered-module-type.html">RegisteredModuleType</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-module-cast-exception/index.html">ModuleCastException</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ModuleCastException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code>
+<p>Exception thrown when a <a href="../lgp.core.modules/-module/index.html">Module</a> is cast as a type that is not valid for it.</p>
+</td>
 </tr>
 </tbody>
 </table>
