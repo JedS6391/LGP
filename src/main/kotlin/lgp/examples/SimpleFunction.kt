@@ -132,7 +132,7 @@ class SimpleFunction {
             val runner = Runners.DistributedRunner(environment, model, runs = 10)
             val result = runner.run()
 
-            result.results.forEachIndexed { run, res ->
+            result.evaluations.forEachIndexed { run, res ->
                 println("Run ${run + 1} (best fitness = ${res.best.fitness})")
                 res.best.effectiveInstructions.forEach(::println)
                 println("\nStats (last run only):\n")

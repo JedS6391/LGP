@@ -5,7 +5,12 @@ import lgp.core.evolution.population.EvolutionModel
 import lgp.core.evolution.population.EvolutionResult
 import lgp.core.evolution.population.pmap
 
-data class RunResult<T>(val results: List<EvolutionResult<T>>)
+/**
+ * Represents the result of running evolution.
+ *
+ * @property evaluations A collection of results from evolution.
+ */
+data class RunResult<T>(val evaluations: List<EvolutionResult<T>>)
 
 /**
  * A service capable of running evolution with a particular model in a particular environment.
