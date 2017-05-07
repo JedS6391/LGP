@@ -26,7 +26,8 @@ class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSe
                 branchResult -> {
                     instruction.execute(this.registers)
 
-                    val output = instruction.destination
+                    val output = this.registers.read(instruction.destination)
+
                     branchResult = ((instruction.operation !is BranchOperation<T>) ||
                                     (instruction.operation is BranchOperation<T>
                                          && output == this.sentinelTrueValue))

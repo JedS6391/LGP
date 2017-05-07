@@ -2,6 +2,7 @@ package lgp.core.evolution.population
 
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
+import lgp.core.evolution.instructions.BranchOperation
 import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.instructions.RegisterIndex
 import lgp.core.evolution.registers.RandomRegisterGenerator
