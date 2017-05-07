@@ -80,4 +80,20 @@ object FitnessFunctions {
 
         return ce
     }
+
+    @JvmStatic
+    fun thresholdCE(threshold: Double): FitnessFunction<Double> {
+        val ce: FitnessFunction<Double> = { outputs, cases ->
+            cases.zip(outputs).filter { (case, output) ->
+                val expected = case.classAttribute().value
+                val actual = output
+
+                // Program is correct when the distance between the actual
+                // and expected values is within some threshold.
+                Math.abs(actual - expected) > threshold
+            }.count().toDouble()
+        }
+
+        return ce
+    }
 }

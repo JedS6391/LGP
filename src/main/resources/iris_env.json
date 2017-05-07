@@ -1,0 +1,36 @@
+{
+    "initialMinimumProgramLength": 10,
+    "initialMaximumProgramLength": 30,
+
+    "minimumProgramLength": 10,
+    "maximumProgramLength": 200,
+
+    "operations": [
+        "lgp.lib.operations.Addition",
+        "lgp.lib.operations.Subtraction",
+        "lgp.lib.operations.Multiplication",
+        "lgp.lib.operations.Division",
+        "lgp.lib.operations.IfGreater",
+        "lgp.lib.operations.IfLessThanOrEqualTo"
+    ],
+
+    "constantsRate": 0.5,
+    "constants": ["0.0", "1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0", "9.0"],
+
+
+    "numCalculationRegisters": 2,
+
+    "populationSize": 2000,
+    "generations": 1000,
+
+    "inputAttributesLowIndex": 0,
+    "inputAttributesHighIndex": 3,
+    "classAttributeIndex": 4,
+
+    "macroMutationRate": 0.75,
+    "microMutationRate": 0.25,
+    "crossoverRate": 0.75,
+    "branchInitialisationRate": 0.0,
+
+    "numOffspring": 10
+}
