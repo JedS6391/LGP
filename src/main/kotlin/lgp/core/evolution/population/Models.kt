@@ -68,8 +68,13 @@ object Models {
             (0..this.environment.config.generations - 1).forEach { gen ->
                 // Stop early whenever we can.
                 // TODO: Make this configurable based on some threshold.
-                if (best.fitness == 0.0)
+                if (best.fitness == 0.0) {
+                    // Make sure to add at least one set of statistics.
+                    statistics.add(this.statistics(gen, best))
+
                     return EvolutionResult(best.individual, this.individuals, statistics)
+                }
+
 
                 val children = this.select.select(this.individuals)
 
