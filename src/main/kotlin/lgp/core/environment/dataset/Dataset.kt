@@ -7,7 +7,18 @@ package lgp.core.environment.dataset
  * @property name The name of the this attribute in the data set.
  * @property value The value of this attribute in the data set.
  */
-data class Attribute<out T>(val name: String, val value: T)
+open class Attribute<out T>(val name: String, val value: T) {
+
+    override fun toString(): String {
+        return "Attribute(name = ${this.name}, value = ${this.value})"
+    }
+}
+
+class NominalAttribute<out T>(name: String, value: T, val labels: List<String>) : Attribute<T>(name, value) {
+    override fun toString(): String {
+        return "NominalAttribute(name = ${this.name}, value = ${this.value}, labels = ${this.labels})"
+    }
+}
 
 /**
  * An instance in a [Dataset].

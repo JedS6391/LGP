@@ -31,11 +31,13 @@ class CsvDataset<T>(rows: List<Row<T>>) : Dataset<T>(rows)
  * @property filename CSV file to load instances from.
  * @property parseFunction Function to parse each attribute in the file.
  */
-class CsvDatasetLoader<T> constructor(val filename: String,
-                                      val parseFunction: (String) -> T)
-    : DatasetLoader<T> {
+class CsvDatasetLoader<T> constructor(
+        val filename: String,
+        val parseFunction: (String) -> T,
+        val labels: List<String> = listOf()
+) : DatasetLoader<T> {
 
-    private constructor(builder: Builder<T>) : this(builder.filename, builder.parseFunction)
+    private constructor(builder: Builder<T>) : this(builder.filename, builder.parseFunction, builder.labels)
 
     /**
      * Builds an instance of [CsvDatasetLoader].
@@ -46,6 +48,7 @@ class CsvDatasetLoader<T> constructor(val filename: String,
 
         lateinit var filename: String
         lateinit var parseFunction: (String) -> U
+        var labels: List<String> = listOf()
 
         /**
          * Sets the filename of the CSV file to load the data set from.
@@ -61,6 +64,12 @@ class CsvDatasetLoader<T> constructor(val filename: String,
          */
         fun parseFunction(function: (String) -> U): Builder<U> {
             this.parseFunction = function
+
+            return this
+        }
+
+        fun labels(labels: List<String>): Builder<U> {
+            this.labels = labels
 
             return this
         }
@@ -93,7 +102,10 @@ class CsvDatasetLoader<T> constructor(val filename: String,
 
     private fun readAttributesFromRow(line: Array<String>, header: Array<String>): List<Attribute<T>> {
         return line.mapIndexed { index, value ->
-            Attribute(header[index], this.parseFunction(value))
+            when (value) {
+                in this.labels -> NominalAttribute(header[index], this.parseFunction(value), this.labels)
+                else -> Attribute(header[index], this.parseFunction(value))
+            }
         }
     }
 
