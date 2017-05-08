@@ -80,20 +80,20 @@ object Models {
 
                 children.pairwise().pmap { (mother, father) ->
                     // Combine mother and father with some prob.
-                    if (rg.nextGaussian() < this.environment.config.crossoverRate) {
+                    if (rg.nextDouble() < this.environment.config.crossoverRate) {
                         this.combine.combine(mother, father)
                     }
 
                     // Mutate mother or father (or both) with some prob.
-                    if (rg.nextGaussian() < this.environment.config.microMutationRate) {
+                    if (rg.nextDouble() < this.environment.config.microMutationRate) {
                         this.microMutate.mutate(mother)
-                    } else if (rg.nextGaussian() < this.environment.config.macroMutationRate) {
+                    } else if (rg.nextDouble() < this.environment.config.macroMutationRate) {
                         this.macroMutate.mutate(mother)
                     }
 
-                    if (rg.nextGaussian() < this.environment.config.microMutationRate) {
+                    if (rg.nextDouble() < this.environment.config.microMutationRate) {
                         this.microMutate.mutate(father)
-                    } else if (rg.nextGaussian() < this.environment.config.macroMutationRate) {
+                    } else if (rg.nextDouble() < this.environment.config.macroMutationRate) {
                         this.macroMutate.mutate(father)
                     }
                 }

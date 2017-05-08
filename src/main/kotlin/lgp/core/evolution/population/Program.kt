@@ -1,5 +1,6 @@
 package lgp.core.evolution.population
 
+import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.instructions.Instruction
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.Module
@@ -21,7 +22,7 @@ abstract class Program<T>(
     /**
      * Used to keep state of the programs fitness value.
      */
-    var fitness: Double = 0.0
+    var fitness: Double = FitnessFunctions.UNDEFINED_FITNESS
 
     /**
      * The instructions of this program that are effective.
