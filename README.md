@@ -2,6 +2,8 @@
 
 [![Documentation Status](https://readthedocs.org/projects/lgp/badge/?version=latest)](http://lgp.readthedocs.io/en/latest/?badge=latest)
 
+[![Build Status](https://travis-ci.org/JedS6391/LGP.svg?branch=master)](https://travis-ci.org/JedS6391/LGP)
+
 ## About
 
 An implementation of [Linear Genetic Programming](https://en.wikipedia.org/wiki/Linear_genetic_programming) that follows that outlined by *Linear Genetic Programming* (Brameier, M. F. and Banzhaf, W. 2007).
