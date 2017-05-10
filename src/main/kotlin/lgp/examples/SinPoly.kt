@@ -12,60 +12,46 @@ import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
 import lgp.lib.BaseProgramGenerator
 import lgp.lib.BaseProgramSimplifier
+import java.util.*
 
-/**
- * An example of setting up an environment to use LGP to find programs for the function `x^2 + 2x + 2`.
- *
- * This example serves as a good way to learn how to use the system and to ensure that everything
- * is working correctly, as some percentage of the time, perfect individuals should be found.
- */
-class SimpleFunction {
+class SinPoly {
     companion object Main {
         // Locations of configuration and data set files.
-        private val configFilename = this::class.java.classLoader.getResource("simple_function_env.json").file
-        private val datasetFilename = this::class.java.classLoader.getResource("simple_function.csv").file
+        private val configFilename = this::class.java.classLoader.getResource("sinpoly_env.json").file
+        private val datasetFilename = this::class.java.classLoader.getResource("sinpoly.csv").file
 
         @JvmStatic fun main(args: Array<String>) {
-            // Load up configuration information from the JSON file
             val configLoader = JsonConfigLoader(
                     filename = configFilename
             )
 
             val config = configLoader.load()
 
-            // Set up a loader to load the data set in the CSV file we specified above
-            // Note that the type parameter of the data is automatically inferred from
-            // the function given for parsing.
             val datasetLoader = CsvDatasetLoader(
                     filename = datasetFilename,
                     parseFunction = String::toDouble
             )
 
-            // Set up a loader for loading the operations we want to use (specified in the configuration file)
             val operationLoader = DefaultOperationLoader<Double>(
                     operationNames = config.operations
             )
 
-            // Set up a loader for the constant values (specified in the configuration file)
-            val constantLoader = GenericConstantLoader<Double>(
+            val constantLoader = GenericConstantLoader(
                     constants = config.constants,
                     parseFunction = String::toDouble
             )
 
-            // Fill calculation registers with the value 1.0
-            val defaultValueProvider = DefaultValueProviders.constantValueProvider<Double>(1.0)
+            val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
-            // Use mean-squared error function for fitness evaluations.
-            val mse = FitnessFunctions.MSE()
+            val sse = FitnessFunctions.SSE()
 
-            // Create a new environment with these components.
-            val environment = Environment<Double>(
+            val environment = Environment(
                     configLoader,
                     constantLoader,
                     datasetLoader,
                     operationLoader,
                     defaultValueProvider,
-                    fitnessFunction = mse
+                    fitnessFunction = sse
             )
 
             // Set up registered modules
@@ -78,7 +64,7 @@ class SimpleFunction {
                                 BaseProgramGenerator(environment, sentinelTrueValue = 1.0)
                             },
                             CoreModuleType.SelectionOperator to {
-                                TournamentSelection(environment, tournamentSize = 2)
+                                TournamentSelection(environment, tournamentSize = 4)
                             },
                             CoreModuleType.RecombinationOperator to {
                                 LinearCrossover(
@@ -100,33 +86,17 @@ class SimpleFunction {
                                         environment,
                                         registerMutationRate = 0.5,
                                         operatorMutationRate = 0.5,
-                                        // Use identity func. since the probabilities
-                                        // of other micro mutations mean that we aren't
-                                        // modifying constants.
-                                        constantMutationFunc = { v -> v }
+                                        constantMutationFunc = { v -> v + (Random().nextGaussian() * 1) }
                                 )
                             }
                     )
             )
 
-            // Alternatively...
-            /*
-                environment.registerModule(
-                    CoreModuleType.InstructionGenerator,
-                    { BaseInstructionGenerator(environment) }
-                )
-                environment.registerModule(
-                    CoreModuleType.ProgramGenerator,
-                    { BaseProgramGenerator(environment, sentinelTrueValue = 1.0) }
-                )
-                ... For each module
-             */
-
             environment.registerModules(container)
 
             // Find the best individual with these parameters.
             val model = Models.SteadyState(environment)
-            
+
             val runner = Runners.DistributedRunner(environment, model, runs = 10)
             val result = runner.run()
             val simplifier = BaseProgramSimplifier<Double>()
@@ -135,9 +105,7 @@ class SimpleFunction {
 
             result.evaluations.forEachIndexed { run, res ->
                 println("Run ${run + 1} (best fitness = ${res.best.fitness})")
-                //res.best.effectiveInstructions.forEach(::println)
                 println(simplifier.simplify(res.best as BaseProgram<Double>))
-                println(res.best)
 
                 println("\nStats (last run only):\n")
 

@@ -2,6 +2,7 @@ package lgp.core.evolution.population
 
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
+import lgp.core.evolution.instructions.BranchOperation
 import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.instructions.RegisterIndex
 import lgp.core.evolution.registers.RandomRegisterGenerator
@@ -78,7 +79,7 @@ class MacroMutationOperator<T>(
 
         // 1. Randomly select macro mutation type insertion | deletion with probability
         // p_ins | p_del and with p_ins + p_del = 1
-        val mutationType = if (random.nextGaussian() < this.insertionRate) MacroMutationType.Insertion
+        val mutationType = if (random.nextDouble() < this.insertionRate) MacroMutationType.Insertion
                            else MacroMutationType.Deletion
 
         // 2. Randomly select an instruction at a position i (mutation point) in program gp.
@@ -157,7 +158,7 @@ class MicroMutationOperator<T>(
         // probability p_regmut | p_opermut | p_constmut and with p_regmut +
         // p_opermut + p_constmut = 1.
         // Assumption: p_constmut = 1 - (p_regmut + p_opermut).
-        val p = random.nextGaussian()
+        val p = random.nextDouble()
         val mutationType = when {
             (p < registerMutationRate) -> {
                 MicroMutationType.Register
@@ -196,7 +197,7 @@ class MicroMutationOperator<T>(
                     // p_const | 1 - p_const
                     val idx = instruction.operands.indexOf(reg)
 
-                    if (random.nextGaussian() < constantsRate) {
+                    if (random.nextDouble() < constantsRate) {
                         instruction.operands[idx] = registerGenerator.next(RegisterType.Constant).first().index
                     } else {
                         instruction.operands[idx] = registerGenerator.next(
@@ -220,7 +221,7 @@ class MicroMutationOperator<T>(
                     // Otherwise, if we're increasing the arity, just add random input
                     // and calculation registers until the arity is met.
                     while (instruction.operands.size < op.arity.number) {
-                        val reg = if (random.nextGaussian() < constantsRate) {
+                        val reg = if (random.nextDouble() < constantsRate) {
                             registerGenerator.next(RegisterType.Constant).first()
                         } else {
                             registerGenerator.next(

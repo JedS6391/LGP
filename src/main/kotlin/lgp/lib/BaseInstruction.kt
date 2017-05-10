@@ -3,6 +3,7 @@ package lgp.lib
 import lgp.core.evolution.instructions.*
 import lgp.core.evolution.registers.Arguments
 import lgp.core.evolution.registers.Register
+import lgp.core.evolution.registers.RegisterAccessException
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.ModuleInformation
 
@@ -36,9 +37,13 @@ class BaseInstruction<T>(
     override fun toString(): String {
         val representation = StringBuilder()
 
-        representation.append("r[")
-        representation.append(this.destination)
-        representation.append("] = ")
+        if (this.operation is BranchOperation<T>) {
+            representation.append("if (")
+        } else {
+            representation.append("r[")
+            representation.append(this.destination)
+            representation.append("] = ")
+        }
 
         // TODO: Sanity check length of registers
         if (this.operation.arity === BaseArity.Unary) {
@@ -55,6 +60,9 @@ class BaseInstruction<T>(
             representation.append(this.operands[1])
             representation.append("]")
         }
+
+        if (this.operation is BranchOperation<T>)
+            representation.append(")")
 
         return representation.toString()
     }

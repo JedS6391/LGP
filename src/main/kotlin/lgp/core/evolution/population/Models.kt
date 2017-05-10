@@ -68,27 +68,32 @@ object Models {
             (0..this.environment.config.generations - 1).forEach { gen ->
                 // Stop early whenever we can.
                 // TODO: Make this configurable based on some threshold.
-                if (best.fitness == 0.0)
+                if (best.fitness == 0.0) {
+                    // Make sure to add at least one set of statistics.
+                    statistics.add(this.statistics(gen, best))
+
                     return EvolutionResult(best.individual, this.individuals, statistics)
+                }
+
 
                 val children = this.select.select(this.individuals)
 
                 children.pairwise().pmap { (mother, father) ->
                     // Combine mother and father with some prob.
-                    if (rg.nextGaussian() < this.environment.config.crossoverRate) {
+                    if (rg.nextDouble() < this.environment.config.crossoverRate) {
                         this.combine.combine(mother, father)
                     }
 
                     // Mutate mother or father (or both) with some prob.
-                    if (rg.nextGaussian() < this.environment.config.microMutationRate) {
+                    if (rg.nextDouble() < this.environment.config.microMutationRate) {
                         this.microMutate.mutate(mother)
-                    } else if (rg.nextGaussian() < this.environment.config.macroMutationRate) {
+                    } else if (rg.nextDouble() < this.environment.config.macroMutationRate) {
                         this.macroMutate.mutate(mother)
                     }
 
-                    if (rg.nextGaussian() < this.environment.config.microMutationRate) {
+                    if (rg.nextDouble() < this.environment.config.microMutationRate) {
                         this.microMutate.mutate(father)
-                    } else if (rg.nextGaussian() < this.environment.config.macroMutationRate) {
+                    } else if (rg.nextDouble() < this.environment.config.macroMutationRate) {
                         this.macroMutate.mutate(father)
                     }
                 }

@@ -18,15 +18,22 @@ typealias FitnessFunction<T> = (List<T>, List<FitnessCase<T>>) -> Double
  */
 object FitnessFunctions {
 
+    // Large value for fitness when either a program is un-evaluated or
+    // the fitness computation overflows.
+    const val UNDEFINED_FITNESS: Double = 1e9
+
     @JvmStatic
     fun SE(): FitnessFunction<Double> = { outputs, cases ->
         val fitness = cases.zip(outputs).map { (case, actual) ->
             val expected = case.classAttribute().value
 
-            Math.abs(expected - actual)
+            Math.abs(actual - expected)
         }.sum()
 
-        fitness / outputs.size.toDouble()
+        when {
+            fitness.isFinite() -> fitness / outputs.size.toDouble()
+            else               -> UNDEFINED_FITNESS
+        }
     }
 
     @JvmStatic
@@ -37,7 +44,10 @@ object FitnessFunctions {
             Math.pow((actual - expected), 2.0)
         }.sum()
 
-        fitness
+        when {
+            fitness.isFinite() -> fitness
+            else               -> UNDEFINED_FITNESS
+        }
     }
 
     /**
@@ -55,7 +65,10 @@ object FitnessFunctions {
             Math.pow((actual - expected), 2.0)
         }.sum()
 
-        ((1.0 / cases.size.toDouble()) * fitness)
+        when {
+            fitness.isFinite() -> ((1.0 / cases.size.toDouble()) * fitness)
+            else               -> UNDEFINED_FITNESS
+        }
     }
 
     /**
@@ -76,6 +89,22 @@ object FitnessFunctions {
 
                 if (actual != expected) 1.0 else 0.0
             }.sum()
+        }
+
+        return ce
+    }
+
+    @JvmStatic
+    fun thresholdCE(threshold: Double): FitnessFunction<Double> {
+        val ce: FitnessFunction<Double> = { outputs, cases ->
+            cases.zip(outputs).filter { (case, output) ->
+                val expected = case.classAttribute().value
+                val actual = output
+
+                // Program is correct when the distance between the actual
+                // and expected values is within some threshold.
+                Math.abs(actual - expected) > threshold
+            }.count().toDouble()
         }
 
         return ce

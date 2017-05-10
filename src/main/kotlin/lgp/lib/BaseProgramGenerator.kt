@@ -28,8 +28,7 @@ class BaseProgramGenerator<T>(environment: Environment<T>, val sentinelTrueValue
         val length = this.random.randInt(this.environment.config.initialMinimumProgramLength,
                                      this.environment.config.initialMaximumProgramLength)
 
-        // TODO: Allow branches
-        val branchesUsed = false
+        val branchesUsed = this.environment.operations.any { op -> op is BranchOperation<T> }
         val output = this.environment.registerSet.calculationRegisters.start
 
         val instructions = mutableListOf<Instruction<T>>()
@@ -49,15 +48,21 @@ class BaseProgramGenerator<T>(environment: Environment<T>, val sentinelTrueValue
             // effective and are calculation registers.
             instructions.first().operands.filter { operand ->
                 operand !in effectiveRegisters &&
-                this.environment.registerSet.registerType(operand) != RegisterType.Calculation
+                this.environment.registerSet.registerType(operand) == RegisterType.Calculation
             }.forEach { operand -> effectiveRegisters.add(operand) }
 
             if (effectiveRegisters.isEmpty()) {
                 effectiveRegisters.add(output)
             }
 
-            if (branchesUsed && random.nextGaussian() < this.environment.config.branchInitialisationRate) {
-                // TODO: Add random branch instruction
+            if (branchesUsed && random.nextDouble() < this.environment.config.branchInitialisationRate) {
+                val instr = this.instructionGenerator.next().first { instruction ->
+                    instruction.operation is BranchOperation<T>
+                }
+
+                assert(instr.operation is BranchOperation<T>)
+
+                instructions.add(0, instr)
             } else {
                 // Get a random instruction and make it effective by
                 // using one of the registers marked as effective.

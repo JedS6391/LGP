@@ -98,6 +98,7 @@ class RegisterSet<T> {
      */
     val count: Int get() = this.registers.size
 
+    val constants: List<T>
 
     /**
      * Creates a new [RegisterSet] with the specified parameters.
@@ -125,6 +126,8 @@ class RegisterSet<T> {
         this.calculationRegistersCount = calculationRegisters
         this.constantRegistersCount = constantRegisters
 
+        this.constants = constants
+
         this.defaultValueProvider = defaultValueProvider
 
         this.registers = mutableListOf()
@@ -133,7 +136,7 @@ class RegisterSet<T> {
         this.initialise()
 
         // Initialise the constant registers
-        this.writeConstants(constants)
+        this.writeConstants()
     }
 
     internal constructor(source: RegisterSet<T>) {
@@ -148,6 +151,7 @@ class RegisterSet<T> {
         this.constantRegistersCount = source.constantRegistersCount
 
         this.defaultValueProvider = source.defaultValueProvider
+        this.constants = source.constants
         this.registers = mutableListOf()
 
         for (register in source.registers) {
@@ -224,6 +228,8 @@ class RegisterSet<T> {
         for (r in this.calculationRegisters) {
             this.registers[r] = Register(this.defaultValueProvider.value, r)
         }
+
+        //this.writeConstants()
     }
 
     private fun initialise() {
@@ -236,8 +242,8 @@ class RegisterSet<T> {
         this.registers[index] = Register(value, index)
     }
 
-    private fun writeConstants(constants: List<T>) {
-        this.writeRange(constants, this.constantRegisters)
+    private fun writeConstants() {
+        this.writeRange(this.constants, this.constantRegisters)
     }
 
     private fun writeRange(coll: List<T>, range: IntRange) {
