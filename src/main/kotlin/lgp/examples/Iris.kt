@@ -11,6 +11,7 @@ import lgp.core.evolution.population.*
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
 import lgp.lib.BaseProgramGenerator
+import lgp.lib.BaseProgramSimplifier
 import java.util.*
 
 class Iris {
@@ -33,6 +34,7 @@ class Iris {
                     // Allow parsing of the nominal attributes
                     parseFunction = { v: String ->
                         when (v) {
+                            // Simply map the nominal value to its index (i.e. class ∈ {0, 1, 2})
                             in nominalValues -> nominalValues.indexOf(v).toDouble()
                             else -> v.toDouble()
                         }
@@ -114,34 +116,14 @@ class Iris {
             // Find the best individual with these parameters.
             val model = Models.SteadyState(environment)
 
-            val result = model.evolve()
-            val instances = datasetLoader.load().instances
-
-            println("BEST (fitness = ${result.best.fitness})")
-            result.best.effectiveInstructions.forEach(::println)
-            println()
-            println(result.best)
-
-            val matrix = instances.map { instance ->
-                result.best.registers.reset()
-                result.best.registers.writeInstance(instance)
-                result.best.execute()
-
-                val actual = result.best.registers.read(result.best.outputRegisterIndex)
-                val expected = instance.classAttribute()
-
-                println("actual = $actual, expected = $expected")
-            }
-
-            println("${result.best.fitness.toInt()}/${instances.size} mis-classified")
-
-            /*
-            val runner = Runners.DistributedRunner(environment, model, runs = 1)
+            val runner = Runners.DistributedRunner(environment, model, runs = 5)
             val result = runner.run()
+            val simplifier = BaseProgramSimplifier<Double>()
 
             result.evaluations.forEachIndexed { run, res ->
                 println("Run ${run + 1} (best fitness = ${res.best.fitness})")
-                res.best.effectiveInstructions.forEach(::println)
+                //res.best.effectiveInstructions.forEach(::println)
+                println(simplifier.simplify(res.best as BaseProgram<Double>))
                 println("\nStats (last run only):\n")
 
                 for ((k, v) in res.statistics.last().data) {
@@ -149,7 +131,6 @@ class Iris {
                 }
                 println("")
             }
-            */
         }
     }
 }

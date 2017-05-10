@@ -55,7 +55,7 @@ class BaseProgramGenerator<T>(environment: Environment<T>, val sentinelTrueValue
                 effectiveRegisters.add(output)
             }
 
-            if (branchesUsed && random.nextGaussian() < this.environment.config.branchInitialisationRate) {
+            if (branchesUsed && random.nextDouble() < this.environment.config.branchInitialisationRate) {
                 val instr = this.instructionGenerator.next().first { instruction ->
                     instruction.operation is BranchOperation<T>
                 }

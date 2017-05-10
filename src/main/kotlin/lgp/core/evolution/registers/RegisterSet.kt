@@ -229,7 +229,7 @@ class RegisterSet<T> {
             this.registers[r] = Register(this.defaultValueProvider.value, r)
         }
 
-        this.writeConstants()
+        //this.writeConstants()
     }
 
     private fun initialise() {

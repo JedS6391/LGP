@@ -1,7 +1,9 @@
 package lgp.lib
 
+import lgp.core.evolution.instructions.BaseArity
 import lgp.core.evolution.instructions.BranchOperation
 import lgp.core.evolution.instructions.Instruction
+import lgp.core.evolution.instructions.RegisterIndex
 import lgp.core.evolution.population.Program
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.evolution.registers.RegisterType
@@ -110,4 +112,55 @@ class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSe
     override val information = ModuleInformation(
         description = "A simple program that executes instructions sequentially."
     )
+}
+
+class BaseProgramSimplifier<T> {
+
+    fun simplify(program: BaseProgram<T>): String {
+        val sb = StringBuilder()
+
+        program.effectiveInstructions.map { instruction ->
+            if (instruction.operation is BranchOperation<T>) {
+                sb.append("if (")
+            } else {
+                sb.append("r[")
+                sb.append(instruction.destination)
+                sb.append("] = ")
+            }
+
+            // TODO: Sanity check length of registers
+            if (instruction.operation.arity === BaseArity.Unary) {
+                sb.append(instruction.operation.representation)
+                sb.append("(")
+                sb.append(this.simplifyOperand(program, instruction.operands[0]))
+                sb.append(")")
+            } else if (instruction.operation.arity === BaseArity.Binary) {
+                sb.append(this.simplifyOperand(program, instruction.operands[0]))
+                sb.append(instruction.operation.representation)
+                sb.append(this.simplifyOperand(program, instruction.operands[1]))
+            }
+
+            if (instruction.operation is BranchOperation<T>)
+                sb.append(")")
+
+            sb.append("\n")
+        }
+
+        return sb.toString()
+    }
+
+    fun simplifyOperand(program: BaseProgram<T>, register: RegisterIndex): String {
+
+        return when (program.registers.registerType(register)) {
+            RegisterType.Input -> {
+                // Simplify feature registers to f_i.
+                "f$register"
+            }
+            RegisterType.Constant -> {
+                // Simplify constant
+                program.registers.read(register).toString()
+            }
+            else -> "r[${register.toString()}]"
+        }
+    }
 }
