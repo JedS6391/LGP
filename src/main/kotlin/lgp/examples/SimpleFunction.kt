@@ -3,11 +3,12 @@ package lgp.examples
 import lgp.core.environment.*
 import lgp.core.environment.config.JsonConfigLoader
 import lgp.core.environment.constants.GenericConstantLoader
-import lgp.core.environment.dataset.CsvDatasetLoader
+import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.Runners
 import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.population.*
+import lgp.core.modules.ModuleInformation
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
 import lgp.lib.BaseProgramGenerator
@@ -23,7 +24,6 @@ class SimpleFunction {
     companion object Main {
         // Locations of configuration and data set files.
         private val configFilename = this::class.java.classLoader.getResource("simple_function_env.json").file
-        private val datasetFilename = this::class.java.classLoader.getResource("simple_function.csv").file
 
         @JvmStatic fun main(args: Array<String>) {
             // Load up configuration information from the JSON file
@@ -33,13 +33,31 @@ class SimpleFunction {
 
             val config = configLoader.load()
 
-            // Set up a loader to load the data set in the CSV file we specified above
-            // Note that the type parameter of the data is automatically inferred from
-            // the function given for parsing.
-            val datasetLoader = CsvDatasetLoader(
-                    filename = datasetFilename,
-                    parseFunction = String::toDouble
-            )
+            // Automatically generate a dataset.
+            val datasetLoader = object : DatasetLoader<Double> {
+                // x^2 + 2x + 2
+                val func = { x: Double -> (x * x) + (2 * x) + 2 }
+                val gen = SequenceGenerator()
+
+                override val information = ModuleInformation("Generates instances in the range [-10:10:0.5].")
+
+                override fun load(): Dataset<Double> {
+                    val xs = gen.generate(-10.0, 10.0, 0.5, inclusive = true).map { x ->
+                        Attribute(name = "x", value = x)
+                    }
+
+                    val ys = xs.map { x ->
+                        val y = this.func(x.value)
+                        Attribute(name = "y", value = y)
+                    }
+
+                    val instances = xs.zip(ys).map { (x, y) ->
+                        Instance(listOf(x, y))
+                    }
+
+                    return Dataset(instances.toList())
+                }
+            }
 
             // Set up a loader for loading the operations we want to use (specified in the configuration file)
             val operationLoader = DefaultOperationLoader<Double>(
@@ -135,9 +153,7 @@ class SimpleFunction {
 
             result.evaluations.forEachIndexed { run, res ->
                 println("Run ${run + 1} (best fitness = ${res.best.fitness})")
-                //res.best.effectiveInstructions.forEach(::println)
                 println(simplifier.simplify(res.best as BaseProgram<Double>))
-                println(res.best)
 
                 println("\nStats (last run only):\n")
 
