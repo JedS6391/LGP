@@ -9,7 +9,9 @@
               <CompilerSettings />
             </option>
             <option name="k2jsCompilerArguments">
-              <K2JSCompilerArguments />
+              <K2JSCompilerArguments>
+                <option name="moduleKind" value="plain" />
+              </K2JSCompilerArguments>
             </option>
             <option name="k2jvmCompilerArguments">
               <K2JVMCompilerArguments>
