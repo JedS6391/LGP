@@ -30,7 +30,7 @@
     "macroMutationRate": 0.75,
     "microMutationRate": 0.25,
     "crossoverRate": 0.75,
-    "branchInitialisationRate": 0.0,
+    "branchInitialisationRate": 0.2,
 
     "numOffspring": 10
 }
