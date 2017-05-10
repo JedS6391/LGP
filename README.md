@@ -1,6 +1,7 @@
 # LGP
 
 [![Documentation Status](https://readthedocs.org/projects/lgp/badge/?version=latest)](http://lgp.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/JedS6391/LGP.svg?branch=master)](https://travis-ci.org/JedS6391/LGP)
 
 ## About
 
