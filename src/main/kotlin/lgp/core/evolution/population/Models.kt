@@ -49,7 +49,7 @@ object Models {
                     .toMutableList()
         }
 
-        override fun evolve(): EvolutionResult<T> {
+        override fun evaluate(): EvolutionResult<T> {
             val rg = Random()
 
             // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)

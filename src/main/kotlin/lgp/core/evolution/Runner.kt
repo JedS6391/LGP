@@ -49,7 +49,7 @@ object Runners {
         override fun run(): RunResult<T> {
 
             val results = (0..runs - 1).toList().map {
-                this.model.evolve()
+                this.model.evaluate()
             }
 
             return RunResult(results)
@@ -75,7 +75,7 @@ object Runners {
         override fun run(): RunResult<T> {
             // TODO: Might be worth making this more robust with regards to failure.
             val results = (0..runs - 1).toList().pmap {
-                this.model.copy().evolve()
+                this.model.copy().evaluate()
             }
 
             return RunResult(results)

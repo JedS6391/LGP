@@ -36,7 +36,7 @@ abstract class EvolutionModel<TProgram>(val environment: Environment<TProgram>) 
     /**
      * Starts the process of evolution using this model.
      */
-    abstract fun evolve(): EvolutionResult<TProgram>
+    abstract fun evaluate(): EvolutionResult<TProgram>
 
     abstract fun copy(): EvolutionModel<TProgram>
 }

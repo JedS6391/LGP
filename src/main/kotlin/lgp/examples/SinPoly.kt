@@ -84,8 +84,8 @@ class SinPoly {
                             CoreModuleType.MicroMutationOperator to {
                                 MicroMutationOperator(
                                         environment,
-                                        registerMutationRate = 0.5,
-                                        operatorMutationRate = 0.5,
+                                        registerMutationRate = 0.3,
+                                        operatorMutationRate = 0.4,
                                         constantMutationFunc = { v -> v + (Random().nextGaussian() * 1) }
                                 )
                             }
