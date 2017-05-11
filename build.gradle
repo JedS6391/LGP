@@ -53,6 +53,22 @@ task dokkaApiJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputDirectory = "$buildDir/../docs/api/javadoc"
 }
 
+task examplesJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'LGP',
+                'Implementation-Version': version
+    }
+
+    include('lgp/examples/*')
+    exclude('lgp/core')
+    exclude('lgp/lib')
+
+    baseName = project.name + '-examples'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+
 task coreJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LGP',
