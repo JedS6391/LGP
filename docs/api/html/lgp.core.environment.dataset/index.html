@@ -15,7 +15,7 @@
 <td>
 <a href="-attribute/index.html">Attribute</a></td>
 <td>
-<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Attribute</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Attribute</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>An attribute of an instance in some data set.</p>
 </td>
 </tr>
@@ -31,7 +31,7 @@
 <td>
 <a href="-dataset/index.html">Dataset</a></td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Dataset</span><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Dataset</span><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span></code>
 <p>A basic data set made up of a collection of <a href="-instance/index.html">Instance</a>s.</p>
 </td>
 </tr>
@@ -53,10 +53,32 @@
 </tr>
 <tr>
 <td>
+<a href="-nominal-attribute/index.html">NominalAttribute</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">NominalAttribute</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-attribute/index.html"><span class="identifier">Attribute</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="-row/index.html">Row</a></td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">Row</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-instance/index.html"><span class="identifier">Instance</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>An instance in a <a href="#">CsvDataset</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-sequence-generator/index.html">SequenceGenerator</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SequenceGenerator</span></code>
+<p>Can generate a sequence of values evenly spread between a range.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-uniformly-distributed-generator/index.html">UniformlyDistributedGenerator</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">UniformlyDistributedGenerator</span></code>
+<p>Can generate a number of uniformly distributed values.</p>
 </td>
 </tr>
 </tbody>
