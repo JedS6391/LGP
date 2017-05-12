@@ -82,7 +82,7 @@ open class Instance<out TAttribute>(val attributes: List<Attribute<TAttribute>>)
  * @param TAttribute The type of the attributes that the instances in this data set represents.
  * @property instances The instances belonging to this data set.
  */
-abstract class Dataset<TAttribute>(val instances: List<Instance<TAttribute>>) {
+open class Dataset<TAttribute>(val instances: List<Instance<TAttribute>>) {
 
     // The index of the attribute that is used as the class attribute for each instance.
     // Note: By default this is set to be the last attribute.
