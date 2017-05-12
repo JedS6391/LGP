@@ -31,5 +31,6 @@ deploy:
   skip_cleanup: true
   on:
     repo: JedS6391/LGP
+    tags: true
     branches:
       only: master
