@@ -1,0 +1,6 @@
+Unstaged changes after reset:
+M	src/main/kotlin/lgp/core/environment/config/Config.kt
+M	src/main/kotlin/lgp/examples/Iris.kt
+M	src/main/kotlin/lgp/examples/SinPoly.kt
+M	src/main/resources/datasets/iris.csv
+D	src/main/resources/iris.csv

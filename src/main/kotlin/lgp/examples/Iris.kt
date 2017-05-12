@@ -1,128 +1,195 @@
 package lgp.examples
 
 import lgp.core.environment.*
-import lgp.core.environment.config.JsonConfigLoader
+import lgp.core.environment.config.Config
+import lgp.core.environment.config.ConfigLoader
 import lgp.core.environment.constants.GenericConstantLoader
-import lgp.core.environment.dataset.CsvDatasetLoader
+import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
-import lgp.core.evolution.Runners
+import lgp.core.evolution.*
+import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.population.*
+import lgp.core.modules.ModuleInformation
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
 import lgp.lib.BaseProgramGenerator
 import lgp.lib.BaseProgramSimplifier
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
 import java.util.*
+
+data class IrisSolution(
+        override val problem: String,
+        val result: RunResult<Double>
+) : Solution<Double>
+
+class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
+    override val name = "Iris Classification."
+
+    override val description = Description(
+            "Classify each instance into one of three species based on four features.\n" +
+                    "\tfeatures: [sepal length, sepal width, petal length, petal width]" +
+                    "\tclasses: [Iris-setosa, Iris-versicolor, Iris-virginica]" +
+                    "\tnotes: There are 50 samples from each of the 3 species (150 instances in total)."
+    )
+
+    override val configLoader = object : ConfigLoader {
+        override val information = ModuleInformation("Overrides default config for this problem.")
+
+        override fun load(): Config {
+            val config = Config()
+
+            config.initialMinimumProgramLength = 10
+            config.initialMaximumProgramLength = 30
+            config.minimumProgramLength = 10
+            config.maximumProgramLength = 200
+            config.operations = listOf(
+                    "lgp.lib.operations.Addition",
+                    "lgp.lib.operations.Subtraction",
+                    "lgp.lib.operations.Multiplication",
+                    "lgp.lib.operations.Division",
+                    "lgp.lib.operations.IfGreater",
+                    "lgp.lib.operations.IfLessThanOrEqualTo"
+            )
+            config.constantsRate = 0.5
+            config.constants = listOf("0.0", "1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0", "9.0")
+            config.numCalculationRegisters = 2
+            config.populationSize = 2000
+            config.generations = 1000
+            config.inputAttributesLowIndex = 0
+            config.inputAttributesHighIndex = 3
+            config.classAttributeIndex = 4
+            config.microMutationRate = 0.25
+            config.macroMutationRate = 0.75
+            config.crossoverRate = 0.75
+            config.branchInitialisationRate = 0.1
+            config.numOffspring = 10
+
+            return config
+        }
+    }
+
+    private val config = this.configLoader.load()
+
+    override val constantLoader = GenericConstantLoader(
+            constants = config.constants,
+            parseFunction = String::toDouble
+    )
+
+    val nominalValues = setOf("Iris-setosa", "Iris-versicolor", "Iris-virginica")
+
+    override val datasetLoader = CsvDatasetLoader(
+            reader = BufferedReader(
+                    // Load from the resource file.
+                    InputStreamReader(this.datasetStream)
+            ),
+            // Allow parsing of the nominal attributes
+            parseFunction = { v: String ->
+                when (v) {
+                // Simply map the nominal value to its index (i.e. class ∈ {0, 1, 2})
+                    in nominalValues -> nominalValues.indexOf(v).toDouble()
+                    else -> v.toDouble()
+                }
+            },
+            // Nominal attribute values
+            labels = nominalValues.toList()
+    )
+
+    override val operationLoader = DefaultOperationLoader<Double>(
+            operationNames = config.operations
+    )
+
+    override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
+
+    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.thresholdCE(threshold = 0.5)
+
+    override val registeredModules = ModuleContainer(
+            modules = mutableMapOf(
+                    CoreModuleType.InstructionGenerator to {
+                        BaseInstructionGenerator(environment)
+                    },
+                    CoreModuleType.ProgramGenerator to {
+                        BaseProgramGenerator(environment, sentinelTrueValue = 1.0)
+                    },
+                    CoreModuleType.SelectionOperator to {
+                        TournamentSelection(environment, tournamentSize = 4)
+                    },
+                    CoreModuleType.RecombinationOperator to {
+                        LinearCrossover(
+                                environment,
+                                maximumSegmentLength = 6,
+                                maximumCrossoverDistance = 5,
+                                maximumSegmentLengthDifference = 3
+                        )
+                    },
+                    CoreModuleType.MacroMutationOperator to {
+                        MacroMutationOperator(
+                                environment,
+                                insertionRate = 0.67,
+                                deletionRate = 0.33
+                        )
+                    },
+                    CoreModuleType.MicroMutationOperator to {
+                        MicroMutationOperator(
+                                environment,
+                                registerMutationRate = 0.5,
+                                operatorMutationRate = 0.0,
+                                constantMutationFunc = { v ->
+                                    v + (Random().nextGaussian() * 1)
+                                }
+                        )
+                    }
+            )
+    )
+
+    override fun initialiseEnvironment() {
+        this.environment = Environment(
+                this.configLoader,
+                this.constantLoader,
+                this.datasetLoader,
+                this.operationLoader,
+                this.defaultValueProvider,
+                this.fitnessFunction
+        )
+
+        this.environment.registerModules(this.registeredModules)
+    }
+
+    override fun initialiseModel() {
+        this.model = Models.SteadyState(this.environment)
+    }
+
+    override fun solve(): IrisSolution {
+        try {
+            val runner = Runners.DistributedRunner(environment, model, runs = 5)
+            val result = runner.run()
+
+            return IrisSolution(this.name, result)
+        } catch (ex: UninitializedPropertyAccessException) {
+            // The initialisation routines haven't been run.
+            throw ProblemNotInitialisedException(
+                    "The initialisation routines for this problem must be run before it can be solved."
+            )
+        }
+    }
+}
 
 class Iris {
     companion object Main {
-        // Locations of configuration and data set files.
-        private val configFilename =  this::class.java.classLoader.getResource("iris_env.json").file
-        private val datasetFilename =  this::class.java.classLoader.getResource("iris.csv").file
+
+        private val datasetStream = this::class.java.classLoader.getResourceAsStream("datasets/iris.csv")
 
         @JvmStatic fun main(args: Array<String>) {
-            val configLoader = JsonConfigLoader(
-                    filename = configFilename
-            )
-
-            val config = configLoader.load()
-
-            val nominalValues = setOf("Iris-setosa", "Iris-versicolor", "Iris-virginica")
-
-            val datasetLoader = CsvDatasetLoader(
-                    filename = datasetFilename,
-                    // Allow parsing of the nominal attributes
-                    parseFunction = { v: String ->
-                        when (v) {
-                            // Simply map the nominal value to its index (i.e. class ∈ {0, 1, 2})
-                            in nominalValues -> nominalValues.indexOf(v).toDouble()
-                            else -> v.toDouble()
-                        }
-                    },
-                    // Nominal attribute values
-                    labels = nominalValues.toList()
-            )
-
-            // Set up a loader for loading the operations we want to use (specified in the configuration file)
-            val operationLoader = DefaultOperationLoader<Double>(
-                    operationNames = config.operations
-            )
-
-            // Set up a loader for the constant values (specified in the configuration file)
-            val constantLoader = GenericConstantLoader(
-                    constants = config.constants,
-                    parseFunction = String::toDouble
-            )
-
-            // Fill calculation registers with the value 1.0
-            val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
-
-            val ce = FitnessFunctions.thresholdCE(threshold = 0.5)
-
-            // Create a new environment with these components.
-            val environment = Environment(
-                    configLoader,
-                    constantLoader,
-                    datasetLoader,
-                    operationLoader,
-                    defaultValueProvider,
-                    fitnessFunction = ce
-            )
-
-            // Set up registered modules
-            val container = ModuleContainer(
-                    modules = mutableMapOf(
-                            CoreModuleType.InstructionGenerator to {
-                                BaseInstructionGenerator(environment)
-                            },
-                            CoreModuleType.ProgramGenerator to {
-                                BaseProgramGenerator(environment, sentinelTrueValue = 1.0)
-                            },
-                            CoreModuleType.SelectionOperator to {
-                                TournamentSelection(environment, tournamentSize = 4)
-                            },
-                            CoreModuleType.RecombinationOperator to {
-                                LinearCrossover(
-                                        environment,
-                                        maximumSegmentLength = 6,
-                                        maximumCrossoverDistance = 5,
-                                        maximumSegmentLengthDifference = 3
-                                )
-                            },
-                            CoreModuleType.MacroMutationOperator to {
-                                MacroMutationOperator(
-                                        environment,
-                                        insertionRate = 0.67,
-                                        deletionRate = 0.33
-                                )
-                            },
-                            CoreModuleType.MicroMutationOperator to {
-                                MicroMutationOperator(
-                                        environment,
-                                        registerMutationRate = 0.5,
-                                        operatorMutationRate = 0.0,
-                                        constantMutationFunc = { v ->
-                                            // Add random gaussian noise to constant with standard deviation of 1
-                                            // from the current value.
-                                            v + (Random().nextGaussian() * 1)
-                                        }
-                                )
-                            }
-                    )
-            )
-
-            environment.registerModules(container)
-
-            // Find the best individual with these parameters.
-            val model = Models.SteadyState(environment)
-
-            val runner = Runners.DistributedRunner(environment, model, runs = 5)
-            val result = runner.run()
+            val problem = IrisProblem(datasetStream)
+            problem.initialiseEnvironment()
+            problem.initialiseModel()
+            val solution = problem.solve()
             val simplifier = BaseProgramSimplifier<Double>()
 
-            result.evaluations.forEachIndexed { run, res ->
+            solution.result.evaluations.forEachIndexed { run, res ->
                 println("Run ${run + 1} (best fitness = ${res.best.fitness})")
-                //res.best.effectiveInstructions.forEach(::println)
                 println(simplifier.simplify(res.best as BaseProgram<Double>))
                 println("\nStats (last run only):\n")
 
