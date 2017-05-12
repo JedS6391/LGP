@@ -32,5 +32,3 @@ deploy:
   on:
     repo: JedS6391/LGP
     tags: true
-    branches:
-      only: master
