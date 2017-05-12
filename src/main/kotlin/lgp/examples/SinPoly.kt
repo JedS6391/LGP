@@ -57,7 +57,6 @@ class SinPolyProblem : Problem<Double>() {
             config.classAttributeIndex = 1
             config.microMutationRate = 0.25
             config.macroMutationRate = 0.75
-            config.branchInitialisationRate = 0.2
             config.numOffspring = 10
 
             return config
