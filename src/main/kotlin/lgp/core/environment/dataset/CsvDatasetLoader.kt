@@ -3,7 +3,10 @@ package lgp.core.environment.dataset
 import com.opencsv.CSVReader
 import lgp.core.environment.ComponentLoaderBuilder
 import lgp.core.modules.ModuleInformation
+import java.io.BufferedReader
+import java.io.FileInputStream
 import java.io.FileReader
+import java.io.Reader
 
 //  These helper classes aren't strictly necessary, but they help to make the
 // types used by the loader look a little bit nicer.
@@ -32,12 +35,12 @@ class CsvDataset<T>(rows: List<Row<T>>) : Dataset<T>(rows)
  * @property parseFunction Function to parse each attribute in the file.
  */
 class CsvDatasetLoader<T> constructor(
-        val filename: String,
+        val reader: Reader,
         val parseFunction: (String) -> T,
         val labels: List<String> = listOf()
 ) : DatasetLoader<T> {
 
-    private constructor(builder: Builder<T>) : this(builder.filename, builder.parseFunction, builder.labels)
+    private constructor(builder: Builder<T>) : this(builder.reader, builder.parseFunction, builder.labels)
 
     /**
      * Builds an instance of [CsvDatasetLoader].
@@ -46,7 +49,7 @@ class CsvDatasetLoader<T> constructor(
      */
     class Builder<U> : ComponentLoaderBuilder<CsvDatasetLoader<U>> {
 
-        lateinit var filename: String
+        lateinit var reader: Reader
         lateinit var parseFunction: (String) -> U
         var labels: List<String> = listOf()
 
@@ -54,7 +57,13 @@ class CsvDatasetLoader<T> constructor(
          * Sets the filename of the CSV file to load the data set from.
          */
         fun filename(name: String): Builder<U> {
-            this.filename = name
+            this.reader = FileReader(name)
+
+            return this
+        }
+
+        fun reader(reader: Reader): Builder<U> {
+            this.reader = reader
 
             return this
         }
@@ -89,7 +98,7 @@ class CsvDatasetLoader<T> constructor(
      * @returns a data set containing values parsed appropriately.
      */
     override fun load(): CsvDataset<T> {
-        val reader: CSVReader = CSVReader(FileReader(this.filename))
+        val reader: CSVReader = CSVReader(this.reader)
         val lines: MutableList<Array<String>> = reader.readAll()
 
         // Assumes the header is in the first row (a reasonable assumption with CSV files).
