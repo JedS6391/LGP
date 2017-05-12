@@ -13,6 +13,20 @@
 <tbody>
 <tr>
 <td>
+<a href="-description/index.html">Description</a></td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Description</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="-problem/index.html">Problem</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Problem</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Defines a problem and the components that should be used to solve that problem.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="-run-result/index.html">RunResult</a></td>
 <td>
 <code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">RunResult</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
@@ -33,6 +47,28 @@
 <td>
 <code><span class="keyword">object </span><span class="identifier">Runners</span></code>
 <p>A collection of built-in evolution runners.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-solution/index.html">Solution</a></td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">Solution</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Represents a solution to a problem.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-problem-not-initialised-exception/index.html">ProblemNotInitialisedException</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ProblemNotInitialisedException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code>
+<p>Exception given when a problem is attempted to be solved when it hasn't
+been completely initialised.</p>
 </td>
 </tr>
 </tbody>

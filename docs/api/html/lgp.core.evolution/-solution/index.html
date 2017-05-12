@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Solution - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.evolution</a>&nbsp;/&nbsp;<a href=".">Solution</a><br/>
+<br/>
+<h1>Solution</h1>
+<code><span class="keyword">interface </span><span class="identifier">Solution</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Represents a solution to a problem.</p>
+<p>The interface is left open so that when defining one's problem, it is straight-forward
+to define the format of the solution, as it will probably depend on the use case
+on what the solution should actually contain.</p>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="problem.html">problem</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">problem</span><span class="symbol">: </span><span class="identifier">String</span></code>
+<p>The name of the problem this solution is for.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../lgp.examples/-simple-function-solution/index.html">SimpleFunctionSolution</a></td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">SimpleFunctionSolution</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Solution</span><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../../lgp.examples/-sin-poly-solution/index.html">SinPolySolution</a></td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">SinPolySolution</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Solution</span><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
