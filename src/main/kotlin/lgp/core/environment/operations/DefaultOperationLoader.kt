@@ -2,8 +2,10 @@ package lgp.core.environment.operations
 
 import lgp.core.environment.ComponentLoaderBuilder
 import lgp.core.evolution.instructions.Operation
+import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
-import lgp.core.modules.ModuleLoader
+
+class InvalidOperationSpecificationException(message: String) : Exception(message)
 
 /**
  * A simple operation loader implementation that simply loads a set of operations
@@ -54,11 +56,29 @@ class DefaultOperationLoader<T> constructor(val operationNames: List<String>): O
      * @returns A list of [Operation]s.
      */
     override fun load(): List<Operation<T>> {
-        val moduleLoader = ModuleLoader()
-
         return this.operationNames.map { name ->
-            moduleLoader.instanceOf(name) as Operation<T>
+            this.loadOperation(name)
         }
+    }
+
+    private fun loadOperation(name: String): Operation<T> {
+        // Load the class as a raw class (i.e. Class<*>).
+        val clazz = this.javaClass.classLoader.loadClass(name)
+
+        // Try to create an instance: If we're loading an implementation of
+        // `Operation<T>` then we should be able to safely cast it to the base
+        // `Module` type.
+        val instance = clazz.newInstance() as? Module
+                ?: throw InvalidOperationSpecificationException("$name is not a valid Module.")
+
+        // By this time we know that our instance is at least a `Module` impl., so we can try
+        // cast it to `Operation<T>`. It is possible that the cast will fail, such as when
+        // a `Module` impl is given that is not an operation (e.g. a `ComponentLoader`).
+        @Suppress("UNCHECKED_CAST")
+        val operation = instance as? Operation<T>
+                ?: throw InvalidOperationSpecificationException("$name is not a valid Operation.")
+
+        return operation
     }
 
     override val information = ModuleInformation(
