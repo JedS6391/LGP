@@ -3,7 +3,6 @@ package lgp.examples
 import lgp.core.environment.*
 import lgp.core.environment.config.Config
 import lgp.core.environment.config.ConfigLoader
-import lgp.core.environment.config.JsonConfigLoader
 import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
@@ -52,9 +51,7 @@ class SinPolyProblem : Problem<Double>() {
             config.numCalculationRegisters = 4
             config.populationSize = 1000
             config.generations = 500
-            config.inputAttributesLowIndex = 0
-            config.inputAttributesHighIndex = 0
-            config.classAttributeIndex = 1
+            config.numFeatures = 1
             config.microMutationRate = 0.25
             config.macroMutationRate = 0.75
             config.numOffspring = 10
@@ -70,26 +67,28 @@ class SinPolyProblem : Problem<Double>() {
             parseFunction = String::toDouble
     )
 
-    override val datasetLoader = object : DatasetLoader<Double> {
+     val datasetLoader = object : DatasetLoader<Double> {
         // f(x) = sin(x) * x + 5
         val func = { x: Double -> Math.sin(x) * x + 5 }
         val gen = UniformlyDistributedGenerator()
 
-        override val information = ModuleInformation("Generates uniformly distributed instances in the range [-5:5].")
+        override val information = ModuleInformation("Generates uniformly distributed samples in the range [-5:5].")
 
         override fun load(): Dataset<Double> {
-            val table = gen.generate(100, -5.0, 5.0).map { v ->
-                val x = Attribute(name = "x", value = v)
-                val y = Attribute(name = "y", value = this.func(x.value))
-
-                Pair(x, y)
+            val xs = gen.generate(100, -5.0, 5.0).map { v ->
+                Sample(
+                    listOf(Feature(name = "x", value = v))
+                )
             }
 
-            val instances = table.map { (x, y) ->
-                Instance(listOf(x, y))
+            val ys = xs.map { x ->
+                this.func(x.features[0].value)
             }
 
-            return Dataset(instances.toList())
+            return Dataset(
+                    xs.toList(),
+                    ys.toList()
+            )
         }
     }
 
@@ -142,7 +141,6 @@ class SinPolyProblem : Problem<Double>() {
         this.environment = Environment(
                 this.configLoader,
                 this.constantLoader,
-                this.datasetLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
                 this.fitnessFunction
@@ -158,7 +156,7 @@ class SinPolyProblem : Problem<Double>() {
     override fun solve(): SinPolySolution {
         try {
             val runner = Runners.DistributedRunner(environment, model, runs = 10)
-            val result = runner.run()
+            val result = runner.run(this.datasetLoader.load())
 
             return SinPolySolution(this.name, result)
         } catch (ex: UninitializedPropertyAccessException) {

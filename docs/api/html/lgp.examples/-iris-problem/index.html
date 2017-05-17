@@ -1,0 +1,173 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>IrisProblem - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.examples</a>&nbsp;/&nbsp;<a href=".">IrisProblem</a><br/>
+<br/>
+<h1>IrisProblem</h1>
+<code><span class="keyword">class </span><span class="identifier">IrisProblem</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution/-problem/index.html"><span class="identifier">Problem</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">IrisProblem</span><span class="symbol">(</span><span class="identifier" id="lgp.examples.IrisProblem$<init>(java.io.InputStream)/datasetStream">datasetStream</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><span class="identifier">InputStream</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="config-loader.html">configLoader</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">configLoader</span><span class="symbol">: </span><a href="../../lgp.core.environment.config/-config-loader.html"><span class="identifier">ConfigLoader</span></a></code>
+<p>A component that can provide configuration for the problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="constant-loader.html">constantLoader</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">constantLoader</span><span class="symbol">: </span><a href="../../lgp.core.environment.constants/-generic-constant-loader/index.html"><span class="identifier">GenericConstantLoader</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code>
+<p>A component that can provide constants for the problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="dataset-loader.html">datasetLoader</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">datasetLoader</span><span class="symbol">: </span><a href="../../lgp.core.environment.dataset/-csv-dataset-loader/index.html"><span class="identifier">CsvDatasetLoader</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="dataset-stream.html">datasetStream</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">datasetStream</span><span class="symbol">: </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><span class="identifier">InputStream</span></a></code></td>
+</tr>
+<tr>
+<td>
+<a href="default-value-provider.html">defaultValueProvider</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">defaultValueProvider</span><span class="symbol">: </span><a href="../../lgp.core.environment/-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code>
+<p>A component that provides default values to the register set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="description.html">description</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">description</span><span class="symbol">: </span><a href="../../lgp.core.evolution/-description/index.html"><span class="identifier">Description</span></a></code>
+<p>A brief description of the problem (e.g. it's function, feature range, etc.)</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="feature-indices.html">featureIndices</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">featureIndices</span><span class="symbol">: </span><span class="identifier">IntRange</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="fitness-function.html">fitnessFunction</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">fitnessFunction</span><span class="symbol">: </span><a href="../../lgp.core.evolution.fitness/-fitness-function.html"><span class="identifier">FitnessFunction</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code>
+<p>A fitness metric to be used for this problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="name.html">name</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">name</span><span class="symbol">: </span><span class="identifier">String</span></code>
+<p>A name for this problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="operation-loader.html">operationLoader</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">operationLoader</span><span class="symbol">: </span><a href="../../lgp.core.environment.operations/-default-operation-loader/index.html"><span class="identifier">DefaultOperationLoader</span></a><span class="symbol">&lt;</span><span class="identifier">Double</span><span class="symbol">&gt;</span></code>
+<p>A component that can provide operations for the problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="registered-modules.html">registeredModules</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">registeredModules</span><span class="symbol">: </span><a href="../../lgp.core.environment/-module-container/index.html"><span class="identifier">ModuleContainer</span></a></code>
+<p>A collection of modules that should be registered with the environment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="target-index.html">targetIndex</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">targetIndex</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="target-labels.html">targetLabels</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">targetLabels</span><span class="symbol">: </span><span class="identifier">Set</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../lgp.core.evolution/-problem/environment.html">environment</a></td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>An environment built up of the components this problem uses.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../../lgp.core.evolution/-problem/model.html">model</a></td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">model</span><span class="symbol">: </span><a href="../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>An evolutionary model that should be used to solve this problem.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="initialise-environment.html">initialiseEnvironment</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">initialiseEnvironment</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Initialises the environment for this problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="initialise-model.html">initialiseModel</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">initialiseModel</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Initialises the model for this problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="solve.html">solve</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">solve</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-iris-solution/index.html"><span class="identifier">IrisSolution</span></a></code>
+<p>Solves the problem in some way and gives a solution.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

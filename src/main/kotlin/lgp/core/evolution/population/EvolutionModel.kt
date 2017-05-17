@@ -1,6 +1,7 @@
 package lgp.core.evolution.population
 
 import lgp.core.environment.Environment
+import lgp.core.environment.dataset.Dataset
 import lgp.core.modules.Module
 
 /**
@@ -34,9 +35,22 @@ data class EvolutionResult<T>(
 abstract class EvolutionModel<TProgram>(val environment: Environment<TProgram>) : Module {
 
     /**
-     * Starts the process of evolution using this model.
+     * Train the model on the given data set.
+     *
+     * A result is given which describes the process of evolution during training.
+     *
+     * @param dataset A set of features and target values.
+     * @returns A description of the evolution process during training.
      */
-    abstract fun evaluate(): EvolutionResult<TProgram>
+    abstract fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram>
+
+    /**
+     * Tests the model on a given data set and returns the program output.
+     *
+     * @param dataset A set of features and target values.
+     * @returns The output of the program the model chooses to execute.
+     */
+    abstract fun test(dataset: Dataset<TProgram>): TProgram
 
     abstract fun copy(): EvolutionModel<TProgram>
 }

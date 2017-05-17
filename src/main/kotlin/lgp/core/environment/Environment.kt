@@ -3,8 +3,6 @@ package lgp.core.environment
 import lgp.core.environment.config.Config
 import lgp.core.environment.config.ConfigLoader
 import lgp.core.environment.constants.ConstantLoader
-import lgp.core.environment.dataset.Dataset
-import lgp.core.environment.dataset.DatasetLoader
 import lgp.core.environment.operations.OperationLoader
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.instructions.InstructionGenerator
@@ -137,7 +135,6 @@ open class Environment<T> {
     // but aren't needed after that.
     private val configLoader: ConfigLoader
     private val constantLoader: ConstantLoader<T>
-    private val datasetLoader: DatasetLoader<T>
     private val operationLoader: OperationLoader<T>
     private val defaultValueProvider: DefaultValueProvider<T>
 
@@ -160,11 +157,6 @@ open class Environment<T> {
      * A set of constants loaded using the [ConstantLoader] given at construction time.
      */
     lateinit var constants: List<T>
-
-    /**
-     * A dataset loaded using the [DatasetLoader] given at construction time.
-     */
-    lateinit var dataset: Dataset<T>
 
     /**
      * A set of operations loaded using the [OperationLoader] given at construction time.
@@ -197,14 +189,12 @@ open class Environment<T> {
     // TODO: Default value provider and fitness function could be given in config?
     constructor(configLoader: ConfigLoader,
                 constantLoader: ConstantLoader<T>,
-                datasetLoader: DatasetLoader<T>,
                 operationLoader: OperationLoader<T>,
                 defaultValueProvider: DefaultValueProvider<T>,
                 fitnessFunction: FitnessFunction<T>) {
 
         this.configLoader = configLoader
         this.constantLoader = constantLoader
-        this.datasetLoader = datasetLoader
         this.operationLoader = operationLoader
         this.defaultValueProvider = defaultValueProvider
         this.fitnessFunction = fitnessFunction
@@ -220,7 +210,6 @@ open class Environment<T> {
         // Load the components each loader is responsible for.
         this.config = this.configLoader.load()
         this.constants = this.constantLoader.load()
-        this.dataset = this.datasetLoader.load()
         this.operations = this.operationLoader.load()
 
         // TODO: Instead of initialising, allow user to register?
@@ -232,11 +221,8 @@ open class Environment<T> {
         // This means that anything that can access the environment has access to a blank register set.
         // TODO: Pass environment to register set and make it a dependency that must be registered.
 
-        this.dataset.classAttribute(this.config.classAttributeIndex)
-        this.dataset.inputAttributes(this.config.inputAttributesLowIndex..this.config.inputAttributesHighIndex)
-
         this.registerSet = RegisterSet(
-                inputRegisters = this.dataset.numInputs(),
+                inputRegisters = this.config.numFeatures,
                 calculationRegisters = this.config.numCalculationRegisters,
                 constants = this.constants,
                 defaultValueProvider = this.defaultValueProvider

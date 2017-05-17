@@ -1,6 +1,7 @@
 package lgp.core.evolution
 
 import lgp.core.environment.Environment
+import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.population.EvolutionModel
 import lgp.core.evolution.population.EvolutionResult
 import lgp.core.evolution.population.pmap
@@ -27,7 +28,9 @@ abstract class Runner<T>(val environment: Environment<T>, val model: EvolutionMo
      *
      * @returns The results of the run(s).
      */
-    abstract fun run(): RunResult<T>
+    abstract fun run(dataset: Dataset<T>): RunResult<T>
+
+    // TODO: Should probably provide ability to run training/testing phases.
 }
 
 /**
@@ -46,10 +49,10 @@ object Runners {
         /**
          * Runs the model [runs] times.
          */
-        override fun run(): RunResult<T> {
+        override fun run(dataset: Dataset<T>): RunResult<T> {
 
             val results = (0..runs - 1).toList().map {
-                this.model.evaluate()
+                this.model.train(dataset)
             }
 
             return RunResult(results)
@@ -72,10 +75,10 @@ object Runners {
     class DistributedRunner<T>(environment: Environment<T>, model: EvolutionModel<T>, val runs: Int)
         : Runner<T>(environment, model) {
 
-        override fun run(): RunResult<T> {
+        override fun run(dataset: Dataset<T>): RunResult<T> {
             // TODO: Might be worth making this more robust with regards to failure.
             val results = (0..runs - 1).toList().pmap {
-                this.model.copy().evaluate()
+                this.model.copy().train(dataset)
             }
 
             return RunResult(results)

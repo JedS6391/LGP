@@ -6,53 +6,41 @@ import lgp.core.modules.ModuleInformation
 import java.io.FileReader
 import java.io.Reader
 
-//  These helper classes aren't strictly necessary, but they help to make the
-// types used by the loader look a little bit nicer.
+typealias Header = Array<String>
+typealias Row = Array<String>
 
 /**
- * An instance in a [CsvDataset].
+ * Loads a collection of samples and their target values from a CSV file.
  *
- * @param T the type of the attributes.
- * @property data a collection of attributes.
- * @suppress
+ * @param T Type of the features in the samples.
+ * @property reader A reader that will provide the contents of a CSV file.
+ * @property featureParseFunction A function to parse the features of each row in the CSV file.
+ * @property targetParseFunction A function to parse the target of each row in the CSV file.
  */
-class Row<out T>(data: List<Attribute<T>>) : Instance<T>(data)
-
-/**
- * A data set from a CSV file.
- *
- * @suppress
- */
-class CsvDataset<T>(rows: List<Row<T>>) : Dataset<T>(rows)
-
-/**
- * Loads a collection of instances from a CSV file.
- *
- * @param T Type of the attributes in the instances.
- * @property filename CSV file to load instances from.
- * @property parseFunction Function to parse each attribute in the file.
- */
-class CsvDatasetLoader<T> constructor(
+class CsvDatasetLoader<out T> constructor(
         val reader: Reader,
-        val parseFunction: (String) -> T,
-        val labels: List<String> = listOf()
+        val featureParseFunction: (Header, Row) -> Sample<T>,
+        val targetParseFunction: (Header, Row) -> T
 ) : DatasetLoader<T> {
 
-    private constructor(builder: Builder<T>) : this(builder.reader, builder.parseFunction, builder.labels)
+    private constructor(builder: Builder<T>)
+            : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
 
     /**
      * Builds an instance of [CsvDatasetLoader].
      *
-     * @param U the type that the [CsvDatasetLoader] will load attributes as.
+     * @param U the type that the [CsvDatasetLoader] will load features as.
      */
     class Builder<U> : ComponentLoaderBuilder<CsvDatasetLoader<U>> {
 
         lateinit var reader: Reader
-        lateinit var parseFunction: (String) -> U
-        var labels: List<String> = listOf()
+        lateinit var featureParseFunction: (Header, Row) -> Sample<U>
+        lateinit var targetParseFunction: (Header, Row) -> U
 
         /**
          * Sets the filename of the CSV file to load the data set from.
+         *
+         * A reader will be automatically created for the file with the name given.
          */
         fun filename(name: String): Builder<U> {
             this.reader = FileReader(name)
@@ -60,6 +48,9 @@ class CsvDatasetLoader<T> constructor(
             return this
         }
 
+        /**
+         * Sets the reader that provides a CSV files contents.
+         */
         fun reader(reader: Reader): Builder<U> {
             this.reader = reader
 
@@ -67,16 +58,19 @@ class CsvDatasetLoader<T> constructor(
         }
 
         /**
-         * Sets the function to use when parsing attributes from the data set file.
+         * Sets the function to use when parsing features from the data set file.
          */
-        fun parseFunction(function: (String) -> U): Builder<U> {
-            this.parseFunction = function
+        fun featureParseFunction(function: (Header, Row) -> Sample<U>): Builder<U> {
+            this.featureParseFunction = function
 
             return this
         }
 
-        fun labels(labels: List<String>): Builder<U> {
-            this.labels = labels
+        /**
+         * Sets the function to use when parsing target values from the data set file.
+         */
+        fun targetParseFunction(function: (Header, Row) -> U): Builder<U> {
+            this.targetParseFunction = function
 
             return this
         }
@@ -95,25 +89,23 @@ class CsvDatasetLoader<T> constructor(
      * @throws [java.io.IOException] when the file given does not exist.
      * @returns a data set containing values parsed appropriately.
      */
-    override fun load(): CsvDataset<T> {
+    override fun load(): Dataset<T> {
         val reader: CSVReader = CSVReader(this.reader)
         val lines: MutableList<Array<String>> = reader.readAll()
 
         // Assumes the header is in the first row (a reasonable assumption with CSV files).
         val header = lines.removeAt(0)
 
-        val rows = lines.map { line -> Row(this.readAttributesFromRow(line, header)) }
-
-        return CsvDataset(rows)
-    }
-
-    private fun readAttributesFromRow(line: Array<String>, header: Array<String>): List<Attribute<T>> {
-        return line.mapIndexed { index, value ->
-            when (value) {
-                in this.labels -> NominalAttribute(header[index], this.parseFunction(value), this.labels)
-                else -> Attribute(header[index], this.parseFunction(value))
-            }
+        // Parse features and target values individually.
+        val features = lines.map { line ->
+            this.featureParseFunction(header, line)
         }
+
+        val targets = lines.map { line ->
+            this.targetParseFunction(header, line)
+        }
+
+        return Dataset(features, targets)
     }
 
     override val information = ModuleInformation(

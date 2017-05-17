@@ -11,9 +11,9 @@
 <code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Instance</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TAttribute</span><span class="symbol">&gt;</span></code>
 <p>An instance in a <a href="../-dataset/index.html">Dataset</a>.</p>
 <p>Instances are made up of a collection of <a href="../-attribute/index.html">Attribute</a>s. A particular attribute is marked
-as the class attribute and the rest are marked as input attributes. The indices of these
-attributes can be controlled via the <a href="../-dataset/index.html">Dataset</a> the instance belongs to.</p>
-<p><strong>NOTE:</strong> Similarly as for <a href="../-dataset/index.html">Dataset</a>s, custom implementations of instances can be
+as the class attribute and the rest are marked as input features. The indices of these
+features can be controlled via the <a href="../-dataset/index.html">Dataset</a> the instance belongs to.</p>
+<p><strong>NOTE:</strong> Similarly as for <a href="../-dataset/index.html">Dataset</a>s, custom implementations of samples can be
 defined but some functionality is marked so that it is not able to be overridden (see
 any functions marked <code>final</code>).</p>
 <h3>Parameters</h3>
@@ -27,7 +27,7 @@ any functions marked <code>final</code>).</p>
 <td>
 <a href="-init-.html">&lt;init&gt;</a></td>
 <td>
-<code><span class="identifier">Instance</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.Instance$<init>(kotlin.collections.List((lgp.core.environment.dataset.Attribute((lgp.core.environment.dataset.Instance.TAttribute)))))/attributes">attributes</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-attribute/index.html"><span class="identifier">Attribute</span></a><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">Instance</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.Sample$<init>(kotlin.collections.List((lgp.core.environment.dataset.Feature((lgp.core.environment.dataset.Sample.TAttribute)))))/features">features</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-attribute/index.html"><span class="identifier">Attribute</span></a><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>An instance in a <a href="../-dataset/index.html">Dataset</a>.</p>
 </td>
 </tr>
@@ -38,9 +38,9 @@ any functions marked <code>final</code>).</p>
 <tbody>
 <tr>
 <td>
-<a href="attributes.html">attributes</a></td>
+<a href="features.html">features</a></td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">attributes</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-attribute/index.html"><span class="identifier">Attribute</span></a><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">features</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-attribute/index.html"><span class="identifier">Attribute</span></a><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>A collection of <a href="../-attribute/index.html">Attribute</a>s that this instance represents.</p>
 </td>
 </tr>
@@ -51,9 +51,9 @@ any functions marked <code>final</code>).</p>
 <tbody>
 <tr>
 <td>
-<a href="attributes.html">attributes</a></td>
+<a href="features.html">features</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">attributes</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-attribute/index.html"><span class="identifier">Attribute</span></a><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">features</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-attribute/index.html"><span class="identifier">Attribute</span></a><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Gets the non-class <a href="../-attribute/index.html">Attribute</a>s belonging to this instance.</p>
 </td>
 </tr>

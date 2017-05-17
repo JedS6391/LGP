@@ -25,7 +25,7 @@ object FitnessFunctions {
     @JvmStatic
     fun SE(): FitnessFunction<Double> = { outputs, cases ->
         val fitness = cases.zip(outputs).map { (case, actual) ->
-            val expected = case.classAttribute().value
+            val expected = case.target
 
             Math.abs(actual - expected)
         }.sum()
@@ -39,7 +39,7 @@ object FitnessFunctions {
     @JvmStatic
     fun SSE(): FitnessFunction<Double> = { outputs, cases ->
         val fitness = cases.zip(outputs).map { (case, actual) ->
-            val expected = case.classAttribute().value
+            val expected = case.target
 
             Math.pow((actual - expected), 2.0)
         }.sum()
@@ -60,7 +60,7 @@ object FitnessFunctions {
     @JvmStatic
     fun MSE(): FitnessFunction<Double> = { outputs, cases ->
         val fitness = cases.zip(outputs).map { (case, actual) ->
-            val expected = case.classAttribute().value
+            val expected = case.target
 
             Math.pow((actual - expected), 2.0)
         }.sum()
@@ -84,7 +84,7 @@ object FitnessFunctions {
     fun CE(mappingFunction: (Double) -> Double): FitnessFunction<Double> {
         val ce: FitnessFunction<Double> = { outputs, cases ->
             cases.zip(outputs).map { (case, output) ->
-                val expected = case.classAttribute().value
+                val expected = case.target
                 val actual = mappingFunction(output)
 
                 if (actual != expected) 1.0 else 0.0
@@ -98,7 +98,7 @@ object FitnessFunctions {
     fun thresholdCE(threshold: Double): FitnessFunction<Double> {
         val ce: FitnessFunction<Double> = { outputs, cases ->
             cases.zip(outputs).filter { (case, output) ->
-                val expected = case.classAttribute().value
+                val expected = case.target
                 val actual = output
 
                 // Program is correct when the distance between the actual

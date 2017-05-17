@@ -1,8 +1,8 @@
 package lgp.core.evolution.registers
 
 import lgp.core.environment.DefaultValueProvider
-import lgp.core.environment.dataset.Attribute
-import lgp.core.environment.dataset.Instance
+import lgp.core.environment.dataset.Feature
+import lgp.core.environment.dataset.Sample
 
 /**
  * Represents the type of a register.
@@ -61,10 +61,10 @@ class RegisterWriteRangeException(message: String) : Exception(message)
  *     +-------+-------------+----------+
  * ```
  *
- * Input registers are used to store the value of attributes in an instance from some
+ * Input registers are used to store the value of features in an instance from some
  * data set. These input registers will have their value loaded from an instance before
  * evaluating an LGP program on some fitness case (an instance). The number of input registers
- * should be specified to match the number of attributes in each data set instance that the LGP
+ * should be specified to match the number of features in each data set instance that the LGP
  * environment is performing evolution on.
  *
  * Calculation registers are freely available registers that can be used in an LGP program.
@@ -194,17 +194,16 @@ class RegisterSet<T> {
     /**
      * Writes an instance from some data set to the register sets input registers.
      *
-     * NOTE: The number of input registers of the set must match the number of attributes in the instance.
+     * NOTE: The number of input registers of the set must match the number of features in the instance.
      *
      * @param data An instance to write to the input registers.
      */
-    fun writeInstance(data: Instance<T>) {
-        // The number of attributes must match the number of input registers
-        assert(this.inputRegistersCount == data.attributes.size)
+    fun writeInstance(data: Sample<T>) {
+        // The number of features must match the number of input registers
+        assert(this.inputRegistersCount == data.features.size)
 
         this.writeRange(
-                // Use `attributes()` to filter out class attribute
-                data.attributes().map(Attribute<T>::value),
+                data.features.map(Feature<T>::value),
                 this.inputRegisters
         )
     }

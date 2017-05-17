@@ -5,7 +5,6 @@ import lgp.core.environment.Environment
 import lgp.core.environment.ModuleContainer
 import lgp.core.environment.config.ConfigLoader
 import lgp.core.environment.constants.ConstantLoader
-import lgp.core.environment.dataset.DatasetLoader
 import lgp.core.environment.operations.OperationLoader
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.population.EvolutionModel
@@ -57,11 +56,6 @@ abstract class Problem<T> {
      * A component that can provide constants for the problem.
      */
     abstract val constantLoader: ConstantLoader<T>
-
-    /**
-     * A component that can provide a dataset for the problem.
-     */
-    abstract val datasetLoader: DatasetLoader<T>
 
     /**
      * A component that can provide operations for the problem.

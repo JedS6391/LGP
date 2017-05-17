@@ -13,56 +13,48 @@
 <tbody>
 <tr>
 <td>
-<a href="-attribute/index.html">Attribute</a></td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Attribute</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code>
-<p>An attribute of an instance in some data set.</p>
-</td>
-</tr>
-<tr>
-<td>
 <a href="-csv-dataset-loader/index.html">CsvDatasetLoader</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">CsvDatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-dataset-loader.html"><span class="identifier">DatasetLoader</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
-<p>Loads a collection of instances from a CSV file.</p>
+<code><span class="keyword">class </span><span class="identifier">CsvDatasetLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-dataset-loader.html"><span class="identifier">DatasetLoader</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Loads a collection of samples and their target values from a CSV file.</p>
 </td>
 </tr>
 <tr>
 <td>
 <a href="-dataset/index.html">Dataset</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Dataset</span><span class="symbol">&lt;</span><span class="identifier">TAttribute</span><span class="symbol">&gt;</span></code>
-<p>A basic data set made up of a collection of <a href="-instance/index.html">Instance</a>s.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Dataset</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span></code>
+<p>A basic data set composed of a vector of input <a href="-sample/index.html">Sample</a>s and a collection of outputs.</p>
 </td>
 </tr>
 <tr>
 <td>
 <a href="-dataset-loader.html">DatasetLoader</a></td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">DatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">interface </span><span class="identifier">DatasetLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>An extended <a href="../lgp.core.environment/-component-loader/index.html">ComponentLoader</a> that loads a <a href="-dataset/index.html">Dataset</a>.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="-instance/index.html">Instance</a></td>
+<a href="-feature/index.html">Feature</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Instance</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TAttribute</span><span class="symbol">&gt;</span></code>
-<p>An instance in a <a href="-dataset/index.html">Dataset</a>.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Feature</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TFeature</span><span class="symbol">&gt;</span></code>
+<p>A feature of a sample in some data set.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="-nominal-attribute/index.html">NominalAttribute</a></td>
+<a href="-nominal-feature/index.html">NominalFeature</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">NominalAttribute</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-attribute/index.html"><span class="identifier">Attribute</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">class </span><span class="identifier">NominalFeature</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TFeature</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-feature/index.html"><span class="identifier">Feature</span></a><span class="symbol">&lt;</span><span class="identifier">TFeature</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
-<a href="-row/index.html">Row</a></td>
+<a href="-sample/index.html">Sample</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Row</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-instance/index.html"><span class="identifier">Instance</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
-<p>An instance in a <a href="#">CsvDataset</a>.</p>
+<code><span class="keyword">class </span><span class="identifier">Sample</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TFeature</span><span class="symbol">&gt;</span></code>
+<p>A sample in a <a href="-dataset/index.html">Dataset</a> made up of a collection of <a href="-feature/index.html">Feature</a>s.</p>
 </td>
 </tr>
 <tr>
@@ -80,6 +72,34 @@
 <code><span class="keyword">class </span><span class="identifier">UniformlyDistributedGenerator</span></code>
 <p>Can generate a number of uniformly distributed values.</p>
 </td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-invalid-number-of-samples-exception/index.html">InvalidNumberOfSamplesException</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">InvalidNumberOfSamplesException</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Exception</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Type Aliases</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-header.html">Header</a></td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">Header</span>&nbsp;<span class="symbol">=</span>&nbsp;<span class="identifier">Array</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="-row.html">Row</a></td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">Row</span>&nbsp;<span class="symbol">=</span>&nbsp;<span class="identifier">Array</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code></td>
 </tr>
 </tbody>
 </table>

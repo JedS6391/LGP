@@ -69,7 +69,7 @@ To build up an ``Environment`` instance with the correct construction components
         // Using a CSV file so we use a CsvDatasetLoader.
         filename = "/path/to/some/data/file.csv",
 
-        // A function to parse attributes from the dataset file.
+        // A function to parse features from the dataset file.
         parseFunction = String::toDouble
     )
 

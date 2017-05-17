@@ -1,6 +1,7 @@
 package lgp.core.evolution.fitness
 
 import lgp.core.environment.Environment
+import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.population.Program
 
 /**
@@ -13,24 +14,30 @@ data class Evaluation<T>(val fitness: Double, val individual: Program<T>)
 /**
  * Provides a way to evaluate the fitness of a program.
  *
- * @param T The type of the program being evaluated.
+ * @param TData The type of the program being evaluated.
  */
-class FitnessEvaluator<T> {
+class FitnessEvaluator<TData> {
     /**
      * Performs an evaluation on the program given with the specified environment by building a fitness context.
      *
-     * An environment is given as a parameter as it defines the fitness cases
+     * The fitness is evaluated using the data set given.
      *
      * @param program The program to determine an evaluation for.
      * @param environment An environment that was used to build the program given.
      * @returns An evaluation of the program.
      */
-    // TODO: Could environment be an instance variable?
-    fun evaluate(program: Program<T>, environment: Environment<T>): Evaluation<T> {
+    fun evaluate(
+            program: Program<TData>,
+            dataset: Dataset<TData>,
+            environment: Environment<TData>
+    ): Evaluation<TData> {
+
         // Build a fitness context for this program
         val context = FitnessContext(
                 program = program,
-                fitnessCases = environment.dataset.instances, // We want to test the program on the dataset given
+                fitnessCases = dataset.inputs.zip(dataset.outputs).map { (features, target) ->
+                    FitnessCase(features, target)
+                },
                 fitnessFunction = environment.fitnessFunction // User specified fitness function
         )
 

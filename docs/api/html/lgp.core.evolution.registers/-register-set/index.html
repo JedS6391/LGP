@@ -16,10 +16,10 @@ ranges look something like:</p>
 <pre><code>    +-------+-------------+----------+
     | Input | Calculation | Constant |
     +-------+-------------+----------+</code></pre>
-<p>Input registers are used to store the value of attributes in an instance from some
+<p>Input registers are used to store the value of features in an instance from some
 data set. These input registers will have their value loaded from an instance before
 evaluating an LGP program on some fitness case (an instance). The number of input registers
-should be specified to match the number of attributes in each data set instance that the LGP
+should be specified to match the number of features in each data set instance that the LGP
 environment is performing evolution on.</p>
 <p>Calculation registers are freely available registers that can be used in an LGP program.
 They are initialised with some default value when the register set is initialised. The
@@ -146,7 +146,7 @@ initialisation of the register set.</p>
 <td>
 <a href="write-instance.html">writeInstance</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">writeInstance</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$writeInstance(lgp.core.environment.dataset.Instance((lgp.core.evolution.registers.RegisterSet.T)))/data">data</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-instance/index.html"><span class="identifier">Instance</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<code><span class="keyword">fun </span><span class="identifier">writeInstance</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$writeInstance(lgp.core.environment.dataset.Sample((lgp.core.evolution.registers.RegisterSet.T)))/data">data</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
 <p>Writes an instance from some data set to the register sets input registers.</p>
 </td>
 </tr>
