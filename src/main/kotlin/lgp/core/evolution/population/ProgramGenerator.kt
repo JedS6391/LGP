@@ -10,7 +10,7 @@ import kotlin.coroutines.experimental.buildSequence
  *
  * The implementation is done as a module, allowing for custom generation logic for programs
  * to be defined. The only requirement is that calls to the [next] method returns a sequence
- * of program instances.
+ * of program samples.
  *
  * An implementation is expected to provide an [Environment], in order to provide access to any
  * component loaded into the the LGP environment, as well as an [InstructionGenerator]. Instruction
