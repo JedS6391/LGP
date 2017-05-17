@@ -27,6 +27,14 @@ data class EvolutionResult<T>(
 )
 
 /**
+ *
+ */
+data class TestResult<out T>(
+        val predicted: List<T>,
+        val expected: List<T>
+)
+
+/**
  * A model that can be used to perform evolution within in a specific environment.
  *
  * @param TProgram The type of programs this models evolves.
@@ -45,12 +53,12 @@ abstract class EvolutionModel<TProgram>(val environment: Environment<TProgram>) 
     abstract fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram>
 
     /**
-     * Tests the model on a given data set and returns the program output.
+     * Tests the model on a given data set and returns the program outputs.
      *
      * @param dataset A set of features and target values.
-     * @returns The output of the program the model chooses to execute.
+     * @returns The output of the program for each sample in the data set.
      */
-    abstract fun test(dataset: Dataset<TProgram>): TProgram
+    abstract fun test(dataset: Dataset<TProgram>): TestResult<TProgram>
 
     abstract fun copy(): EvolutionModel<TProgram>
 }

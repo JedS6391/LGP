@@ -42,6 +42,8 @@ object Models {
 
         lateinit var individuals: MutableList<Program<TProgram>>
 
+        lateinit var bestProgram: Program<TProgram>
+
         private fun initialise() {
             val programGenerator: ProgramGenerator<TProgram> = this.environment.registeredModule(CoreModuleType.ProgramGenerator)
 
@@ -63,6 +65,7 @@ object Models {
             }.toList()
 
             var best = initialEvaluations.sortedBy(Evaluation<TProgram>::fitness).first()
+            this.bestProgram = best.individual
 
             val statistics = mutableListOf<EvolutionStatistics>()
 
@@ -72,6 +75,8 @@ object Models {
                 if (best.fitness == 0.0) {
                     // Make sure to add at least one set of statistics.
                     statistics.add(this.statistics(gen, best))
+
+                    this.bestProgram = best.individual
 
                     return EvolutionResult(best.individual, this.individuals, statistics)
                 }
@@ -107,6 +112,7 @@ object Models {
                 val bestChild = evaluations.sortedBy(Evaluation<TProgram>::fitness).first()
 
                 best = if (bestChild.fitness < best.fitness) bestChild else best
+                this.bestProgram = best.individual
 
                 // The children are copies of individuals in the population, so add the copies
                 // to the population.
@@ -114,6 +120,8 @@ object Models {
 
                 statistics.add(this.statistics(gen, best))
             }
+
+            this.bestProgram = best.individual
 
             return EvolutionResult(best.individual, this.individuals, statistics)
         }
@@ -149,8 +157,27 @@ object Models {
             )
         }
 
-        override fun test(dataset: Dataset<TProgram>): TProgram {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun test(dataset: Dataset<TProgram>): TestResult<TProgram> {
+            this.bestProgram.findEffectiveProgram()
+
+            val outputs = dataset.inputs.map { features ->
+                // Reset registers.
+                this.bestProgram.registers.reset()
+
+                // Load the features
+                this.bestProgram.registers.writeInstance(features)
+
+                // Run the program...
+                this.bestProgram.execute()
+
+                // Collect output
+                this.bestProgram.registers.read(this.bestProgram.outputRegisterIndex)
+            }
+
+            return TestResult(
+                    predicted = outputs,
+                    expected = dataset.outputs
+            )
         }
 
         override val information = ModuleInformation("Algorithm 2.1 (LGP Algorithm)")
