@@ -52,13 +52,6 @@ but in the context of an <a href="../lgp.core.evolution.instructions/-operation/
 </tr>
 <tr>
 <td>
-<a href="../lgp.core.environment.dataset/-attribute/index.html">lgp.core.environment.dataset.Attribute</a></td>
-<td>
-<p>An attribute of an instance in some data set.</p>
-</td>
-</tr>
-<tr>
-<td>
 <a href="../lgp.core.evolution.instructions/-base-arity/index.html">lgp.core.evolution.instructions.BaseArity</a></td>
 <td>
 <p>A base arity implementation that provides arity for instructions with one or two arguments.</p>
@@ -142,14 +135,14 @@ but in the context of an <a href="../lgp.core.evolution.instructions/-operation/
 <td>
 <a href="../lgp.core.environment.dataset/-csv-dataset-loader/index.html">lgp.core.environment.dataset.CsvDatasetLoader</a></td>
 <td>
-<p>Loads a collection of instances from a CSV file.</p>
+<p>Loads a collection of samples and their target values from a CSV file.</p>
 </td>
 </tr>
 <tr>
 <td>
 <a href="../lgp.core.environment.dataset/-dataset/index.html">lgp.core.environment.dataset.Dataset</a></td>
 <td>
-<p>A basic data set made up of a collection of <a href="../lgp.core.environment.dataset/-instance/index.html">Instance</a>s.</p>
+<p>A basic data set composed of a vector of input <a href="../lgp.core.environment.dataset/-sample/index.html">Sample</a>s and a collection of outputs.</p>
 </td>
 </tr>
 <tr>
@@ -251,8 +244,16 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
-<a href="../lgp.core.evolution.fitness/-fitness-case.html">lgp.core.evolution.fitness.FitnessCase</a></td>
+<a href="../lgp.core.environment.dataset/-feature/index.html">lgp.core.environment.dataset.Feature</a></td>
 <td>
+<p>A feature of a sample in some data set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.fitness/-fitness-case/index.html">lgp.core.evolution.fitness.FitnessCase</a></td>
+<td>
+<p>A case to evaluate a programs fitness on.</p>
 </td>
 </tr>
 <tr>
@@ -299,6 +300,12 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.environment.dataset/-header.html">lgp.core.environment.dataset.Header</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.lib.operations/-if-greater/index.html">lgp.lib.operations.IfGreater</a></td>
 <td>
 <p>TODO</p>
@@ -309,13 +316,6 @@ specified by the name of the package + class it can be found in.</p>
 <a href="../lgp.lib.operations/-if-less-than-or-equal-to/index.html">lgp.lib.operations.IfLessThanOrEqualTo</a></td>
 <td>
 <p>TODO</p>
-</td>
-</tr>
-<tr>
-<td>
-<a href="../lgp.core.environment.dataset/-instance/index.html">lgp.core.environment.dataset.Instance</a></td>
-<td>
-<p>An instance in a <a href="../lgp.core.environment.dataset/-dataset/index.html">Dataset</a>.</p>
 </td>
 </tr>
 <tr>
@@ -341,7 +341,31 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.environment.dataset/-invalid-number-of-samples-exception/index.html">lgp.core.environment.dataset.InvalidNumberOfSamplesException</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.environment.operations/-invalid-operation-specification-exception/index.html">lgp.core.environment.operations.InvalidOperationSpecificationException</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.examples/-iris/index.html">lgp.examples.Iris</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.examples/-iris-problem/index.html">lgp.examples.IrisProblem</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.examples/-iris-solution/index.html">lgp.examples.IrisSolution</a></td>
 <td>
 </td>
 </tr>
@@ -424,13 +448,6 @@ does/what it is for.</p>
 </tr>
 <tr>
 <td>
-<a href="../lgp.core.modules/-module-loader/index.html">lgp.core.modules.ModuleLoader</a></td>
-<td>
-<p>Provides a way to load <a href="../lgp.core.modules/-module/index.html">Module</a>s by their name.</p>
-</td>
-</tr>
-<tr>
-<td>
 <a href="../lgp.lib.operations/-multiplication/index.html">lgp.lib.operations.Multiplication</a></td>
 <td>
 <p>Performs multiplication on two Double arguments.</p>
@@ -451,7 +468,7 @@ does/what it is for.</p>
 </tr>
 <tr>
 <td>
-<a href="../lgp.core.environment.dataset/-nominal-attribute/index.html">lgp.core.environment.dataset.NominalAttribute</a></td>
+<a href="../lgp.core.environment.dataset/-nominal-feature/index.html">lgp.core.environment.dataset.NominalFeature</a></td>
 <td>
 </td>
 </tr>
@@ -582,9 +599,8 @@ does not match the size of the range.</p>
 </tr>
 <tr>
 <td>
-<a href="../lgp.core.environment.dataset/-row/index.html">lgp.core.environment.dataset.Row</a></td>
+<a href="../lgp.core.environment.dataset/-row.html">lgp.core.environment.dataset.Row</a></td>
 <td>
-<p>An instance in a <a href="#">CsvDataset</a>.</p>
 </td>
 </tr>
 <tr>
@@ -606,6 +622,13 @@ does not match the size of the range.</p>
 <a href="../lgp.core.evolution/-runners/index.html">lgp.core.evolution.Runners</a></td>
 <td>
 <p>A collection of built-in evolution runners.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.environment.dataset/-sample/index.html">lgp.core.environment.dataset.Sample</a></td>
+<td>
+<p>A sample in a <a href="../lgp.core.environment.dataset/-dataset/index.html">Dataset</a> made up of a collection of <a href="../lgp.core.environment.dataset/-feature/index.html">Feature</a>s.</p>
 </td>
 </tr>
 <tr>

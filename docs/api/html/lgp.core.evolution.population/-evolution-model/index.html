@@ -64,10 +64,18 @@
 </tr>
 <tr>
 <td>
-<a href="evaluate.html">evaluate</a></td>
+<a href="test.html">test</a></td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">evaluate</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-evolution-result/index.html"><span class="identifier">EvolutionResult</span></a><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span></code>
-<p>Starts the process of evolution using this model.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">test</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.EvolutionModel$test(lgp.core.environment.dataset.Dataset((lgp.core.evolution.population.EvolutionModel.TProgram)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TProgram</span></code>
+<p>Tests the model on a given data set and returns the program output.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="train.html">train</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">train</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.EvolutionModel$train(lgp.core.environment.dataset.Dataset((lgp.core.evolution.population.EvolutionModel.TProgram)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-evolution-result/index.html"><span class="identifier">EvolutionResult</span></a><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span></code>
+<p>Train the model on the given data set.</p>
 </td>
 </tr>
 </tbody>
@@ -79,7 +87,7 @@
 <td>
 <a href="../-models/-steady-state/index.html">SteadyState</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">SteadyState</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">SteadyState</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span></code>
 <p>A model for evolution using a steady-state algorithm.</p>
 </td>
 </tr>

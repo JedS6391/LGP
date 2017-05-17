@@ -29,6 +29,8 @@ abstract class Runner<T>(val environment: Environment<T>, val model: EvolutionMo
      * @returns The results of the run(s).
      */
     abstract fun run(dataset: Dataset<T>): RunResult<T>
+
+    // TODO: Should probably provide ability to run training/testing phases.
 }
 
 /**

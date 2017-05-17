@@ -13,7 +13,7 @@
 <h3>Parameters</h3>
 
 <p><a name="U"></a>
-<code>U</code> - the type that the <a href="../index.html">CsvDatasetLoader</a> will load attributes as.
+<code>U</code> - the type that the <a href="../index.html">CsvDatasetLoader</a> will load features as.
 <h3>Constructors</h3>
 <table>
 <tbody>
@@ -32,21 +32,21 @@
 <tbody>
 <tr>
 <td>
-<a href="filename.html">filename</a></td>
+<a href="feature-parse-function.html">featureParseFunction</a></td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">filename</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">featureParseFunction</span><span class="symbol">: </span><span class="symbol">(</span><a href="../../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
-<a href="labels.html">labels</a></td>
+<a href="reader.html">reader</a></td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">labels</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">reader</span><span class="symbol">: </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/Reader.html"><span class="identifier">Reader</span></a></code></td>
 </tr>
 <tr>
 <td>
-<a href="parse-function.html">parseFunction</a></td>
+<a href="target-parse-function.html">targetParseFunction</a></td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">parseFunction</span><span class="symbol">: </span><span class="symbol">(</span><span class="identifier">String</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">U</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">targetParseFunction</span><span class="symbol">: </span><span class="symbol">(</span><a href="../../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">U</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -63,6 +63,14 @@
 </tr>
 <tr>
 <td>
+<a href="feature-parse-function.html">featureParseFunction</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">featureParseFunction</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader.Builder$featureParseFunction(kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.CsvDatasetLoader.Builder.U)))))/function">function</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
+<p>Sets the function to use when parsing features from the data set file.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="filename.html">filename</a></td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">filename</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader.Builder$filename(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
@@ -71,16 +79,18 @@
 </tr>
 <tr>
 <td>
-<a href="labels.html">labels</a></td>
+<a href="reader.html">reader</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">labels</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader.Builder$labels(kotlin.collections.List((kotlin.String)))/labels">labels</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">reader</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader.Builder$reader(java.io.Reader)/reader">reader</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/Reader.html"><span class="identifier">Reader</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
+<p>Sets the reader that provides a CSV files contents.</p>
+</td>
 </tr>
 <tr>
 <td>
-<a href="parse-function.html">parseFunction</a></td>
+<a href="target-parse-function.html">targetParseFunction</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">parseFunction</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader.Builder$parseFunction(kotlin.Function1((kotlin.String, lgp.core.environment.dataset.CsvDatasetLoader.Builder.U)))/function">function</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">String</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">U</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
-<p>Sets the function to use when parsing attributes from the data set file.</p>
+<code><span class="keyword">fun </span><span class="identifier">targetParseFunction</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader.Builder$targetParseFunction(kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.CsvDatasetLoader.Builder.U)))/function">function</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">U</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
+<p>Sets the function to use when parsing target values from the data set file.</p>
 </td>
 </tr>
 </tbody>

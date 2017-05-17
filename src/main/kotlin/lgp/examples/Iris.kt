@@ -89,7 +89,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
                 val features = row.zip(header)
                                   .slice(featureIndices)
                                   .map { (featureValue, featureName) ->
-                                      
+
                     Feature(
                             name = featureName,
                             value = featureValue.toDouble()

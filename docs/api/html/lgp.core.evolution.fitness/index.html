@@ -21,9 +21,17 @@
 </tr>
 <tr>
 <td>
+<a href="-fitness-case/index.html">FitnessCase</a></td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">FitnessCase</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span></code>
+<p>A case to evaluate a programs fitness on.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="-fitness-context/index.html">FitnessContext</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">FitnessContext</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">FitnessContext</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
 <p>A mapping of program to fitness cases using a given fitness function.</p>
 </td>
 </tr>
@@ -31,7 +39,7 @@
 <td>
 <a href="-fitness-evaluator/index.html">FitnessEvaluator</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">FitnessEvaluator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">FitnessEvaluator</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
 <p>Provides a way to evaluate the fitness of a program.</p>
 </td>
 </tr>
@@ -50,15 +58,9 @@
 <tbody>
 <tr>
 <td>
-<a href="-fitness-case.html">FitnessCase</a></td>
-<td>
-<code><span class="keyword">typealias </span><span class="identifier">FitnessCase</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="../lgp.core.environment.dataset/-instance/index.html"><span class="identifier">Instance</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
-</tr>
-<tr>
-<td>
 <a href="-fitness-function.html">FitnessFunction</a></td>
 <td>
-<code><span class="keyword">typealias </span><span class="identifier">FitnessFunction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<span class="symbol">(</span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><a href="-fitness-case.html"><span class="identifier">FitnessCase</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Double</span></code>
+<code><span class="keyword">typealias </span><span class="identifier">FitnessFunction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<span class="symbol">(</span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><a href="-fitness-case/index.html"><span class="identifier">FitnessCase</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Double</span></code>
 <p>Computes the fitness of an individual program on a set of input-output examples.</p>
 </td>
 </tr>

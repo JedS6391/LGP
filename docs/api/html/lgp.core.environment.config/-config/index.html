@@ -31,14 +31,8 @@
 <td>
 <a href="branch-initialisation-rate.html">branchInitialisationRate</a></td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">branchInitialisationRate</span><span class="symbol">: </span><span class="identifier">Double</span></code></td>
-</tr>
-<tr>
-<td>
-<a href="class-attribute-index.html">classAttributeIndex</a></td>
-<td>
-<code><span class="keyword">var </span><span class="identifier">classAttributeIndex</span><span class="symbol">: </span><span class="identifier">Int</span></code>
-<p>An index of an attribute from the data set that will act as a class attribute.</p>
+<code><span class="keyword">var </span><span class="identifier">branchInitialisationRate</span><span class="symbol">: </span><span class="identifier">Double</span></code>
+<p>How often branches should be included in evolved programs.</p>
 </td>
 </tr>
 <tr>
@@ -61,13 +55,17 @@
 <td>
 <a href="crossover-rate.html">crossoverRate</a></td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">crossoverRate</span><span class="symbol">: </span><span class="identifier">Double</span></code></td>
+<code><span class="keyword">var </span><span class="identifier">crossoverRate</span><span class="symbol">: </span><span class="identifier">Double</span></code>
+<p>The frequency with which crossover should occur.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="generations.html">generations</a></td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">generations</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+<code><span class="keyword">var </span><span class="identifier">generations</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>Number of generations to evolve.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -87,25 +85,11 @@
 </tr>
 <tr>
 <td>
-<a href="input-attributes-high-index.html">inputAttributesHighIndex</a></td>
-<td>
-<code><span class="keyword">var </span><span class="identifier">inputAttributesHighIndex</span><span class="symbol">: </span><span class="identifier">Int</span></code>
-<p>An upper bound of attributes from the data set to load into the registers.</p>
-</td>
-</tr>
-<tr>
-<td>
-<a href="input-attributes-low-index.html">inputAttributesLowIndex</a></td>
-<td>
-<code><span class="keyword">var </span><span class="identifier">inputAttributesLowIndex</span><span class="symbol">: </span><span class="identifier">Int</span></code>
-<p>A lower bound of attributes from the data set to load into the registers.</p>
-</td>
-</tr>
-<tr>
-<td>
 <a href="macro-mutation-rate.html">macroMutationRate</a></td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">macroMutationRate</span><span class="symbol">: </span><span class="identifier">Double</span></code></td>
+<code><span class="keyword">var </span><span class="identifier">macroMutationRate</span><span class="symbol">: </span><span class="identifier">Double</span></code>
+<p>The frequency with which macro-mutations should occur.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -119,7 +103,9 @@
 <td>
 <a href="micro-mutation-rate.html">microMutationRate</a></td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">microMutationRate</span><span class="symbol">: </span><span class="identifier">Double</span></code></td>
+<code><span class="keyword">var </span><span class="identifier">microMutationRate</span><span class="symbol">: </span><span class="identifier">Double</span></code>
+<p>The frequency with which micro-mutations should occur.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -139,9 +125,19 @@
 </tr>
 <tr>
 <td>
+<a href="num-features.html">numFeatures</a></td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">numFeatures</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>The number of features in the data set (i.e. the number of input registers that should be made available).</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="num-offspring.html">numOffspring</a></td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">numOffspring</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+<code><span class="keyword">var </span><span class="identifier">numOffspring</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>Number of individuals that should be taken from the population in each generation.</p>
+</td>
 </tr>
 <tr>
 <td>
