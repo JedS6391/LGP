@@ -22,7 +22,7 @@ import java.util.*
 
 data class IrisSolution(
         override val problem: String,
-        val result: RunResult<Double>
+        val result: TrainingResult<Double>
 ) : Solution<Double>
 
 class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
@@ -170,8 +170,8 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
 
     override fun solve(): IrisSolution {
         try {
-            val runner = Runners.DistributedRunner(environment, model, runs = 5)
-            val result = runner.run(this.datasetLoader.load())
+            val runner = Runners.DistributedTrainer(environment, model, runs = 5)
+            val result = runner.train(this.datasetLoader.load())
 
             return IrisSolution(this.name, result)
         } catch (ex: UninitializedPropertyAccessException) {

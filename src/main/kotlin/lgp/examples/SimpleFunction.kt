@@ -24,10 +24,10 @@ import lgp.lib.BaseProgramSimplifier
  */
 
 // A solution for this problem consists of the problem's name and a result from
-// running the problem with a `Runner` impl.
+// running the problem with a `Trainer` impl.
 data class SimpleFunctionSolution(
         override val problem: String,
-        val result: RunResult<Double>
+        val result: TrainingResult<Double>
 ) : Solution<Double>
 
 // Define the problem and the necessary components to solve it.
@@ -163,8 +163,8 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun solve(): SimpleFunctionSolution {
         try {
-            val runner = Runners.DistributedRunner(environment, model, runs = 10)
-            val result = runner.run(this.datasetLoader.load())
+            val runner = Runners.DistributedTrainer(environment, model, runs = 10)
+            val result = runner.train(this.datasetLoader.load())
 
             return SimpleFunctionSolution(this.name, result)
         } catch (ex: UninitializedPropertyAccessException) {

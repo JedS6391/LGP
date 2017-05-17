@@ -19,7 +19,7 @@ import java.util.*
 
 data class SinPolySolution(
         override val problem: String,
-        val result: RunResult<Double>
+        val result: TrainingResult<Double>
 ) : Solution<Double>
 
 class SinPolyProblem : Problem<Double>() {
@@ -155,8 +155,8 @@ class SinPolyProblem : Problem<Double>() {
 
     override fun solve(): SinPolySolution {
         try {
-            val runner = Runners.DistributedRunner(environment, model, runs = 10)
-            val result = runner.run(this.datasetLoader.load())
+            val runner = Runners.DistributedTrainer(environment, model, runs = 10)
+            val result = runner.train(this.datasetLoader.load())
 
             return SinPolySolution(this.name, result)
         } catch (ex: UninitializedPropertyAccessException) {
