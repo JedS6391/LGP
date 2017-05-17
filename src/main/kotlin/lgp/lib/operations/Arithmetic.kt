@@ -4,6 +4,8 @@ import lgp.core.evolution.instructions.BinaryOperation
 import lgp.core.evolution.registers.Arguments
 import lgp.core.modules.ModuleInformation
 
+private const val C_UNDEF = 10e6
+
 /**
  * Performs addition on two Double arguments.
  */
@@ -61,7 +63,7 @@ class Division : BinaryOperation<Double>(
                 // if (r_k ≠ 0) r_i := r_j /r_k
                 args.get(1) != 0.0 -> args.get(0) * args.get(1)
                 // else r_i := r_j + C_undef
-                else -> args.get(0) + 1.0
+                else -> args.get(0) + C_UNDEF
             }
 
         }
@@ -82,7 +84,7 @@ class Exponent : BinaryOperation<Double>(
                 // if (|r_k| <= 10) r_i := |r_j| ^ r_k
                 Math.abs(args.get(1)) <= 10 -> Math.pow(Math.abs(args.get(0)), args.get(1))
                 // else r_i := r_j + r_k + C_undef
-                else -> args.get(0) + args.get(1) + 1.0
+                else -> args.get(0) + args.get(1) + C_UNDEF
             }
         }
 ) {
