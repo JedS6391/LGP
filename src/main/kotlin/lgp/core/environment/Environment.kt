@@ -221,11 +221,6 @@ open class Environment<T> {
         // This means that anything that can access the environment has access to a blank register set.
         // TODO: Pass environment to register set and make it a dependency that must be registered.
 
-        /*
-        this.dataset.classAttribute(this.config.classAttributeIndex)
-        this.dataset.inputAttributes(this.config.inputAttributesLowIndex..this.config.inputAttributesHighIndex)
-        */
-
         this.registerSet = RegisterSet(
                 inputRegisters = this.config.numFeatures,
                 calculationRegisters = this.config.numCalculationRegisters,

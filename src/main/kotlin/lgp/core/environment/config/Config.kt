@@ -65,38 +65,38 @@ class Config {
      */
     var populationSize = 100
 
-    /*
-     * Each instances attributes are loaded into a programs register set at execution time.
-     *
-     * [inputAttributesLowIndex] refers to the lower bound of the range of attributes to load.
-     * [inputAttributesHighIndex] refers to the upper bound of the range of attributes to load.
-     * [classAttributeIndex] refers to the index of an attribute which acts as the class attribute.
+    /**
+     * The number of features in the data set (i.e. the number of input registers that should be made available).
      */
+    var numFeatures = 0
 
     /**
-     * A lower bound of attributes from the data set to load into the registers.
+     * The frequency with which crossover should occur.
      */
-    var inputAttributesLowIndex = 0
-
-    /**
-     * An upper bound of attributes from the data set to load into the registers.
-     */
-    var inputAttributesHighIndex = 0
-
-    /**
-     * An index of an attribute from the data set that will act as a class attribute.
-     */
-    var classAttributeIndex = 0
-
     var crossoverRate = 0.5
 
+    /**
+     * The frequency with which micro-mutations should occur.
+     */
     var microMutationRate = 0.5
 
+    /**
+     * The frequency with which macro-mutations should occur.
+     */
     var macroMutationRate = 0.5
 
+    /**
+     * Number of generations to evolve.
+     */
     var generations = 50
 
-    var numOffspring = 50
+    /**
+     * Number of individuals that should be taken from the population in each generation.
+     */
+    var numOffspring = 20
 
+    /**
+     * How often branches should be included in evolved programs.
+     */
     var branchInitialisationRate = 0.0
 }
