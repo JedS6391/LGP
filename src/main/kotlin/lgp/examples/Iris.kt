@@ -32,7 +32,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
             "Classify each instance into one of three species based on four features.\n" +
                     "\tfeatures: [sepal length, sepal width, petal length, petal width]" +
                     "\tclasses: [Iris-setosa, Iris-versicolor, Iris-virginica]" +
-                    "\tnotes: There are 50 samples from each of the 3 species (150 instances in total)."
+                    "\tnotes: There are 50 samples from each of the 3 species (150 samples in total)."
     )
 
     override val configLoader = object : ConfigLoader {
@@ -58,9 +58,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
             config.numCalculationRegisters = 2
             config.populationSize = 2000
             config.generations = 1000
-            config.inputAttributesLowIndex = 0
-            config.inputAttributesHighIndex = 3
-            config.classAttributeIndex = 4
+            config.numFeatures = 4
             config.microMutationRate = 0.25
             config.macroMutationRate = 0.75
             config.crossoverRate = 0.75
@@ -78,23 +76,33 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
             parseFunction = String::toDouble
     )
 
-    val nominalValues = setOf("Iris-setosa", "Iris-versicolor", "Iris-virginica")
+    val targetLabels = setOf("Iris-setosa", "Iris-versicolor", "Iris-virginica")
+    val featureIndices = 0..3
+    val targetIndex = 4
 
-    override val datasetLoader = CsvDatasetLoader(
+     val datasetLoader = CsvDatasetLoader<Double>(
             reader = BufferedReader(
                     // Load from the resource file.
                     InputStreamReader(this.datasetStream)
             ),
-            // Allow parsing of the nominal attributes
-            parseFunction = { v: String ->
-                when (v) {
-                // Simply map the nominal value to its index (i.e. class ∈ {0, 1, 2})
-                    in nominalValues -> nominalValues.indexOf(v).toDouble()
-                    else -> v.toDouble()
+            featureParseFunction = { header: Header, row: Row ->
+                val features = row.zip(header)
+                                  .slice(featureIndices)
+                                  .map { (featureValue, featureName) ->
+                                      
+                    Feature(
+                            name = featureName,
+                            value = featureValue.toDouble()
+                    )
                 }
+
+                Sample(features)
             },
-            // Nominal attribute values
-            labels = nominalValues.toList()
+            targetParseFunction = { _: Header, row: Row ->
+                val target = row[targetIndex]
+
+                targetLabels.indexOf(target).toDouble()
+            }
     )
 
     override val operationLoader = DefaultOperationLoader<Double>(
@@ -148,7 +156,6 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
         this.environment = Environment(
                 this.configLoader,
                 this.constantLoader,
-                this.datasetLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
                 this.fitnessFunction
@@ -164,7 +171,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
     override fun solve(): IrisSolution {
         try {
             val runner = Runners.DistributedRunner(environment, model, runs = 5)
-            val result = runner.run()
+            val result = runner.run(this.datasetLoader.load())
 
             return IrisSolution(this.name, result)
         } catch (ex: UninitializedPropertyAccessException) {

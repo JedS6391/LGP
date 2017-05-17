@@ -56,9 +56,7 @@ class SimpleFunctionProblem : Problem<Double>() {
             config.numCalculationRegisters = 4
             config.populationSize = 500
             config.generations = 1000
-            config.inputAttributesLowIndex = 0
-            config.inputAttributesHighIndex = 0
-            config.classAttributeIndex = 1
+            config.numFeatures = 1
             config.microMutationRate = 0.4
             config.macroMutationRate = 0.6
             config.numOffspring = 20
@@ -74,28 +72,28 @@ class SimpleFunctionProblem : Problem<Double>() {
             parseFunction = String::toDouble
     )
 
-    override val datasetLoader = object : DatasetLoader<Double> {
+     val datasetLoader = object : DatasetLoader<Double> {
         // x^2 + 2x + 2
         val func = { x: Double -> (x * x) + (2 * x) + 2 }
         val gen = SequenceGenerator()
 
-        override val information = ModuleInformation("Generates instances in the range [-10:10:0.5].")
+        override val information = ModuleInformation("Generates samples in the range [-10:10:0.5].")
 
         override fun load(): Dataset<Double> {
             val xs = gen.generate(-10.0, 10.0, 0.5, inclusive = true).map { x ->
-                Attribute(name = "x", value = x)
+                Sample(
+                    listOf(Feature(name = "x", value = x))
+                )
             }
 
             val ys = xs.map { x ->
-                val y = this.func(x.value)
-                Attribute(name = "y", value = y)
+                this.func(x.features[0].value)
             }
 
-            val instances = xs.zip(ys).map { (x, y) ->
-                Instance(listOf(x, y))
-            }
-
-            return Dataset(instances.toList())
+            return Dataset(
+                    xs.toList(),
+                    ys.toList()
+            )
         }
     }
 
@@ -151,7 +149,6 @@ class SimpleFunctionProblem : Problem<Double>() {
         this.environment = Environment(
                 this.configLoader,
                 this.constantLoader,
-                this.datasetLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
                 this.fitnessFunction
@@ -167,7 +164,7 @@ class SimpleFunctionProblem : Problem<Double>() {
     override fun solve(): SimpleFunctionSolution {
         try {
             val runner = Runners.DistributedRunner(environment, model, runs = 10)
-            val result = runner.run()
+            val result = runner.run(this.datasetLoader.load())
 
             return SimpleFunctionSolution(this.name, result)
         } catch (ex: UninitializedPropertyAccessException) {
