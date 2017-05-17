@@ -12,4 +12,4 @@ import lgp.core.environment.ComponentLoader
  * @param TData Type of features in the data set.
  * @see [Dataset]
  */
-interface DatasetLoader<TInput, TOutput> : ComponentLoader<Dataset<TInput, TOutput>>
+interface DatasetLoader<out TData> : ComponentLoader<Dataset<TData>>
