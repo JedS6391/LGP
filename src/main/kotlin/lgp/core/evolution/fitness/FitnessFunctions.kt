@@ -20,7 +20,7 @@ object FitnessFunctions {
 
     // Large value for fitness when either a program is un-evaluated or
     // the fitness computation overflows.
-    const val UNDEFINED_FITNESS: Double = 1e9
+    const val UNDEFINED_FITNESS: Double = 10e9
 
     @JvmStatic
     fun SE(): FitnessFunction<Double> = { outputs, cases ->

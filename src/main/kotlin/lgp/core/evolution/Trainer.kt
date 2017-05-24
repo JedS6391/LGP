@@ -33,6 +33,7 @@ abstract class Trainer<T>(val environment: Environment<T>, val model: EvolutionM
 /**
  * A collection of built-in evolution runners.
  */
+// TODO: Rename this.
 object Runners {
 
     /**

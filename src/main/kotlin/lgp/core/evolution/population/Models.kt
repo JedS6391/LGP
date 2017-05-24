@@ -81,7 +81,6 @@ object Models {
                     return EvolutionResult(best.individual, this.individuals, statistics)
                 }
 
-
                 val children = this.select.select(this.individuals)
 
                 children.pairwise().pmap { (mother, father) ->
@@ -107,9 +106,9 @@ object Models {
                 // TODO: Do validation step
                 val evaluations = children.pmap { individual ->
                     this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
-                }
+                }.sortedBy(Evaluation<TProgram>::fitness)
 
-                val bestChild = evaluations.sortedBy(Evaluation<TProgram>::fitness).first()
+                val bestChild = evaluations.first()
 
                 best = if (bestChild.fitness < best.fitness) bestChild else best
                 this.bestProgram = best.individual

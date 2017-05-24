@@ -42,11 +42,16 @@ class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSe
     }
 
     override fun copy(): BaseProgram<T> {
-        return BaseProgram(
+        val copy =  BaseProgram(
                 instructions = this.instructions.map(Instruction<T>::copy),
                 registerSet = this.registers.copy(),
                 sentinelTrueValue = this.sentinelTrueValue
         )
+
+        // Make sure to copy fitness information over
+        copy.fitness = this.fitness
+
+        return copy
     }
 
     override fun findEffectiveProgram() {
