@@ -61,7 +61,7 @@ class Division : BinaryOperation<Double>(
         func = { args: Arguments<Double> ->
             when {
                 // if (r_k ≠ 0) r_i := r_j /r_k
-                args.get(1) != 0.0 -> args.get(0) * args.get(1)
+                args.get(1) != 0.0 -> args.get(0) / args.get(1)
                 // else r_i := r_j + C_undef
                 else -> args.get(0) + C_UNDEF
             }
