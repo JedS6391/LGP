@@ -59,7 +59,7 @@ class SimpleFunctionProblem : Problem<Double>() {
             config.numFeatures = 1
             config.microMutationRate = 0.4
             config.macroMutationRate = 0.6
-            config.numOffspring = 20
+            config.numOffspring = 10
 
             return config
         }
@@ -163,7 +163,7 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun solve(): SimpleFunctionSolution {
         try {
-            val runner = Runners.DistributedTrainer(environment, model, runs = 10)
+            val runner = Trainers.DistributedTrainer(environment, model, runs = 10)
             val result = runner.train(this.datasetLoader.load())
 
             return SimpleFunctionSolution(this.name, result)
@@ -204,7 +204,7 @@ class SimpleFunction {
                 eval.best.fitness
             }.sum() / solution.result.evaluations.size
 
-            println("Average best fitness (over 10 runs): $avgBestFitness")
+            println("Average best fitness: $avgBestFitness")
         }
     }
 }

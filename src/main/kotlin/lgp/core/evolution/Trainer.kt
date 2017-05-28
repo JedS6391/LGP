@@ -31,15 +31,14 @@ abstract class Trainer<T>(val environment: Environment<T>, val model: EvolutionM
 }
 
 /**
- * A collection of built-in evolution runners.
+ * A collection of built-in evolution trainers.
  */
-// TODO: Rename this.
-object Runners {
+object Trainers {
 
     /**
-     * Runs the model for a given number of runs, in a sequential manner.
+     * Trains the model for a given number of runs, in a sequential manner.
      *
-     * @property runs The number of times to run the given model.
+     * @property runs The number of times to train the given model.
      */
     class SequentialTrainer<T>(environment: Environment<T>, model: EvolutionModel<T>, val runs: Int)
         : Trainer<T>(environment, model) {
@@ -63,9 +62,9 @@ object Runners {
     }
 
     /**
-     *  Runs the model for a given number of runs, in a parallel manner.
+     *  Trains the model for a given number of runs, in a parallel manner.
      *
-     *  The model will be copied [runs] time and each copy will be executed in
+     *  The model will be copied [runs] time and each copy will be trained in
      *  its own thread. The results of each model evaluation will be gathered
      *  once all the threads complete.
      *
@@ -73,7 +72,7 @@ object Runners {
      *  to the extra memory needed for evaluating multiple models at once, as well as
      *  the overhead of the threads used.
      *
-     *  @property runs The number of times to run the given model.
+     *  @property runs The number of times to train the given model.
      */
     class DistributedTrainer<T>(environment: Environment<T>, model: EvolutionModel<T>, val runs: Int)
         : Trainer<T>(environment, model) {

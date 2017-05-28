@@ -170,7 +170,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
 
     override fun solve(): IrisSolution {
         try {
-            val runner = Runners.DistributedTrainer(environment, model, runs = 5)
+            val runner = Trainers.DistributedTrainer(environment, model, runs = 5)
             val result = runner.train(this.datasetLoader.load())
 
             return IrisSolution(this.name, result)

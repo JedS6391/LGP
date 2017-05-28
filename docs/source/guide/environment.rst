@@ -6,7 +6,7 @@ The first step in using the LGP system is to build an environment for the proble
 Overview
 ========
 
-This environment acts as a central repository for core *components* of the LGP system, such as configuration information, datasets, modules for various operations performed during evolution, etc.
+This environment acts as a central repository for core *components* of the LGP system, such as configuration information, modules for various operations performed during evolution, etc.
 
 It can be thought of as the *context* in which the LGP system is being used as the environment used will directly influence the results.
 
@@ -27,7 +27,6 @@ To build an environment, the following construction components are required:
 
 * ``ConfigLoader``
 * ``ConstantLoader``
-* ``DatasetLoader``
 * ``OperationLoader``
 * ``DefaultValueProvider``
 * ``FitnessFunction``
@@ -64,15 +63,6 @@ To build up an ``Environment`` instance with the correct construction components
         parseFunction = String::toDouble
     )
 
-    // Dataset.
-    val datasetLoader = CsvDatasetLoader<Double>(
-        // Using a CSV file so we use a CsvDatasetLoader.
-        filename = "/path/to/some/data/file.csv",
-
-        // A function to parse features from the dataset file.
-        parseFunction = String::toDouble
-    )
-
     // Operations.
     val operationLoader = DefaultOperationLoader<Double>(
         // We're using the operations specified in the
@@ -99,7 +89,6 @@ To build up an ``Environment`` instance with the correct construction components
     val env = Environment<Double>(
             configLoader,
             constantLoader,
-            datasetLoader,
             operationLoader,
             defaultValueProvider,
             fitnessFunction = ce
@@ -114,7 +103,6 @@ These components are automatically loaded by an environment when a set of suitab
 
 - Configuration
 - Constants
-- Dataset
 - Operations
 - Register Set
 
@@ -148,7 +136,6 @@ To illustrate how registered components are used - continuing from the above exa
     val env = Environment<Double>(
             configLoader,
             constantLoader,
-            datasetLoader,
             operationLoader,
             defaultValueProvider,
             fitnessFunction = ce

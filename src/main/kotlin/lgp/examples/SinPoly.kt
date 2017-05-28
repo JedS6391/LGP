@@ -33,10 +33,10 @@ class SinPolyProblem : Problem<Double>() {
         override fun load(): Config {
             val config = Config()
 
-            config.initialMinimumProgramLength = 10
-            config.initialMaximumProgramLength = 30
-            config.minimumProgramLength = 10
-            config.maximumProgramLength = 200
+            config.initialMinimumProgramLength = 30
+            config.initialMaximumProgramLength = 60
+            config.minimumProgramLength = 30
+            config.maximumProgramLength = 400
             config.operations = listOf(
                     "lgp.lib.operations.Addition",
                     "lgp.lib.operations.Subtraction",
@@ -46,15 +46,16 @@ class SinPolyProblem : Problem<Double>() {
             )
             config.constantsRate = 0.5
             config.constants = listOf(
-                    "0.0", "1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0", "9.0"
+                    "1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0", "9.0"
             )
             config.numCalculationRegisters = 4
             config.populationSize = 1000
-            config.generations = 500
+            config.generations = 1000
             config.numFeatures = 1
             config.microMutationRate = 0.25
             config.macroMutationRate = 0.75
-            config.numOffspring = 10
+            config.numOffspring = 4
+            config.crossoverRate = 0.7
 
             return config
         }
@@ -69,7 +70,7 @@ class SinPolyProblem : Problem<Double>() {
 
      val datasetLoader = object : DatasetLoader<Double> {
         // f(x) = sin(x) * x + 5
-        val func = { x: Double -> Math.sin(x) * x + 5 }
+        val func = { x: Double -> Math.sin(x) * x + 5.0 }
         val gen = UniformlyDistributedGenerator()
 
         override val information = ModuleInformation("Generates uniformly distributed samples in the range [-5:5].")
@@ -79,10 +80,10 @@ class SinPolyProblem : Problem<Double>() {
                 Sample(
                     listOf(Feature(name = "x", value = v))
                 )
-            }
+            }.toList()
 
             val ys = xs.map { x ->
-                this.func(x.features[0].value)
+                this.func(x.feature("x").value)
             }
 
             return Dataset(
@@ -155,7 +156,7 @@ class SinPolyProblem : Problem<Double>() {
 
     override fun solve(): SinPolySolution {
         try {
-            val runner = Runners.DistributedTrainer(environment, model, runs = 10)
+            val runner = Trainers.DistributedTrainer(environment, model, runs = 10)
             val result = runner.train(this.datasetLoader.load())
 
             return SinPolySolution(this.name, result)
@@ -177,6 +178,13 @@ class SinPoly {
             val solution = problem.solve()
             val simplifier = BaseProgramSimplifier<Double>()
 
+
+            solution.result.evaluations.forEach { eval ->
+                println("Best Fitness = ${eval.best.fitness}")
+
+                println(simplifier.simplify(eval.best as BaseProgram<Double>))
+            }
+
             println("Results:")
 
             solution.result.evaluations.forEachIndexed { run, res ->
@@ -191,10 +199,12 @@ class SinPoly {
                 println("")
             }
 
-            val avgBestFitness = solution.result.evaluations.map { (best) ->
-                best.fitness
+            val avgBestFitness = solution.result.evaluations.map { eval ->
+                eval.best.fitness
             }.sum() / solution.result.evaluations.size
-            println("Average best fitness (over 10 runs): $avgBestFitness")
+
+            println("Average best fitness: $avgBestFitness")
+
         }
     }
 }
