@@ -163,7 +163,7 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun solve(): SimpleFunctionSolution {
         try {
-            val runner = Runners.DistributedTrainer(environment, model, runs = 10)
+            val runner = Trainers.DistributedTrainer(environment, model, runs = 10)
             val result = runner.train(this.datasetLoader.load())
 
             return SimpleFunctionSolution(this.name, result)

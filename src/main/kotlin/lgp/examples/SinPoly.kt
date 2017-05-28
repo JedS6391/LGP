@@ -156,7 +156,7 @@ class SinPolyProblem : Problem<Double>() {
 
     override fun solve(): SinPolySolution {
         try {
-            val runner = Runners.DistributedTrainer(environment, model, runs = 10)
+            val runner = Trainers.DistributedTrainer(environment, model, runs = 10)
             val result = runner.train(this.datasetLoader.load())
 
             return SinPolySolution(this.name, result)

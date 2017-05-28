@@ -178,11 +178,9 @@ open class Environment<T> {
      *
      * @param configLoader A component that can load configuration information.
      * @param constantLoader A component that can load constants.
-     * @param datasetLoader A component that can load the dataset for an LGP system.
      * @param operationLoader A component that can load operations for the LGP system.
      * @param defaultValueProvider A component that provides default values for the registers in the register set.
      * @param fitnessFunction A function used to evaluate the fitness of LGP programs.
-     * @param initialise Whether or not initialised components should be initialised automatically.
      */
     // TODO: Move all components to an object to make constructor smaller.
     // TODO: Allow custom initialisation method for initialisation components.
