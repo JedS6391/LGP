@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Runners.DistributedTrainer - </title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">lgp.core.evolution</a>&nbsp;/&nbsp;<a href="../index.html">Runners</a>&nbsp;/&nbsp;<a href=".">DistributedTrainer</a><br/>
+<br/>
+<h1>DistributedTrainer</h1>
+<code><span class="keyword">class </span><span class="identifier">DistributedTrainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../-trainer/index.html"><span class="identifier">Trainer</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Runs the model for a given number of runs, in a parallel manner.</p>
+<p>The model will be copied <a href="runs.html">runs</a> time and each copy will be executed in
+its own thread. The results of each model evaluation will be gathered
+once all the threads complete.</p>
+<p>This runner has significant overhead compared to the <a href="../-sequential-trainer/index.html">SequentialTrainer</a>, due
+to the extra memory needed for evaluating multiple models at once, as well as
+the overhead of the threads used.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">DistributedTrainer</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.Runners.DistributedTrainer$<init>(lgp.core.environment.Environment((lgp.core.evolution.Runners.DistributedTrainer.T)), lgp.core.evolution.population.EvolutionModel((lgp.core.evolution.Runners.DistributedTrainer.T)), kotlin.Int)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.Runners.DistributedTrainer$<init>(lgp.core.environment.Environment((lgp.core.evolution.Runners.DistributedTrainer.T)), lgp.core.evolution.population.EvolutionModel((lgp.core.evolution.Runners.DistributedTrainer.T)), kotlin.Int)/model">model</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.Runners.DistributedTrainer$<init>(lgp.core.environment.Environment((lgp.core.evolution.Runners.DistributedTrainer.T)), lgp.core.evolution.population.EvolutionModel((lgp.core.evolution.Runners.DistributedTrainer.T)), kotlin.Int)/runs">runs</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span></code>
+<p>Runs the model for a given number of runs, in a parallel manner.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="models.html">models</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">models</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="runs.html">runs</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">runs</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<p>The number of times to run the given model.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../-trainer/environment.html">environment</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>The environment evolution is performed within.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../../-trainer/model.html">model</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">model</span><span class="symbol">: </span><a href="../../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>The model of evolution to use.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="train.html">train</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">train</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.Runners.DistributedTrainer$train(lgp.core.environment.dataset.Dataset((lgp.core.evolution.Runners.DistributedTrainer.T)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-training-result/index.html"><span class="identifier">TrainingResult</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Trains the model and gathers results from training.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

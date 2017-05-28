@@ -10,11 +10,15 @@ An ``EvolutionModel`` describes the way that the modules provided to the environ
 
 All this really means is that an evolution model is an implementation of some algorithm that is used for evolving solutions, such as a steady-state or generational algorithm.
 
-The system allows custom models to be created so that the model can be adapted to the problem being solved, but in general the models provided by the `lgp.core.evolution.population.Models` module will provide good performance, as the parameters can be tweaked through the environment that is built.
+The system allows custom models to be created so that the model can be adapted to the problem being solved, but in general the models provided by the ``lgp.core.evolution.population.Models`` module will provide good performance, as the parameters can be tweaked through the environment that is built.
 
-To use a model is as simple as providing the model with an environment and starting the process of evolution using that model. A model should return some result when it is completed, which provides information about the best individual found, the final population, and any statistics from evolution that the model wishes to expose.
+To use a model is as simple as providing the model with an environment and training the model on a data set for the particular problem being solved. Once the model has been trained, it can be tested on an arbitrary data set in order to form a prediction.
 
 .. note:: It must be ensured that the environment built provides all the components that the evolution model requires. Because the model has complete access to the environment, it can make use of any component the environment is aware of.
+
+Generally, the model will work by using an evolutionary algorithm to train a population of individuals. The best individual from training will be used by the model to form predictions when testing using the model.
+
+It is possible to use a model directly to solve a problem, but in general it is better to define a ``Problem`` as described in the :doc:`next section<problem>`.
 
 Example
 -------
@@ -28,7 +32,6 @@ An environment provides a context for evolution, and we can build a model within
     val env = Environment<Double>(
             configLoader,
             constantLoader,
-            datasetLoader,
             operationLoader,
             defaultValueProvider,
             fitnessFunction = ce
@@ -38,46 +41,8 @@ An environment provides a context for evolution, and we can build a model within
     // the model we wish to use (i.e. every core module type).
     val container = ModuleContainer(
         modules = mutableMapOf(
-            CoreModuleType.InstructionGenerator to {
-                BaseInstructionGenerator(environment)
-            },
-            CoreModuleType.ProgramGenerator to {
-                BaseProgramGenerator(
-                    environment,
-                    sentinelTrueValue = 1.0
-                )
-            },
-            CoreModuleType.SelectionOperator to {
-                TournamentSelection(
-                    environment,
-                    tournamentSize = 2
-                )
-            },
-            CoreModuleType.RecombinationOperator to {
-                LinearCrossover(
-                    environment,
-                    maximumSegmentLength = 6,
-                    maximumCrossoverDistance = 5,
-                    maximumSegmentLengthDifference = 3
-                )
-            },
-            CoreModuleType.MacroMutationOperator to {
-                MacroMutationOperator(
-                    environment,
-                    insertionRate = 0.67,
-                    deletionRate = 0.33
-                )
-            },
-            CoreModuleType.MicroMutationOperator to {
-                MicroMutationOperator(
-                    environment,
-                    registerMutationRate = 0.5,
-                    operatorMutationRate = 0.3,
-                    constantMutationFunc = { v ->
-                        v + (Random().nextGaussian())
-                    }
-                )
-            }
+            // Any modules the system needs.
+            ...
         )
     )
 
@@ -86,10 +51,30 @@ An environment provides a context for evolution, and we can build a model within
     // Build a steady-state model around this environment.
     val model = Models.SteadyState(environment)
 
-    // Use the model to perform evolution and collect the result.
-    val result = model.evolve()
+    // Define a data set to be used for training. What this data
+    // set contains will depend on the problem.
+    val trainingDatasetLoader = DatasetLoader<Double> {
+        // Could be loaded from a file or built directly.
+        ...
+    }
 
+    // Train the model on the training data set.
+    val result = model.train(trainingDatasetLoader.load())
+
+    // Get the fitness of the best individual from training.
     println(result.best.fitness)
+
+    // To perform a prediction using the trained model is easy.
+
+    // Define a data set to be used for testing. This data set
+    // will generally be different to that used for training in order
+    // to evaluate the solutions generalisation.
+    val testDatasetLoader = DatasetLoader<Double> {
+        ...
+    }
+
+    // Gather the models predictions for this data set.
+    val predictions = model.test(testDatasetLoader.load())
 
 API
 ===
