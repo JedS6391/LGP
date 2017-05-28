@@ -59,7 +59,7 @@ class SimpleFunctionProblem : Problem<Double>() {
             config.numFeatures = 1
             config.microMutationRate = 0.4
             config.macroMutationRate = 0.6
-            config.numOffspring = 20
+            config.numOffspring = 10
 
             return config
         }
@@ -204,7 +204,7 @@ class SimpleFunction {
                 eval.best.fitness
             }.sum() / solution.result.evaluations.size
 
-            println("Average best fitness (over 10 runs): $avgBestFitness")
+            println("Average best fitness: $avgBestFitness")
         }
     }
 }
