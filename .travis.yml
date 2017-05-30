@@ -29,6 +29,7 @@ deploy:
     - build/libs/LGP-core-1.0-SNAPSHOT.jar
     - build/libs/LGP-examples-1.0-SNAPSHOT.jar
   skip_cleanup: true
+  overwrite: true
   on:
     repo: JedS6391/LGP
     tags: true
