@@ -178,13 +178,6 @@ class SinPoly {
             val solution = problem.solve()
             val simplifier = BaseProgramSimplifier<Double>()
 
-
-            solution.result.evaluations.forEach { eval ->
-                println("Best Fitness = ${eval.best.fitness}")
-
-                println(simplifier.simplify(eval.best as BaseProgram<Double>))
-            }
-
             println("Results:")
 
             solution.result.evaluations.forEachIndexed { run, res ->
