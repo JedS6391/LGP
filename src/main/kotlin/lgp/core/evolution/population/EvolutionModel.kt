@@ -20,7 +20,7 @@ data class EvolutionStatistics(val data: Map<String, Any>)
  * @property individuals The population at the end of the evolution process.
  * @property statistics Any statistics from evolution. It is expected to be on a per generation basis.
  */
-data class EvolutionResult<T>(
+open class EvolutionResult<T>(
         val best: Program<T>,
         val individuals: List<Program<T>>,
         val statistics: List<EvolutionStatistics>
