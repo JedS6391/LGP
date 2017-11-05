@@ -50,11 +50,11 @@ class SinPolyProblem : Problem<Double>() {
             )
             config.numCalculationRegisters = 4
             config.populationSize = 1000
-            config.generations = 1000
+            config.generations = 200
             config.numFeatures = 1
             config.microMutationRate = 0.25
             config.macroMutationRate = 0.75
-            config.numOffspring = 4
+            config.numOffspring = 20
             config.crossoverRate = 0.7
 
             return config
@@ -110,7 +110,7 @@ class SinPolyProblem : Problem<Double>() {
                         BaseProgramGenerator(environment, sentinelTrueValue = 1.0)
                     },
                     CoreModuleType.SelectionOperator to {
-                        TournamentSelection(environment, tournamentSize = 4)
+                        TournamentSelection(environment, tournamentSize = 10)
                     },
                     CoreModuleType.RecombinationOperator to {
                         LinearCrossover(
@@ -151,12 +151,12 @@ class SinPolyProblem : Problem<Double>() {
     }
 
     override fun initialiseModel() {
-        this.model = Models.SteadyState(this.environment)
+        this.model = Models.MasterSlave(this.environment)
     }
 
     override fun solve(): SinPolySolution {
         try {
-            val runner = Trainers.DistributedTrainer(environment, model, runs = 10)
+            val runner = Trainers.DistributedTrainer(environment, model, runs = 1)
             val result = runner.train(this.datasetLoader.load())
 
             return SinPolySolution(this.name, result)
@@ -168,37 +168,3 @@ class SinPolyProblem : Problem<Double>() {
         }
     }
 }
-
-class SinPoly {
-    companion object Main {
-        @JvmStatic fun main(args: Array<String>) {
-            val problem = SinPolyProblem()
-            problem.initialiseEnvironment()
-            problem.initialiseModel()
-            val solution = problem.solve()
-            val simplifier = BaseProgramSimplifier<Double>()
-
-            println("Results:")
-
-            solution.result.evaluations.forEachIndexed { run, res ->
-                println("Run ${run + 1} (best fitness = ${res.best.fitness})")
-                println(simplifier.simplify(res.best as BaseProgram<Double>))
-
-                println("\nStats (last run only):\n")
-
-                for ((k, v) in res.statistics.last().data) {
-                    println("$k = $v")
-                }
-                println("")
-            }
-
-            val avgBestFitness = solution.result.evaluations.map { eval ->
-                eval.best.fitness
-            }.sum() / solution.result.evaluations.size
-
-            println("Average best fitness: $avgBestFitness")
-
-        }
-    }
-}
-

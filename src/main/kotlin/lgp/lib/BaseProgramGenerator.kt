@@ -48,7 +48,7 @@ class BaseProgramGenerator<T>(environment: Environment<T>, val sentinelTrueValue
             // effective and are calculation registers.
             instructions.first().operands.filter { operand ->
                 operand !in effectiveRegisters &&
-                this.environment.registerSet.registerType(operand) == RegisterType.Calculation
+                        (this.environment.registerSet.registerType(operand) == RegisterType.Calculation)
             }.forEach { operand -> effectiveRegisters.add(operand) }
 
             if (effectiveRegisters.isEmpty()) {

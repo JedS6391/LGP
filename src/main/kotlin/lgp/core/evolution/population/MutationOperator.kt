@@ -293,7 +293,8 @@ internal fun <T> findEffectiveCalculationRegisters(individual: Program<T>, stopP
             effectiveRegisters.remove(instruction.destination)
 
             for (operand in instruction.operands) {
-                val isCalculation = individual.registers.registerType(operand) == RegisterType.Calculation
+                val isCalculation = individual.registers.registerType(operand) == RegisterType.Calculation ||
+                        individual.registers.registerType(operand) == RegisterType.Input
 
                 if (operand !in effectiveRegisters && isCalculation) {
                     effectiveRegisters.add(operand)
