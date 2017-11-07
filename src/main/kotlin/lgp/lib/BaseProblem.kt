@@ -18,6 +18,9 @@ import lgp.core.evolution.population.*
 import lgp.core.modules.ModuleInformation
 import java.util.*
 
+/**
+ * Parameters that can be given to configure a ``BaseProblem``.
+ */
 data class BaseProblemParameters(
         val name: String,
         val description: Description,
@@ -43,10 +46,22 @@ data class BaseProblemParameters(
         val runs: Int = 10
 )
 
+/**
+ * Exception given when there is some problem with the setup of a ``BaseProblem``.
+ */
 class BaseProblemException(message: String) : Exception(message)
 
+/**
+ * Encapsulates the information given from a call to [BaseProblem.test].
+ */
 data class BaseProblemTestResult(val testResult: TestResult<Double>, val testFitness: Double)
 
+/**
+ * A basic skeleton for a problem setup with commonly used components and modules.
+ *
+ * This class is supposed to streamline the process of setting up a problem by providing
+ * a set of reasonable defaults and a base set of parameters that can be tweaked.
+ */
 class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
     // Unpack values from parameters.
     override val name = params.name
@@ -97,7 +112,11 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                         BaseInstructionGenerator(environment)
                     },
                     CoreModuleType.ProgramGenerator to {
-                        BaseProgramGenerator(environment, sentinelTrueValue = 1.0)
+                        BaseProgramGenerator(
+                                environment,
+                                sentinelTrueValue = 1.0,
+                                outputRegisterIndex = 0
+                        )
                     },
                     CoreModuleType.SelectionOperator to {
                         TournamentSelection(environment, tournamentSize = params.tournamentSize)

@@ -13,7 +13,10 @@ import java.util.Random
 import kotlin.coroutines.experimental.buildSequence
 
 /**
- * @suppress
+ * Built-in offering of the ``InstructionGenerator`` interface.
+ *
+ * The generator provides an endless stream of randomly generated instructions
+ * that are constructed from the pool of available operations and registers.
  */
 class BaseInstructionGenerator<T> : InstructionGenerator<T> {
 
@@ -28,6 +31,11 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
         this.registerGenerator = RandomRegisterGenerator(this.registers)
     }
 
+    /**
+     * Generator function that provides a sequence of randomly generated instructions.
+     *
+     * This sequence can be consumed in a loop or a fixed number of instructions can be requested.
+     */
     override fun next(): Sequence<Instruction<T>> = buildSequence {
         while (true) {
             yield(this@BaseInstructionGenerator.generateRandomInstruction())

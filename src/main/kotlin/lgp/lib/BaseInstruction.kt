@@ -2,13 +2,16 @@ package lgp.lib
 
 import lgp.core.evolution.instructions.*
 import lgp.core.evolution.registers.Arguments
-import lgp.core.evolution.registers.Register
-import lgp.core.evolution.registers.RegisterAccessException
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.ModuleInformation
 
 /**
- * @suppress
+ * A built-in offering of the ``Instruction`` type.
+ *
+ * This instruction is simple in its representation and execution:
+ *     - It consists of a single operation that operates on a set of operand registers
+ *       and stores the result in a single destination register.
+ *     - It provides the ability to be exported as a C-style instruction (e.g. "r[1] = r[1] + r[2]")
  */
 class BaseInstruction<T>(
         override var operation: Operation<T>,
@@ -16,6 +19,9 @@ class BaseInstruction<T>(
         override var operands: MutableList<RegisterIndex>
 ) : Instruction<T>() {
 
+    /**
+     * Applies [operation] to the [operands] and stores the result in [destination].
+     */
     override fun execute(registers: RegisterSet<T>) {
         val arguments = Arguments(
                 this.operands.map { idx ->
@@ -26,6 +32,9 @@ class BaseInstruction<T>(
         registers.write(this.destination, this.operation.execute(arguments))
     }
 
+    /**
+     * Creates a new ``BaseInstruction`` instance that is a clone of this instruction.
+     */
     override fun copy(): Instruction<T> {
         return BaseInstruction(
                 operation = this.operation,
@@ -34,6 +43,9 @@ class BaseInstruction<T>(
         )
     }
 
+    /**
+     * Provides a C-style representation of this instruction.
+     */
     override fun toString(): String {
         val representation = StringBuilder()
 
