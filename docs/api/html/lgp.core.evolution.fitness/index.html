@@ -31,8 +31,8 @@
 <td>
 <a href="-fitness-context/index.html">FitnessContext</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">FitnessContext</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
-<p>A mapping of program to fitness cases using a given fitness function.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">FitnessContext</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>Provides a way to map a program to fitness cases using a given fitness function.</p>
 </td>
 </tr>
 <tr>
@@ -49,6 +49,14 @@
 <td>
 <code><span class="keyword">object </span><span class="identifier">FitnessFunctions</span></code>
 <p>A collection of standard fitness functions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-single-output-fitness-context/index.html">SingleOutputFitnessContext</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SingleOutputFitnessContext</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-fitness-context/index.html"><span class="identifier">FitnessContext</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
+<p>A default mapping of program to fitness cases using a given fitness function.</p>
 </td>
 </tr>
 </tbody>
