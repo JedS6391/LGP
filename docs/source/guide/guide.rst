@@ -23,5 +23,6 @@ For a complete, low-level API reference, see the `dokka API documentation <https
    programs
    evolutionary-operators
    extensions
+   usage
 
 
