@@ -119,7 +119,11 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
                         BaseInstructionGenerator(environment)
                     },
                     CoreModuleType.ProgramGenerator to {
-                        BaseProgramGenerator(environment, sentinelTrueValue = 1.0)
+                        BaseProgramGenerator(
+                                environment,
+                                sentinelTrueValue = 1.0,
+                                outputRegisterIndex = 0
+                        )
                     },
                     CoreModuleType.SelectionOperator to {
                         TournamentSelection(environment, tournamentSize = 4)
