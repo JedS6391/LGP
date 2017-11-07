@@ -17,10 +17,18 @@ import lgp.lib.BaseProgram
 import java.util.*
 
 /**
- * @suppress
+ * A ``ProgramGenerator`` implementation that provides effective ``BaseProgram`` instances.
+ *
+ * This generator only creates programs which are "effective".
  */
-class BaseProgramGenerator<T>(environment: Environment<T>, val sentinelTrueValue: T)
-    : ProgramGenerator<T>(environment, instructionGenerator = environment.registeredModule(CoreModuleType.InstructionGenerator)) {
+class BaseProgramGenerator<T>(
+        environment: Environment<T>,
+        val sentinelTrueValue: T,
+        val outputRegisterIndex: RegisterIndex
+) : ProgramGenerator<T>(
+        environment,
+        instructionGenerator = environment.registeredModule(CoreModuleType.InstructionGenerator)
+) {
 
     private val random = Random()
 
@@ -76,7 +84,12 @@ class BaseProgramGenerator<T>(environment: Environment<T>, val sentinelTrueValue
         }
 
         // Each program gets its own copy of the register set
-        val program = BaseProgram(instructions.toList(), this.environment.registerSet.copy(), this.sentinelTrueValue)
+        val program = BaseProgram(
+                instructions = instructions.toList(),
+                registerSet = this.environment.registerSet.copy(),
+                outputRegisterIndex = this.outputRegisterIndex,
+                sentinelTrueValue =  this.sentinelTrueValue
+        )
 
         return program
     }

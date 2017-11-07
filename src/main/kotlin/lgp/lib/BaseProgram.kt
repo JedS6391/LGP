@@ -11,12 +11,21 @@ import lgp.core.evolution.registers.copy
 import lgp.core.modules.ModuleInformation
 
 /**
- * @suppress
+ * A built-in offering of the ``Program`` interface.
+ *
+ * Instructions of this program are executed in sequence and can be gathered
+ * from a single output register.
  */
-class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSet<T>, val sentinelTrueValue: T)
-    // TODO: Configurable output register
-    // By Default we are choosing the first calculation register.
-    : Program<T>(instructions.toMutableList(), registerSet, outputRegisterIndex = registerSet.calculationRegisters.start) {
+class BaseProgram<T>(
+        instructions: List<Instruction<T>>,
+        registerSet: RegisterSet<T>,
+        outputRegisterIndex: RegisterIndex,
+        val sentinelTrueValue: T
+) : Program<T>(
+        instructions.toMutableList(),
+        registerSet,
+        outputRegisterIndex = outputRegisterIndex
+) {
 
     override fun execute() {
         var branchResult = true
@@ -45,6 +54,7 @@ class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSe
         val copy =  BaseProgram(
                 instructions = this.instructions.map(Instruction<T>::copy),
                 registerSet = this.registers.copy(),
+                outputRegisterIndex = this.outputRegisterIndex,
                 sentinelTrueValue = this.sentinelTrueValue
         )
 
@@ -119,8 +129,14 @@ class BaseProgram<T>(instructions: List<Instruction<T>>, registerSet: RegisterSe
     )
 }
 
+/**
+ * Utility class that can be used to create a simplified representation of a ``BaseProgram``.
+ */
 class BaseProgramSimplifier<T> {
 
+    /**
+     * Simplifies [program] and gives it as a string output.
+     */
     fun simplify(program: BaseProgram<T>): String {
         val sb = StringBuilder()
 
