@@ -7,8 +7,10 @@ import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
+import lgp.core.evolution.fitness.FitnessContext
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
+import lgp.core.evolution.fitness.SingleOutputFitnessContext
 import lgp.core.evolution.population.*
 import lgp.core.modules.ModuleInformation
 import lgp.lib.BaseInstructionGenerator
@@ -145,6 +147,9 @@ class SimpleFunctionProblem : Problem<Double>() {
                                 // modifying constants.
                                 constantMutationFunc = { v -> v }
                         )
+                    },
+                    CoreModuleType.FitnessContext to {
+                        SingleOutputFitnessContext(environment)
                     }
             )
     )

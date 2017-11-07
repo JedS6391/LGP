@@ -9,6 +9,7 @@ import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
+import lgp.core.evolution.fitness.SingleOutputFitnessContext
 import lgp.core.evolution.population.*
 import lgp.core.modules.ModuleInformation
 import lgp.lib.BaseInstructionGenerator
@@ -138,6 +139,9 @@ class SinPolyProblem : Problem<Double>() {
                                 operatorMutationRate = 0.4,
                                 constantMutationFunc = { v -> v + (Random().nextGaussian() * 1) }
                         )
+                    },
+                    CoreModuleType.FitnessContext to {
+                        SingleOutputFitnessContext(environment)
                     }
             )
     )
@@ -169,6 +173,39 @@ class SinPolyProblem : Problem<Double>() {
             throw ProblemNotInitialisedException(
                     "The initialisation routines for this problem must be run before it can be solved."
             )
+        }
+    }
+}
+
+class SinPoly {
+    companion object Main {
+        @JvmStatic fun main(args: Array<String>) {
+            // Create a new problem instance, initialise it, and then solve it.
+            val problem = SinPolyProblem()
+            problem.initialiseEnvironment()
+            problem.initialiseModel()
+            val solution = problem.solve()
+            val simplifier = BaseProgramSimplifier<Double>()
+
+            println("Results:")
+
+            solution.result.evaluations.forEachIndexed { run, res ->
+                println("Run ${run + 1} (best fitness = ${res.best.fitness})")
+                println(simplifier.simplify(res.best as BaseProgram<Double>))
+
+                println("\nStats (last run only):\n")
+
+                for ((k, v) in res.statistics.last().data) {
+                    println("$k = $v")
+                }
+                println("")
+            }
+
+            val avgBestFitness = solution.result.evaluations.map { eval ->
+                eval.best.fitness
+            }.sum() / solution.result.evaluations.size
+
+            println("Average best fitness: $avgBestFitness")
         }
     }
 }

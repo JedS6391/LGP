@@ -9,6 +9,7 @@ import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
+import lgp.core.evolution.fitness.SingleOutputFitnessContext
 import lgp.core.evolution.population.*
 import lgp.core.modules.ModuleInformation
 import lgp.lib.BaseInstructionGenerator
@@ -152,6 +153,9 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
                                     v + (Random().nextGaussian() * 1)
                                 }
                         )
+                    },
+                    CoreModuleType.FitnessContext to {
+                        SingleOutputFitnessContext(environment)
                     }
             )
     )
