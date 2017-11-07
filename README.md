@@ -97,3 +97,5 @@ kotlinc -cp LGP.jar -no-jdk -no-stdlib -d MyProblem.jar MyProblem.kt
 # Use the Java interpreter to execute the main function
 java -cp LGP.jar:MyProblem.jar MyProblemKt
 ```
+
+Please refer to the [usage guide](http://lgp.readthedocs.io/en/latest/guide/usage.html#with-java) for instructions on using the API from the context of a Java program.
