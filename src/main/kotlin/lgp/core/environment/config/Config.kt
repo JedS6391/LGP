@@ -98,4 +98,12 @@ class Config {
      * How often branches should be included in evolved programs.
      */
     var branchInitialisationRate = 0.0
+
+    /**
+     * Determines the threshold for stopping the evolutionary process.
+     *
+     * When a solution with a fitness of [stoppingCriterion] is found, the search will stop.
+     * By default, we don't stop until the fitness is minimised perfectly.
+     */
+    var stoppingCriterion = 0.0
 }
