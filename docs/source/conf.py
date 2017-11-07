@@ -31,8 +31,10 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.mathjax',
-    'sphinx.ext.githubpages']
+extensions = [
+    'sphinx.ext.mathjax',
+    'sphinx.ext.githubpages'
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -88,7 +90,23 @@ html_theme = 'alabaster'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'description': 'A robust LGP implementation on the JVM using Kotlin.',
+    'github_user': 'JedS6391',
+    'github_repo': 'LGP',
+    'travis_button': True,
+    'fixed_sidebar': True,
+    'github_type': 'star',
+    'github_count': False
+}
+
+html_sidebars = {
+    '**': [
+        'about.html',
+        'globaltoc.html',
+        'searchbox.html'
+    ]
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

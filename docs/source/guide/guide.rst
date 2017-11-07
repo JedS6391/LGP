@@ -17,5 +17,11 @@ For a complete, low-level API reference, see the `dokka API documentation <https
    evolution
    problem
    trainers
-   operations
    modules
+   operations
+   instructions
+   programs
+   evolutionary-operators
+   extensions
+
+

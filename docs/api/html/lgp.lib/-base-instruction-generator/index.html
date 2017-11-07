@@ -1,0 +1,70 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>BaseInstructionGenerator - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.lib</a>&nbsp;/&nbsp;<a href=".">BaseInstructionGenerator</a><br/>
+<br/>
+<h1>BaseInstructionGenerator</h1>
+<code><span class="keyword">class </span><span class="identifier">BaseInstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Built-in offering of the <code>InstructionGenerator</code> interface.</p>
+<p>The generator provides an endless stream of randomly generated instructions
+that are constructed from the pool of available operations and registers.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">BaseInstructionGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseInstructionGenerator$<init>(lgp.core.environment.Environment((lgp.lib.BaseInstructionGenerator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="information.html">information</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
+<p>Provides information about the module.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="operation-pool.html">operationPool</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">operationPool</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../lgp.core.evolution.instructions/-instruction-generator/environment.html">environment</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="next.html">next</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Generator function that provides a sequence of randomly generated instructions.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

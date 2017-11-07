@@ -4,9 +4,13 @@ Representation
 Programs
 ========
 
-Linear Genetic Programming (LGP) operates with imperative programs which consist of a variable-length *sequence of instructions* that operate on and manipulate the contents of a *set of registers*.
+Linear Genetic Programming (LGP) operates with imperative programs that consist of a variable-length *sequence of instructions* that operate on and manipulate the contents of a *set of registers*.
 
-This is significantly different to other Genetic Programming approaches, such as Tree-Based GP which represents programs as a tree where the interior nodes perform operations on the values stored in the leaf nodes.
+This is significantly different to other Genetic Programming approaches, such as tree-based GP, which represents programs as a tree where the interior nodes perform operations on the values stored in the leaf nodes. The figure below illustrates the difference between a tree-based GP program and an LGP program.
+
+.. image:: figures/gp-lgp-comparison.png
+
+In this example, the registers contain the values :math:`\{x1, x2, 1.0, 1.0, -1.0, 0.0, 1.0\}` which map directly to the zero-index based registers. The LGP program's output is taken from ``r[2]`` making the two program's outputs equivalent (i.e. the function :math:`f(x_1, x_2) = (x_2 - x_1) + sin(1.0)`).
 
 In essence, an instruction in an LGP program performs an *operation* on a set of *operand (source) registers* and assigns the result of that operation to a *destination register*.
 
@@ -29,6 +33,10 @@ In LGP a number of variable registers, the *register set* are provided to each p
     A number of registers which are loaded with a constant value and are write-protected, so that they are always available to an LGP program.
 
 One or more of the input or calculation registers are defined as *output register(s)*. This provides another benefit over Tree-Based GP as the imperative structure allows the use of multiple program outputs.
+
+.. image:: figures/register-set.png
+    :scale: 50%
+    :align: center
 
 Instruction Set
 ===============

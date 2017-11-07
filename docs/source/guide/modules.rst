@@ -5,22 +5,16 @@ To make the LGP system malleable to different problem domains, it is designed wi
 
 Any part of the system that is modular can be extended and custom implementations can be provided, as long as the system is made aware of these modules in some way.
 
-There are some restrictions on how modules can be used and what parts of the system are modules, and this document will outline those restrictions and conditions.
+There are some restrictions on how modules can be used and what parts of the system are modules, and the following sections of the guide will detail the operation of the different modules the system uses. Note that the evolutionary algorithm is a module, but as it has been previously described it will be omitted in the subsequent sections.
 
-The modules available are listed here as a reference:
+.. toctree::
+   :maxdepth: 1
+   :caption: Modules:
 
-* ``ComponentLoader``
-* ``Operation``
-* ``Instruction``
-* ``InstructionGenerator``
-* ``Program``
-* ``ProgramGenerator``
-* ``SelectionOperator``
-* ``RecombinationOperator``
-* ``MutationOperator``
-* ``EvolutionModel``
+   operations
+   instructions
+   programs
+   evolutionary-operators
+   extensions
 
-Component Loader
-================
-
-A *Component Loader* is a **Module**
+.. image:: figures/module-diagram.png

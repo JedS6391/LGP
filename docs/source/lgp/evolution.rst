@@ -4,7 +4,7 @@ Evolution
 Evolutionary Algorithm
 ======================
 
-In LGP (and other GP techniques), there are three main phases to the evolutionary algorithm - *Initialisation*, *Selection*, *Variation*.
+In LGP (and other GP techniques) there are three main phases to the evolutionary algorithm -- *Initialisation*, *Selection*, *Variation*.
 
 Usually LGP uses **Algorithm 1**, which is taken from (Brameier, M., Banzhaf, W. 2007). Our system provides an implementation of this algorithm, but also allows for other evolutionary models to be used to allow extension of the core LGP principles.
 
@@ -45,14 +45,16 @@ Some popular selection methods are `Tournament Selection <https://en.wikipedia.o
 Variation
 =========
 
-*Genetic Operators* alter the programs in an LGP population in some way, usually by either adding, removing or exchanging instruction(s), or altering the effect an instruction has, so called macro and micro mutations respectively.
+*Genetic Operators* alter the programs in an LGP population in some way, usually by either adding, removing or exchanging instruction(s), or altering the effect an instruction has -- so called macro and micro mutations respectively.
 
 Macro Operations
 ----------------
 
 Macro operations are generally used for *recombination* and *mutation* of individuals and operate at the instruction level (i.e. they treat instructions as atomic units and don't modify them directly).
 
-*Recombination* involves a way of combining two individuals from a population, usually using some form of crossover. This has the effect of altering the two individuals length through sharing of genetic material (i.e. the segments of instructions that are exchanged).
+*Recombination* involves a way of combining two individuals from a population, usually using some form of crossover. This has the effect of altering the two individuals length through sharing of genetic material (i.e. the segments of instructions that are exchanged). The operation of linear two-point crossover is illustrated below in the context of two LGP programs:
+
+.. image:: figures/crossover-lgp.png
 
 *Mutation* involves a way of altering a single individual and either increasing or decreasing the length of the program. This is usually done by adding/removing one or more instruction(s) from the program.
 
