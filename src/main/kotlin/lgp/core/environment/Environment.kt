@@ -10,8 +10,6 @@ import lgp.core.evolution.instructions.Operation
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.Module
 
-// TODO: Move code relating to modules to another file (or even to the modules package?).
-
 /**
  * Exception thrown when no [Module] is registered for a requested [RegisteredModuleType].
  */
@@ -65,7 +63,12 @@ enum class CoreModuleType : RegisteredModuleType {
     /**
      * A [MicroMutationOperator] implementation.
      */
-    MicroMutationOperator
+    MicroMutationOperator,
+
+    /**
+     * A [FitnessContext] implementation.
+     */
+    FitnessContext
 }
 
 /**

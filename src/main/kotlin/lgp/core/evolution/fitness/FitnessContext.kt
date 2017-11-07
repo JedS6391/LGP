@@ -1,7 +1,10 @@
 package lgp.core.evolution.fitness
 
+import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Sample
 import lgp.core.evolution.population.Program
+import lgp.core.modules.Module
+import lgp.core.modules.ModuleInformation
 
 /**
  * A case to evaluate a programs fitness on.
@@ -13,61 +16,74 @@ import lgp.core.evolution.population.Program
 data class FitnessCase<out TData>(val features: Sample<TData>, val target: TData)
 
 /**
- * A mapping of program to fitness cases using a given fitness function.
+ * Provides a way to map a program to fitness cases using a given fitness function.
  *
- * When a context is requested for the fitness of the program it encapsulates,
- * it will execute the program on each of the fitness cases, and collect the
- * program outputs.
+ * A context will generally execute the given program for each of the fitness cases
+ * given to it through the [fitness] method. How the outputs are aggregated is up to
+ * the individual implementation, allowing for the possibility of multiple program outputs,
+ * weighted program outputs, etc.
  *
- * These program outputs are feed into a fitness function to determine a fitness
- * metric for that program in the given context.
+ * A [FitnessContext] implementation should be registered with the [Environment] so that it can
+ * be accessed from the [FitnessEvaluator].
  *
- * @property fitnessCases A collection of fitness cases to evaluate the program on.
- * @property program A program to evaluate.
- * @property fitnessFunction A function to determine the fitness of a program by its outputs.
+ * @property environment
  */
-class FitnessContext<TData>(
-        /*
-         * Fitness cases are just samples in a data set which will be loaded into
-         * the program as a set of input registers, and the output of the program
-         * compared to the output attribute of the fitness case by the fitness
-         * function of the given context.
-         */
-        private val fitnessCases: List<FitnessCase<TData>>,
-        private val program: Program<TData>,
-        private val fitnessFunction: FitnessFunction<TData>
-)
-{
+abstract class FitnessContext<TData>(
+        val environment: Environment<TData>
+) : Module {
 
     /**
      * Returns the fitness as determined by this context.
      *
+     * @param program A program to evaluate.
+     * @param fitnessCases A collection of fitness cases to evaluate the program on.
+     *
      * @returns A double value as returned by the fitness function.
      */
-    fun fitness(): Double {
+    abstract fun fitness(program: Program<TData>, fitnessCases: List<FitnessCase<TData>>): Double
+}
+
+/**
+ * A default mapping of program to fitness cases using a given fitness function.
+ *
+ * This particular fitness context facilitates fitness evaluation for programs which
+ * have a single output (i.e. the default program class).
+ *
+ * For programs with multiple outputs, a custom [Program] and [FitnessContext] implementation
+ * will need to be built.
+ */
+class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : FitnessContext<TData>(environment) {
+
+    private val fitnessFunction = this.environment.fitnessFunction
+
+    override fun fitness(program: Program<TData>, fitnessCases: List<FitnessCase<TData>>): Double {
         // Make sure the programs effective instructions have been found
-        this.program.findEffectiveProgram()
+        program.findEffectiveProgram()
 
         // Collect the results of the program for each fitness case.
-        val outputs = this.fitnessCases.map { case ->
+        val outputs = fitnessCases.map { case ->
             // Make sure the registers are in a default state
-            this.program.registers.reset()
+            program.registers.reset()
 
             // Load the case
-            this.program.registers.writeInstance(case.features)
+            program.registers.writeInstance(case.features)
 
             // Run the program...
-            this.program.execute()
+            program.execute()
 
             // ... and gather a result from register zero
             // TODO: Make this configurable
             // TODO: How to handle multiple outputs?
-            this.program.registers.read(this.program.outputRegisterIndex)
+            program.registers.read(program.outputRegisterIndex)
         }
 
         // Copy the fitness to the program for later accesses
-        this.program.fitness = this.fitnessFunction(outputs, this.fitnessCases)
+        program.fitness = this.fitnessFunction(outputs, fitnessCases)
 
-        return this.program.fitness
+        return program.fitness
     }
+    override val information = ModuleInformation(
+            description = "A built-in fitness context for evaluating the fitness of single-output programs."
+    )
+
 }
