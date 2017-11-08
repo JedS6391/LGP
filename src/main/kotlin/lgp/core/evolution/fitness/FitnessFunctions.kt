@@ -22,8 +22,13 @@ object FitnessFunctions {
     // the fitness computation overflows.
     const val UNDEFINED_FITNESS: Double = 10e9
 
+    /**
+     * Mean absolute error fitness function.
+     *
+     * Simply sums up the absolute differences between the outputs and takes the mean.
+     */
     @JvmStatic
-    fun SE(): FitnessFunction<Double> = { outputs, cases ->
+    fun MAE(): FitnessFunction<Double> = { outputs, cases ->
         val fitness = cases.zip(outputs).map { (case, actual) ->
             val expected = case.target
 
@@ -36,6 +41,11 @@ object FitnessFunctions {
         }
     }
 
+    /**
+     * Sum-of-squared errors fitness function.
+     *
+     * Simply calculates the sum of the squared error between the actual and expected outputs.
+     */
     @JvmStatic
     fun SSE(): FitnessFunction<Double> = { outputs, cases ->
         val fitness = cases.zip(outputs).map { (case, actual) ->
@@ -53,9 +63,7 @@ object FitnessFunctions {
     /**
      * Mean-Squared Error fitness function for programs that operate on doubles.
      *
-     * Evaluates a program on a set of fitness cases using mean-squared error
-     * on the actual and expected values. The actual value is whatever is in
-     * register 0 after program execution.
+     * Calculates the sum of squared errors and then takes the mean.
      */
     @JvmStatic
     fun MSE(): FitnessFunction<Double> = { outputs, cases ->
@@ -72,11 +80,28 @@ object FitnessFunctions {
     }
 
     /**
-     * Classification Error fitness function for programs that operate on doubles.
+     * Root Mean-Squared Error fitness function for programs that operate on doubles.
      *
-     * Evaluates a program on a set of fitness cases using classification error
-     * on the actual and expected class values. The actual value is whatever is in
-     * register 0 after program execution mapped using the mapping function given.
+     * Essentially operates by computing the MSE, then taking the square-root of the result.
+     */
+    @JvmStatic
+    fun RMSE(): FitnessFunction<Double> = { outputs, cases ->
+        val fitness = cases.zip(outputs).map { (case, actual) ->
+            val expected = case.target
+
+            Math.pow((actual - expected), 2.0)
+        }.sum()
+
+        val mse = ((1.0 / cases.size.toDouble()) * fitness)
+
+        when {
+            fitness.isFinite() -> Math.sqrt(mse)
+            else               -> UNDEFINED_FITNESS
+        }
+    }
+
+    /**
+     * Classification Error fitness function for programs that operate on doubles.
      *
      * @param mappingFunction A function that maps the continuous program output to a discrete class value.
      */
@@ -94,6 +119,15 @@ object FitnessFunctions {
         return ce
     }
 
+    /**
+     * Threshold Classification Error fitness function.
+     *
+     * This fitness function works by counting the number of outputs which have
+     * an error difference greater than [threshold]. Error differences which fall
+     * beneath [threshold] are considered to be "good" solutions.
+     *
+     * @param threshold The threshold for differentiating good/bad solutions.
+     */
     @JvmStatic
     fun thresholdCE(threshold: Double): FitnessFunction<Double> {
         val ce: FitnessFunction<Double> = { outputs, cases ->
