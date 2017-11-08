@@ -4,7 +4,7 @@ Evolution
 Evolutionary Algorithm
 ======================
 
-In LGP (and other GP techniques) there are three main phases to the evolutionary algorithm -- *Initialisation*, *Selection*, *Variation*.
+In LGP (and other GP techniques) there are three main phases to the evolutionary algorithm --- *Initialisation*, *Selection*, *Variation*.
 
 Usually LGP uses **Algorithm 1**, which is taken from (Brameier, M., Banzhaf, W. 2007). Our system provides an implementation of this algorithm, but also allows for other evolutionary models to be used to allow extension of the core LGP principles.
 
@@ -45,7 +45,7 @@ Some popular selection methods are `Tournament Selection <https://en.wikipedia.o
 Variation
 =========
 
-*Genetic Operators* alter the programs in an LGP population in some way, usually by either adding, removing or exchanging instruction(s), or altering the effect an instruction has -- so called macro and micro mutations respectively.
+*Genetic Operators* alter the programs in an LGP population in some way, usually by either adding, removing or exchanging instruction(s), or altering the effect an instruction has --- so called macro and micro mutations respectively.
 
 Macro Operations
 ----------------

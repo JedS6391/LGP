@@ -15,6 +15,7 @@ There are some restrictions on how modules can be used and what parts of the sys
    instructions
    programs
    evolutionary-operators
+   fitness
    extensions
 
 .. image:: figures/module-diagram.png

@@ -47,7 +47,7 @@ Generally, an instruction set would include instructions for Arithmetic, Exponen
 
 With a certain probability, an instruction can have a constant register as one of its operands, indicating the application of that instructions operation to a constant value.
 
-When using Genetic Programming, there are two invariants of the programs that need to be maintained -- *syntactic correctness* and *semantic correctness*.
+When using Genetic Programming, there are two invariants of the programs that need to be maintained --- *syntactic correctness* and *semantic correctness*.
 
 **Syntactic Correctness**
     It must be ensured that when modifying a program or combining two programs, that the operation creates a valid program. In LGP, this is done by ensuring that combination does not combine parts of instructions, they are treated as atomic. Furthermore, mutation can only change certain parts of instructions, for example, an instructions operation cannot be changed to a register.
@@ -55,9 +55,9 @@ When using Genetic Programming, there are two invariants of the programs that ne
 **Semantic Correctness**
     Some operations have undefined behaviour for certain inputs, and this needs to be addressed to ensure programs are valid when executed. This is generally done by creating *protected* versions of operations that have undefined behaviour, which give a high constant value when used on invalid input ranges. This has the effect of penalising programs which use these instructions.
 
-In our implementation, because it is possible to define instructions as needed, this allows for instructions that introduce *side-effects* to some environment the problem is contained within -- for example, a problem that involves moving some agent through a space.
+In our implementation, because it is possible to define instructions as needed, this allows for instructions that introduce *side-effects* to some environment the problem is contained within --- for example, a problem that involves moving some agent through a space.
 
-The ability for LGP to find a solution is dependent upon the expressiveness of the instruction set used -- however, the dimension of the search space increases exponentially with the number of instructions available to an LGP program.
+The ability for LGP to find a solution is dependent upon the expressiveness of the instruction set used --- however, the dimension of the search space increases exponentially with the number of instructions available to an LGP program.
 
 Control Flow
 ============
