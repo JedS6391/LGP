@@ -189,9 +189,6 @@ object Models {
     /**
      * A model for evolution using a steady-state algorithm. The evaluation and mutation processes are
      * parallelised in a master-slave based technique.
-     *
-     * For more information, see Algorithm 2.1 (LGP Algorithm) from Linear Genetic Programming
-     * (Brameier, M., Banzhaf, W. 2001).
      */
     class MasterSlave<TProgram>(environment: Environment<TProgram>) : EvolutionModel<TProgram>(environment) {
 
@@ -358,6 +355,18 @@ object Models {
         }
     }
 
+    /**
+     * A model for evolution using a island-migration algorithm.
+     *
+     * In an island-migration algorithm, the population is split into a number of islands,
+     * and a fixed number of solutions migrate between the islands with some interval.
+     *
+     * This is done in an attempt to promote diversity in the population to prevent early
+     * convergence on local optima.
+     *
+     * @param environment The environment that evolution is taking place in.
+     * @param options Determines the configuration for the algorithm. See [IslandMigrationOptions] for more.
+     */
     class IslandMigration<TProgram>(
             environment: Environment<TProgram>,
             val options: IslandMigrationOptions
@@ -365,6 +374,13 @@ object Models {
 
         lateinit var islands: IslandGrid<TProgram>
 
+        /**
+         * Controls the configuration of evolution when using an [IslandMigration] model.
+         *
+         * @property numIslands Determines the number of islands the population should be split into. At least 4 islands should be given.
+         * @property migrationInterval Sets the interval that solutions are migrated with (i.e. how many generations).
+         * @property migrationSize Controls how many solutions migrate between islands at each interval.
+         */
         class IslandMigrationOptions {
             val numIslands: Int
             val migrationInterval: Int
@@ -381,6 +397,14 @@ object Models {
             }
         }
 
+        /**
+         * A collection of [Island] instances arranged in a grid.
+         *
+         * This encapsulation facilitates access to the individual islands when arranged in a grid
+         * without having to worry about the grid arrangement.
+         *
+         * @suppress
+         */
         class IslandGrid<TProgram> {
             val islands: Array<Array<Island<TProgram>>?>
             val numIslands: Int
@@ -388,7 +412,8 @@ object Models {
             constructor(numIslands: Int, environment: Environment<TProgram>, dataset: Dataset<TProgram>) {
                 this.numIslands = numIslands
 
-                // Compute grid dimensions
+                // Compute grid dimensions and construct the grid of islands.
+                // Each island has a reference to the environment and data set.
                 var rows = Math.floor(Math.sqrt(this.numIslands.toDouble()))
                 while ((this.numIslands % rows).toInt() != 0)
                     rows -= 1
@@ -402,20 +427,41 @@ object Models {
                 }
             }
 
+            /**
+             * Allows a row of islands to be retrieved using the `grid[i]` syntax.
+             */
             operator fun get(i: Int): Array<Island<TProgram>> {
                 return this.islands[i]!!
             }
 
+            /**
+             * Allows a particular island to be retrieved using the `grid[i][j]` syntax.
+             */
             operator fun get(i: Int, j: Int): Island<TProgram> {
                 return this[i][j]
             }
 
+            /**
+             * Number of rows in the grid.
+             */
             fun rows() = this.islands.size
 
-
+            /**
+             * Number of columns in the grid.
+             */
             fun columns() = this[0].size
         }
 
+        /**
+         * An individual island.
+         *
+         * Each island has its own population and is essentially just an implementation of the
+         * [SteadyState] algorithm. The main difference is that an island can be evolved for a
+         * set number of generations at a time, each time starting from the state that the previous
+         * call left it in.
+         *
+         * @suppress
+         */
         class Island<TProgram> {
 
             val environment: Environment<TProgram>
@@ -466,6 +512,9 @@ object Models {
                         .toMutableList()
             }
 
+            /**
+             * Evolves the population for [numGenerations] generations.
+             */
              fun evolve(numGenerations: Int) {
                 // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
                 // 1. Initialise a population of random programs
@@ -536,8 +585,6 @@ object Models {
                     dataset = dataset
             )
 
-           // println("Initialised grid of sub-populations: dimensions = (${this.islands.rows()}, ${this.islands.columns()})")
-
             // We've now got a grid of islands ready to start evolving. For each island we will run the
             // evolution process for a set number of generations before stopping to do migration.
             var generation = 0
@@ -581,7 +628,6 @@ object Models {
                     // Do migration: in our case we simply replace the worst (least fit) individual in the population
                     // with the best individual from another population. We also sort the individuals in an island
                     // such that the least fit individual is last.
-
                     val sortedNeighbourIndividuals = neighbour.individuals.sortedBy { it.fitness }
                     val sortedIslandIndividuals = island.individuals.sortedBy { it.fitness }
 

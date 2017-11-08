@@ -6,6 +6,7 @@ import lgp.core.modules.ModuleInformation
 import java.io.FileReader
 import java.io.Reader
 
+// These type aliases help to make the code look nicer.
 typealias Header = Array<String>
 typealias Row = Array<String>
 

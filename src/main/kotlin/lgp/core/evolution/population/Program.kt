@@ -16,7 +16,7 @@ import lgp.core.modules.Module
 abstract class Program<T>(
         var instructions: MutableList<Instruction<T>>,
         val registers: RegisterSet<T>,
-        val outputRegisterIndex: Int     // TODO: Add support for multi-output programs
+        val outputRegisterIndex: Int
 ) : Module {
 
     /**
