@@ -72,7 +72,7 @@ object Models {
 
             (0..this.environment.config.generations - 1).forEach { gen ->
                 // Stop early whenever we can.
-                if (best.fitness == this.environment.config.stoppingCriterion) {
+                if (best.fitness <= this.environment.config.stoppingCriterion) {
                     // Make sure to add at least one set of statistics.
                     statistics.add(this.statistics(gen, best))
 
@@ -244,7 +244,7 @@ object Models {
 
             (0..this.environment.config.generations - 1).forEach { gen ->
                 // Stop early whenever we can.
-                if (best.fitness == this.environment.config.stoppingCriterion) {
+                if (best.fitness <= this.environment.config.stoppingCriterion) {
                     // Make sure to add at least one set of statistics.
                     statistics.add(this.statistics(gen, best))
 
