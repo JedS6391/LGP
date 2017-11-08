@@ -71,9 +71,7 @@ class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : Fitne
             // Run the program...
             program.execute()
 
-            // ... and gather a result from register zero
-            // TODO: Make this configurable
-            // TODO: How to handle multiple outputs?
+            // ... and gather a result from the programs specified output register.
             program.registers.read(program.outputRegisterIndex)
         }
 

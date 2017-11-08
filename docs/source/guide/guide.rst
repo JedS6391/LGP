@@ -22,6 +22,7 @@ For a complete, low-level API reference, see the `dokka API documentation <https
    instructions
    programs
    evolutionary-operators
+   fitness
    extensions
    usage
 
