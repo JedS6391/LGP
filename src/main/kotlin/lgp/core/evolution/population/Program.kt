@@ -50,3 +50,17 @@ abstract class Program<T>(
      */
     abstract fun findEffectiveProgram()
 }
+
+abstract class ProgramTranslator<TProgram> : Module {
+
+    /**
+     * Translates [program] from some internal representation to a concrete representation.
+     *
+     * This is useful for taking an evolved LGP program and translating it to an output that
+     * can be integrated into some other eco-system (e.g. the C programming language).
+     *
+     * @param program A program to translate.
+     * @returns A translated representation of [program] as a string.
+     */
+    abstract fun translate(program: Program<TProgram>): String
+}
