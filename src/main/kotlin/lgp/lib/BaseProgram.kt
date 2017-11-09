@@ -5,6 +5,7 @@ import lgp.core.evolution.instructions.BranchOperation
 import lgp.core.evolution.instructions.Instruction
 import lgp.core.evolution.instructions.RegisterIndex
 import lgp.core.evolution.population.Program
+import lgp.core.evolution.population.ProgramTranslator
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.evolution.registers.RegisterType
 import lgp.core.evolution.registers.copy
@@ -117,7 +118,12 @@ class BaseProgram<T>(
         val sb = StringBuilder()
 
         this.instructions.map { instruction ->
-            sb.append(instruction.toString())
+            if (instruction in effectiveInstructions) {
+                sb.append(instruction.toString() + ";")
+            } else {
+                sb.append("// " + instruction.toString() + ";")
+            }
+
             sb.append('\n')
         }
 
@@ -184,4 +190,99 @@ class BaseProgramSimplifier<T> {
             else -> "r[${register.toString()}]"
         }
     }
+}
+
+class BaseProgramTranslator<T> : ProgramTranslator<T>() {
+    override val information = ModuleInformation(
+        description = "A Program Translator that can translate BaseProgram instances to their equivalent" +
+                      " representation in the C programming language."
+    )
+
+    override fun translate(program: Program<T>): String {
+        val sb = StringBuilder()
+
+        program.registers.reset()
+
+        val numInputs = program.registers.inputRegisters.count()
+        val numRegisters = program.registers.count
+        val programString = program.toString()
+
+        var inputPlaceholders = ""
+
+        for (i in 0 until numInputs) {
+            inputPlaceholders += "0.0, // input\n"
+        }
+
+        var calculationRegisters = ""
+
+        program.registers.calculationRegisters.map { reg ->
+            val contents = program.registers.read(reg)
+
+            calculationRegisters += "$contents, // calculation\n"
+        }
+
+        var constantRegisters = ""
+
+        program.registers.constantRegisters.map { reg ->
+            val contents = program.registers.read(reg)
+
+            constantRegisters += "$contents, // constant\n"
+        }
+
+        with (sb) {
+            append("#include <stdio.h>\n")
+            append("#include <stdlib.h>\n")
+            append("\n")
+            append("static int NUM_INPUTS = $numInputs;\n")
+            append("\n")
+            append("void gp(double r[$numRegisters]) {\n")
+            append("\n")
+            append(programString.prependIndent("    "))
+            append("\n")
+            append("}\n")
+            append("\n")
+
+            append("""
+int main(int argc, char *argv[]) {
+
+    if (argc != NUM_INPUTS + 1) {
+        printf("Please specify %d input value(s)...\n", NUM_INPUTS);
+
+        exit(1);
+    }
+
+    double r[$numRegisters] = {
+${ inputPlaceholders.trim().prependIndent("        ") }
+${ calculationRegisters.trim().prependIndent("        ") }
+${ constantRegisters.trim().prependIndent("        ") }
+    };
+
+    if (NUM_INPUTS == 1) {
+        double input = strtod(argv[1], NULL);
+
+        r[0] = input;
+    } else if (NUM_INPUTS > 1) {
+
+        for (int i = 0; i < NUM_INPUTS; i++) {
+            r[i] = strtod(argv[i + 1], NULL);
+        }
+
+    } else {
+      printf("Unexpected number of inputs...\n");
+
+      exit(1);
+    }
+
+    gp(r);
+
+    printf("%f\n", r[${program.outputRegisterIndex}]);
+
+    return 0;
+}
+            """.trimIndent())
+        }
+
+        return sb.toString()
+    }
+
 }
