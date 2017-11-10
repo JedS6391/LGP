@@ -192,7 +192,17 @@ class BaseProgramSimplifier<T> {
     }
 }
 
-class BaseProgramTranslator<T> : ProgramTranslator<T>() {
+/**
+ * A [ProgramTranslator] implementation that converts [BaseProgram] instances to a C-based representation.
+ *
+ * There are two modes that can be used:
+ *
+ *     1. `includeMainFunction == true` will include a main function in the export which can
+ *        be used to execute the model from the command-line.
+ *     2. `includeMainFunction == false` will NOT include a main function, and is more suited for
+ *        contexts where the model will be integrated into existing code bases.
+ */
+class BaseProgramTranslator<T>(val includeMainFunction: Boolean) : ProgramTranslator<T>() {
     override val information = ModuleInformation(
         description = "A Program Translator that can translate BaseProgram instances to their equivalent" +
                       " representation in the C programming language."
@@ -201,12 +211,14 @@ class BaseProgramTranslator<T> : ProgramTranslator<T>() {
     override fun translate(program: Program<T>): String {
         val sb = StringBuilder()
 
+        // Make sure that the registers are set to their initial values.
         program.registers.reset()
 
         val numInputs = program.registers.inputRegisters.count()
         val numRegisters = program.registers.count
         val programString = program.toString()
 
+        // First, we construct any placeholder information we might need.
         var inputPlaceholders = ""
 
         for (i in 0 until numInputs) {
@@ -230,19 +242,29 @@ class BaseProgramTranslator<T> : ProgramTranslator<T>() {
         }
 
         with (sb) {
-            append("#include <stdio.h>\n")
-            append("#include <stdlib.h>\n")
-            append("\n")
-            append("static int NUM_INPUTS = $numInputs;\n")
-            append("\n")
+            if (includeMainFunction) {
+                // Includes and globals needed for the inclusion of a main function
+                append("#include <stdio.h>\n")
+                append("#include <stdlib.h>\n")
+                append("\n")
+                append("static int NUM_INPUTS = $numInputs;\n")
+                append("\n")
+            }
+
+            // The model -- the exact representation is defined by the program instance.
+            // Generally, we expect `BaseProgram` instances which export C-based instruction representations.
             append("void gp(double r[$numRegisters]) {\n")
             append("\n")
             append(programString.prependIndent("    "))
             append("\n")
             append("}\n")
-            append("\n")
 
-            append("""
+            if (includeMainFunction) {
+                // Add a main function that parses command-line inputs so that the model can
+                // be executed from the command-line.
+                append("\n")
+
+                append("""
 int main(int argc, char *argv[]) {
 
     if (argc != NUM_INPUTS + 1) {
@@ -279,7 +301,9 @@ ${ constantRegisters.trim().prependIndent("        ") }
 
     return 0;
 }
-            """.trimIndent())
+                """.trimIndent())
+
+            }
         }
 
         return sb.toString()

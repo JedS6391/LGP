@@ -51,6 +51,12 @@ abstract class Program<T>(
     abstract fun findEffectiveProgram()
 }
 
+/**
+ * Module that can be used to translate programs to external representations.
+ *
+ * This class primarily exists to make it easy to translate programs from a single place,
+ * rather than from internally defined logic.
+ */
 abstract class ProgramTranslator<TProgram> : Module {
 
     /**
