@@ -134,6 +134,7 @@ Next, the file can be filled with the following:
         static double macroMutationDeletionRate = 0.33;
         static double microRegisterMutationRate = 0.4;
         static double microOperationMutationRate = 0.4;
+        static Long randomStateSeed = null;
         static int runs = 10;
 
         public static void main(String[] args) {
@@ -154,6 +155,7 @@ Next, the file can be filled with the following:
                 macroMutationDeletionRate,
                 microRegisterMutationRate,
                 microOperationMutationRate,
+                randomStateSeed,
                 runs
             );
 

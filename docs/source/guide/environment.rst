@@ -94,6 +94,8 @@ Building up an ``Environment`` instance with the correct construction components
 
 This will create an environment with the construction components given and begin the process of loading any initialisation components.
 
+.. note:: The ``Environment`` constructor offers an optional parameter ``randomStateSeed`` which can be used to provide a fixed seed to the systems random number generator. The parameter accepts either a long-type value (e.g. 1, -24, etc.), which will be used as a fixed seed; or ``null``, which tells the system to randomly seed the RNG. By default, the system will use a randomly generated initial seed.
+
 Initialisation Components
 =========================
 
@@ -103,10 +105,13 @@ These components are automatically loaded by an environment when a set of suitab
 - Constants
 - Operations
 - Register Set
+- Random State
 
 The Register Set is slightly different in that it depends on information provided by the construction dependencies and is initialised internally as a *global reference* register set, so that programs can acquire a fresh register set at any time.
 
 Nothing special needs to be done for initialisation components --- provided that the construction components given were valid, the components will be automatically loaded as appropriate and operate behind-the-scenes.
+
+During initialisation, the environment will construct a random number generator instance. This RNG is a globally accessible value and should be used whenever a RNG is required. This allows the system to provide determinism where it is required.
 
 Registered Components
 =====================
@@ -119,7 +124,7 @@ Generally, registered dependencies will be custom implementations of core compon
 
 The reason these components generally have a dependency on the environment is that they are designed to be as flexible as possible, and thus enabling custom components access to the entire environment is useful.
 
-When registering these components, it is done by associating a module type (i.e. the type of component) with a builder for that module. A builder is really just a function that can build a new instance of that module.
+When registering these components, it is done by associating a module type (i.e. the type of component) with a builder for that module. A builder is really just a function that can build a new instance of that module. The builder function takes a single argument of type ``Environment``, which allows the module to be given an appropriate environment reference when it is used. In the general case, the template ``{ environment -> Module(environment) }`` will be sufficient. It is important to note that the environment argument does not refer to the previously constructed environment, it simply defines the way in which the module is built (e.g. it needs an environment to be built).
 
 Example
 -------
@@ -149,10 +154,10 @@ To illustrate how registered components are used --- continuing from the above e
     val container = ModuleContainer(
         modules = mapOf(
             CoreModuleType.InstructionGenerator to
-            { BaseInstructionGenerator(env) },
+            { environment -> BaseInstructionGenerator(environment) },
 
             CoreModuleType.ProgramGenerator to
-            { BaseProgramGenerator(env) },
+            { environment -> BaseProgramGenerator(environment) },
 
             // More module registrations as necessary
             ...
@@ -163,9 +168,14 @@ To illustrate how registered components are used --- continuing from the above e
     env.registerModules(container)
 
     // Alternatively, we can register modules one-by-one.
-    environment.registerModule(
+    env.registerModule(
         CoreModuleType.SelectionOperator,
-        { TournamentSelection(environment, tournamentSize = 2) }
+        {
+            environment -> TournamentSelection(
+                environment,
+                tournamentSize = 2
+            )
+        }
     )
 
 

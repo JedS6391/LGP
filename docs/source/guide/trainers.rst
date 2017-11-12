@@ -47,6 +47,8 @@ To train 10 instances of the model from the previous section in a parallel manne
 
 As output, we will be given the effective programs of 10 individuals which were the best as trained by each model. From this we could compute the average fitness of the best individuals trained by the model to gain a metric of how good the models solutions are on average.
 
+.. note:: Both built-in trainers have guarantees in place to ensure that they can provide determinism. In the case of the ``DistributedTrainer``, each thread has its own RNG instance, and thus the multi-threaded nature does not compromise the determinism guarantee.
+
 API
 ===
 
