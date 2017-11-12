@@ -7,7 +7,6 @@ import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
-import lgp.core.evolution.fitness.FitnessContext
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.fitness.SingleOutputFitnessContext
@@ -17,6 +16,7 @@ import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
 import lgp.lib.BaseProgramGenerator
 import lgp.lib.BaseProgramSimplifier
+import java.util.*
 
 /*
  * An example of setting up an environment to use LGP to find programs for the function `x^2 + 2x + 2`.
@@ -107,22 +107,22 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.MSE()
 
-    override val registeredModules = ModuleContainer(
+    override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(
-                    CoreModuleType.InstructionGenerator to {
+                    CoreModuleType.InstructionGenerator to { environment ->
                         BaseInstructionGenerator(environment)
                     },
-                    CoreModuleType.ProgramGenerator to {
+                    CoreModuleType.ProgramGenerator to { environment ->
                         BaseProgramGenerator(
                                 environment,
                                 sentinelTrueValue = 1.0,
                                 outputRegisterIndex = 0
                         )
                     },
-                    CoreModuleType.SelectionOperator to {
+                    CoreModuleType.SelectionOperator to { environment ->
                         TournamentSelection(environment, tournamentSize = 2)
                     },
-                    CoreModuleType.RecombinationOperator to {
+                    CoreModuleType.RecombinationOperator to { environment ->
                         LinearCrossover(
                                 environment,
                                 maximumSegmentLength = 6,
@@ -130,14 +130,14 @@ class SimpleFunctionProblem : Problem<Double>() {
                                 maximumSegmentLengthDifference = 3
                         )
                     },
-                    CoreModuleType.MacroMutationOperator to {
+                    CoreModuleType.MacroMutationOperator to { environment ->
                         MacroMutationOperator(
                                 environment,
                                 insertionRate = 0.67,
                                 deletionRate = 0.33
                         )
                     },
-                    CoreModuleType.MicroMutationOperator to {
+                    CoreModuleType.MicroMutationOperator to { environment ->
                         MicroMutationOperator(
                                 environment,
                                 registerMutationRate = 0.5,
@@ -148,7 +148,7 @@ class SimpleFunctionProblem : Problem<Double>() {
                                 constantMutationFunc = { v -> v }
                         )
                     },
-                    CoreModuleType.FitnessContext to {
+                    CoreModuleType.FitnessContext to { environment ->
                         SingleOutputFitnessContext(environment)
                     }
             )
@@ -172,7 +172,7 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun solve(): SimpleFunctionSolution {
         try {
-            val runner = Trainers.DistributedTrainer(environment, model, runs = 10)
+            val runner = Trainers.DistributedTrainer(environment, model, runs = 2)
             val result = runner.train(this.datasetLoader.load())
 
             return SimpleFunctionSolution(this.name, result)

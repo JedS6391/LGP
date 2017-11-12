@@ -102,22 +102,22 @@ class SinPolyProblem : Problem<Double>() {
 
     override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.SSE()
 
-    override val registeredModules = ModuleContainer(
+    override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(
-                    CoreModuleType.InstructionGenerator to {
+                    CoreModuleType.InstructionGenerator to { environment ->
                         BaseInstructionGenerator(environment)
                     },
-                    CoreModuleType.ProgramGenerator to {
+                    CoreModuleType.ProgramGenerator to { environment ->
                         BaseProgramGenerator(
                                 environment,
                                 sentinelTrueValue = 1.0,
                                 outputRegisterIndex = 0
                         )
                     },
-                    CoreModuleType.SelectionOperator to {
+                    CoreModuleType.SelectionOperator to { environment ->
                         TournamentSelection(environment, tournamentSize = 10)
                     },
-                    CoreModuleType.RecombinationOperator to {
+                    CoreModuleType.RecombinationOperator to { environment ->
                         LinearCrossover(
                                 environment,
                                 maximumSegmentLength = 6,
@@ -125,14 +125,14 @@ class SinPolyProblem : Problem<Double>() {
                                 maximumSegmentLengthDifference = 3
                         )
                     },
-                    CoreModuleType.MacroMutationOperator to {
+                    CoreModuleType.MacroMutationOperator to { environment ->
                         MacroMutationOperator(
                                 environment,
                                 insertionRate = 0.67,
                                 deletionRate = 0.33
                         )
                     },
-                    CoreModuleType.MicroMutationOperator to {
+                    CoreModuleType.MicroMutationOperator to { environment ->
                         MicroMutationOperator(
                                 environment,
                                 registerMutationRate = 0.3,
@@ -140,7 +140,7 @@ class SinPolyProblem : Problem<Double>() {
                                 constantMutationFunc = { v -> v + (Random().nextGaussian() * 1) }
                         )
                     },
-                    CoreModuleType.FitnessContext to {
+                    CoreModuleType.FitnessContext to { environment ->
                         SingleOutputFitnessContext(environment)
                     }
             )
