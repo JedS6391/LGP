@@ -45,7 +45,7 @@ abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
 class BinaryTournamentSelection<T>(environment: Environment<T>,
                                    val tournamentSize: Int) : SelectionOperator<T>(environment) {
 
-    private val random = Random()
+    private val random = this.environment.randomState
 
     /**
      * Selects two individuals from the population given using tournament selection.
@@ -86,7 +86,7 @@ class BinaryTournamentSelection<T>(environment: Environment<T>,
 class TournamentSelection<T>(environment: Environment<T>,
                              val tournamentSize: Int) : SelectionOperator<T>(environment) {
 
-    private val random = Random()
+    private val random = this.environment.randomState
 
     /**
      * Selects individuals by performing 2 * `numOffspring` tournaments of size [tournamentSize].

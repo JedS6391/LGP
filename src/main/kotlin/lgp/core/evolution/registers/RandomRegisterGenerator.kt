@@ -9,7 +9,7 @@ import kotlin.coroutines.experimental.buildSequence
  * @param T The type of value the registers contain.
  * @property registerSet A set of registers to choose random registers from.
  */
-class RandomRegisterGenerator<T>(val registerSet: RegisterSet<T>) {
+class RandomRegisterGenerator<T>(val randomState: Random, val registerSet: RegisterSet<T>) {
 
     /**
      * Provides an infinite, random sequence of registers.
@@ -17,11 +17,9 @@ class RandomRegisterGenerator<T>(val registerSet: RegisterSet<T>) {
      * @returns A sequence of registers.
      */
     fun next(): Sequence<Register<T>> = buildSequence {
-        val rg = Random()
-
 
         while (true) {
-            val idx = rg.nextInt(registerSet.count)
+            val idx = randomState.nextInt(registerSet.count)
 
             // Let's just be extra cautious
             assert(0 <= idx && idx <= registerSet.count)

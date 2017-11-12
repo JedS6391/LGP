@@ -61,4 +61,6 @@ abstract class EvolutionModel<TProgram>(val environment: Environment<TProgram>) 
     abstract fun test(dataset: Dataset<TProgram>): TestResult<TProgram>
 
     abstract fun copy(): EvolutionModel<TProgram>
+
+    abstract fun deepCopy(): EvolutionModel<TProgram>
 }

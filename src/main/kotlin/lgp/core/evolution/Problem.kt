@@ -75,7 +75,7 @@ abstract class Problem<T> {
     /**
      * A collection of modules that should be registered with the environment.
      */
-    abstract val registeredModules: ModuleContainer
+    abstract val registeredModules: ModuleContainer<T>
 
     /**
      * An environment built up of the components this problem uses.
