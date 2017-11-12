@@ -8,7 +8,7 @@
 <a href="../index.html">lgp.core.environment</a>&nbsp;/&nbsp;<a href=".">ModuleContainer</a><br/>
 <br/>
 <h1>ModuleContainer</h1>
-<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">ModuleContainer</span></code>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">ModuleContainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A container that provides modules that need to be registered with an environment.</p>
 <h3>Constructors</h3>
 <table>
@@ -17,7 +17,7 @@
 <td>
 <a href="-init-.html">&lt;init&gt;</a></td>
 <td>
-<code><span class="identifier">ModuleContainer</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.ModuleContainer$<init>(kotlin.collections.MutableMap((lgp.core.environment.RegisteredModuleType, kotlin.Function0((lgp.core.modules.Module)))))/modules">modules</span><span class="symbol">:</span>&nbsp;<span class="identifier">MutableMap</span><span class="symbol">&lt;</span><a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">ModuleContainer</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.ModuleContainer$<init>(kotlin.collections.MutableMap((lgp.core.environment.RegisteredModuleType, kotlin.Function1((lgp.core.environment.Environment((lgp.core.environment.ModuleContainer.T)), lgp.core.modules.Module)))))/modules">modules</span><span class="symbol">:</span>&nbsp;<span class="identifier">MutableMap</span><span class="symbol">&lt;</span><a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><a href="../-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A container that provides modules that need to be registered with an environment.</p>
 </td>
 </tr>
@@ -28,6 +28,12 @@
 <tbody>
 <tr>
 <td>
+<a href="environment.html">environment</a></td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="instance-cache.html">instanceCache</a></td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">instanceCache</span><span class="symbol">: </span><span class="identifier">MutableMap</span><span class="symbol">&lt;</span><a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">,</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span></code></td>
@@ -36,7 +42,7 @@
 <td>
 <a href="modules.html">modules</a></td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">modules</span><span class="symbol">: </span><span class="identifier">MutableMap</span><span class="symbol">&lt;</span><a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">modules</span><span class="symbol">: </span><span class="identifier">MutableMap</span><span class="symbol">&lt;</span><a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><a href="../-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span></code>
 <p>A mapping of modules that can be registered to a function that constructs that module.</p>
 </td>
 </tr>

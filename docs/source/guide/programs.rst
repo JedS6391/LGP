@@ -23,6 +23,28 @@ The program generator is expected to act as a stream of programs so that other c
 
 The built-in program generator (``lgp.lib.BaseProgramGenerator``), creates a random, endless stream of effective programs. Properties of these initial programs can be tuned through the environment.
 
+Program Translator
+==================
+
+There are two options to facilitate the translation of genetic programs to representations which can be used outside of the context of the LGP system. Firstly, a ``Program`` implementation can directly produce an output through its ``toString()`` method.
+
+Alternatively, the ``ProgramTranslator`` module, provides an interface for translating a program instance, that allows for custom output to be encapsulated for use in batch processing or from outside of the system.
+
+The built in ``BaseProgram`` class has a corresponding ``BaseProgramTranslator`` which can convert the internal representation to a fully functional program in the C programming language. This translator provides two modes:
+
+1. Main function included with model
+2. Standalone function for model.
+
+The first mode (when ``includeMainFunction == true``), will translate to a C program that includes the model as a C function, alongside a main function that parses inputs for the model from the command-line. This is intended to be used when the model is executed from the command-line and is given inputs as arguments.
+
+Secondly --- if ``includeMainFunction`` is set to ``false`` --- the translator will exclude the main function, instead including the model as a standalone function. This mode is better suited to situations where the model is integrated into an existing code base.
+
+The output from ``BaseProgramTranslator`` should compile under most systems using the following command (assuming the output is saved in ``model.c``):
+
+.. code-block:: bash
+
+    gcc -o model model.c
+
 API
 ===
 

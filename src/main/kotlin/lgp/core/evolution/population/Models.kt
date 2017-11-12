@@ -54,7 +54,7 @@ object Models {
         }
 
         override fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram> {
-            val rg = Random()
+            val rg = this.environment.randomState
 
             // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
             // 1. Initialise a population of random programs
@@ -184,6 +184,10 @@ object Models {
         override fun copy(): SteadyState<TProgram> {
             return SteadyState(this.environment)
         }
+
+        override fun deepCopy(): EvolutionModel<TProgram> {
+            return SteadyState(this.environment.copy())
+        }
     }
 
     /**
@@ -223,7 +227,7 @@ object Models {
         }
 
         override fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram> {
-            val rg = Random()
+            val rg = this.environment.randomState
 
             // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
             // 1. Initialise a population of random programs
@@ -352,6 +356,10 @@ object Models {
 
         override fun copy(): MasterSlave<TProgram> {
             return MasterSlave(this.environment)
+        }
+
+        override fun deepCopy(): EvolutionModel<TProgram> {
+            return MasterSlave(this.environment.copy())
         }
     }
 
@@ -483,7 +491,7 @@ object Models {
                         CoreModuleType.MacroMutationOperator
                 )
                 this.fitnessEvaluator = FitnessEvaluator()
-                this.random = Random()
+                this.random = this.environment.randomState
 
                 this.initialise()
             }
@@ -575,7 +583,7 @@ object Models {
             get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
         override fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram> {
-            val random = Random()
+            val random = this.environment.randomState
 
             // Create a grid of islands. The grids are populated so that each island has a set of
             // neighbours with which individuals can migrate to.
@@ -683,7 +691,9 @@ object Models {
             return IslandMigration(this.environment, this.options)
         }
 
-
+        override fun deepCopy(): EvolutionModel<TProgram> {
+            return IslandMigration(this.environment.copy(), this.options)
+        }
     }
 }
 

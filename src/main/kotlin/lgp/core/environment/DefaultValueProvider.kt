@@ -38,11 +38,10 @@ object DefaultValueProviders {
      * @returns A provider that gives a random double value.
      */
     @JvmStatic
-    fun randomDoubleValueProvider() = object : DefaultValueProvider<Double> {
-        private val rg = Random()
+    fun randomDoubleValueProvider(randomState: Random) = object : DefaultValueProvider<Double> {
 
         override val value: Double
-            get() = rg.nextDouble()
+            get() = randomState.nextDouble()
     }
 
     /**
@@ -51,11 +50,10 @@ object DefaultValueProviders {
      * @return A provider that gives a random double value.
      */
     @JvmStatic
-    fun randomGaussianValueProvider() = object : DefaultValueProvider<Double> {
-        private val rg = Random()
+    fun randomGaussianValueProvider(randomState: Random) = object : DefaultValueProvider<Double> {
 
         override val value: Double
-            get() = rg.nextGaussian()
+            get() = randomState.nextGaussian()
     }
 
     /**

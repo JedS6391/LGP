@@ -4,7 +4,7 @@ Execution
 Evaluation
 ==========
 
-In LGP - as in other forms of Genetic Programming - the cost of computation is dominated by the evaluation of the programs evolved on the fitness cases defined by the problem.
+In LGP --- as in other forms of Genetic Programming --- the cost of computation is dominated by the evaluation of the programs evolved on the fitness cases defined by the problem.
 
 A program must be executed for each fitness case, and if evaluating the fitness of a problem is quite computationally demanding this can cause the majority of the time to spent evaluating fitness.
 

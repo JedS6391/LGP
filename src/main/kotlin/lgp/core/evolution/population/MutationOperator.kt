@@ -2,14 +2,12 @@ package lgp.core.evolution.population
 
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
-import lgp.core.evolution.instructions.BranchOperation
 import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.instructions.RegisterIndex
 import lgp.core.evolution.registers.RandomRegisterGenerator
 import lgp.core.evolution.registers.RegisterType
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
-import java.util.*
 
 /**
  * A search operator used during evolution to mutate an individual from a population.
@@ -62,7 +60,7 @@ class MacroMutationOperator<T>(
 
     private val minimumProgramLength = this.environment.config.minimumProgramLength
     private val maximumProgramLength = this.environment.config.maximumProgramLength
-    private val random = Random()
+    private val random = this.environment.randomState
     private val instructionGenerator = this.environment.registeredModule<InstructionGenerator<T>>(
             CoreModuleType.InstructionGenerator
     )
@@ -139,7 +137,7 @@ class MicroMutationOperator<T>(
 
     private val constantsRate = this.environment.config.constantsRate
     private val operations = this.environment.operations
-    private val random = Random()
+    private val random = this.environment.randomState
 
     /**
      * Performs a single, effective micro mutation to the individual given.
@@ -171,7 +169,7 @@ class MicroMutationOperator<T>(
             }
         }
 
-        val registerGenerator = RandomRegisterGenerator(individual.registers)
+        val registerGenerator = RandomRegisterGenerator(this.environment.randomState, individual.registers)
 
         when (mutationType) {
             // 3. If register mutation then

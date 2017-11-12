@@ -41,7 +41,7 @@ class LinearCrossover<T>(environment: Environment<T>,
                          val maximumSegmentLengthDifference: Int
 ) : RecombinationOperator<T>(environment) {
 
-    private val random = Random()
+    private val random = this.environment.randomState
 
     // Make life easier with some local variables
     private val minimumProgramLength = this.environment.config.minimumProgramLength

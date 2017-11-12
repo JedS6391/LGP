@@ -1,9 +1,6 @@
 package lgp.lib
 
-import lgp.core.environment.CoreModuleType
-import lgp.core.environment.DefaultValueProviders
-import lgp.core.environment.Environment
-import lgp.core.environment.ModuleContainer
+import lgp.core.environment.*
 import lgp.core.environment.config.Config
 import lgp.core.environment.config.ConfigLoader
 import lgp.core.environment.config.JsonConfigLoader
@@ -43,6 +40,7 @@ data class BaseProblemParameters(
         val macroMutationDeletionRate: Double = 0.33,
         val microRegisterMutationRate: Double = 0.4,
         val microOperationMutationRate: Double = 0.4,
+        val randomStateSeed: Long? = null,
         val runs: Int = 10
 )
 
@@ -106,22 +104,22 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
 
     override val fitnessFunction = params.fitnessFunction
 
-    override val registeredModules = ModuleContainer(
+    override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(
-                    CoreModuleType.InstructionGenerator to {
+                    CoreModuleType.InstructionGenerator to { environment ->
                         BaseInstructionGenerator(environment)
                     },
-                    CoreModuleType.ProgramGenerator to {
+                    CoreModuleType.ProgramGenerator to { environment ->
                         BaseProgramGenerator(
                                 environment,
                                 sentinelTrueValue = 1.0,
                                 outputRegisterIndex = 0
                         )
                     },
-                    CoreModuleType.SelectionOperator to {
+                    CoreModuleType.SelectionOperator to { environment ->
                         TournamentSelection(environment, tournamentSize = params.tournamentSize)
                     },
-                    CoreModuleType.RecombinationOperator to {
+                    CoreModuleType.RecombinationOperator to { environment ->
                         LinearCrossover(
                                 environment,
                                 maximumSegmentLength = params.maximumSegmentLength,
@@ -129,14 +127,14 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                                 maximumSegmentLengthDifference = params.maximumSegmentLengthDifference
                         )
                     },
-                    CoreModuleType.MacroMutationOperator to {
+                    CoreModuleType.MacroMutationOperator to { environment ->
                         MacroMutationOperator(
                                 environment,
                                 insertionRate = params.macroMutationInsertionRate,
                                 deletionRate = params.macroMutationDeletionRate
                         )
                     },
-                    CoreModuleType.MicroMutationOperator to {
+                    CoreModuleType.MicroMutationOperator to { environment ->
                         MicroMutationOperator(
                                 environment,
                                 registerMutationRate = params.microRegisterMutationRate,
@@ -155,7 +153,8 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                 this.constantLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
-                this.fitnessFunction
+                this.fitnessFunction,
+                randomStateSeed = this.params.randomStateSeed
         )
 
         this.environment.registerModules(this.registeredModules)

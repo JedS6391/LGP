@@ -6,11 +6,13 @@ The system is built using Kotlin and the easiest way to use it is through the Ko
 Installation
 ============
 
-A JAR containing the core API can be downloaded from the GitHub `releases <https://github.com/JedS6391/LGP/releases/download/v-0.1.2-stable/LGP-core-1.0-SNAPSHOT.jar>`_ page. The command below can be used to download the JAR from a terminal so that development against the API can begin:
+A JAR containing the core API can be downloaded from the GitHub `releases <https://github.com/JedS6391/LGP/releases/download/v-1.0/LGP-core-1.0.jar>`_ page. The command below can be used to download the JAR from a terminal so that development against the API can begin:
 
 .. code-block:: bash
 
-    curl -L https://github.com/JedS6391/LGP/releases/download/v-0.1.2-stable/LGP-core-1.0-SNAPSHOT.jar > LGP.jar
+    curl -L https://github.com/JedS6391/LGP/releases/download/v-1.0/LGP-core-1.0.jar > LGP.jar
+
+.. note:: This command will download the most up-to-date release. For other releases, please see the `GitHub releases page <https://github.com/JedS6391/LGP/releases>`_.
 
 With Kotlin
 ===========
@@ -132,6 +134,7 @@ Next, the file can be filled with the following:
         static double macroMutationDeletionRate = 0.33;
         static double microRegisterMutationRate = 0.4;
         static double microOperationMutationRate = 0.4;
+        static Long randomStateSeed = null;
         static int runs = 10;
 
         public static void main(String[] args) {
@@ -152,6 +155,7 @@ Next, the file can be filled with the following:
                 macroMutationDeletionRate,
                 microRegisterMutationRate,
                 microOperationMutationRate,
+                randomStateSeed,
                 runs
             );
 

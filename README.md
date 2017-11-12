@@ -1,10 +1,10 @@
 # LGP
 
-*A robust LGP implementation on the JVM using Kotlin.*
+> *A robust LGP implementation on the JVM using Kotlin.*
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/JedS6391/LGP/blob/master/LICENSE)
-[![docs](https://readthedocs.org/projects/lgp/badge/?version=stable)](http://lgp.readthedocs.io/en/latest/)
-[![build](https://travis-ci.org/JedS6391/LGP.svg?branch=master)](https://travis-ci.org/JedS6391/LGP)
+[![license][license-image]][license-url]
+[![docs][docs-image]][docs-url]
+[![build][travis-image]][travis-url]
 
 ## About
 
@@ -22,10 +22,10 @@ If you find the system useful or have any queries, please feel free to:
 
 ## Installation
 
-A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/download/v-0.1.2-stable/LGP-core-1.0-SNAPSHOT.jar) page. The command below can be used to download the JAR from a terminal so that development against the API can begin:
+A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/download/v-1.0/LGP-core-1.0.jar) page. The command below can be used to download the JAR from a terminal so that development against the API can begin:
 
 ```
-curl -L https://github.com/JedS6391/LGP/releases/download/v-0.1.2-stable/LGP-core-1.0-SNAPSHOT.jar > LGP.jar
+curl -L https://github.com/JedS6391/LGP/releases/download/v-1.0/LGP-core-1.0.jar > LGP.jar
 ```
 
 ## Usage
@@ -99,3 +99,10 @@ java -cp LGP.jar:MyProblem.jar MyProblemKt
 ```
 
 Please refer to the [usage guide](http://lgp.readthedocs.io/en/latest/guide/usage.html#with-java) for instructions on using the API from the context of a Java program.
+
+[license-image]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat
+[license-url]: https://github.com/JedS6391/LGP/blob/master/LICENSE
+[docs-image]: https://readthedocs.org/projects/lgp/badge/?version=stable&style=flat
+[docs-url]: http://lgp.readthedocs.io/en/latest/
+[travis-image]: https://img.shields.io/travis/JedS6391/LGP/master.svg?style=flat
+[travis-url]: https://travis-ci.org/JedS6391/LGP
