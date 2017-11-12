@@ -5,10 +5,10 @@ import lgp.core.environment.config.ConfigLoader
 import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.operations.OperationLoader
 import lgp.core.evolution.fitness.FitnessFunction
-import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.evolution.instructions.Operation
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.Module
+import java.util.Random
 
 /**
  * Exception thrown when no [Module] is registered for a requested [RegisteredModuleType].
@@ -76,7 +76,9 @@ enum class CoreModuleType : RegisteredModuleType {
  *
  * @property modules A mapping of modules that can be registered to a function that constructs that module.
  */
-data class ModuleContainer(val modules: MutableMap<RegisteredModuleType, () -> Module>) {
+data class ModuleContainer<T>(val modules: MutableMap<RegisteredModuleType, (Environment<T>) -> Module>) {
+
+    lateinit var environment: Environment<T>
 
     // All instances are provided as singletons
     val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
@@ -106,7 +108,7 @@ data class ModuleContainer(val modules: MutableMap<RegisteredModuleType, () -> M
         // However, we need to check that the module can actually be cast as the type requested.
         // Doing this means that we don't have to do unchecked casts anywhere and gives protection against
         // invalid casts from calling code.
-        val module = moduleBuilder() as? TModule
+        val module = moduleBuilder(this.environment) as? TModule
                 ?: throw ModuleCastException("Unable to cast $type module as ${TModule::class.java.simpleName}.")
 
         // Cache this instance for later usages since it is valid when cast to the type given.
@@ -140,6 +142,8 @@ open class Environment<T> {
     private val constantLoader: ConstantLoader<T>
     private val operationLoader: OperationLoader<T>
     private val defaultValueProvider: DefaultValueProvider<T>
+    private val randomStateSeed: Long?
+    var randomState: Random
 
     /**
      * A function that can measure the fitness of a program.
@@ -174,7 +178,7 @@ open class Environment<T> {
     /**
      * A container for the various registered component modules that the environment maintains.
      */
-    var container: ModuleContainer
+    var container: ModuleContainer<T>
 
     /**
      * Builds an environment with the specified construction components.
@@ -184,21 +188,33 @@ open class Environment<T> {
      * @param operationLoader A component that can load operations for the LGP system.
      * @param defaultValueProvider A component that provides default values for the registers in the register set.
      * @param fitnessFunction A function used to evaluate the fitness of LGP programs.
+     * @param randomStateSeed Sets the seed of the random number generator. If a value is given, the seed will
+     *        be set, and will produce deterministic runs. If null is given, a random seed will be chosen.
      */
     // TODO: Move all components to an object to make constructor smaller.
     // TODO: Allow custom initialisation method for initialisation components.
     // TODO: Default value provider and fitness function could be given in config?
-    constructor(configLoader: ConfigLoader,
-                constantLoader: ConstantLoader<T>,
-                operationLoader: OperationLoader<T>,
-                defaultValueProvider: DefaultValueProvider<T>,
-                fitnessFunction: FitnessFunction<T>) {
+    constructor(
+            configLoader: ConfigLoader,
+            constantLoader: ConstantLoader<T>,
+            operationLoader: OperationLoader<T>,
+            defaultValueProvider: DefaultValueProvider<T>,
+            fitnessFunction: FitnessFunction<T>,
+            randomStateSeed: Long? = null
+    ) {
 
         this.configLoader = configLoader
         this.constantLoader = constantLoader
         this.operationLoader = operationLoader
         this.defaultValueProvider = defaultValueProvider
         this.fitnessFunction = fitnessFunction
+        this.randomStateSeed = randomStateSeed
+
+        // Determine whether we need to seed the RNG or not.
+        when (this.randomStateSeed) {
+            is Long -> this.randomState = Random(this.randomStateSeed)
+            else    -> this.randomState = Random()
+        }
 
         // Empty module container to begin
         this.container = ModuleContainer(modules = mutableMapOf())
@@ -215,6 +231,9 @@ open class Environment<T> {
 
         // TODO: Instead of initialising, allow user to register?
         this.initialiseRegisterSet()
+
+        // Make sure the modules have access to this environment.
+        this.container.environment = this
     }
 
     private fun initialiseRegisterSet() {
@@ -235,8 +254,11 @@ open class Environment<T> {
      *
      * @param container A container that specifies modules to be registered.
      */
-    fun registerModules(container: ModuleContainer) {
+    fun registerModules(container: ModuleContainer<T>) {
         this.container = container
+
+        // Update the containers environment dependency.
+        this.container.environment = this
     }
 
     /**
@@ -245,7 +267,7 @@ open class Environment<T> {
      * @param type The type of module to associate this builder with.
      * @param builder A function that can create the module.
      */
-    fun <T : Module> registerModule(type: RegisteredModuleType, builder: () -> T) {
+    fun registerModule(type: RegisteredModuleType, builder: (Environment<T>) -> Module) {
         this.container.modules[type] = builder
     }
 
@@ -267,6 +289,32 @@ open class Environment<T> {
      */
     inline fun <reified TModule : Module> registeredModule(type: RegisteredModuleType): TModule {
         return this.container.instance<TModule>(type)
+    }
+
+    /**
+     * Produces a clone of the current environment.
+     *
+     * @return A new [Environment] instance that is a copy of that the method is called on.
+     */
+    fun copy(): Environment<T> {
+        // Construct a copy with the correct construction/initialised components.
+        val copy = Environment(
+                this.configLoader,
+                this.constantLoader,
+                this.operationLoader,
+                this.defaultValueProvider,
+                this.fitnessFunction,
+                this.randomState.nextLong()
+        )
+
+        // Now, the tricky part. We have to ensure that the containers modules
+        // have a reference to the copied environment, and not the old environment.
+        val container = ModuleContainer(this.container.modules)
+        container.environment = copy
+
+        copy.registerModules(container)
+
+        return copy
     }
 
 }
