@@ -40,6 +40,7 @@ data class BaseProblemParameters(
         val macroMutationDeletionRate: Double = 0.33,
         val microRegisterMutationRate: Double = 0.4,
         val microOperationMutationRate: Double = 0.4,
+        val randomStateSeed: Long? = null,
         val runs: Int = 10
 )
 
@@ -153,7 +154,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                 this.operationLoader,
                 this.defaultValueProvider,
                 this.fitnessFunction,
-                randomStateSeed = 1
+                randomStateSeed = this.params.randomStateSeed
         )
 
         this.environment.registerModules(this.registeredModules)
