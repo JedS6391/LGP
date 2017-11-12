@@ -30,11 +30,13 @@ class BaseProgramGenerator<T>(
         instructionGenerator = environment.registeredModule(CoreModuleType.InstructionGenerator)
 ) {
 
-    private val random = Random()
+    private val random = this.environment.randomState
 
     override fun generateProgram(): Program<T> {
-        val length = this.random.randInt(this.environment.config.initialMinimumProgramLength,
-                                     this.environment.config.initialMaximumProgramLength)
+        val length = this.random.randInt(
+                this.environment.config.initialMinimumProgramLength,
+                this.environment.config.initialMaximumProgramLength
+        )
 
         val branchesUsed = this.environment.operations.any { op -> op is BranchOperation<T> }
         val output = this.environment.registerSet.calculationRegisters.start

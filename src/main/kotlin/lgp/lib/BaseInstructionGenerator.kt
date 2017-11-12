@@ -20,7 +20,7 @@ import kotlin.coroutines.experimental.buildSequence
  */
 class BaseInstructionGenerator<T> : InstructionGenerator<T> {
 
-    private val random = Random()
+    private val random = this.environment.randomState
     val operationPool: List<Operation<T>>
     private val registers: RegisterSet<T>
     private val registerGenerator: RandomRegisterGenerator<T>
@@ -28,7 +28,7 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
     constructor(environment: Environment<T>) : super(environment) {
         this.operationPool = environment.operations
         this.registers = this.environment.registerSet.copy()
-        this.registerGenerator = RandomRegisterGenerator(this.registers)
+        this.registerGenerator = RandomRegisterGenerator(this.environment.randomState, this.registers)
     }
 
     /**
