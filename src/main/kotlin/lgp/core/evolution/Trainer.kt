@@ -5,6 +5,9 @@ import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.population.EvolutionModel
 import lgp.core.evolution.population.EvolutionResult
 import lgp.core.evolution.population.pmap
+import lgp.core.evolution.population.randInt
+import java.util.concurrent.*
+import kotlin.concurrent.thread
 
 /**
  * Represents the result of training a model using a runner.
@@ -43,7 +46,7 @@ object Trainers {
     class SequentialTrainer<T>(environment: Environment<T>, model: EvolutionModel<T>, val runs: Int)
         : Trainer<T>(environment, model) {
 
-        val models = (0..runs - 1).map {
+        private val models = (0 until runs).map {
             // Create `runs` untrained models.
             this.model.copy()
         }
@@ -77,15 +80,52 @@ object Trainers {
     class DistributedTrainer<T>(environment: Environment<T>, model: EvolutionModel<T>, val runs: Int)
         : Trainer<T>(environment, model) {
 
-        val models = (0..runs - 1).map {
-            this.model.copy()
+        // Construct `runs` deep copies of the models. We need deep copies so that
+        // each model can have its own environment. This is necessary for providing
+        // deterministic runs when using a fixed seed, otherwise there will be contention
+        // issues between a single environments RNG (e.g. non-deterministic request order)
+        private val models = (0 until runs).map {
+            this.model.deepCopy()
+        }.toList()
+
+        // We use an ExecutorService to execute the runs in different threads.
+        private val executor = Executors.newFixedThreadPool(runs)
+
+        /**
+         * Encapsulates the training of a model so it can be executed by an [ExecutorService] implementation.
+         *
+         * @param model An [EvolutionModel] instance that will be trained.
+         * @param dataset The [Dataset] instance that will be used to train the model.
+         *
+         * @suppress
+         */
+        class ModelTrainerTask<TProgram>(
+                private val model: EvolutionModel<TProgram>,
+                private val dataset: Dataset<TProgram>
+        ) : Callable<EvolutionResult<TProgram>> {
+
+            /**
+             * Trains the model and returns the result of the evolutionary process.
+             */
+            override fun call(): EvolutionResult<TProgram> {
+                return this.model.train(this.dataset)
+            }
         }
 
         override fun train(dataset: Dataset<T>): TrainingResult<T> {
-            // TODO: Might be worth making this more robust with regards to failure.
-            val results = this.models.pmap { model ->
-                model.train(dataset)
+            // Submit all tasks to the executor. Each model will have a task created for it
+            // that the executor is responsible for executing.
+            val futures = this.models.map { model ->
+                this.executor.submit(ModelTrainerTask(model, dataset))
             }
+
+            // Collect the results -- waiting when necessary.
+            val results = futures.map { future ->
+                future.get()
+            }
+
+            // We're done so we can shut the executor down.
+            this.executor.shutdown()
 
             return TrainingResult(results, this.models)
         }
