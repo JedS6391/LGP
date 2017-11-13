@@ -112,7 +112,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
-    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.thresholdCE(threshold = 0.5)
+    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.thresholdCE(0.5)
 
     override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(

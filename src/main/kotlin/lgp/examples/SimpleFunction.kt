@@ -16,7 +16,6 @@ import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
 import lgp.lib.BaseProgramGenerator
 import lgp.lib.BaseProgramSimplifier
-import java.util.*
 
 /*
  * An example of setting up an environment to use LGP to find programs for the function `x^2 + 2x + 2`.
@@ -105,7 +104,7 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
-    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.MSE()
+    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.MSE
 
     override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(
