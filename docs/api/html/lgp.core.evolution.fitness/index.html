@@ -45,6 +45,14 @@
 </tr>
 <tr>
 <td>
+<a href="-fitness-function/index.html">FitnessFunction</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">FitnessFunction</span><span class="symbol">&lt;</span><span class="keyword">in</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Provides the functionality to compute the fitness of an individual program on a set of input-output examples.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="-fitness-functions/index.html">FitnessFunctions</a></td>
 <td>
 <code><span class="keyword">object </span><span class="identifier">FitnessFunctions</span></code>
@@ -57,19 +65,6 @@
 <td>
 <code><span class="keyword">class </span><span class="identifier">SingleOutputFitnessContext</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-fitness-context/index.html"><span class="identifier">FitnessContext</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
 <p>A default mapping of program to fitness cases using a given fitness function.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3>Type Aliases</h3>
-<table>
-<tbody>
-<tr>
-<td>
-<a href="-fitness-function.html">FitnessFunction</a></td>
-<td>
-<code><span class="keyword">typealias </span><span class="identifier">FitnessFunction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<span class="symbol">(</span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><a href="-fitness-case/index.html"><span class="identifier">FitnessCase</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Double</span></code>
-<p>Computes the fitness of an individual program on a set of input-output examples.</p>
 </td>
 </tr>
 </tbody>
