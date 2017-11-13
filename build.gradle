@@ -63,6 +63,7 @@ task examplesJar(type: Jar) {
     }
 
     include('lgp/examples/*')
+    include('lgp/examples/java/*')
     exclude('lgp/core')
     exclude('lgp/lib')
 
