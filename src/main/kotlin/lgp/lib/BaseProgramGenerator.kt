@@ -46,7 +46,7 @@ class BaseProgramGenerator<T>(
         val effectiveRegisters = mutableListOf<RegisterIndex>()
 
         // Add first instruction
-        instructions.add(this.instructionGenerator.next().first())
+        instructions.add(this.instructionGenerator.generateInstruction())
 
         // Construct effective instructions
         for (i in 2..length) {
@@ -76,7 +76,7 @@ class BaseProgramGenerator<T>(
             } else {
                 // Get a random instruction and make it effective by
                 // using one of the registers marked as effective.
-                val instr = this.instructionGenerator.next().first()
+                val instr = this.instructionGenerator.generateInstruction()
 
                 instr.destination = random.choice(effectiveRegisters)
 

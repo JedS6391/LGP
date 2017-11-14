@@ -19,7 +19,7 @@ A fitness function is used to measure the error between the expected output valu
 
 The API provides a collection of built-in functions, found in the ``lgp.core.evolution.fitness.FitnessFunctions`` object. These can be selected as construction components when building an LGP environment.
 
-Alternatively, one can simply write a function with the signature ``(List<T>, List<FitnessCase<T>>) -> Double`` to implement a custom fitness function for the particular problem being solved.
+Alternatively, one can simply write a function with the signature ``(List<T>, List<FitnessCase<T>>) -> Double`` to implement a custom fitness function for the particular problem being solved. The functionality is encapsulated in the ``FitnessFunction`` abstract class.
 
 Fitness Context
 ===============

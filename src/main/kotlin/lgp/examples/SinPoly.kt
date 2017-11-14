@@ -100,7 +100,7 @@ class SinPolyProblem : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
-    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.SSE()
+    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.SSE
 
     override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(

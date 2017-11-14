@@ -1,8 +1,9 @@
 package lgp.core.evolution.instructions
 
 import lgp.core.environment.Environment
-import lgp.core.evolution.registers.RegisterSet
 import lgp.core.modules.Module
+
+import kotlin.coroutines.experimental.buildSequence
 
 /**
  * A generator of instructions in an LGP system.
@@ -27,7 +28,20 @@ import lgp.core.modules.Module
 abstract class InstructionGenerator<T>(val environment: Environment<T>) : Module {
 
     /**
-     * Gives a sequence of instructions.
+     * Generates a sequence of instructions by yielding the result of the overridden function [generateInstruction].
+     *
+     * @returns A sequence of programs.
      */
-    abstract fun next(): Sequence<Instruction<T>>
+    final fun next(): Sequence<Instruction<T>> = buildSequence {
+        while (true) {
+            yield(this@InstructionGenerator.generateInstruction())
+        }
+    }
+
+    /**
+     * Generates a single [Instruction] instance in some way.
+     *
+     * @returns An instruction instance.
+     */
+    abstract fun generateInstruction(): Instruction<T>
 }

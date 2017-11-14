@@ -1,0 +1,38 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ModuleContainer.instanceUnsafe - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.environment</a>&nbsp;/&nbsp;<a href="index.html">ModuleContainer</a>&nbsp;/&nbsp;<a href=".">instanceUnsafe</a><br/>
+<br/>
+<h1>instanceUnsafe</h1>
+<a name="lgp.core.environment.ModuleContainer$instanceUnsafe(lgp.core.environment.RegisteredModuleType)"></a>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">instanceUnsafe</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.ModuleContainer$instanceUnsafe(lgp.core.environment.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TModule</span></code>
+<p>Provides an instance of the module <a href="instance-unsafe.html#lgp.core.environment.ModuleContainer$instanceUnsafe(lgp.core.environment.RegisteredModuleType)/type">type</a> given (for Java interoperability).</p>
+<p><strong>TL;DR:</strong> Java users -- beware! This function implements <a href="instance.html">instance</a> for Java callers, but unlike the Kotlin
+equivalent, provides no guarantee that a <a href="#">ClassCastException</a> will not occur.</p>
+<p>This method exists to aid Java interoperability: the <a href="instance.html">instance</a> method cannot be used from Java
+as it is both inlined and makes use of reified generics. With this method, Java users can query for
+<a href="../-registered-module-type.html">RegisteredModuleType</a> instances.</p>
+<p>The reason it is unsafe is that there is no guarantee that the cast will be correct: if the type requested
+can be cast to <a href="../../lgp.core.modules/-module/index.html">Module</a> then the cast will succeed and a <a href="#">ClassCastException</a> will be given where the call is
+made (i.e. the function will return with no error until an assignment type is checked). With the normal (and
+safe) <a href="instance.html">instance</a> function, the invalid cast can be caught before the function returns and dealt with appropriately.</p>
+<h3>Parameters</h3>
+
+<p><a name="type"></a>
+<code>type</code> - The type of of module to get an instance of.
+<p><a name="TModule"></a>
+<code>TModule</code> - The type to cast the module as.
+<h3>Exceptions</h3>
+
+<p><a name="MissingModuleException"></a>
+<code>MissingModuleException</code> - When no builder has been registered for the type of module requested.
+<p><a name="ModuleCastException"></a>
+<code>ModuleCastException</code> - When the requested module can't be cast to the type given.
+<p><strong>Return</strong><br/>
+An instance of the module registered for the given module type.</p>
+</BODY>
+</HTML>

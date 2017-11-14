@@ -31,7 +31,7 @@ data class BaseProblemParameters(
                 "lgp.lib.operations.Division"
         ),
         val defaultRegisterValue: Double = 1.0,
-        val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.MSE(),
+        val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.MSE,
         val tournamentSize: Int = 20,
         val maximumSegmentLength: Int = 6,
         val maximumCrossoverDistance: Int = 5,
