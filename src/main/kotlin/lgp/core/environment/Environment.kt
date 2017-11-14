@@ -84,9 +84,14 @@ data class ModuleContainer<T>(val modules: MutableMap<RegisteredModuleType, (Env
     val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
 
     /**
-     * Provides an instance of the module type given.
+     * Provides an instance of the module [type] given.
      *
-     * The module will be loaded and cast to the type given if possible to cast to that type.
+     * The module will be loaded and cast to the type given if possible to cast to that type. This method is able to
+     * perform safe casts due to Kotlin's reified generics. If the cast can't be done safely, a [ModuleCastException]
+     * will be thrown and contains details about the failed cast. Due to the use of reified generics, callers of this
+     * function can be assured that a [ClassCastException] won't occur.
+     *
+     * **NOTE:** This function cannot be used from Java; use the [instanceUnsafe] function instead.
      *
      * @param type The type of of module to get an instance of.
      * @param TModule The type to cast the module as.
@@ -112,6 +117,44 @@ data class ModuleContainer<T>(val modules: MutableMap<RegisteredModuleType, (Env
                 ?: throw ModuleCastException("Unable to cast $type module as ${TModule::class.java.simpleName}.")
 
         // Cache this instance for later usages since it is valid when cast to the type given.
+        instanceCache[type] = module
+
+        return module
+    }
+
+    /**
+     * Provides an instance of the module [type] given (for Java interoperability).
+     *
+     * **TL;DR:** Java users -- beware! This function implements [instance] for Java callers, but unlike the Kotlin
+     * equivalent, provides no guarantee that a [ClassCastException] will not occur.
+     *
+     * This method exists to aid Java interoperability: the [instance] method cannot be used from Java
+     * as it is both inlined and makes use of reified generics. With this method, Java users can query for
+     * [RegisteredModuleType] instances.
+     *
+     * The reason it is unsafe is that there is no guarantee that the cast will be correct: if the type requested
+     * can be cast to [Module] then the cast will succeed and a [ClassCastException] will be given where the call is
+     * made (i.e. the function will return with no error until an assignment type is checked). With the normal (and
+     * safe) [instance] function, the invalid cast can be caught before the function returns and dealt with appropriately.
+     *
+     * @param type The type of of module to get an instance of.
+     * @param TModule The type to cast the module as.
+     * @return An instance of the module registered for the given module type.
+     * @throws MissingModuleException When no builder has been registered for the type of module requested.
+     * @throws ModuleCastException When the requested module can't be cast to the type given.
+     */
+    fun <TModule : Module> instanceUnsafe(type: RegisteredModuleType): TModule {
+        @Suppress("UNCHECKED_CAST")
+        if (type in instanceCache)
+            return instanceCache[type] as TModule
+
+        val moduleBuilder = this.modules[type]
+                ?: throw MissingModuleException("No module builder registered for $type.")
+
+        @Suppress("UNCHECKED_CAST")
+        val module = moduleBuilder(this.environment) as? TModule
+                ?: throw ModuleCastException("Unable to cast $type module to given type.")
+
         instanceCache[type] = module
 
         return module
@@ -289,6 +332,22 @@ open class Environment<T> {
      */
     inline fun <reified TModule : Module> registeredModule(type: RegisteredModuleType): TModule {
         return this.container.instance<TModule>(type)
+    }
+
+    /**
+     * Similar to [registeredModule], but may give a [ClassCastException] at the call site.
+     *
+     * The internals of the module retrieval system cannot guarantee that any casting will be
+     * done safely, and thus this method should be used with caution. The reason for its existence
+     * is to make life easier for those using the API through Java.
+     *
+     * @param type The type of registered module to fetch.
+     * @param TModule The type the module will be cast as.
+     * @return An instance of the module registered for the given module type.
+     * @throws MissingModuleException When no builder has been registered for the type of module requested.
+     */
+    fun <TModule : Module> registeredModuleUnsafe(type: RegisteredModuleType): TModule {
+        return this.container.instanceUnsafe(type)
     }
 
     /**
