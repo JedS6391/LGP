@@ -91,7 +91,7 @@ class MacroMutationOperator<T>(
             // just searching for effective calculation registers and making
             // sure we choose an effective register for our mutation
             val effectiveRegisters = findEffectiveCalculationRegisters(individual, i)
-            val instruction = this.instructionGenerator.next().take(1).first()
+            val instruction = this.instructionGenerator.generateInstruction()
 
             // Can only perform a mutation if there is an effective register to choose from.
             if (effectiveRegisters.isNotEmpty()) {

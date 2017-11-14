@@ -32,17 +32,12 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
     }
 
     /**
-     * Generator function that provides a sequence of randomly generated instructions.
+     * Generates a new, completely random instruction.
      *
-     * This sequence can be consumed in a loop or a fixed number of instructions can be requested.
+     * The instruction will be a [BaseInstruction] instance, and the [InstructionGenerator.next] method can be called
+     * to use this function as a generator.
      */
-    override fun next(): Sequence<Instruction<T>> = buildSequence {
-        while (true) {
-            yield(this@BaseInstructionGenerator.generateRandomInstruction())
-        }
-    }
-
-    private fun generateRandomInstruction(): Instruction<T> {
+    override fun generateInstruction(): Instruction<T> {
         // Choose a random output register
         val output = this.getRandomInputAndCalculationRegisters(1).first()
 
