@@ -3,6 +3,7 @@ package lgp.core.evolution.population
 import lgp.core.environment.Environment
 import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.modules.Module
+
 import kotlin.coroutines.experimental.buildSequence
 
 /**
@@ -20,9 +21,9 @@ import kotlin.coroutines.experimental.buildSequence
  * @property instructionGenerator A reference to an instruction generator.
  */
 abstract class ProgramGenerator<T>(val environment: Environment<T>, val instructionGenerator: InstructionGenerator<T>) : Module {
+
     /**
-     * Generates a sequence of programs by yielding the result
-     * of the overridden function [generateProgram].
+     * Generates a sequence of programs by yielding the result of the overridden function [generateProgram].
      *
      * @returns A sequence of programs.
      */
@@ -33,7 +34,7 @@ abstract class ProgramGenerator<T>(val environment: Environment<T>, val instruct
     }
 
     /**
-     * Should generate a program instance in some way.
+     * Generates a single [Program] instance in some way.
      *
      * @returns A program instance.
      */

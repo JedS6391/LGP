@@ -71,7 +71,7 @@ generators themselves are modules, so each can be defined as a module.</p>
 <a href="generate-program.html">generateProgram</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">generateProgram</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
-<p>Should generate a program instance in some way.</p>
+<p>Generates a single <a href="../-program/index.html">Program</a> instance in some way.</p>
 </td>
 </tr>
 <tr>
@@ -79,8 +79,7 @@ generators themselves are modules, so each can be defined as a module.</p>
 <a href="next.html">next</a></td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
-<p>Generates a sequence of programs by yielding the result
-of the overridden function <a href="generate-program.html">generateProgram</a>.</p>
+<p>Generates a sequence of programs by yielding the result of the overridden function <a href="generate-program.html">generateProgram</a>.</p>
 </td>
 </tr>
 </tbody>

@@ -65,10 +65,18 @@ set will provide registers</p>
 <tbody>
 <tr>
 <td>
+<a href="generate-instruction.html">generateInstruction</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">generateInstruction</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Generates a single <a href="../-instruction/index.html">Instruction</a> instance in some way.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="next.html">next</a></td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
-<p>Gives a sequence of instructions.</p>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Generates a sequence of instructions by yielding the result of the overridden function <a href="generate-instruction.html">generateInstruction</a>.</p>
 </td>
 </tr>
 </tbody>

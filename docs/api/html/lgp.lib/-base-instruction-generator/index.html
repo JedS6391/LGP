@@ -58,10 +58,23 @@ that are constructed from the pool of available operations and registers.</p>
 <tbody>
 <tr>
 <td>
-<a href="next.html">next</a></td>
+<a href="generate-instruction.html">generateInstruction</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">generateInstruction</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../lgp.core.evolution.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Generates a new, completely random instruction.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../../lgp.core.evolution.instructions/-instruction-generator/next.html">next</a></td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
-<p>Generator function that provides a sequence of randomly generated instructions.</p>
+<p>Generates a sequence of instructions by yielding the result of the overridden function <a href="../../lgp.core.evolution.instructions/-instruction-generator/generate-instruction.html">generateInstruction</a>.</p>
 </td>
 </tr>
 </tbody>
