@@ -24,7 +24,7 @@ abstract class FitnessFunction<in T> {
     abstract fun fitness(outputs: List<T>, cases: List<FitnessCase<T>>): Double
 
     /**
-     * Allows [fitness] to be called directly using `()` syntax (e.g. fitnessFunctionInstance(outputs, cases).
+     * Allows [fitness] to be called directly using `()` syntax (e.g. `fitnessFunctionInstance(outputs, cases)`).
      */
     operator fun invoke(outputs: List<T>, cases: List<FitnessCase<T>>): Double {
         return this.fitness(outputs, cases)
