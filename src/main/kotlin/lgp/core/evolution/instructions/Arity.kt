@@ -18,7 +18,7 @@ enum class BaseArity(override val number: Int) : Arity {
 }
 
 /**
- * Thrown when the [Arity] of an [Operation] does not match the number of [Argument]s given to it.
+ * Thrown when the [Arity] of an [Operation] does not match the number of [lgp.core.evolution.registers.Argument]s given to it.
  *
  * @param message A message to annotate the exception.
  */

@@ -3,7 +3,7 @@ package lgp.core.evolution.population
 import lgp.core.environment.Environment
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
-import java.util.*
+import java.util.Random
 
 /**
  * A search operator used during evolution to select a subset of individuals from a population.
@@ -171,7 +171,7 @@ fun <T> Random.sample(population: List<T>, k: Int): List<T> {
     if (n <= setSize) {
         val pool = population.toMutableList()
 
-        for (i in (0..k - 1)) {
+        for (i in (0 until k)) {
             val j = (this.nextDouble() * (n - i)).toInt()
 
             result[i] = pool[j]
@@ -180,7 +180,7 @@ fun <T> Random.sample(population: List<T>, k: Int): List<T> {
     } else {
         val selected = mutableSetOf<Int>()
 
-        for (i in (0..k - 1)) {
+        for (i in (0 until k)) {
             var j = (this.nextDouble() * n).toInt()
 
             while (j in selected) {

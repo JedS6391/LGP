@@ -3,7 +3,7 @@ package lgp.core.evolution.population
 import lgp.core.environment.Environment
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
-import java.util.*
+import java.util.Random
 
 /**
  * A search operator used during evolution to combine two individuals from a population.
@@ -176,5 +176,5 @@ fun Random.randInt(min: Int, max: Int): Int {
  * @return A list of elements whose indices fall between the range given.
  */
 fun <T> MutableList<T>.slice(range: IntRange): MutableList<T> {
-    return this.filterIndexed { idx, _ -> idx in range}.toMutableList()
+    return this.filterIndexed { idx, _ -> idx in range }.toMutableList()
 }

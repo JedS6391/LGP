@@ -87,7 +87,7 @@ class RegisterSet<T> {
 
     private val inputRegistersCount: Int
     private val calculationRegistersCount: Int
-    private val  constantRegistersCount: Int
+    private val constantRegistersCount: Int
 
     private val defaultValueProvider: DefaultValueProvider<T>
 
@@ -120,7 +120,7 @@ class RegisterSet<T> {
 
         this.inputRegisters = 0 .. (inputRegisters - 1)
         this.calculationRegisters = inputRegisters .. ((inputRegisters + calculationRegisters) - 1)
-        this.constantRegisters = (inputRegisters + calculationRegisters) .. this.totalRegisters - 1
+        this.constantRegisters = (inputRegisters + calculationRegisters) until this.totalRegisters
 
         this.inputRegistersCount = inputRegisters
         this.calculationRegistersCount = calculationRegisters
@@ -232,7 +232,7 @@ class RegisterSet<T> {
     }
 
     private fun initialise() {
-        for (r in 0 .. this.totalRegisters - 1) {
+        for (r in 0 until this.totalRegisters) {
             this.registers.add(r, Register(this.defaultValueProvider.value, r))
         }
     }
@@ -249,7 +249,7 @@ class RegisterSet<T> {
         val size = (range.endInclusive - range.start) + 1
 
         if (size != coll.size) {
-            throw RegisterWriteRangeException("${size} != ${coll.size}")
+            throw RegisterWriteRangeException("$size != ${coll.size}")
         }
 
         for ((idx, value) in range.zip(coll)) {

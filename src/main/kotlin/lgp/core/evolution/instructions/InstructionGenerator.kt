@@ -32,7 +32,7 @@ abstract class InstructionGenerator<T>(val environment: Environment<T>) : Module
      *
      * @returns A sequence of programs.
      */
-    final fun next(): Sequence<Instruction<T>> = buildSequence {
+    fun next(): Sequence<Instruction<T>> = buildSequence {
         while (true) {
             yield(this@InstructionGenerator.generateInstruction())
         }

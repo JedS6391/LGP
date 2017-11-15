@@ -9,9 +9,6 @@ import lgp.core.evolution.population.choice
 import lgp.core.evolution.registers.*
 import lgp.core.modules.ModuleInformation
 
-import java.util.Random
-import kotlin.coroutines.experimental.buildSequence
-
 /**
  * Built-in offering of the ``InstructionGenerator`` interface.
  *

@@ -13,7 +13,7 @@ class InvalidOperationSpecificationException(message: String) : Exception(messag
  *
  * @param T Type of the operations to be loaded.
  */
-class DefaultOperationLoader<T> constructor(val operationNames: List<String>): OperationLoader<T> {
+class DefaultOperationLoader<T> constructor(val operationNames: List<String>) : OperationLoader<T> {
 
     private constructor(builder: Builder<T>) : this(builder.operationNames)
 

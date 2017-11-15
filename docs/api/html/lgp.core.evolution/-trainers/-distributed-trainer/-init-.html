@@ -16,5 +16,10 @@ once all the threads complete.</p>
 <p>This runner has significant overhead compared to the <a href="../-sequential-trainer/index.html">SequentialTrainer</a>, due
 to the extra memory needed for evaluating multiple models at once, as well as
 the overhead of the threads used.</p>
+<p>It should be noted that this trainer will create <a href="-init-.html#lgp.core.evolution.Trainers.DistributedTrainer$<init>(lgp.core.environment.Environment((lgp.core.evolution.Trainers.DistributedTrainer.T)), lgp.core.evolution.population.EvolutionModel((lgp.core.evolution.Trainers.DistributedTrainer.T)), kotlin.Int)/runs">runs</a> copies of the environment --
+one for each model. This allows each model to have its own environment which can be
+isolated within the thread it is executed. This is mainly done to facilitate deterministic
+multi-threaded training, where it is necessary to make 100% sure that any state shared between
+threads does not affect the outcome of the training.</p>
 </BODY>
 </HTML>

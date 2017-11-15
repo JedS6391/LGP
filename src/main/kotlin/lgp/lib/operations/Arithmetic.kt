@@ -65,7 +65,6 @@ class Division : BinaryOperation<Double>(
                 // else r_i := r_j + C_undef
                 else -> args.get(0) + C_UNDEF
             }
-
         }
 ) {
     override val representation = " / "

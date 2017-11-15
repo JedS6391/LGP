@@ -101,7 +101,8 @@ class MacroMutationOperator<T>(
             }
         }
         else if (programLength > minimumProgramLength &&
-                    (mutationType == MacroMutationType.Deletion || programLength == maximumProgramLength)) {
+                (mutationType == MacroMutationType.Deletion || programLength == maximumProgramLength)) {
+
             // 4.
             // (a) Select an effective instruction i (if existent)
             if (individual.effectiveInstructions.size > 0) {
@@ -114,6 +115,41 @@ class MacroMutationOperator<T>(
     }
 
     override val information = ModuleInformation("Algorithm 6.1 ((effective) instruction mutation).")
+}
+
+/**
+ * A function that can be used to mutate a constant value.
+ *
+ * Used by the [MicroMutationOperator] implementation.
+ */
+typealias ConstantMutationFunction<T> = (T) -> T
+
+/**
+ * A collection of [ConstantMutationFunction] implementations for use by a [MicroMutationOperator].
+ */
+object ConstantMutationFunctions {
+
+    /**
+     * A [ConstantMutationFunction] which simply returns the original constant value unchanged.
+     */
+    @JvmStatic
+    fun <T> identity(): ConstantMutationFunction<T> {
+        return { v -> v }
+    }
+
+    /**
+     * A [ConstantMutationFunction] which returns the original constant with a small amount of gaussian noise added.
+     *
+     * @param environment An [Environment] instance that can be used to access the systems RNG.
+     */
+    @JvmStatic
+    fun randomGaussianNoise(environment: Environment<Double>): ConstantMutationFunction<Double> {
+        val random = environment.randomState
+
+        return { v ->
+            v + (random.nextGaussian() * 1)
+        }
+    }
 }
 
 /**
@@ -132,7 +168,7 @@ class MicroMutationOperator<T>(
         environment: Environment<T>,
         val registerMutationRate: Double,
         val operatorMutationRate: Double,
-        val constantMutationFunc: (T) -> T
+        val constantMutationFunc: ConstantMutationFunction<T>
 ) : MutationOperator<T>(environment) {
 
     private val constantsRate = this.environment.config.constantsRate
@@ -214,7 +250,7 @@ class MicroMutationOperator<T>(
                 // the number of operands the instruction has.
                 // If we're going to a reduced arity instruction, we can just truncate the operands
                 if (instruction.operands.size > op.arity.number) {
-                    instruction.operands = instruction.operands.slice(0..op.arity.number - 1)
+                    instruction.operands = instruction.operands.slice(0 until op.arity.number)
                 } else if (instruction.operands.size < op.arity.number) {
                     // Otherwise, if we're increasing the arity, just add random input
                     // and calculation registers until the arity is met.
@@ -243,7 +279,7 @@ class MicroMutationOperator<T>(
                     individual.registers.registerType(operand) == RegisterType.Constant
                 }
 
-                var limit  = 0
+                var limit = 0
 
                 while (constantRegisters.isEmpty() && limit++ < individual.effectiveInstructions.size) {
                     instr = random.choice(individual.effectiveInstructions)

@@ -159,7 +159,6 @@ data class ModuleContainer<T>(val modules: MutableMap<RegisteredModuleType, (Env
 
         return module
     }
-
 }
 
 /**
@@ -353,6 +352,19 @@ open class Environment<T> {
     /**
      * Produces a clone of the current environment.
      *
+     * It should be noted that because an environment instance has its own RNG associated with it,
+     * when making a copy, it is required that the copied environment have its own RNG too.
+     * To fulfil this requirement, when an environment is copied, it will initialise a new RNG that is
+     * seeded with a seed given from the RNG of the environment instance performing the copy (confusing -- yes!).
+     *
+     * The main reason behind this complication is to ensure that there are no contention issues when multiple
+     * environment instances are operating in a multi-threaded context (e.g. through a [lgp.core.evolution.Trainers.DistributedTrainer]).
+     *
+     * Furthermore, any modules that are registered with the environment being copied, will be updated so
+     * that the reference the correct environment instance (i.e. the copy). This ensures that while the
+     * module registrations themselves are shared between copies, when a module is accessed, it gets initialised
+     * correctly.
+     *
      * @return A new [Environment] instance that is a copy of that the method is called on.
      */
     fun copy(): Environment<T> {
@@ -373,7 +385,11 @@ open class Environment<T> {
 
         copy.registerModules(container)
 
+        // We also need to clear any cached modules, just in case there are any references
+        // to the previous environment laying around. Generally, any environment instances
+        // would be copied before modules are accessed -- but it doesn't hurt to be cautious!
+        copy.container.instanceCache.clear()
+
         return copy
     }
-
 }

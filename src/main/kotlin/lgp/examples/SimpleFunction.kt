@@ -73,7 +73,7 @@ class SimpleFunctionProblem : Problem<Double>() {
             parseFunction = String::toDouble
     )
 
-     val datasetLoader = object : DatasetLoader<Double> {
+    val datasetLoader = object : DatasetLoader<Double> {
         // x^2 + 2x + 2
         val func = { x: Double -> (x * x) + (2 * x) + 2 }
         val gen = SequenceGenerator()
@@ -144,7 +144,7 @@ class SimpleFunctionProblem : Problem<Double>() {
                                 // Use identity func. since the probabilities
                                 // of other micro mutations mean that we aren't
                                 // modifying constants.
-                                constantMutationFunc = { v -> v }
+                                constantMutationFunc = ConstantMutationFunctions.identity()
                         )
                     },
                     CoreModuleType.FitnessContext to { environment ->

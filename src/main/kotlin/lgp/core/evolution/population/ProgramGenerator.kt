@@ -27,7 +27,7 @@ abstract class ProgramGenerator<T>(val environment: Environment<T>, val instruct
      *
      * @returns A sequence of programs.
      */
-    final fun next(): Sequence<Program<T>> = buildSequence {
+    fun next(): Sequence<Program<T>> = buildSequence {
         while (true) {
             yield(this@ProgramGenerator.generateProgram())
         }

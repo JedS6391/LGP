@@ -34,25 +34,25 @@ class BaseProgram<T>(
         for (instruction in this.effectiveInstructions) {
             // Need to take note of the instruction result, as we should skip the
             // next instruction if the previous was a branch instruction.
-            when {
+            branchResult = when {
                 branchResult -> {
                     instruction.execute(this.registers)
 
                     val output = this.registers.read(instruction.destination)
 
-                    branchResult = ((instruction.operation !is BranchOperation<T>) ||
-                                    (instruction.operation is BranchOperation<T>
-                                         && output == this.sentinelTrueValue))
+                    ((instruction.operation !is BranchOperation<T>) ||
+                            (instruction.operation is BranchOperation<T>
+                                    && output == this.sentinelTrueValue))
                 }
                 else -> {
-                    branchResult = (instruction.operation !is BranchOperation<T>)
+                    (instruction.operation !is BranchOperation<T>)
                 }
             }
         }
     }
 
     override fun copy(): BaseProgram<T> {
-        val copy =  BaseProgram(
+        val copy = BaseProgram(
                 instructions = this.instructions.map(Instruction<T>::copy),
                 registerSet = this.registers.copy(),
                 outputRegisterIndex = this.outputRegisterIndex,
@@ -70,11 +70,9 @@ class BaseProgram<T>(
         val effectiveInstructions = mutableListOf<Instruction<T>>()
 
         for ((i, instruction) in instructions.reversed().withIndex()) {
-            val instr = instruction
-
-            if (instr.operation is BranchOperation<T>) {
-                if (instr in effectiveInstructions) {
-                    instr.operands.filter { operand ->
+            if (instruction.operation is BranchOperation<T>) {
+                if (instruction in effectiveInstructions) {
+                    instruction.operands.filter { operand ->
                         operand !in effectiveRegisters &&
                         this.registers.registerType(operand) != RegisterType.Constant
                     }
@@ -84,8 +82,8 @@ class BaseProgram<T>(
                 continue
             }
 
-            if (instr.destination in effectiveRegisters) {
-                effectiveInstructions.add(0, instr)
+            if (instruction.destination in effectiveRegisters) {
+                effectiveInstructions.add(0, instruction)
 
                 var j = i - 1
                 var branchesMarked = false
@@ -97,17 +95,16 @@ class BaseProgram<T>(
                 }
 
                 if (!branchesMarked) {
-                    effectiveRegisters.remove(instr.destination)
+                    effectiveRegisters.remove(instruction.destination)
                 }
 
-                for (operand in instr.operands) {
+                for (operand in instruction.operands) {
                     val isConstant = this.registers.registerType(operand) == RegisterType.Constant
 
                     if (operand !in effectiveRegisters && !isConstant) {
                         effectiveRegisters.add(operand)
                     }
                 }
-
             }
         }
 
@@ -176,7 +173,7 @@ class BaseProgramSimplifier<T> {
         return sb.toString()
     }
 
-    fun simplifyOperand(program: BaseProgram<T>, register: RegisterIndex): String {
+    private fun simplifyOperand(program: BaseProgram<T>, register: RegisterIndex): String {
 
         return when (program.registers.registerType(register)) {
             RegisterType.Input -> {
@@ -187,7 +184,7 @@ class BaseProgramSimplifier<T> {
                 // Simplify constant
                 program.registers.read(register).toString()
             }
-            else -> "r[${register.toString()}]"
+            else -> "r[$register]"
         }
     }
 }
@@ -202,7 +199,7 @@ class BaseProgramSimplifier<T> {
  *     2. `includeMainFunction == false` will NOT include a main function, and is more suited for
  *        contexts where the model will be integrated into existing code bases.
  */
-class BaseProgramTranslator<T>(val includeMainFunction: Boolean) : ProgramTranslator<T>() {
+class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : ProgramTranslator<T>() {
     override val information = ModuleInformation(
         description = "A Program Translator that can translate BaseProgram instances to their equivalent" +
                       " representation in the C programming language."
@@ -302,11 +299,9 @@ ${ constantRegisters.trim().prependIndent("        ") }
     return 0;
 }
                 """.trimIndent())
-
             }
         }
 
         return sb.toString()
     }
-
 }

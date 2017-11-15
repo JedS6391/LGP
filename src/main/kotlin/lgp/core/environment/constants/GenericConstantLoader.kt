@@ -1,7 +1,6 @@
 package lgp.core.environment.constants
 
 import lgp.core.environment.ComponentLoaderBuilder
-import lgp.core.environment.config.JsonConfigLoader
 import lgp.core.modules.ModuleInformation
 
 /**

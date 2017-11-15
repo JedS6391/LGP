@@ -6,7 +6,7 @@ import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.fitness.Evaluation
 import lgp.core.evolution.fitness.FitnessEvaluator
 import lgp.core.modules.ModuleInformation
-import java.util.*
+import java.util.Random
 import kotlin.concurrent.thread
 import kotlin.streams.toList
 
@@ -70,7 +70,7 @@ object Models {
 
             val statistics = mutableListOf<EvolutionStatistics>()
 
-            (0..this.environment.config.generations - 1).forEach { gen ->
+            (0 until this.environment.config.generations).forEach { gen ->
                 // Stop early whenever we can.
                 if (best.fitness <= this.environment.config.stoppingCriterion) {
                     // Make sure to add at least one set of statistics.
@@ -243,7 +243,7 @@ object Models {
 
             val statistics = mutableListOf<EvolutionStatistics>()
 
-            (0..this.environment.config.generations - 1).forEach { gen ->
+            (0 until this.environment.config.generations).forEach { gen ->
                 // Stop early whenever we can.
                 if (best.fitness <= this.environment.config.stoppingCriterion) {
                     // Make sure to add at least one set of statistics.
@@ -430,7 +430,7 @@ object Models {
 
                 this.islands = arrayOfNulls(rows.toInt())
 
-                for (row in 0..rows.toInt() - 1) {
+                for (row in 0 until rows.toInt()) {
                     this.islands[row] = Array(columns, { Island(environment, dataset) })
                 }
             }
@@ -523,7 +523,7 @@ object Models {
             /**
              * Evolves the population for [numGenerations] generations.
              */
-             fun evolve(numGenerations: Int) {
+            fun evolve(numGenerations: Int) {
                 // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
                 // 1. Initialise a population of random programs
                 //this.initialise()
@@ -536,7 +536,7 @@ object Models {
                 var best = initialEvaluations.sortedBy(Evaluation<TProgram>::fitness).first()
                 this.bestIndividual = best.individual
 
-                (0..numGenerations - 1).forEach { gen ->
+                (0 until numGenerations).forEach { gen ->
                     val children = this.select.select(this.individuals)
 
                     children.pairwise().map { (mother, father) ->
@@ -576,7 +576,6 @@ object Models {
 
                 this.bestIndividual = best.individual
             }
-
         }
 
         override val information: ModuleInformation
@@ -598,8 +597,8 @@ object Models {
             var generation = 0
 
             while (generation < this@IslandMigration.environment.config.generations) {
-                (0..this@IslandMigration.islands.rows() - 1).map { row ->
-                    (0..this@IslandMigration.islands.columns() - 1).map { col ->
+                (0 until this@IslandMigration.islands.rows()).map { row ->
+                    (0 until this@IslandMigration.islands.columns()).map { col ->
                         val island = this@IslandMigration.islands[row][col]
 
                         thread {
@@ -612,7 +611,7 @@ object Models {
 
                 // We've just run a set number of generations so we need to migrate a set
                 // amount of individuals between the islands and update the generation count.
-                (0..this@IslandMigration.options.migrationSize - 1).forEach {
+                (0 until this@IslandMigration.options.migrationSize).forEach {
                     // Choose a random island
                     val i = random.randInt(0, this@IslandMigration.islands.rows() - 1)
                     val j = random.randInt(0, this@IslandMigration.islands.columns() - 1)
@@ -625,8 +624,8 @@ object Models {
                             Pair(x, y)
                         }
                     }.flatten().filter { (x, y) ->
-                        x in (0..this@IslandMigration.islands.rows() - 1) &&
-                                y in (0..this@IslandMigration.islands.columns() - 1) &&
+                        x in (0 until this@IslandMigration.islands.rows()) &&
+                                y in (0 until this@IslandMigration.islands.columns()) &&
                                 x != i && y != j
                     }.toList()
 
@@ -654,10 +653,10 @@ object Models {
 
             // We've reached the maximum number of generations, so choose the best individual from
             // all of the islands as our overall best.
-            var bestIndividuals = mutableListOf<Program<TProgram>>()
+            val bestIndividuals = mutableListOf<Program<TProgram>>()
 
-            (0..this@IslandMigration.islands.rows() - 1).map { row ->
-                (0..this@IslandMigration.islands.columns() - 1).map { col ->
+            (0 until this@IslandMigration.islands.rows()).map { row ->
+                (0 until this@IslandMigration.islands.columns()).map { col ->
                     val island = this@IslandMigration.islands[row][col]
 
                     val sortedIslandIndividuals = island.individuals.sortedBy { it.fitness }
@@ -670,10 +669,10 @@ object Models {
 
             val best = bestIndividuals.sortedBy(Program<TProgram>::fitness).first()
 
-            var individuals = mutableListOf<Program<TProgram>>()
+            val individuals = mutableListOf<Program<TProgram>>()
 
-            (0..this@IslandMigration.islands.rows() - 1).map { row ->
-                (0..this@IslandMigration.islands.columns() - 1).map { col ->
+            (0 until this@IslandMigration.islands.rows()).map { row ->
+                (0 until this@IslandMigration.islands.columns()).map { col ->
                     val island = this@IslandMigration.islands[row][col]
 
                     individuals.addAll(island.individuals)
@@ -705,12 +704,12 @@ fun List<Double>.standardDeviation(mean: Double = this.average()): Double {
     return stdDev
 }
 
-fun <T, R> List<T>.pmap(transform: (T) -> R) : List<R> {
+fun <T, R> List<T>.pmap(transform: (T) -> R): List<R> {
     return this.parallelStream().map(transform).toList()
 }
 
 fun <T> List<T>.pairwise(): List<Pair<T, T>> {
-    return (0..this.size - 1 step 2).map { idx ->
+    return (0 until this.size step 2).map { idx ->
         Pair(this[idx], this[idx + 1])
     }
 }
