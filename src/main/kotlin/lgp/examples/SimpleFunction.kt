@@ -144,7 +144,7 @@ class SimpleFunctionProblem : Problem<Double>() {
                                 // Use identity func. since the probabilities
                                 // of other micro mutations mean that we aren't
                                 // modifying constants.
-                                constantMutationFunc = { v -> v }
+                                constantMutationFunc = ConstantMutationFunctions.identity()
                         )
                     },
                     CoreModuleType.FitnessContext to { environment ->

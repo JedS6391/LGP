@@ -137,7 +137,7 @@ class SinPolyProblem : Problem<Double>() {
                                 environment,
                                 registerMutationRate = 0.3,
                                 operatorMutationRate = 0.4,
-                                constantMutationFunc = { v -> v + (Random().nextGaussian() * 1) }
+                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(environment)
                         )
                     },
                     CoreModuleType.FitnessContext to { environment ->

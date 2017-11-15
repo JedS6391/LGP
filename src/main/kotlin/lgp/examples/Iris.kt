@@ -149,9 +149,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
                                 environment,
                                 registerMutationRate = 0.5,
                                 operatorMutationRate = 0.0,
-                                constantMutationFunc = { v ->
-                                    v + (Random().nextGaussian() * 1)
-                                }
+                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(environment)
                         )
                     },
                     CoreModuleType.FitnessContext to { environment ->
