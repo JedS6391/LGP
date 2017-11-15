@@ -117,6 +117,41 @@ class MacroMutationOperator<T>(
 }
 
 /**
+ * A function that can be used to mutate a constant value.
+ *
+ * Used by the [MicroMutationOperator] implementation.
+ */
+typealias ConstantMutationFunction<T> = (T) -> T
+
+/**
+ * A collection of [ConstantMutationFunction] implementations for use by a [MicroMutationOperator].
+ */
+object ConstantMutationFunctions {
+
+    /**
+     * A [ConstantMutationFunction] which simply returns the original constant value unchanged.
+     */
+    @JvmStatic
+    fun <T> identity(): ConstantMutationFunction<T> {
+        return { v -> v}
+    }
+
+    /**
+     * A [ConstantMutationFunction] which returns the original constant with a small amount of gaussian noise added.
+     *
+     * @param environment An [Environment] instance that can be used to access the systems RNG.
+     */
+    @JvmStatic
+    fun randomGaussianNoise(environment: Environment<Double>): ConstantMutationFunction<Double> {
+        val random = environment.randomState
+
+        return { v ->
+            v + (random.nextGaussian() * 1)
+        }
+    }
+}
+
+/**
  * A [MutationOperator] implementation that performs effective micro mutations.
  *
  * For more information, see Algorithm 6.2 from Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).
@@ -132,7 +167,7 @@ class MicroMutationOperator<T>(
         environment: Environment<T>,
         val registerMutationRate: Double,
         val operatorMutationRate: Double,
-        val constantMutationFunc: (T) -> T
+        val constantMutationFunc: ConstantMutationFunction<T>
 ) : MutationOperator<T>(environment) {
 
     private val constantsRate = this.environment.config.constantsRate
