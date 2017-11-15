@@ -52,7 +52,7 @@ class BaseProgram<T>(
     }
 
     override fun copy(): BaseProgram<T> {
-        val copy =  BaseProgram(
+        val copy = BaseProgram(
                 instructions = this.instructions.map(Instruction<T>::copy),
                 registerSet = this.registers.copy(),
                 outputRegisterIndex = this.outputRegisterIndex,
@@ -105,7 +105,6 @@ class BaseProgram<T>(
                         effectiveRegisters.add(operand)
                     }
                 }
-
             }
         }
 
@@ -300,11 +299,9 @@ ${ constantRegisters.trim().prependIndent("        ") }
     return 0;
 }
                 """.trimIndent())
-
             }
         }
 
         return sb.toString()
     }
-
 }

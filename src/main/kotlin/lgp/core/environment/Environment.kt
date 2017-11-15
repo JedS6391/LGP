@@ -159,7 +159,6 @@ data class ModuleContainer<T>(val modules: MutableMap<RegisteredModuleType, (Env
 
         return module
     }
-
 }
 
 /**
@@ -393,5 +392,4 @@ open class Environment<T> {
 
         return copy
     }
-
 }

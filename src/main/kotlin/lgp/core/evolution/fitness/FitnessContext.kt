@@ -80,8 +80,8 @@ class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : Fitne
 
         return program.fitness
     }
+
     override val information = ModuleInformation(
             description = "A built-in fitness context for evaluating the fitness of single-output programs."
     )
-
 }

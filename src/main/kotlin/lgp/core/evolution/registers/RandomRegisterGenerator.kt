@@ -1,6 +1,6 @@
 package lgp.core.evolution.registers
 
-import java.util.*
+import java.util.Random
 import kotlin.coroutines.experimental.buildSequence
 
 /**

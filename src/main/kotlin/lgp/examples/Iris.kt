@@ -16,10 +16,10 @@ import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
 import lgp.lib.BaseProgramGenerator
 import lgp.lib.BaseProgramSimplifier
+
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.util.*
 
 data class IrisSolution(
         override val problem: String,
@@ -83,8 +83,8 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
 
      val datasetLoader = CsvDatasetLoader(
             reader = BufferedReader(
-                    // Load from the resource file.
-                    InputStreamReader(this.datasetStream)
+                // Load from the resource file.
+                InputStreamReader(this.datasetStream)
             ),
             featureParseFunction = { header: Header, row: Row ->
                 val features = row.zip(header)

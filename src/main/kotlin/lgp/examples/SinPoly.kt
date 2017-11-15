@@ -16,7 +16,6 @@ import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
 import lgp.lib.BaseProgramGenerator
 import lgp.lib.BaseProgramSimplifier
-import java.util.*
 
 data class SinPolySolution(
         override val problem: String,
@@ -69,7 +68,7 @@ class SinPolyProblem : Problem<Double>() {
             parseFunction = String::toDouble
     )
 
-     val datasetLoader = object : DatasetLoader<Double> {
+    val datasetLoader = object : DatasetLoader<Double> {
         // f(x) = sin(x) * x + 5
         val func = { x: Double -> Math.sin(x) * x + 5.0 }
         val gen = UniformlyDistributedGenerator()

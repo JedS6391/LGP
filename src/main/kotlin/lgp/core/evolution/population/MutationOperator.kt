@@ -101,7 +101,8 @@ class MacroMutationOperator<T>(
             }
         }
         else if (programLength > minimumProgramLength &&
-                    (mutationType == MacroMutationType.Deletion || programLength == maximumProgramLength)) {
+                (mutationType == MacroMutationType.Deletion || programLength == maximumProgramLength)) {
+
             // 4.
             // (a) Select an effective instruction i (if existent)
             if (individual.effectiveInstructions.size > 0) {
@@ -133,7 +134,7 @@ object ConstantMutationFunctions {
      */
     @JvmStatic
     fun <T> identity(): ConstantMutationFunction<T> {
-        return { v -> v}
+        return { v -> v }
     }
 
     /**
@@ -278,7 +279,7 @@ class MicroMutationOperator<T>(
                     individual.registers.registerType(operand) == RegisterType.Constant
                 }
 
-                var limit  = 0
+                var limit = 0
 
                 while (constantRegisters.isEmpty() && limit++ < individual.effectiveInstructions.size) {
                     instr = random.choice(individual.effectiveInstructions)

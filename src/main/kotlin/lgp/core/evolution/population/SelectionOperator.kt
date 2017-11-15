@@ -3,7 +3,7 @@ package lgp.core.evolution.population
 import lgp.core.environment.Environment
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
-import java.util.*
+import java.util.Random
 
 /**
  * A search operator used during evolution to select a subset of individuals from a population.

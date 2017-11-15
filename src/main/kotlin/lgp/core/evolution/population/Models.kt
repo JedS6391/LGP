@@ -6,7 +6,7 @@ import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.fitness.Evaluation
 import lgp.core.evolution.fitness.FitnessEvaluator
 import lgp.core.modules.ModuleInformation
-import java.util.*
+import java.util.Random
 import kotlin.concurrent.thread
 import kotlin.streams.toList
 
@@ -523,7 +523,7 @@ object Models {
             /**
              * Evolves the population for [numGenerations] generations.
              */
-             fun evolve(numGenerations: Int) {
+            fun evolve(numGenerations: Int) {
                 // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
                 // 1. Initialise a population of random programs
                 //this.initialise()
@@ -576,7 +576,6 @@ object Models {
 
                 this.bestIndividual = best.individual
             }
-
         }
 
         override val information: ModuleInformation
@@ -705,7 +704,7 @@ fun List<Double>.standardDeviation(mean: Double = this.average()): Double {
     return stdDev
 }
 
-fun <T, R> List<T>.pmap(transform: (T) -> R) : List<R> {
+fun <T, R> List<T>.pmap(transform: (T) -> R): List<R> {
     return this.parallelStream().map(transform).toList()
 }
 

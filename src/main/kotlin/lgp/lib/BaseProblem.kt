@@ -13,7 +13,6 @@ import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.population.*
 import lgp.core.modules.ModuleInformation
-import java.util.*
 
 /**
  * Parameters that can be given to configure a ``BaseProblem``.
@@ -139,7 +138,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                                 environment,
                                 registerMutationRate = params.microRegisterMutationRate,
                                 operatorMutationRate = params.microOperationMutationRate,
-                                constantMutationFunc = { v -> v + (Random().nextGaussian() * 1) }
+                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(environment)
                         )
                     }
             )

@@ -87,7 +87,7 @@ class RegisterSet<T> {
 
     private val inputRegistersCount: Int
     private val calculationRegistersCount: Int
-    private val  constantRegistersCount: Int
+    private val constantRegistersCount: Int
 
     private val defaultValueProvider: DefaultValueProvider<T>
 

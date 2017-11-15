@@ -4,7 +4,8 @@ import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.population.EvolutionModel
 import lgp.core.evolution.population.EvolutionResult
-import java.util.concurrent.*
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
 
 /**
  * Represents the result of training a model using a runner.
@@ -136,5 +137,4 @@ object Trainers {
             return TrainingResult(results, this.models)
         }
     }
-
 }

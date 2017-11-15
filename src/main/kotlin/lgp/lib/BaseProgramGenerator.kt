@@ -87,7 +87,7 @@ class BaseProgramGenerator<T>(
                 instructions = instructions.toList(),
                 registerSet = this.environment.registerSet.copy(),
                 outputRegisterIndex = this.outputRegisterIndex,
-                sentinelTrueValue =  this.sentinelTrueValue
+                sentinelTrueValue = this.sentinelTrueValue
         )
     }
 
