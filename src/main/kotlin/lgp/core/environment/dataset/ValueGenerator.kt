@@ -1,6 +1,6 @@
 package lgp.core.environment.dataset
 
-import java.util.*
+import java.util.Random
 import kotlin.coroutines.experimental.buildSequence
 
 /**
@@ -43,8 +43,11 @@ class SequenceGenerator {
 
 /**
  * Can generate a number of uniformly distributed values.
+ *
+ * @param randomState An optional [Random] instance to be used as the RNG. This is provided to allow for
+ *                    a deterministic sequence of values to be generated.
  */
-class UniformlyDistributedGenerator {
+class UniformlyDistributedGenerator(val randomState: Random = Random()) {
 
     /**
      * Generates [n] values that are uniformly distributed between [start] and [end].
@@ -54,10 +57,8 @@ class UniformlyDistributedGenerator {
      * @param end Upper bound on the range of values.
      */
     fun generate(n: Int, start: Double, end: Double): Sequence<Double> = buildSequence {
-        val random = Random()
-
         (0..n).map {
-            val r = random.nextDouble()
+            val r = this@UniformlyDistributedGenerator.randomState.nextDouble()
 
             // Scaled to range
             yield(r * (end - start) + start)
