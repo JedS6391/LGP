@@ -1,0 +1,15 @@
+lgp.core.environment
+lgp.core.environment.config
+lgp.core.environment.constants
+lgp.core.environment.dataset
+lgp.core.environment.operations
+lgp.core.evolution
+lgp.core.evolution.fitness
+lgp.core.evolution.instructions
+lgp.core.evolution.population
+lgp.core.evolution.registers
+lgp.core.modules
+lgp.examples
+lgp.examples.java
+lgp.lib
+lgp.lib.operations
