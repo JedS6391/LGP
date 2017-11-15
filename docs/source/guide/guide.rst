@@ -25,5 +25,6 @@ For a complete, low-level API reference, see the `dokka API documentation <https
    fitness
    extensions
    usage
+   java-interop
 
 
