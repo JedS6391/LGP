@@ -4,10 +4,7 @@ import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.population.EvolutionModel
 import lgp.core.evolution.population.EvolutionResult
-import lgp.core.evolution.population.pmap
-import lgp.core.evolution.population.randInt
 import java.util.concurrent.*
-import kotlin.concurrent.thread
 
 /**
  * Represents the result of training a model using a runner.
@@ -75,6 +72,12 @@ object Trainers {
      *  to the extra memory needed for evaluating multiple models at once, as well as
      *  the overhead of the threads used.
      *
+     *  It should be noted that this trainer will create [runs] copies of the environment --
+     *  one for each model. This allows each model to have its own environment which can be
+     *  isolated within the thread it is executed. This is mainly done to facilitate deterministic
+     *  multi-threaded training, where it is necessary to make 100% sure that any state shared between
+     *  threads does not affect the outcome of the training.
+     *
      *  @property runs The number of times to train the given model.
      */
     class DistributedTrainer<T>(environment: Environment<T>, model: EvolutionModel<T>, val runs: Int)
@@ -112,6 +115,9 @@ object Trainers {
             }
         }
 
+        /**
+         * Builds [runs] different models on the training set, training them in parallel.
+         */
         override fun train(dataset: Dataset<T>): TrainingResult<T> {
             // Submit all tasks to the executor. Each model will have a task created for it
             // that the executor is responsible for executing.

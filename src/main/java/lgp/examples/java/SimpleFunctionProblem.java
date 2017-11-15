@@ -181,8 +181,10 @@ public class SimpleFunctionProblem extends Problem<Double> {
 
             for (Iterator<Double> it = xs; it.hasNext(); ) {
                 Double x = it.next();
-
-                samples.add(new Sample(Arrays.asList(new Feature("x", x))));
+                
+                samples.add(
+                        new Sample(Arrays.asList(new Feature("x", x)))
+                );
             }
 
             List<Double> ys = new ArrayList<>();

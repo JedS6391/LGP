@@ -91,7 +91,7 @@ class CsvDatasetLoader<out T> constructor(
      * @returns a data set containing values parsed appropriately.
      */
     override fun load(): Dataset<T> {
-        val reader: CSVReader = CSVReader(this.reader)
+        val reader = CSVReader(this.reader)
         val lines: MutableList<Array<String>> = reader.readAll()
 
         // Assumes the header is in the first row (a reasonable assumption with CSV files).

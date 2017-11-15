@@ -2,7 +2,6 @@ package lgp.core.environment.config
 
 import com.google.gson.Gson
 import lgp.core.environment.ComponentLoaderBuilder
-import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 import java.io.FileReader
 import java.io.IOException

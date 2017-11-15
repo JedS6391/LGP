@@ -81,7 +81,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
     val featureIndices = 0..3
     val targetIndex = 4
 
-     val datasetLoader = CsvDatasetLoader<Double>(
+     val datasetLoader = CsvDatasetLoader(
             reader = BufferedReader(
                     // Load from the resource file.
                     InputStreamReader(this.datasetStream)

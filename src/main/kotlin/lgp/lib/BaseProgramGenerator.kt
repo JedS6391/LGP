@@ -12,9 +12,6 @@ import lgp.core.evolution.population.randInt
 import lgp.core.evolution.registers.RegisterType
 import lgp.core.evolution.registers.copy
 import lgp.core.modules.ModuleInformation
-import lgp.lib.BaseInstructionGenerator
-import lgp.lib.BaseProgram
-import java.util.*
 
 /**
  * A ``ProgramGenerator`` implementation that provides effective ``BaseProgram`` instances.
@@ -86,14 +83,12 @@ class BaseProgramGenerator<T>(
         }
 
         // Each program gets its own copy of the register set
-        val program = BaseProgram(
+        return BaseProgram(
                 instructions = instructions.toList(),
                 registerSet = this.environment.registerSet.copy(),
                 outputRegisterIndex = this.outputRegisterIndex,
                 sentinelTrueValue =  this.sentinelTrueValue
         )
-
-        return program
     }
 
     override val information = ModuleInformation(

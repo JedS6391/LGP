@@ -32,9 +32,9 @@ class NominalFeature<out TFeature>(name: String, value: TFeature, val labels: Li
 class Sample<out TFeature>(val features: List<Feature<TFeature>>) {
 
     fun feature(name: String): Feature<TFeature> {
-        return this.features.filter { feature ->
+        return this.features.first { feature ->
             feature.name == name
-        }.first()
+        }
     }
 
     override fun toString(): String {

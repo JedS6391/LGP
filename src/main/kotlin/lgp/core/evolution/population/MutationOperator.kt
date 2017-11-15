@@ -214,7 +214,7 @@ class MicroMutationOperator<T>(
                 // the number of operands the instruction has.
                 // If we're going to a reduced arity instruction, we can just truncate the operands
                 if (instruction.operands.size > op.arity.number) {
-                    instruction.operands = instruction.operands.slice(0..op.arity.number - 1)
+                    instruction.operands = instruction.operands.slice(0 until op.arity.number)
                 } else if (instruction.operands.size < op.arity.number) {
                     // Otherwise, if we're increasing the arity, just add random input
                     // and calculation registers until the arity is met.
