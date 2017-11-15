@@ -151,7 +151,7 @@ To illustrate how registered components are used --- continuing from the above e
     // Build up a container for any modules that need to be registered.
     // The container acts as a way for the environment to resolve
     // dependencies in bulk.
-    val container = ModuleContainer(
+    val container = ModuleContainer<Double>(
         modules = mapOf(
             CoreModuleType.InstructionGenerator to
             { environment -> BaseInstructionGenerator(environment) },
