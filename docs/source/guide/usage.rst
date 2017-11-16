@@ -105,6 +105,7 @@ Next, the file can be filled with the following:
     import lgp.core.evolution.Description;
     import lgp.core.evolution.fitness.FitnessCase;
     import lgp.core.evolution.fitness.FitnessFunctions;
+    import lgp.core.evolution.fitness.FitnessFunction;
     import lgp.lib.BaseProblem;
     import lgp.lib.BaseProblemParameters;
 
@@ -114,7 +115,9 @@ Next, the file can be filled with the following:
     public class MyProblem {
 
         static String name = "My Problem";
-        static Description description = new Description("A simple example problem definition");
+        static Description description = new Description(
+            "A simple example problem definition"
+        );
         static String configFilename = null;
         static Config config = new Config();
         static Double[] constants = { -1.0, 0.0, 1.0 };
@@ -125,7 +128,7 @@ Next, the file can be filled with the following:
             "lgp.lib.operations.Division"
         };
         static double defaultRegisterValue = 1.0;
-        static Function2<List<Double>, List<FitnessCase<Double>>, Double> fitnessFunction = FitnessFunctions.MSE();
+        static FitnessFunction<Double> mse = FitnessFunctions.getMSE();
         static int tournamentSize = 20;
         static int maximumSegmentLength = 6;
         static int maximumCrossoverDistance = 5;
@@ -146,7 +149,7 @@ Next, the file can be filled with the following:
                 Arrays.asList(constants),
                 Arrays.asList(operationClassNames),
                 defaultRegisterValue,
-                fitnessFunction,
+                mse,
                 tournamentSize,
                 maximumSegmentLength,
                 maximumCrossoverDistance,
@@ -164,8 +167,8 @@ Next, the file can be filled with the following:
             System.out.println(problem.getName());
             System.out.println(problem.getDescription());
         }
-
     }
+
 
 This set-up is the same as for the Kotlin API usage example, but is slightly more verbose due to Java's omission of optional parameters as mentioned previously.
 
