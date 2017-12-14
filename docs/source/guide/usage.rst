@@ -66,7 +66,7 @@ This will generate a class file in the directory called ``MyProblemKt.class``. T
 
 .. code-block:: bash
 
-    kotlin -cp LGP.jar MyProblemKt
+    kotlin -cp LGP.jar:. MyProblemKt
 
 You should see the following output:
 
