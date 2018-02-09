@@ -78,7 +78,7 @@ kotlinc -cp LGP.jar -no-jdk -no-stdlib MyProblem.kt
 This will generate a class file in the directory called `MyProblemKt.class`. To interpret the class file using the Kotlin interpreter is simple:
 
 ```
-kotlin -cp LGP.jar MyProblemKt
+kotlin -cp LGP.jar:. MyProblemKt
 ```
 
 You should see the following output:
