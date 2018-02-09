@@ -22,10 +22,10 @@ If you find the system useful or have any queries, please feel free to:
 
 ## Installation
 
-A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/download/v-1.0/LGP-core-1.0.jar) page. The command below can be used to download the JAR from a terminal so that development against the API can begin:
+A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/download/v-1.1/LGP-core-1.1.jar) page. The command below can be used to download the JAR from a terminal so that development against the API can begin:
 
 ```
-curl -L https://github.com/JedS6391/LGP/releases/download/v-1.0/LGP-core-1.0.jar > LGP.jar
+curl -L https://github.com/JedS6391/LGP/releases/download/v-1.1/LGP-core-1.1.jar > LGP.jar
 ```
 
 ## Usage
