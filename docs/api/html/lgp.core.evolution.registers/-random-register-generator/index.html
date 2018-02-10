@@ -11,17 +11,17 @@
 <code><span class="keyword">class </span><span class="identifier">RandomRegisterGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>Generates an infinite random sequence of registers from the register set given.</p>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - The type of value the registers contain.
+<code>T</code> - The type of value the registers contain.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
-<code><span class="identifier">RandomRegisterGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$<init>(java.util.Random, lgp.core.evolution.registers.RegisterSet((lgp.core.evolution.registers.RandomRegisterGenerator.T)))/randomState">randomState</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Random.html"><span class="identifier">Random</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$<init>(java.util.Random, lgp.core.evolution.registers.RegisterSet((lgp.core.evolution.registers.RandomRegisterGenerator.T)))/registerSet">registerSet</span><span class="symbol">:</span>&nbsp;<a href="../-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">RandomRegisterGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$<init>(java.util.Random, lgp.core.evolution.registers.RegisterSet((lgp.core.evolution.registers.RandomRegisterGenerator.T)))/randomState">randomState</span><span class="symbol">:</span>&nbsp;<span class="identifier">Random</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$<init>(java.util.Random, lgp.core.evolution.registers.RegisterSet((lgp.core.evolution.registers.RandomRegisterGenerator.T)))/registerSet">registerSet</span><span class="symbol">:</span>&nbsp;<a href="../-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>Generates an infinite random sequence of registers from the register set given.</p>
 </td>
 </tr>
@@ -32,13 +32,15 @@
 <tbody>
 <tr>
 <td>
-<a href="random-state.html">randomState</a></td>
+<p><a href="random-state.html">randomState</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">randomState</span><span class="symbol">: </span><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Random.html"><span class="identifier">Random</span></a></code></td>
+<code><span class="keyword">val </span><span class="identifier">randomState</span><span class="symbol">: </span><span class="identifier">Random</span></code></td>
 </tr>
 <tr>
 <td>
-<a href="register-set.html">registerSet</a></td>
+<p><a href="register-set.html">registerSet</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">registerSet</span><span class="symbol">: </span><a href="../-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A set of registers to choose random registers from.</p>
@@ -51,13 +53,14 @@
 <tbody>
 <tr>
 <td>
-<a href="next.html">next</a></td>
+<p><a href="next.html">next</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Provides an infinite, random sequence of registers.</p>
-<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Returns a sequence of registers with the specified type.</p>
-<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/a">a</span><span class="symbol">:</span>&nbsp;<a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/b">b</span><span class="symbol">:</span>&nbsp;<a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/predicate">predicate</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/a">a</span><span class="symbol">:</span>&nbsp;<a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/b">b</span><span class="symbol">:</span>&nbsp;<a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/predicate">predicate</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Returns a sequence of integers where <a href="next.html#lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/predicate">predicate</a> determines
 whether the next register is of type <a href="next.html#lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/a">a</a> or type <a href="next.html#lgp.core.evolution.registers.RandomRegisterGenerator$next(lgp.core.evolution.registers.RegisterType, lgp.core.evolution.registers.RegisterType, kotlin.Function0((kotlin.Boolean)))/b">b</a>.</p>
 </td>

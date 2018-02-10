@@ -21,7 +21,8 @@ generators themselves are modules, so each can be defined as a module.</p>
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
 <code><span class="identifier">ProgramGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.ProgramGenerator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.ProgramGenerator.T)), lgp.core.evolution.instructions.InstructionGenerator((lgp.core.evolution.population.ProgramGenerator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.population.ProgramGenerator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.ProgramGenerator.T)), lgp.core.evolution.instructions.InstructionGenerator((lgp.core.evolution.population.ProgramGenerator.T)))/instructionGenerator">instructionGenerator</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>Generates <a href="../-program/index.html">Program</a> instances to be used in an LGP population.</p>
@@ -34,7 +35,8 @@ generators themselves are modules, so each can be defined as a module.</p>
 <tbody>
 <tr>
 <td>
-<a href="environment.html">environment</a></td>
+<p><a href="environment.html">environment</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A reference to an LGP environment.</p>
@@ -42,7 +44,8 @@ generators themselves are modules, so each can be defined as a module.</p>
 </tr>
 <tr>
 <td>
-<a href="instruction-generator.html">instructionGenerator</a></td>
+<p><a href="instruction-generator.html">instructionGenerator</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">instructionGenerator</span><span class="symbol">: </span><a href="../../lgp.core.evolution.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A reference to an instruction generator.</p>
@@ -55,7 +58,8 @@ generators themselves are modules, so each can be defined as a module.</p>
 <tbody>
 <tr>
 <td>
-<a href="../../lgp.core.modules/-module/information.html">information</a></td>
+<p><a href="../../lgp.core.modules/-module/information.html">information</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
 <p>Provides information about the module.</p>
@@ -68,7 +72,8 @@ generators themselves are modules, so each can be defined as a module.</p>
 <tbody>
 <tr>
 <td>
-<a href="generate-program.html">generateProgram</a></td>
+<p><a href="generate-program.html">generateProgram</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">generateProgram</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>Generates a single <a href="../-program/index.html">Program</a> instance in some way.</p>
@@ -76,9 +81,10 @@ generators themselves are modules, so each can be defined as a module.</p>
 </tr>
 <tr>
 <td>
-<a href="next.html">next</a></td>
+<p><a href="next.html">next</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Generates a sequence of programs by yielding the result of the overridden function <a href="generate-program.html">generateProgram</a>.</p>
 </td>
 </tr>
@@ -89,7 +95,8 @@ generators themselves are modules, so each can be defined as a module.</p>
 <tbody>
 <tr>
 <td>
-<a href="../../lgp.lib/-base-program-generator/index.html">BaseProgramGenerator</a></td>
+<p><a href="../../lgp.lib/-base-program-generator/index.html">BaseProgramGenerator</a></p>
+</td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">BaseProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A <code>ProgramGenerator</code> implementation that provides effective <code>BaseProgram</code> instances.</p>

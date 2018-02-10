@@ -10,20 +10,18 @@
 <h1>registeredModuleUnsafe</h1>
 <a name="lgp.core.environment.Environment$registeredModuleUnsafe(lgp.core.environment.RegisteredModuleType)"></a>
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">registeredModuleUnsafe</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.Environment$registeredModuleUnsafe(lgp.core.environment.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TModule</span></code>
-<p>Similar to <a href="registered-module.html">registeredModule</a>, but may give a <a href="#">ClassCastException</a> at the call site.</p>
+<p>Similar to <a href="registered-module.html">registeredModule</a>, but may give a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-class-cast-exception/index.html">ClassCastException</a> at the call site.</p>
 <p>The internals of the module retrieval system cannot guarantee that any casting will be
 done safely, and thus this method should be used with caution. The reason for its existence
 is to make life easier for those using the API through Java.</p>
 <h3>Parameters</h3>
-
 <p><a name="type"></a>
-<code>type</code> - The type of registered module to fetch.
+<code>type</code> - The type of registered module to fetch.</p>
 <p><a name="TModule"></a>
-<code>TModule</code> - The type the module will be cast as.
+<code>TModule</code> - The type the module will be cast as.</p>
 <h3>Exceptions</h3>
-
 <p><a name="MissingModuleException"></a>
-<code>MissingModuleException</code> - When no builder has been registered for the type of module requested.
+<code>MissingModuleException</code> - When no builder has been registered for the type of module requested.</p>
 <p><strong>Return</strong><br/>
 An instance of the module registered for the given module type.</p>
 </BODY>

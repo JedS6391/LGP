@@ -13,15 +13,15 @@
 <p>The individuals are mutated directly by the reference given, so calls to this function
 directly modify the arguments.</p>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - The type of programs being combined.
+<code>T</code> - The type of programs being combined.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
 <code><span class="identifier">RecombinationOperator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.RecombinationOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.RecombinationOperator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A search operator used during evolution to combine two individuals from a population.</p>
@@ -34,7 +34,8 @@ directly modify the arguments.</p>
 <tbody>
 <tr>
 <td>
-<a href="environment.html">environment</a></td>
+<p><a href="environment.html">environment</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>The environment evolution is being performed within.</p>
@@ -47,7 +48,8 @@ directly modify the arguments.</p>
 <tbody>
 <tr>
 <td>
-<a href="../../lgp.core.modules/-module/information.html">information</a></td>
+<p><a href="../../lgp.core.modules/-module/information.html">information</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
 <p>Provides information about the module.</p>
@@ -60,9 +62,10 @@ directly modify the arguments.</p>
 <tbody>
 <tr>
 <td>
-<a href="combine.html">combine</a></td>
+<p><a href="combine.html">combine</a></p>
+</td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">combine</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.RecombinationOperator$combine(lgp.core.evolution.population.Program((lgp.core.evolution.population.RecombinationOperator.T)), lgp.core.evolution.population.Program((lgp.core.evolution.population.RecombinationOperator.T)))/mother">mother</span><span class="symbol">:</span>&nbsp;<a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.population.RecombinationOperator$combine(lgp.core.evolution.population.Program((lgp.core.evolution.population.RecombinationOperator.T)), lgp.core.evolution.population.Program((lgp.core.evolution.population.RecombinationOperator.T)))/father">father</span><span class="symbol">:</span>&nbsp;<a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">combine</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.RecombinationOperator$combine(lgp.core.evolution.population.Program((lgp.core.evolution.population.RecombinationOperator.T)), lgp.core.evolution.population.Program((lgp.core.evolution.population.RecombinationOperator.T)))/mother">mother</span><span class="symbol">:</span>&nbsp;<a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.population.RecombinationOperator$combine(lgp.core.evolution.population.Program((lgp.core.evolution.population.RecombinationOperator.T)), lgp.core.evolution.population.Program((lgp.core.evolution.population.RecombinationOperator.T)))/father">father</span><span class="symbol">:</span>&nbsp;<a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Combines the two programs given using some recombination technique.</p>
 </td>
 </tr>
@@ -73,7 +76,8 @@ directly modify the arguments.</p>
 <tbody>
 <tr>
 <td>
-<a href="../-linear-crossover/index.html">LinearCrossover</a></td>
+<p><a href="../-linear-crossover/index.html">LinearCrossover</a></p>
+</td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">LinearCrossover</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">RecombinationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A RecombinationOperator that implements Linear Crossover for two individuals.</p>
