@@ -19,7 +19,7 @@ import java.nio.file.Paths
  * the Java API.
  *
  * **NOTE:** This implementation caches the results of loading configuration, because the loader
- * is immutable - that is, once it is created it can not be altered to load configuration from
+ * is immutable -- that is, once it is created it can not be altered to load configuration from
  * an alternate location.
  *
  * This means that the we can cache the result of loading configuration
@@ -86,9 +86,9 @@ class YamlConfigLoader constructor(private val filename: String) : ConfigLoader 
     }
 
     /**
+     * Loads an instance of [Config] by parsing the YAML file associated with this loader.
      *
-     *
-     * @returns
+     * @returns A [Config] object that represents the contents of the YAML file.
      */
     override fun load(): Config {
         return this.memoizedConfig
