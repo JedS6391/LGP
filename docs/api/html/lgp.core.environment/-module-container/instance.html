@@ -14,20 +14,18 @@
 <p>The module will be loaded and cast to the type given if possible to cast to that type. This method is able to
 perform safe casts due to Kotlin's reified generics. If the cast can't be done safely, a <a href="../-module-cast-exception/index.html">ModuleCastException</a>
 will be thrown and contains details about the failed cast. Due to the use of reified generics, callers of this
-function can be assured that a <a href="#">ClassCastException</a> won't occur.</p>
+function can be assured that a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-class-cast-exception/index.html">ClassCastException</a> won't occur.</p>
 <p><strong>NOTE:</strong> This function cannot be used from Java; use the <a href="instance-unsafe.html">instanceUnsafe</a> function instead.</p>
 <h3>Parameters</h3>
-
 <p><a name="type"></a>
-<code>type</code> - The type of of module to get an instance of.
+<code>type</code> - The type of of module to get an instance of.</p>
 <p><a name="TModule"></a>
-<code>TModule</code> - The type to cast the module as.
+<code>TModule</code> - The type to cast the module as.</p>
 <h3>Exceptions</h3>
-
 <p><a name="MissingModuleException"></a>
-<code>MissingModuleException</code> - When no builder has been registered for the type of module requested.
+<code>MissingModuleException</code> - When no builder has been registered for the type of module requested.</p>
 <p><a name="ModuleCastException"></a>
-<code>ModuleCastException</code> - When the requested module can't be cast to the type given.
+<code>ModuleCastException</code> - When the requested module can't be cast to the type given.</p>
 <p><strong>Return</strong><br/>
 An instance of the module registered for the given module type.</p>
 </BODY>

@@ -15,19 +15,19 @@ when generating instructions for an individual in the population.</p>
 <p>Operations should have some representation with them, so that the operation that they convey can
 be expressed in a textual form.</p>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - Type of arguments that the operation operates on.
+<code>T</code> - Type of arguments that the operation operates on.</p>
 <p><a name="arity"></a>
-<code>arity</code> - How many arguments the operations function takes.
+<code>arity</code> - How many arguments the operations function takes.</p>
 <p><a name="func"></a>
-<code>func</code> - A function mapping arguments to some value.
+<code>func</code> - A function mapping arguments to some value.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
 <code><span class="identifier">Operation</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.instructions.Operation$<init>(lgp.core.evolution.instructions.Arity, kotlin.Function1((lgp.core.evolution.registers.Arguments((lgp.core.evolution.instructions.Operation.T)), )))/arity">arity</span><span class="symbol">:</span>&nbsp;<a href="../-arity/index.html"><span class="identifier">Arity</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.instructions.Operation$<init>(lgp.core.evolution.instructions.Arity, kotlin.Function1((lgp.core.evolution.registers.Arguments((lgp.core.evolution.instructions.Operation.T)), )))/func">func</span><span class="symbol">:</span>&nbsp;<a href="../-function.html"><span class="identifier">Function</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>An operation has an <a href="../-arity/index.html">Arity</a> and some function that it can perform on <a href="../../lgp.core.evolution.registers/-arguments/index.html">Arguments</a> given to it.</p>
@@ -40,21 +40,24 @@ be expressed in a textual form.</p>
 <tbody>
 <tr>
 <td>
-<a href="arity.html">arity</a></td>
+<p><a href="arity.html">arity</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">arity</span><span class="symbol">: </span><a href="../-arity/index.html"><span class="identifier">Arity</span></a></code></td>
 </tr>
 <tr>
 <td>
-<a href="func.html">func</a></td>
+<p><a href="func.html">func</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">func</span><span class="symbol">: </span><a href="../-function.html"><span class="identifier">Function</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
-<a href="representation.html">representation</a></td>
+<p><a href="representation.html">representation</a></p>
+</td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">representation</span><span class="symbol">: </span><span class="identifier">String</span></code>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">representation</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
 <p>A way to express an operation in a textual format.</p>
 </td>
 </tr>
@@ -65,7 +68,8 @@ be expressed in a textual form.</p>
 <tbody>
 <tr>
 <td>
-<a href="../../lgp.core.modules/-module/information.html">information</a></td>
+<p><a href="../../lgp.core.modules/-module/information.html">information</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
 <p>Provides information about the module.</p>
@@ -78,7 +82,8 @@ be expressed in a textual form.</p>
 <tbody>
 <tr>
 <td>
-<a href="execute.html">execute</a></td>
+<p><a href="execute.html">execute</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">execute</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.instructions.Operation$execute(lgp.core.evolution.registers.Arguments((lgp.core.evolution.instructions.Operation.T)))/arguments">arguments</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.registers/-arguments/index.html"><span class="identifier">Arguments</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code>
 <p>Executes an operation in some way. Generally this would simply involve applying
@@ -92,7 +97,8 @@ the function the operation represents to the arguments given.</p>
 <tbody>
 <tr>
 <td>
-<a href="../-binary-operation/index.html">BinaryOperation</a></td>
+<p><a href="../-binary-operation/index.html">BinaryOperation</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Operation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>An operation that has an arity of two (i.e. its function takes 2 arguments).</p>
@@ -100,7 +106,8 @@ the function the operation represents to the arguments given.</p>
 </tr>
 <tr>
 <td>
-<a href="../-unary-operation/index.html">UnaryOperation</a></td>
+<p><a href="../-unary-operation/index.html">UnaryOperation</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">UnaryOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Operation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>An operation that has an arity of one (i.e. its function takes 1 argument).</p>

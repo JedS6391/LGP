@@ -8,18 +8,20 @@
 <a href="../index.html">lgp.core.evolution.registers</a>&nbsp;/&nbsp;<a href="index.html">Arguments</a>&nbsp;/&nbsp;<a href=".">&lt;init&gt;</a><br/>
 <br/>
 <h1>&lt;init&gt;</h1>
-<code><span class="identifier">Arguments</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.Arguments$<init>(kotlin.collections.List((lgp.core.evolution.registers.Argument((lgp.core.evolution.registers.Arguments.T)))))/arguments">arguments</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-argument/index.html"><span class="identifier">Argument</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<a name="lgp.core.evolution.registers.Arguments$&lt;init&gt;(kotlin.collections.List((lgp.core.evolution.registers.Argument((lgp.core.evolution.registers.Arguments.T)))))"></a>
+<code><span class="identifier">Arguments</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.Arguments$<init>(kotlin.collections.List((lgp.core.evolution.registers.Argument((lgp.core.evolution.registers.Arguments.T)))))/arguments">arguments</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-argument/index.html"><span class="identifier">Argument</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A simple collection of <a href="../-argument/index.html">Argument</a>s.</p>
 <p>The sole purpose of this wrapper class is to make the syntax
 of functions for operations a bit cleaner. For example, we can write:</p>
 <pre><code>// A simple cosine function definition
-val cos: (Arguments&lt;Double&gt;) -&gt; Double = { args -&gt; Math.cos(args.get(0)) }</code></pre>
+val cos: (Arguments&lt;Double&gt;) -&gt; Double = { args -&gt; Math.cos(args.get(0)) }
+</code></pre>
 <p>Instead of:</p>
 <pre><code>// A verbose cosine function definition
-val cos: (List&lt;Argument&lt;Double&gt;&gt;) -&gt; Double = { args -&gt; Math.cos(args.get(0)) }</code></pre>
+val cos: (List&lt;Argument&lt;Double&gt;&gt;) -&gt; Double = { args -&gt; Math.cos(args.get(0)) }
+</code></pre>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - The type of the arguments.
+<code>T</code> - The type of the arguments.</p>
 </BODY>
 </HTML>

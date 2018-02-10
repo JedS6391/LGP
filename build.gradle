@@ -4,6 +4,7 @@ version '1.1'
 buildscript {
     ext.kotlin_version = '1.2.21'
     ext.dokka_version = '0.9.15'
+    ext.kotlinx_coroutines_version = '0.22.2'
 
     repositories {
         mavenCentral()
@@ -27,7 +28,9 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
@@ -35,9 +38,12 @@ dependencies {
     // https://mvnrepository.com/artifact/com.opencsv/opencsv
     compile group: 'com.opencsv', name: 'opencsv', version: '3.7'
 
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.16'
-
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // For YAML parsing
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.2'
 }
 kotlin {
     experimental {

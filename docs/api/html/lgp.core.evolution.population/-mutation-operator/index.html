@@ -13,15 +13,15 @@
 <p>The individual is mutated in place, that is a call to <a href="mutate.html">MutationOperator.mutate</a> will directly
 modify the given individual.</p>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - The type of programs being mutated.
+<code>T</code> - The type of programs being mutated.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
 <code><span class="identifier">MutationOperator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.MutationOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.MutationOperator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A search operator used during evolution to mutate an individual from a population.</p>
@@ -34,7 +34,8 @@ modify the given individual.</p>
 <tbody>
 <tr>
 <td>
-<a href="environment.html">environment</a></td>
+<p><a href="environment.html">environment</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>The environment evolution is being performed within.</p>
@@ -47,7 +48,8 @@ modify the given individual.</p>
 <tbody>
 <tr>
 <td>
-<a href="../../lgp.core.modules/-module/information.html">information</a></td>
+<p><a href="../../lgp.core.modules/-module/information.html">information</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
 <p>Provides information about the module.</p>
@@ -60,9 +62,10 @@ modify the given individual.</p>
 <tbody>
 <tr>
 <td>
-<a href="mutate.html">mutate</a></td>
+<p><a href="mutate.html">mutate</a></p>
+</td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">mutate</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.MutationOperator$mutate(lgp.core.evolution.population.Program((lgp.core.evolution.population.MutationOperator.T)))/individual">individual</span><span class="symbol">:</span>&nbsp;<a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">mutate</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.MutationOperator$mutate(lgp.core.evolution.population.Program((lgp.core.evolution.population.MutationOperator.T)))/individual">individual</span><span class="symbol">:</span>&nbsp;<a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Mutates the individual given using some mutation method.</p>
 </td>
 </tr>
@@ -73,7 +76,8 @@ modify the given individual.</p>
 <tbody>
 <tr>
 <td>
-<a href="../-macro-mutation-operator/index.html">MacroMutationOperator</a></td>
+<p><a href="../-macro-mutation-operator/index.html">MacroMutationOperator</a></p>
+</td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">MacroMutationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">MutationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A MutationOperator implementation that performs effective macro mutations.</p>
@@ -81,7 +85,8 @@ modify the given individual.</p>
 </tr>
 <tr>
 <td>
-<a href="../-micro-mutation-operator/index.html">MicroMutationOperator</a></td>
+<p><a href="../-micro-mutation-operator/index.html">MicroMutationOperator</a></p>
+</td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">MicroMutationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">MutationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A MutationOperator implementation that performs effective micro mutations.</p>

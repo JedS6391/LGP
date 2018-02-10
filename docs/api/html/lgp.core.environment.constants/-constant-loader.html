@@ -8,7 +8,7 @@
 <a href="index.html">lgp.core.environment.constants</a>&nbsp;/&nbsp;<a href=".">ConstantLoader</a><br/>
 <br/>
 <h1>ConstantLoader</h1>
-<code><span class="keyword">interface </span><span class="identifier">ConstantLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">interface </span><span class="identifier">ConstantLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>An extended <a href="../lgp.core.environment/-component-loader/index.html">ComponentLoader</a> that loads a collection of values of type T to be used as constants.</p>
 <p>The implementer of this interface has control over all aspects of the loading process, all
 that is required is that when the inherited <a href="../lgp.core.environment/-component-loader/load.html">ComponentLoader.load</a> method is called a collection
@@ -16,15 +16,15 @@ of values of the correct type is given.</p>
 <p>Constants could be loaded by parsing some values defined in a configuration file, loaded from some
 database, or even hardcoded.</p>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - The type of the constants.
+<code>T</code> - The type of the constants.</p>
 <h3>Inherited Functions</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="../lgp.core.environment/-component-loader/load.html">load</a></td>
+<p><a href="../lgp.core.environment/-component-loader/load.html">load</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">load</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TComponent</span></code>
 <p>Loads a component.</p>
@@ -37,7 +37,8 @@ database, or even hardcoded.</p>
 <tbody>
 <tr>
 <td>
-<a href="-generic-constant-loader/index.html">GenericConstantLoader</a></td>
+<p><a href="-generic-constant-loader/index.html">GenericConstantLoader</a></p>
+</td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GenericConstantLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ConstantLoader</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>An implementation of ConstantLoader that can load raw constants into a specified type.</p>

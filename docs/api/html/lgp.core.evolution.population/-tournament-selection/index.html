@@ -20,9 +20,10 @@ is removed from the set of individuals selected to participate in the tournament
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
-<code><span class="identifier">TournamentSelection</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.TournamentSelection$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.TournamentSelection.T)), kotlin.Int)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.population.TournamentSelection$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.TournamentSelection.T)), kotlin.Int)/tournamentSize">tournamentSize</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span></code>
+<code><span class="identifier">TournamentSelection</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.TournamentSelection$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.TournamentSelection.T)), kotlin.Int)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.population.TournamentSelection$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.TournamentSelection.T)), kotlin.Int)/tournamentSize">tournamentSize</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span></code>
 <p>A <a href="../-selection-operator/index.html">SelectionOperator</a> implementation that selects individuals using Tournament Selection.</p>
 </td>
 </tr>
@@ -33,7 +34,8 @@ is removed from the set of individuals selected to participate in the tournament
 <tbody>
 <tr>
 <td>
-<a href="information.html">information</a></td>
+<p><a href="information.html">information</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
 <p>Provides information about the module.</p>
@@ -41,9 +43,10 @@ is removed from the set of individuals selected to participate in the tournament
 </tr>
 <tr>
 <td>
-<a href="tournament-size.html">tournamentSize</a></td>
+<p><a href="tournament-size.html">tournamentSize</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">tournamentSize</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<code><span class="keyword">val </span><span class="identifier">tournamentSize</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
 <p>The size of the tournaments to be held (selection pressure).</p>
 </td>
 </tr>
@@ -54,7 +57,8 @@ is removed from the set of individuals selected to participate in the tournament
 <tbody>
 <tr>
 <td>
-<a href="../-selection-operator/environment.html">environment</a></td>
+<p><a href="../-selection-operator/environment.html">environment</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>The environment evolution is being performed within.</p>
@@ -67,9 +71,10 @@ is removed from the set of individuals selected to participate in the tournament
 <tbody>
 <tr>
 <td>
-<a href="select.html">select</a></td>
+<p><a href="select.html">select</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">select</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.TournamentSelection$select(kotlin.collections.MutableList((lgp.core.evolution.population.Program((lgp.core.evolution.population.TournamentSelection.T)))))/population">population</span><span class="symbol">:</span>&nbsp;<span class="identifier">MutableList</span><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">select</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.TournamentSelection$select(kotlin.collections.MutableList((lgp.core.evolution.population.Program((lgp.core.evolution.population.TournamentSelection.T)))))/population">population</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Selects individuals by performing 2 * <code>numOffspring</code> tournaments of size <a href="tournament-size.html">tournamentSize</a>.</p>
 </td>
 </tr>

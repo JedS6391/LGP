@@ -13,22 +13,24 @@
 <p>The functionality is left up to the implementer, but the basic skeleton exposes a simple API,
 that allows the instruction generator to be iterated over as a sequence of instructors, for example:</p>
 <pre><code>val instructionGenerator = SomeInstructionGenerator()
+
 // Iterate through the sequence of instructions
 for (instruction in instructionGenerator.next()) {
     doSomethingWith(instruction)
-}</code></pre>
+}
+</code></pre>
 <p>An instruction generator expects that a set of registers is provided to it. Note that this register
 set will provide registers</p>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - The type that the instructions generated operate on.
+<code>T</code> - The type that the instructions generated operate on.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
 <code><span class="identifier">InstructionGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.instructions.InstructionGenerator$<init>(lgp.core.environment.Environment((lgp.core.evolution.instructions.InstructionGenerator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A generator of instructions in an LGP system.</p>
@@ -41,7 +43,8 @@ set will provide registers</p>
 <tbody>
 <tr>
 <td>
-<a href="environment.html">environment</a></td>
+<p><a href="environment.html">environment</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
@@ -52,7 +55,8 @@ set will provide registers</p>
 <tbody>
 <tr>
 <td>
-<a href="../../lgp.core.modules/-module/information.html">information</a></td>
+<p><a href="../../lgp.core.modules/-module/information.html">information</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
 <p>Provides information about the module.</p>
@@ -65,7 +69,8 @@ set will provide registers</p>
 <tbody>
 <tr>
 <td>
-<a href="generate-instruction.html">generateInstruction</a></td>
+<p><a href="generate-instruction.html">generateInstruction</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">generateInstruction</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>Generates a single <a href="../-instruction/index.html">Instruction</a> instance in some way.</p>
@@ -73,9 +78,10 @@ set will provide registers</p>
 </tr>
 <tr>
 <td>
-<a href="next.html">next</a></td>
+<p><a href="next.html">next</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Sequence</span><span class="symbol">&lt;</span><a href="../-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Generates a sequence of instructions by yielding the result of the overridden function <a href="generate-instruction.html">generateInstruction</a>.</p>
 </td>
 </tr>
@@ -86,7 +92,8 @@ set will provide registers</p>
 <tbody>
 <tr>
 <td>
-<a href="../../lgp.lib/-base-instruction-generator/index.html">BaseInstructionGenerator</a></td>
+<p><a href="../../lgp.lib/-base-instruction-generator/index.html">BaseInstructionGenerator</a></p>
+</td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">BaseInstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">InstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>Built-in offering of the <code>InstructionGenerator</code> interface.</p>

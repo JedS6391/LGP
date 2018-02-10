@@ -11,15 +11,15 @@
 <code><span class="keyword">class </span><span class="identifier">CsvDatasetLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-dataset-loader.html"><span class="identifier">DatasetLoader</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>Loads a collection of samples and their target values from a CSV file.</p>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - Type of the features in the samples.
+<code>T</code> - Type of the features in the samples.</p>
 <h3>Types</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="-builder/index.html">Builder</a></td>
+<p><a href="-builder/index.html">Builder</a></p>
+</td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-component-loader-builder/index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><span class="identifier">CsvDatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Builds an instance of CsvDatasetLoader.</p>
@@ -32,9 +32,10 @@
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
-<code><span class="identifier">CsvDatasetLoader</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader$<init>(java.io.Reader, kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.CsvDatasetLoader.T)))), kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.CsvDatasetLoader.T)))/reader">reader</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/Reader.html"><span class="identifier">Reader</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader$<init>(java.io.Reader, kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.CsvDatasetLoader.T)))), kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.CsvDatasetLoader.T)))/featureParseFunction">featureParseFunction</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader$<init>(java.io.Reader, kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.CsvDatasetLoader.T)))), kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.CsvDatasetLoader.T)))/targetParseFunction">targetParseFunction</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span></code>
+<code><span class="identifier">CsvDatasetLoader</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader$<init>(java.io.Reader, kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.CsvDatasetLoader.T)))), kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.CsvDatasetLoader.T)))/reader">reader</span><span class="symbol">:</span>&nbsp;<span class="identifier">Reader</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader$<init>(java.io.Reader, kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.CsvDatasetLoader.T)))), kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.CsvDatasetLoader.T)))/featureParseFunction">featureParseFunction</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.dataset.CsvDatasetLoader$<init>(java.io.Reader, kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.CsvDatasetLoader.T)))), kotlin.Function2((kotlin.Array((kotlin.String)), , lgp.core.environment.dataset.CsvDatasetLoader.T)))/targetParseFunction">targetParseFunction</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span></code>
 <p>Loads a collection of samples and their target values from a CSV file.</p>
 </td>
 </tr>
@@ -45,7 +46,8 @@
 <tbody>
 <tr>
 <td>
-<a href="feature-parse-function.html">featureParseFunction</a></td>
+<p><a href="feature-parse-function.html">featureParseFunction</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">featureParseFunction</span><span class="symbol">: </span><span class="symbol">(</span><a href="../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>A function to parse the features of each row in the CSV file.</p>
@@ -53,7 +55,8 @@
 </tr>
 <tr>
 <td>
-<a href="information.html">information</a></td>
+<p><a href="information.html">information</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
 <p>Provides information about the module.</p>
@@ -61,15 +64,17 @@
 </tr>
 <tr>
 <td>
-<a href="reader.html">reader</a></td>
+<p><a href="reader.html">reader</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">reader</span><span class="symbol">: </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/Reader.html"><span class="identifier">Reader</span></a></code>
+<code><span class="keyword">val </span><span class="identifier">reader</span><span class="symbol">: </span><span class="identifier">Reader</span></code>
 <p>A reader that will provide the contents of a CSV file.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="target-parse-function.html">targetParseFunction</a></td>
+<p><a href="target-parse-function.html">targetParseFunction</a></p>
+</td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">targetParseFunction</span><span class="symbol">: </span><span class="symbol">(</span><a href="../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span></code>
 <p>A function to parse the target of each row in the CSV file.</p>
@@ -82,7 +87,8 @@
 <tbody>
 <tr>
 <td>
-<a href="load.html">load</a></td>
+<p><a href="load.html">load</a></p>
+</td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">load</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>Loads a data set from the CSV file specified when the loader was built.</p>

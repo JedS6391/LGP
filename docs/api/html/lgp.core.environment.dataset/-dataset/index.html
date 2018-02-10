@@ -12,17 +12,17 @@
 <p>A basic data set composed of a vector of input <a href="../-sample/index.html">Sample</a>s and a collection of outputs.</p>
 <p><strong>NOTE:</strong> The type of the inputs and outputs is constrained to be the same.</p>
 <h3>Parameters</h3>
-
 <p><a name="TData"></a>
-<code>TData</code> - The type of the features in the input vector and the type of the outputs.
+<code>TData</code> - The type of the features in the input vector and the type of the outputs.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
-<code><span class="identifier">Dataset</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.Dataset$<init>(kotlin.collections.List((lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.Dataset.TData)))), kotlin.collections.List((lgp.core.environment.dataset.Dataset.TData)))/inputs">inputs</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.dataset.Dataset$<init>(kotlin.collections.List((lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.Dataset.TData)))), kotlin.collections.List((lgp.core.environment.dataset.Dataset.TData)))/outputs">outputs</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">Dataset</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.Dataset$<init>(kotlin.collections.List((lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.Dataset.TData)))), kotlin.collections.List((lgp.core.environment.dataset.Dataset.TData)))/inputs">inputs</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.dataset.Dataset$<init>(kotlin.collections.List((lgp.core.environment.dataset.Sample((lgp.core.environment.dataset.Dataset.TData)))), kotlin.collections.List((lgp.core.environment.dataset.Dataset.TData)))/outputs">outputs</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A basic data set composed of a vector of input <a href="../-sample/index.html">Sample</a>s and a collection of outputs.</p>
 </td>
 </tr>
@@ -33,17 +33,19 @@
 <tbody>
 <tr>
 <td>
-<a href="inputs.html">inputs</a></td>
+<p><a href="inputs.html">inputs</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">inputs</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">inputs</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Vector of inputs with the shape <a href="#">numSamples,numFeatures</a></p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="outputs.html">outputs</a></td>
+<p><a href="outputs.html">outputs</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">outputs</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">outputs</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
 <p>Vector that describes target values for each sample in the input vector, with shape <a href="num-samples.html">numSamples</a>.</p>
 </td>
 </tr>
@@ -54,17 +56,19 @@
 <tbody>
 <tr>
 <td>
-<a href="num-features.html">numFeatures</a></td>
+<p><a href="num-features.html">numFeatures</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">numFeatures</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<code><span class="keyword">fun </span><span class="identifier">numFeatures</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
 <p>The number of features of each sample in the input data set.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="num-samples.html">numSamples</a></td>
+<p><a href="num-samples.html">numSamples</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">numSamples</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<code><span class="keyword">fun </span><span class="identifier">numSamples</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
 <p>The number of samples in the input data set.</p>
 </td>
 </tr>

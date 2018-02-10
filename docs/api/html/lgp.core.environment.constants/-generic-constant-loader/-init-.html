@@ -8,7 +8,8 @@
 <a href="../index.html">lgp.core.environment.constants</a>&nbsp;/&nbsp;<a href="index.html">GenericConstantLoader</a>&nbsp;/&nbsp;<a href=".">&lt;init&gt;</a><br/>
 <br/>
 <h1>&lt;init&gt;</h1>
-<code><span class="identifier">GenericConstantLoader</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.constants.GenericConstantLoader$<init>(kotlin.collections.List((kotlin.String)), kotlin.Function1((kotlin.String, lgp.core.environment.constants.GenericConstantLoader.T)))/constants">constants</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.constants.GenericConstantLoader$<init>(kotlin.collections.List((kotlin.String)), kotlin.Function1((kotlin.String, lgp.core.environment.constants.GenericConstantLoader.T)))/parseFunction">parseFunction</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">String</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span></code>
+<a name="lgp.core.environment.constants.GenericConstantLoader$&lt;init&gt;(kotlin.collections.List((kotlin.String)), kotlin.Function1((kotlin.String, lgp.core.environment.constants.GenericConstantLoader.T)))"></a>
+<code><span class="identifier">GenericConstantLoader</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.constants.GenericConstantLoader$<init>(kotlin.collections.List((kotlin.String)), kotlin.Function1((kotlin.String, lgp.core.environment.constants.GenericConstantLoader.T)))/constants">constants</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.environment.constants.GenericConstantLoader$<init>(kotlin.collections.List((kotlin.String)), kotlin.Function1((kotlin.String, lgp.core.environment.constants.GenericConstantLoader.T)))/parseFunction">parseFunction</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span></code>
 <p>An implementation of <a href="../-constant-loader.html">ConstantLoader</a> that can load raw constants into a specified type.</p>
 <p>The type parameter controls what type the raw constants should be converted into, using a
 suitable parsing function. This function will be used to map raw constant values to a value
@@ -17,8 +18,7 @@ in the domain of the type parameter.</p>
 is immutable - that is, once it is created it can not be altered to load a different set of
 constants. This is to ensure that the set of constants does not change within an LGP run.</p>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - The type to load constants as.
+<code>T</code> - The type to load constants as.</p>
 </BODY>
 </HTML>

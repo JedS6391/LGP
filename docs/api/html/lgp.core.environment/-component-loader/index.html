@@ -13,15 +13,15 @@
 <p>The implementer controls how a component the loader is responsible for is loaded
 and consumers should be indifferent to the implementation details.</p>
 <h3>Parameters</h3>
-
 <p><a name="TComponent"></a>
-<code>TComponent</code> - The type of component that this loader is able to load.
+<code>TComponent</code> - The type of component that this loader is able to load.</p>
 <h3>Inherited Properties</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="../../lgp.core.modules/-module/information.html">information</a></td>
+<p><a href="../../lgp.core.modules/-module/information.html">information</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
 <p>Provides information about the module.</p>
@@ -34,7 +34,8 @@ and consumers should be indifferent to the implementation details.</p>
 <tbody>
 <tr>
 <td>
-<a href="load.html">load</a></td>
+<p><a href="load.html">load</a></p>
+</td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">load</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TComponent</span></code>
 <p>Loads a component.</p>
@@ -47,7 +48,8 @@ and consumers should be indifferent to the implementation details.</p>
 <tbody>
 <tr>
 <td>
-<a href="../../lgp.core.environment.config/-config-loader.html">ConfigLoader</a></td>
+<p><a href="../../lgp.core.environment.config/-config-loader.html">ConfigLoader</a></p>
+</td>
 <td>
 <code><span class="keyword">interface </span><span class="identifier">ConfigLoader</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoader</span><span class="symbol">&lt;</span><a href="../../lgp.core.environment.config/-config/index.html"><span class="identifier">Config</span></a><span class="symbol">&gt;</span></code>
 <p>An extended ComponentLoader that is responsible for loading <a href="../../lgp.core.environment.config/-config/index.html">Config</a> instances.</p>
@@ -55,15 +57,17 @@ and consumers should be indifferent to the implementation details.</p>
 </tr>
 <tr>
 <td>
-<a href="../../lgp.core.environment.constants/-constant-loader.html">ConstantLoader</a></td>
+<p><a href="../../lgp.core.environment.constants/-constant-loader.html">ConstantLoader</a></p>
+</td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">ConstantLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoader</span><span class="symbol">&lt;</span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">interface </span><span class="identifier">ConstantLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoader</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>An extended ComponentLoader that loads a collection of values of type T to be used as constants.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../../lgp.core.environment.dataset/-dataset-loader.html">DatasetLoader</a></td>
+<p><a href="../../lgp.core.environment.dataset/-dataset-loader.html">DatasetLoader</a></p>
+</td>
 <td>
 <code><span class="keyword">interface </span><span class="identifier">DatasetLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoader</span><span class="symbol">&lt;</span><a href="../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>An extended ComponentLoader that loads a <a href="../../lgp.core.environment.dataset/-dataset/index.html">Dataset</a>.</p>
@@ -71,9 +75,10 @@ and consumers should be indifferent to the implementation details.</p>
 </tr>
 <tr>
 <td>
-<a href="../../lgp.core.environment.operations/-operation-loader.html">OperationLoader</a></td>
+<p><a href="../../lgp.core.environment.operations/-operation-loader.html">OperationLoader</a></p>
+</td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">OperationLoader</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoader</span><span class="symbol">&lt;</span><span class="identifier">List</span><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">interface </span><span class="identifier">OperationLoader</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoader</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Loads a collection of <a href="../../lgp.core.evolution.instructions/-operation/index.html">Operation</a>s in some way defined by the implementer.</p>
 </td>
 </tr>

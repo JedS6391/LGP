@@ -15,7 +15,8 @@ types of registers that are available to an LGP program. In a diagram form, the
 ranges look something like:</p>
 <pre><code>    +-------+-------------+----------+
     | Input | Calculation | Constant |
-    +-------+-------------+----------+</code></pre>
+    +-------+-------------+----------+
+</code></pre>
 <p>Input registers are used to store the value of features in an instance from some
 data set. These input registers will have their value loaded from an instance before
 evaluating an LGP program on some fitness case (an instance). The number of input registers
@@ -28,17 +29,17 @@ default value can be controlled by passing a specific <a href="../../lgp.core.en
 LGP program. The values of the registers will be loaded from constants specified during
 initialisation of the register set.</p>
 <h3>Parameters</h3>
-
 <p><a name="T"></a>
-<code>T</code> - The type of the value that each register contains.
+<code>T</code> - The type of the value that each register contains.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<a href="-init-.html">&lt;init&gt;</a></td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
 <td>
-<code><span class="identifier">RegisterSet</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$<init>(kotlin.Int, kotlin.Int, kotlin.collections.List((lgp.core.evolution.registers.RegisterSet.T)), lgp.core.environment.DefaultValueProvider((lgp.core.evolution.registers.RegisterSet.T)))/inputRegisters">inputRegisters</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$<init>(kotlin.Int, kotlin.Int, kotlin.collections.List((lgp.core.evolution.registers.RegisterSet.T)), lgp.core.environment.DefaultValueProvider((lgp.core.evolution.registers.RegisterSet.T)))/calculationRegisters">calculationRegisters</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$<init>(kotlin.Int, kotlin.Int, kotlin.collections.List((lgp.core.evolution.registers.RegisterSet.T)), lgp.core.environment.DefaultValueProvider((lgp.core.evolution.registers.RegisterSet.T)))/constants">constants</span><span class="symbol">:</span>&nbsp;<span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$<init>(kotlin.Int, kotlin.Int, kotlin.collections.List((lgp.core.evolution.registers.RegisterSet.T)), lgp.core.environment.DefaultValueProvider((lgp.core.evolution.registers.RegisterSet.T)))/defaultValueProvider">defaultValueProvider</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">RegisterSet</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$<init>(kotlin.Int, kotlin.Int, kotlin.collections.List((lgp.core.evolution.registers.RegisterSet.T)), lgp.core.environment.DefaultValueProvider((lgp.core.evolution.registers.RegisterSet.T)))/inputRegisters">inputRegisters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$<init>(kotlin.Int, kotlin.Int, kotlin.collections.List((lgp.core.evolution.registers.RegisterSet.T)), lgp.core.environment.DefaultValueProvider((lgp.core.evolution.registers.RegisterSet.T)))/calculationRegisters">calculationRegisters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$<init>(kotlin.Int, kotlin.Int, kotlin.collections.List((lgp.core.evolution.registers.RegisterSet.T)), lgp.core.environment.DefaultValueProvider((lgp.core.evolution.registers.RegisterSet.T)))/constants">constants</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$<init>(kotlin.Int, kotlin.Int, kotlin.collections.List((lgp.core.evolution.registers.RegisterSet.T)), lgp.core.environment.DefaultValueProvider((lgp.core.evolution.registers.RegisterSet.T)))/defaultValueProvider">defaultValueProvider</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-default-value-provider/index.html"><span class="identifier">DefaultValueProvider</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>Creates a new RegisterSet with the specified parameters.</p>
 </td>
 </tr>
@@ -49,47 +50,54 @@ initialisation of the register set.</p>
 <tbody>
 <tr>
 <td>
-<a href="calculation-registers.html">calculationRegisters</a></td>
+<p><a href="calculation-registers.html">calculationRegisters</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">calculationRegisters</span><span class="symbol">: </span><span class="identifier">IntRange</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">calculationRegisters</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html"><span class="identifier">IntRange</span></a></code></td>
 </tr>
 <tr>
 <td>
-<a href="constant-registers.html">constantRegisters</a></td>
+<p><a href="constant-registers.html">constantRegisters</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">constantRegisters</span><span class="symbol">: </span><span class="identifier">IntRange</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">constantRegisters</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html"><span class="identifier">IntRange</span></a></code></td>
 </tr>
 <tr>
 <td>
-<a href="constants.html">constants</a></td>
+<p><a href="constants.html">constants</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">constants</span><span class="symbol">: </span><span class="identifier">List</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">constants</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
-<a href="count.html">count</a></td>
+<p><a href="count.html">count</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">count</span><span class="symbol">: </span><span class="identifier">Int</span></code>
+<code><span class="keyword">val </span><span class="identifier">count</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
 <p>The total number of registers in this register set.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="input-registers.html">inputRegisters</a></td>
+<p><a href="input-registers.html">inputRegisters</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">inputRegisters</span><span class="symbol">: </span><span class="identifier">IntRange</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">inputRegisters</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html"><span class="identifier">IntRange</span></a></code></td>
 </tr>
 <tr>
 <td>
-<a href="registers.html">registers</a></td>
+<p><a href="registers.html">registers</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">registers</span><span class="symbol">: </span><span class="identifier">MutableList</span><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">registers</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
-<a href="total-registers.html">totalRegisters</a></td>
+<p><a href="total-registers.html">totalRegisters</a></p>
+</td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">totalRegisters</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">totalRegisters</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -98,55 +106,63 @@ initialisation of the register set.</p>
 <tbody>
 <tr>
 <td>
-<a href="overwrite.html">overwrite</a></td>
+<p><a href="overwrite.html">overwrite</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">overwrite</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$overwrite(kotlin.Int, lgp.core.evolution.registers.RegisterSet.T)/index">index</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$overwrite(kotlin.Int, lgp.core.evolution.registers.RegisterSet.T)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">overwrite</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$overwrite(kotlin.Int, lgp.core.evolution.registers.RegisterSet.T)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$overwrite(kotlin.Int, lgp.core.evolution.registers.RegisterSet.T)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
-<a href="read.html">read</a></td>
+<p><a href="read.html">read</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">read</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$read(kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code>
+<code><span class="keyword">fun </span><span class="identifier">read</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$read(kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code>
 <p>Get the value the of the register at the given index.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="register.html">register</a></td>
+<p><a href="register.html">register</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">register</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$register(kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">register</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$register(kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-register/index.html"><span class="identifier">Register</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
-<a href="register-type.html">registerType</a></td>
+<p><a href="register-type.html">registerType</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">registerType</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$registerType(kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">registerType</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$registerType(kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-register-type/index.html"><span class="identifier">RegisterType</span></a></code></td>
 </tr>
 <tr>
 <td>
-<a href="reset.html">reset</a></td>
+<p><a href="reset.html">reset</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
-<a href="to-string.html">toString</a></td>
+<p><a href="to-string.html">toString</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">toString</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">toString</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
 </tr>
 <tr>
 <td>
-<a href="write.html">write</a></td>
+<p><a href="write.html">write</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">write</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$write(kotlin.Int, lgp.core.evolution.registers.RegisterSet.T)/index">index</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$write(kotlin.Int, lgp.core.evolution.registers.RegisterSet.T)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<code><span class="keyword">fun </span><span class="identifier">write</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$write(kotlin.Int, lgp.core.evolution.registers.RegisterSet.T)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$write(kotlin.Int, lgp.core.evolution.registers.RegisterSet.T)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Sets the value of the register at the given index.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="write-instance.html">writeInstance</a></td>
+<p><a href="write-instance.html">writeInstance</a></p>
+</td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">writeInstance</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$writeInstance(lgp.core.environment.dataset.Sample((lgp.core.evolution.registers.RegisterSet.T)))/data">data</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<code><span class="keyword">fun </span><span class="identifier">writeInstance</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.registers.RegisterSet$writeInstance(lgp.core.environment.dataset.Sample((lgp.core.evolution.registers.RegisterSet.T)))/data">data</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Writes an instance from some data set to the register sets input registers.</p>
 </td>
 </tr>
@@ -157,7 +173,8 @@ initialisation of the register set.</p>
 <tbody>
 <tr>
 <td>
-<a href="../copy.html">copy</a></td>
+<p><a href="../copy.html">copy</a></p>
+</td>
 <td>
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">RegisterSet</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">copy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">RegisterSet</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
