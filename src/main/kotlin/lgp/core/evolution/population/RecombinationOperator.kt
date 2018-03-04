@@ -44,8 +44,8 @@ class LinearCrossover<T>(environment: Environment<T>,
     private val random = this.environment.randomState
 
     // Make life easier with some local variables
-    private val minimumProgramLength = this.environment.config.minimumProgramLength
-    private val maximumProgramLength = this.environment.config.maximumProgramLength
+    private val minimumProgramLength = this.environment.configuration.minimumProgramLength
+    private val maximumProgramLength = this.environment.configuration.maximumProgramLength
 
     /**
      * Combines the two individuals given by exchanging two segments of instructions.

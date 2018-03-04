@@ -74,7 +74,7 @@ class BinaryTournamentSelection<T>(environment: Environment<T>,
  * A [SelectionOperator] implementation that selects individuals using Tournament Selection.
  *
  * The number of tournaments held is determined by the configuration parameter
- * [lgp.core.environment.config.Config.numOffspring], meaning that `numOffspring`
+ * [lgp.core.environment.config.Configuration.numOffspring], meaning that `numOffspring`
  * individuals will be chosen from the population using tournaments of the given size.
 
  * The size of the tournaments is determined by [tournamentSize]. Each winner of a tournament
@@ -92,7 +92,7 @@ class TournamentSelection<T>(environment: Environment<T>,
      * Selects individuals by performing 2 * `numOffspring` tournaments of size [tournamentSize].
      */
     override fun select(population: MutableList<Program<T>>): List<Program<T>> {
-        return (0..(2 * this.environment.config.numOffspring - 1)).map {
+        return (0..(2 * this.environment.configuration.numOffspring - 1)).map {
             tournament(population, this.random, this.tournamentSize).clone
         }
     }
