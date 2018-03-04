@@ -58,8 +58,8 @@ class MacroMutationOperator<T>(
         assert((insertionRate + deletionRate) == 1.0)
     }
 
-    private val minimumProgramLength = this.environment.config.minimumProgramLength
-    private val maximumProgramLength = this.environment.config.maximumProgramLength
+    private val minimumProgramLength = this.environment.configuration.minimumProgramLength
+    private val maximumProgramLength = this.environment.configuration.maximumProgramLength
     private val random = this.environment.randomState
     private val instructionGenerator = this.environment.registeredModule<InstructionGenerator<T>>(
             CoreModuleType.InstructionGenerator
@@ -171,7 +171,7 @@ class MicroMutationOperator<T>(
         val constantMutationFunc: ConstantMutationFunction<T>
 ) : MutationOperator<T>(environment) {
 
-    private val constantsRate = this.environment.config.constantsRate
+    private val constantsRate = this.environment.configuration.constantsRate
     private val operations = this.environment.operations
     private val random = this.environment.randomState
 

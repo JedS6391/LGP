@@ -42,7 +42,7 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
         val operation = random.choice(this.operationPool)
 
         // Determine whether to use a constant register
-        val shouldUseConstant = random.nextFloat().toDouble() < this.environment.config.constantsRate
+        val shouldUseConstant = random.nextFloat().toDouble() < this.environment.configuration.constantsRate
 
         if (shouldUseConstant) {
             // This instruction should use a constant register, first get the constant register

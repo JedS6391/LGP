@@ -1,7 +1,6 @@
 package lgp.core.environment
 
-import lgp.core.environment.config.Config
-import lgp.core.environment.config.ConfigLoader
+import lgp.core.environment.config.*
 import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.operations.OperationLoader
 import lgp.core.evolution.fitness.FitnessFunction
@@ -180,7 +179,7 @@ open class Environment<T> {
 
     // Dependencies that we require at construction time and are used during initialisation
     // but aren't needed after that.
-    private val configLoader: ConfigLoader
+    private val configLoader: ConfigurationLoader
     private val constantLoader: ConstantLoader<T>
     private val operationLoader: OperationLoader<T>
     private val defaultValueProvider: DefaultValueProvider<T>
@@ -200,7 +199,7 @@ open class Environment<T> {
     /**
      * Contains the various configuration options available to the LGP system.
      */
-    lateinit var config: Config
+    lateinit var configuration: Configuration
 
     /**
      * A set of constants loaded using the [ConstantLoader] given at construction time.
@@ -235,9 +234,9 @@ open class Environment<T> {
      */
     // TODO: Move all components to an object to make constructor smaller.
     // TODO: Allow custom initialisation method for initialisation components.
-    // TODO: Default value provider and fitness function could be given in config?
+    // TODO: Default value provider and fitness function could be given in configuration?
     constructor(
-            configLoader: ConfigLoader,
+            configLoader: ConfigurationLoader,
             constantLoader: ConstantLoader<T>,
             operationLoader: OperationLoader<T>,
             defaultValueProvider: DefaultValueProvider<T>,
@@ -267,9 +266,17 @@ open class Environment<T> {
 
     private fun initialise() {
         // Load the components each loader is responsible for.
-        this.config = this.configLoader.load()
+        this.configuration = this.configLoader.load()
         this.constants = this.constantLoader.load()
         this.operations = this.operationLoader.load()
+
+        // Early exit if the configuration provided is invalid
+        val configValidity = this.configuration.isValid()
+
+        when (configValidity) {
+            is Invalid -> throw InvalidConfigurationException(configValidity.reason)
+            else -> { /* No-op */ }
+        }
 
         // TODO: Instead of initialising, allow user to register?
         this.initialiseRegisterSet()
@@ -284,8 +291,8 @@ open class Environment<T> {
         // TODO: Pass environment to register set and make it a dependency that must be registered.
 
         this.registerSet = RegisterSet(
-                inputRegisters = this.config.numFeatures,
-                calculationRegisters = this.config.numCalculationRegisters,
+                inputRegisters = this.configuration.numFeatures,
+                calculationRegisters = this.configuration.numCalculationRegisters,
                 constants = this.constants,
                 defaultValueProvider = this.defaultValueProvider
         )

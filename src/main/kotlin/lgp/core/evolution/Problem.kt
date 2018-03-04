@@ -3,7 +3,7 @@ package lgp.core.evolution
 import lgp.core.environment.DefaultValueProvider
 import lgp.core.environment.Environment
 import lgp.core.environment.ModuleContainer
-import lgp.core.environment.config.ConfigLoader
+import lgp.core.environment.config.ConfigurationLoader
 import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.operations.OperationLoader
 import lgp.core.evolution.fitness.FitnessFunction
@@ -50,7 +50,7 @@ abstract class Problem<T> {
     /**
      * A component that can provide configuration for the problem.
      */
-    abstract val configLoader: ConfigLoader
+    abstract val configLoader: ConfigurationLoader
 
     /**
      * A component that can provide constants for the problem.

@@ -31,8 +31,8 @@ class BaseProgramGenerator<T>(
 
     override fun generateProgram(): Program<T> {
         val length = this.random.randInt(
-                this.environment.config.initialMinimumProgramLength,
-                this.environment.config.initialMaximumProgramLength
+                this.environment.configuration.initialMinimumProgramLength,
+                this.environment.configuration.initialMaximumProgramLength
         )
 
         val branchesUsed = this.environment.operations.any { op -> op is BranchOperation<T> }
@@ -62,7 +62,7 @@ class BaseProgramGenerator<T>(
                 effectiveRegisters.add(output)
             }
 
-            if (branchesUsed && random.nextDouble() < this.environment.config.branchInitialisationRate) {
+            if (branchesUsed && random.nextDouble() < this.environment.configuration.branchInitialisationRate) {
                 val instr = this.instructionGenerator.next().first { instruction ->
                     instruction.operation is BranchOperation<T>
                 }

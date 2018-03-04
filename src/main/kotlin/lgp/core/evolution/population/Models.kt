@@ -49,7 +49,7 @@ object Models {
             val programGenerator: ProgramGenerator<TProgram> = this.environment.registeredModule(CoreModuleType.ProgramGenerator)
 
             this.individuals = programGenerator.next()
-                    .take(this.environment.config.populationSize)
+                    .take(this.environment.configuration.populationSize)
                     .toMutableList()
         }
 
@@ -70,9 +70,9 @@ object Models {
 
             val statistics = mutableListOf<EvolutionStatistics>()
 
-            (0 until this.environment.config.generations).forEach { gen ->
+            (0 until this.environment.configuration.generations).forEach { gen ->
                 // Stop early whenever we can.
-                if (best.fitness <= this.environment.config.stoppingCriterion) {
+                if (best.fitness <= this.environment.configuration.stoppingCriterion) {
                     // Make sure to add at least one set of statistics.
                     statistics.add(this.statistics(gen, best))
 
@@ -85,20 +85,20 @@ object Models {
 
                 children.pairwise().map { (mother, father) ->
                     // Combine mother and father with some prob.
-                    if (rg.nextDouble() < this.environment.config.crossoverRate) {
+                    if (rg.nextDouble() < this.environment.configuration.crossoverRate) {
                         this.combine.combine(mother, father)
                     }
 
                     // Mutate mother or father (or both) with some prob.
-                    if (rg.nextDouble() < this.environment.config.microMutationRate) {
+                    if (rg.nextDouble() < this.environment.configuration.microMutationRate) {
                         this.microMutate.mutate(mother)
-                    } else if (rg.nextDouble() < this.environment.config.macroMutationRate) {
+                    } else if (rg.nextDouble() < this.environment.configuration.macroMutationRate) {
                         this.macroMutate.mutate(mother)
                     }
 
-                    if (rg.nextDouble() < this.environment.config.microMutationRate) {
+                    if (rg.nextDouble() < this.environment.configuration.microMutationRate) {
                         this.microMutate.mutate(father)
-                    } else if (rg.nextDouble() < this.environment.config.macroMutationRate) {
+                    } else if (rg.nextDouble() < this.environment.configuration.macroMutationRate) {
                         this.macroMutate.mutate(father)
                     }
                 }
@@ -222,7 +222,7 @@ object Models {
             val programGenerator: ProgramGenerator<TProgram> = this.environment.registeredModule(CoreModuleType.ProgramGenerator)
 
             this.individuals = programGenerator.next()
-                    .take(this.environment.config.populationSize)
+                    .take(this.environment.configuration.populationSize)
                     .toMutableList()
         }
 
@@ -243,9 +243,9 @@ object Models {
 
             val statistics = mutableListOf<EvolutionStatistics>()
 
-            (0 until this.environment.config.generations).forEach { gen ->
+            (0 until this.environment.configuration.generations).forEach { gen ->
                 // Stop early whenever we can.
-                if (best.fitness <= this.environment.config.stoppingCriterion) {
+                if (best.fitness <= this.environment.configuration.stoppingCriterion) {
                     // Make sure to add at least one set of statistics.
                     statistics.add(this.statistics(gen, best))
 
@@ -258,20 +258,20 @@ object Models {
 
                 children.pairwise().map { (mother, father) ->
                     // Combine mother and father with some prob.
-                    if (rg.nextDouble() < this.environment.config.crossoverRate) {
+                    if (rg.nextDouble() < this.environment.configuration.crossoverRate) {
                         this.combine.combine(mother, father)
                     }
 
                     // Mutate mother or father (or both) with some prob.
-                    if (rg.nextDouble() < this.environment.config.microMutationRate) {
+                    if (rg.nextDouble() < this.environment.configuration.microMutationRate) {
                         this.microMutate.mutate(mother)
-                    } else if (rg.nextDouble() < this.environment.config.macroMutationRate) {
+                    } else if (rg.nextDouble() < this.environment.configuration.macroMutationRate) {
                         this.macroMutate.mutate(mother)
                     }
 
-                    if (rg.nextDouble() < this.environment.config.microMutationRate) {
+                    if (rg.nextDouble() < this.environment.configuration.microMutationRate) {
                         this.microMutate.mutate(father)
-                    } else if (rg.nextDouble() < this.environment.config.macroMutationRate) {
+                    } else if (rg.nextDouble() < this.environment.configuration.macroMutationRate) {
                         this.macroMutate.mutate(father)
                     }
                 }
@@ -516,7 +516,7 @@ object Models {
                 val programGenerator: ProgramGenerator<TProgram> = this.environment.registeredModule(CoreModuleType.ProgramGenerator)
 
                 this.individuals = programGenerator.next()
-                        .take(this.environment.config.populationSize)
+                        .take(this.environment.configuration.populationSize)
                         .toMutableList()
             }
 
@@ -541,20 +541,20 @@ object Models {
 
                     children.pairwise().map { (mother, father) ->
                         // Combine mother and father with some prob.
-                        if (random.nextDouble() < this.environment.config.crossoverRate) {
+                        if (random.nextDouble() < this.environment.configuration.crossoverRate) {
                             this.combine.combine(mother, father)
                         }
 
                         // Mutate mother or father (or both) with some prob.
-                        if (random.nextDouble() < this.environment.config.microMutationRate) {
+                        if (random.nextDouble() < this.environment.configuration.microMutationRate) {
                             this.microMutate.mutate(mother)
-                        } else if (random.nextDouble() < this.environment.config.macroMutationRate) {
+                        } else if (random.nextDouble() < this.environment.configuration.macroMutationRate) {
                             this.macroMutate.mutate(mother)
                         }
 
-                        if (random.nextDouble() < this.environment.config.microMutationRate) {
+                        if (random.nextDouble() < this.environment.configuration.microMutationRate) {
                             this.microMutate.mutate(father)
-                        } else if (random.nextDouble() < this.environment.config.macroMutationRate) {
+                        } else if (random.nextDouble() < this.environment.configuration.macroMutationRate) {
                             this.macroMutate.mutate(father)
                         }
                     }
@@ -596,7 +596,7 @@ object Models {
             // evolution process for a set number of generations before stopping to do migration.
             var generation = 0
 
-            while (generation < this@IslandMigration.environment.config.generations) {
+            while (generation < this@IslandMigration.environment.configuration.generations) {
                 (0 until this@IslandMigration.islands.rows()).map { row ->
                     (0 until this@IslandMigration.islands.columns()).map { col ->
                         val island = this@IslandMigration.islands[row][col]

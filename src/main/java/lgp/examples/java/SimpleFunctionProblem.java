@@ -3,8 +3,8 @@ package lgp.examples.java;
 import kotlin.UninitializedPropertyAccessException;
 import kotlin.jvm.functions.Function1;
 import lgp.core.environment.*;
-import lgp.core.environment.config.Config;
-import lgp.core.environment.config.ConfigLoader;
+import lgp.core.environment.config.Configuration;
+import lgp.core.environment.config.ConfigurationLoader;
 import lgp.core.environment.constants.ConstantLoader;
 import lgp.core.environment.constants.GenericConstantLoader;
 import lgp.core.environment.dataset.*;
@@ -42,18 +42,18 @@ public class SimpleFunctionProblem extends Problem<Double> {
     }
 
     @NotNull
-    public ConfigLoader getConfigLoader() {
-        return new ConfigLoader() {
+    public ConfigurationLoader getConfigLoader() {
+        return new ConfigurationLoader() {
 
             @NotNull
             public ModuleInformation getInformation() {
                 return new ModuleInformation(
-                        "Overrides default config for this problem."
+                        "Overrides default configuration for this problem."
                 );
             }
 
-            public Config load() {
-                Config config = new Config();
+            public Configuration load() {
+                Configuration config = new Configuration();
 
                 config.setInitialMinimumProgramLength(10);
                 config.setInitialMaximumProgramLength(30);
@@ -82,7 +82,7 @@ public class SimpleFunctionProblem extends Problem<Double> {
         };
     }
 
-    private Config config = this.getConfigLoader().load();
+    private Configuration config = this.getConfigLoader().load();
 
     @NotNull
     public ConstantLoader<Double> getConstantLoader() {
