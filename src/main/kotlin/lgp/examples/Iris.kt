@@ -1,8 +1,8 @@
 package lgp.examples
 
 import lgp.core.environment.*
-import lgp.core.environment.config.Config
-import lgp.core.environment.config.ConfigLoader
+import lgp.core.environment.config.Configuration
+import lgp.core.environment.config.ConfigurationLoader
 import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
@@ -36,11 +36,11 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
                     "\tnotes: There are 50 samples from each of the 3 species (150 samples in total)."
     )
 
-    override val configLoader = object : ConfigLoader {
-        override val information = ModuleInformation("Overrides default config for this problem.")
+    override val configLoader = object : ConfigurationLoader {
+        override val information = ModuleInformation("Overrides default configuration for this problem.")
 
-        override fun load(): Config {
-            val config = Config()
+        override fun load(): Configuration {
+            val config = Configuration()
 
             config.initialMinimumProgramLength = 10
             config.initialMaximumProgramLength = 30

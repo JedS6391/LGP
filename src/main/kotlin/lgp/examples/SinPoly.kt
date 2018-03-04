@@ -1,8 +1,8 @@
 package lgp.examples
 
 import lgp.core.environment.*
-import lgp.core.environment.config.Config
-import lgp.core.environment.config.ConfigLoader
+import lgp.core.environment.config.Configuration
+import lgp.core.environment.config.ConfigurationLoader
 import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
@@ -27,11 +27,11 @@ class SinPolyProblem : Problem<Double>() {
 
     override val description = Description("f(x) = sin(x) * x + 5\n\trange = Uniform[-5:5]")
 
-    override val configLoader = object : ConfigLoader {
-        override val information = ModuleInformation("Overrides default config for this problem.")
+    override val configLoader = object : ConfigurationLoader {
+        override val information = ModuleInformation("Overrides default configuration for this problem.")
 
-        override fun load(): Config {
-            val config = Config()
+        override fun load(): Configuration {
+            val config = Configuration()
 
             config.initialMinimumProgramLength = 30
             config.initialMaximumProgramLength = 60
