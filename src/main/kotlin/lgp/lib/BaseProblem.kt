@@ -1,9 +1,9 @@
 package lgp.lib
 
 import lgp.core.environment.*
-import lgp.core.environment.config.Config
-import lgp.core.environment.config.ConfigLoader
-import lgp.core.environment.config.JsonConfigLoader
+import lgp.core.environment.config.Configuration
+import lgp.core.environment.config.ConfigurationLoader
+import lgp.core.environment.config.JsonConfigurationLoader
 import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.dataset.Dataset
 import lgp.core.environment.operations.DefaultOperationLoader
@@ -21,7 +21,7 @@ data class BaseProblemParameters(
         val name: String,
         val description: Description,
         val configFilename: String? = null,
-        val config: Config? = null,
+        val config: Configuration? = null,
         val constants: List<Double> = listOf(-1.0, 0.0, 1.0),
         val operationClassNames: List<String> = listOf(
                 "lgp.lib.operations.Addition",
@@ -72,15 +72,15 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                     "or a custom configuration object needs to be provided."
             )
         }
-        params.configFilename != null -> JsonConfigLoader(params.configFilename)
+        params.configFilename != null -> JsonConfigurationLoader(params.configFilename)
         else -> {
             // Fallback to default configuration
-            object : ConfigLoader {
+            object : ConfigurationLoader {
                 override val information = ModuleInformation(
                         "Default configuration loader."
                 )
 
-                override fun load(): Config {
+                override fun load(): Configuration {
                     return params.config!!
                 }
             }
