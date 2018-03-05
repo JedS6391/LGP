@@ -27,6 +27,8 @@ class CsvDatasetLoader<out T> constructor(
     private constructor(builder: Builder<T>)
             : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
 
+    private val cachedDataset: Dataset<T>? = null
+
     /**
      * Builds an instance of [CsvDatasetLoader].
      *
@@ -91,6 +93,10 @@ class CsvDatasetLoader<out T> constructor(
      * @returns a data set containing values parsed appropriately.
      */
     override fun load(): Dataset<T> {
+        // Prevent loading the data set again.
+        if (this.cachedDataset != null)
+            return this.cachedDataset
+
         val reader = CSVReader(this.reader)
         val lines: MutableList<Array<String>> = reader.readAll()
 
@@ -112,4 +118,28 @@ class CsvDatasetLoader<out T> constructor(
     override val information = ModuleInformation(
         description = "A loader than can load data sets from CSV files."
     )
+}
+object ParsingFunctions {
+
+    fun indexedDoubleFeatureParsingFunction(featureIndices: IntRange): (Header, Row) -> Sample<Double> {
+        return { header: Header, row: Row ->
+            val features = row.zip(header)
+                    .slice(featureIndices)
+                    .map { (featureValue, featureName) ->
+
+                        Feature(
+                                name = featureName,
+                                value = featureValue.toDouble()
+                        )
+                    }
+
+            Sample(features)
+        }
+    }
+
+    fun indexedDoubleTargetParsingFunction(targetIndex: Int): (Header, Row) -> Double {
+        return { header: Header, row: Row ->
+            row[targetIndex].toDouble()
+        }
+    }
 }
