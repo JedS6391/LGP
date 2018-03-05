@@ -11,6 +11,11 @@ typealias Header = Array<String>
 typealias Row = Array<String>
 
 /**
+ *
+ */
+class InvalidCsvFileException(message: String) : Exception(message)
+
+/**
  * Loads a collection of samples and their target values from a CSV file.
  *
  * @param T Type of the features in the samples.
@@ -99,6 +104,12 @@ class CsvDatasetLoader<out T> constructor(
 
         val reader = CSVReader(this.reader)
         val lines: MutableList<Array<String>> = reader.readAll()
+
+        // Make sure there is data before we continue. There should be at least two lines in the file
+        // (a header and one row of data). This check will let through a file with 2 data rows, but
+        // there is not much that can be done -- plus things will probably break down later on...
+        if (lines.size < 2)
+            throw InvalidCsvFileException("CSV file should have a header row and one or more data rows.")
 
         // Assumes the header is in the first row (a reasonable assumption with CSV files).
         val header = lines.removeAt(0)
