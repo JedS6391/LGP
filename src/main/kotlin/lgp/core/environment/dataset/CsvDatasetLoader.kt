@@ -11,7 +11,8 @@ typealias Header = Array<String>
 typealias Row = Array<String>
 
 /**
- *
+ * Exception given when a CSV file that does not match the criteria the system expects
+ * is given to a [CsvDatasetLoader] instance.
  */
 class InvalidCsvFileException(message: String) : Exception(message)
 
@@ -130,8 +131,20 @@ class CsvDatasetLoader<out T> constructor(
         description = "A loader than can load data sets from CSV files."
     )
 }
+
+/**
+ * Provides a collection of parsing functions that can be used by a [CsvDatasetLoader] instance.
+ */
 object ParsingFunctions {
 
+    /**
+     * A feature parsing function that will create a sample of features by mapping each header row
+     * to its corresponding data row (using the feature indices provided). The function expects to
+     * be creating features with [Double] values.
+     *
+     * @param featureIndices The indices of any feature variables in the current [Row] being processed.
+     * @return A function that creates [Sample] instances from a CSV data row and header.
+     */
     fun indexedDoubleFeatureParsingFunction(featureIndices: IntRange): (Header, Row) -> Sample<Double> {
         return { header: Header, row: Row ->
             val features = row.zip(header)
@@ -148,8 +161,15 @@ object ParsingFunctions {
         }
     }
 
+    /**
+     * A target parsing function that simply takes a specific value from a [Row] using its index.
+     * The function expects to return target variables of the [Double] type.
+     *
+     * @param targetIndex The index of the target variable in the current [Row] being processed.
+     * @return A target parsing function that returns the target variable as a [Double] value.
+     */
     fun indexedDoubleTargetParsingFunction(targetIndex: Int): (Header, Row) -> Double {
-        return { header: Header, row: Row ->
+        return { _: Header, row: Row ->
             row[targetIndex].toDouble()
         }
     }
