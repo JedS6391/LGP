@@ -2,6 +2,7 @@ package lgp.core.environment.dataset
 
 import com.opencsv.CSVReader
 import lgp.core.environment.ComponentLoaderBuilder
+import lgp.core.environment.config.Configuration
 import lgp.core.modules.ModuleInformation
 import java.io.FileReader
 import java.io.Reader
@@ -33,7 +34,9 @@ class CsvDatasetLoader<out T> constructor(
     private constructor(builder: Builder<T>)
             : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
 
-    private val cachedDataset: Dataset<T>? = null
+    private val memoizedDataset by lazy {
+        this.initialiseDataset()
+    }
 
     /**
      * Builds an instance of [CsvDatasetLoader].
@@ -99,10 +102,10 @@ class CsvDatasetLoader<out T> constructor(
      * @returns a data set containing values parsed appropriately.
      */
     override fun load(): Dataset<T> {
-        // Prevent loading the data set again.
-        if (this.cachedDataset != null)
-            return this.cachedDataset
+        return this.memoizedDataset
+    }
 
+    private fun initialiseDataset(): Dataset<T> {
         val reader = CSVReader(this.reader)
         val lines: MutableList<Array<String>> = reader.readAll()
 
