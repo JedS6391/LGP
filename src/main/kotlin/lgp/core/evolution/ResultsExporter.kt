@@ -197,7 +197,10 @@ class ResultAggregators {
                 return
 
             this.outputProvider.writeResultsFrom(this)
-            this.results.clear()
+            
+            synchronized(this) {
+                this.results.clear()
+            }
         }
 
         /**
@@ -210,7 +213,10 @@ class ResultAggregators {
                     // Need to flush buffer to output provider
                     this.log("Flushing results buffer (size = ${results.size})...")
                     this.outputProvider.writeResultsFrom(this)
-                    this.results.clear()
+
+                    synchronized(this) {
+                        this.results.clear()
+                    }
                 }
             }
         }
