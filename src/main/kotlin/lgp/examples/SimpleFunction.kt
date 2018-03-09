@@ -149,9 +149,6 @@ class SimpleFunctionProblem : Problem<Double>() {
                     },
                     CoreModuleType.FitnessContext to { environment ->
                         SingleOutputFitnessContext(environment)
-                    },
-                    CoreModuleType.ResultsAggregator to { environment ->
-                        BaseResultAggregator(environment)
                     }
             )
     )
@@ -196,13 +193,6 @@ class SimpleFunction {
             problem.initialiseModel()
             val solution = problem.solve()
             val simplifier = BaseProgramSimplifier<Double>()
-            val resultsOutput = ResultOutputProviders.CsvResultOutputProvider<Double>(
-                filename = "/Users/jedsimson/Desktop/results.csv"
-            )
-
-            resultsOutput.writeResultsFrom(
-                problem.environment.registeredModule(CoreModuleType.ResultsAggregator)
-            )
 
             println("Results:")
 
