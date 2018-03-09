@@ -1,0 +1,22 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ParsingFunctions.indexedDoubleFeatureParsingFunction - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.environment.dataset</a>&nbsp;/&nbsp;<a href="index.html">ParsingFunctions</a>&nbsp;/&nbsp;<a href=".">indexedDoubleFeatureParsingFunction</a><br/>
+<br/>
+<h1>indexedDoubleFeatureParsingFunction</h1>
+<a name="lgp.core.environment.dataset.ParsingFunctions$indexedDoubleFeatureParsingFunction(kotlin.ranges.IntRange)"></a>
+<code><span class="keyword">fun </span><span class="identifier">indexedDoubleFeatureParsingFunction</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.dataset.ParsingFunctions$indexedDoubleFeatureParsingFunction(kotlin.ranges.IntRange)/featureIndices">featureIndices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html"><span class="identifier">IntRange</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="symbol">(</span><a href="../-header.html"><span class="identifier">Header</span></a><span class="symbol">,</span>&nbsp;<a href="../-row.html"><span class="identifier">Row</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../-sample/index.html"><span class="identifier">Sample</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
+<p>A feature parsing function that will create a sample of features by mapping each header row
+to its corresponding data row (using the feature indices provided). The function expects to
+be creating features with <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a> values.</p>
+<h3>Parameters</h3>
+<p><a name="featureIndices"></a>
+<code>featureIndices</code> - The indices of any feature variables in the current <a href="../-row.html">Row</a> being processed.</p>
+<p><strong>Return</strong><br/>
+A function that creates <a href="../-sample/index.html">Sample</a> instances from a CSV data row and header.</p>
+</BODY>
+</HTML>

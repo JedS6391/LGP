@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ExportableResult - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.evolution</a>&nbsp;/&nbsp;<a href=".">ExportableResult</a><br/>
+<br/>
+<h1>ExportableResult</h1>
+<code><span class="keyword">interface </span><span class="identifier">ExportableResult</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Represents a result that is able to be exported from the system.</p>
+<p>The type of result that it represents is flexible and will depend on which part of the
+system it comes from. The idea of being <em>exportable</em> means that the internal representation
+can be whatever, as long as it has a way to be exported to a list of string pairs.</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="export.html">export</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">export</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Creates an exportable representation of this result.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../../lgp.core.evolution.population/-run-based-exportable-result/index.html">RunBasedExportableResult</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RunBasedExportableResult</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ExportableResult</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>An ExportableResult implementation that represents evolution statistics for a particular run.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
