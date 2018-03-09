@@ -20,11 +20,56 @@
 </tr>
 <tr>
 <td>
+<p><a href="-exportable-result/index.html">ExportableResult</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">ExportableResult</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Represents a result that is able to be exported from the system.</p>
+</td>
+</tr>
+<tr>
+<td>
 <p><a href="-problem/index.html">Problem</a></p>
 </td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Problem</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>Defines a problem and the components that should be used to solve that problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-result-aggregator/index.html">ResultAggregator</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ResultAggregator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>A module that can collect <a href="-exportable-result/index.html">ExportableResult</a> instances for later export from the system.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-result-aggregators/index.html">ResultAggregators</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ResultAggregators</span></code>
+<p>A collection of built-in <a href="-result-aggregator/index.html">ResultAggregator</a> implementations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-result-output-provider/index.html">ResultOutputProvider</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">ResultOutputProvider</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Provides the ability to output results from a <a href="-result-aggregator/index.html">ResultAggregator</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-result-output-providers/index.html">ResultOutputProviders</a></p>
+</td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">ResultOutputProviders</span></code>
+<p>A collection of <a href="-result-output-provider/index.html">ResultOutputProvider</a> implementations for common scenarios.</p>
 </td>
 </tr>
 <tr>

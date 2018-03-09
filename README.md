@@ -47,7 +47,7 @@ We're not going to fully define the problem as that would be a needlessly extens
 In `MyProblem.kt`, enter the following content:
 
 ```
-import lgp.core.environment.config.Config
+import lgp.core.environment.config.Configuration
 import lgp.core.evolution.Description
 import lgp.lib.BaseProblem
 import lgp.lib.BaseProblemParameters
