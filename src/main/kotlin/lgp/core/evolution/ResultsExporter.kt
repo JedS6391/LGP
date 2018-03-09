@@ -40,9 +40,15 @@ abstract class ResultAggregator<T> : Module {
      */
     abstract fun addAll(results: List<ExportableResult<T>>)
 
+    /**
+     * Signals that no more results will be collected.
+     */
     abstract fun close()
 }
 
+/**
+ * A collection of built-in [ResultAggregator] implementations.
+ */
 class ResultAggregators {
     /**
      * A simple result aggregator that builds an internal collection of results.
@@ -266,8 +272,10 @@ object ResultOutputProviders {
 
     /**
      * Provides the ability to write a table of results to a text file.
+     *
+     * @param filename A file to write text results to.
      */
-    class RawResultTableOutputProvider<T>(val filename: String): ResultOutputProvider<T> {
+    class RawResultTableOutputProvider<T>(private val filename: String): ResultOutputProvider<T> {
 
         private val writer = Files.newBufferedWriter(Paths.get(this.filename))
 
@@ -280,8 +288,10 @@ object ResultOutputProviders {
 
     /**
      * Provides the ability to write results to a CSV file.
+     *
+     * @param filename A file to write CSV data to.
      */
-    class CsvResultOutputProvider<T>(val filename: String) : ResultOutputProvider<T> {
+    class CsvResultOutputProvider<T>(private val filename: String) : ResultOutputProvider<T> {
 
         private val csvWriter: CSVWriter = CSVWriter(
                 Files.newBufferedWriter(Paths.get(this.filename))
