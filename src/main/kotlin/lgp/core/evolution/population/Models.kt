@@ -3,12 +3,27 @@ package lgp.core.evolution.population
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
+import lgp.core.evolution.ExportableResult
 import lgp.core.evolution.fitness.Evaluation
 import lgp.core.evolution.fitness.FitnessEvaluator
 import lgp.core.modules.ModuleInformation
 import java.util.Random
 import kotlin.concurrent.thread
 import kotlin.streams.toList
+
+class RunBasedExportableResult<T>(val run: Int, val statistics: EvolutionStatistics) : ExportableResult<T> {
+    override fun export(): List<Pair<String, String>> {
+        val out = mutableListOf(
+                Pair("run", this.run.toString())
+        )
+
+        out.addAll(statistics.data.map { (name, value) ->
+            Pair(name, value.toString())
+        })
+
+        return out
+    }
+}
 
 /**
  * A collection of built-in evolution models.

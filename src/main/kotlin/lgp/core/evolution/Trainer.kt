@@ -1,9 +1,13 @@
 package lgp.core.evolution
 
+import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.population.EvolutionModel
 import lgp.core.evolution.population.EvolutionResult
+import lgp.core.evolution.population.EvolutionStatistics
+import lgp.core.evolution.population.RunBasedExportableResult
+import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 
@@ -49,6 +53,10 @@ object Trainers {
             this.model.copy()
         }
 
+        private val aggregator: ResultAggregator<T> = this.environment.registeredModule(
+                CoreModuleType.ResultsAggregator
+        )
+
         /**
          * Builds [runs] different models on the training set.
          */
@@ -56,6 +64,14 @@ object Trainers {
 
             val results = this.models.map { model ->
                 model.train(dataset)
+            }
+
+            results.forEachIndexed { run, result ->
+                val generationalResults = result.statistics.map { generation ->
+                    RunBasedExportableResult<T>(run, generation)
+                }
+
+                aggregator.addAll(generationalResults)
             }
 
             return TrainingResult(results, this.models)
@@ -91,6 +107,10 @@ object Trainers {
         private val models = (0 until runs).map {
             this.model.deepCopy()
         }.toList()
+
+        private val aggregator: ResultAggregator<T> = this.environment.registeredModule(
+                CoreModuleType.ResultsAggregator
+        )
 
         // We use an ExecutorService to execute the runs in different threads.
         private val executor = Executors.newFixedThreadPool(runs)
@@ -129,6 +149,14 @@ object Trainers {
             // Collect the results -- waiting when necessary.
             val results = futures.map { future ->
                 future.get()
+            }
+
+            results.forEachIndexed { run, result ->
+                val generationalResults = result.statistics.map { generation ->
+                    RunBasedExportableResult<T>(run, generation)
+                }
+
+                aggregator.addAll(generationalResults)
             }
 
             // We're done so we can shut the executor down.

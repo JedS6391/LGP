@@ -67,7 +67,12 @@ enum class CoreModuleType : RegisteredModuleType {
     /**
      * A [FitnessContext] implementation.
      */
-    FitnessContext
+    FitnessContext,
+
+    /**
+     * A [ResultsAggregator] implementation.
+     */
+    ResultsAggregator
 }
 
 /**
