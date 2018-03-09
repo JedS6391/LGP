@@ -206,6 +206,8 @@ public class SimpleFunctionProblem extends Problem<Double> {
                 this.getOperationLoader(),
                 this.getDefaultValueProvider(),
                 this.getFitnessFunction(),
+                // resultAggregator
+                null,
                 // randomStateSeed
                 null
         );

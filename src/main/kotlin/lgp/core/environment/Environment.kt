@@ -3,6 +3,8 @@ package lgp.core.environment
 import lgp.core.environment.config.*
 import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.operations.OperationLoader
+import lgp.core.evolution.ResultAggregator
+import lgp.core.evolution.ResultAggregators
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.instructions.Operation
 import lgp.core.evolution.registers.RegisterSet
@@ -221,6 +223,8 @@ open class Environment<T> {
      */
     var container: ModuleContainer<T>
 
+    val resultAggregator: ResultAggregator<T>
+
     /**
      * Builds an environment with the specified construction components.
      *
@@ -241,6 +245,7 @@ open class Environment<T> {
             operationLoader: OperationLoader<T>,
             defaultValueProvider: DefaultValueProvider<T>,
             fitnessFunction: FitnessFunction<T>,
+            resultAggregator: ResultAggregator<T>? = null,
             randomStateSeed: Long? = null
     ) {
 
@@ -250,6 +255,8 @@ open class Environment<T> {
         this.defaultValueProvider = defaultValueProvider
         this.fitnessFunction = fitnessFunction
         this.randomStateSeed = randomStateSeed
+        // If no result aggregator is provided then use the default aggregator which doesn't collect results.
+        this.resultAggregator = resultAggregator ?: ResultAggregators.DefaultResultAggregator()
 
         // Determine whether we need to seed the RNG or not.
         when (this.randomStateSeed) {
@@ -382,6 +389,7 @@ open class Environment<T> {
                 this.operationLoader,
                 this.defaultValueProvider,
                 this.fitnessFunction,
+                this.resultAggregator,
                 this.randomState.nextLong()
         )
 
