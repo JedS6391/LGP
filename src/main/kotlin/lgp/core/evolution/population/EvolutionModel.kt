@@ -2,7 +2,6 @@ package lgp.core.evolution.population
 
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
-import lgp.core.evolution.ExportableResult
 import lgp.core.modules.Module
 
 /**

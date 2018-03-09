@@ -136,7 +136,7 @@ object Trainers {
             override fun call(): EvolutionResult<TProgram> {
                 val result = this.model.train(this.dataset)
 
-                // Aggregate results
+                // Aggregate results for this thread.
                 val generationalResults = result.statistics.map { generation ->
                     RunBasedExportableResult<TProgram>(this.run, generation)
                 }
@@ -154,7 +154,9 @@ object Trainers {
             // Submit all tasks to the executor. Each model will have a task created for it
             // that the executor is responsible for executing.
             val futures = this.models.mapIndexed { run, model ->
-                this.executor.submit(ModelTrainerTask(run, model, dataset, this.aggregator))
+                this.executor.submit(
+                    ModelTrainerTask(run, model, dataset, this.aggregator)
+                )
             }
 
             // Collect the results -- waiting when necessary.

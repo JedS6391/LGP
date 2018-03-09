@@ -159,7 +159,10 @@ class SimpleFunctionProblem : Problem<Double>() {
                 this.constantLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
-                this.fitnessFunction
+                this.fitnessFunction,
+                ResultAggregators.BufferedResultAggregator(
+                        ResultOutputProviders.CsvResultOutputProvider("/Users/jedsimson/Desktop/results.csv")
+                )
         )
 
         this.environment.registerModules(this.registeredModules)

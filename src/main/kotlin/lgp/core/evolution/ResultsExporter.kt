@@ -96,8 +96,9 @@ class ResultAggregators {
                 return "No results."
 
             val table = StringBuilder()
-            val firstResult = this.results.first().export()
-            val header = firstResult.map { result -> result.first }.toList()
+            val header = this.results.first()
+                                     .export()
+                                     .map { (name, _) -> name }
 
             header.map { key -> table.append("%-28s".format(key)) }
             table.appendln()
@@ -165,11 +166,10 @@ class ResultAggregators {
             this.log("Adding ${results.size} results...")
             if (results.size > this.bufferSize) {
                 this.addInChunks(results)
-                return
-            }
-
-            synchronized(this) {
-                this.results.addAll(results)
+            } else {
+                synchronized(this) {
+                    this.results.addAll(results)
+                }
             }
         }
 
@@ -197,7 +197,7 @@ class ResultAggregators {
                 return
 
             this.outputProvider.writeResultsFrom(this)
-            
+
             synchronized(this) {
                 this.results.clear()
             }
@@ -208,6 +208,7 @@ class ResultAggregators {
          */
         private fun maybeFlushBuffer(count: Int) {
             when {
+                // No need to flush if adding the specified number of new results  won't overflow the buffer.
                 (results.size + count) < this.bufferSize -> return
                 else -> {
                     // Need to flush buffer to output provider
@@ -315,8 +316,9 @@ object ResultOutputProviders {
 
             // Grab header information
             if (!headerHasBeenWriten) {
-                val first = results.first().export()
-                val header = first.map { (name, _) -> name }
+                val header = results.first()
+                                    .export()
+                                    .map { (name, _) -> name }
 
                 // Write header row
                 this.csvWriter.writeNext(header.toTypedArray())

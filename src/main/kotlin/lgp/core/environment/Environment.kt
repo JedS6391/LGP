@@ -255,6 +255,7 @@ open class Environment<T> {
         this.defaultValueProvider = defaultValueProvider
         this.fitnessFunction = fitnessFunction
         this.randomStateSeed = randomStateSeed
+        // If no result aggregator is provided then use the default aggregator which doesn't collect results.
         this.resultAggregator = resultAggregator ?: ResultAggregators.DefaultResultAggregator()
 
         // Determine whether we need to seed the RNG or not.
@@ -289,8 +290,6 @@ open class Environment<T> {
 
         // Make sure the modules have access to this environment.
         this.container.environment = this
-
-        // Register the default result aggregator
     }
 
     private fun initialiseRegisterSet() {
