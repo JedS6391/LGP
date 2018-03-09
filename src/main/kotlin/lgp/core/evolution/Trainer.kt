@@ -53,28 +53,30 @@ object Trainers {
             this.model.copy()
         }
 
-        private val aggregator: ResultAggregator<T> = this.environment.registeredModule(
-                CoreModuleType.ResultsAggregator
-        )
+        private val aggregator: ResultAggregator<T> = this.environment.resultAggregator
 
         /**
          * Builds [runs] different models on the training set.
          */
         override fun train(dataset: Dataset<T>): TrainingResult<T> {
 
-            val results = this.models.map { model ->
-                model.train(dataset)
+            val results = this.models.mapIndexed { run, model ->
+                val result = model.train(dataset)
+                this.aggregateResults(run, result)
+                result
             }
 
-            results.forEachIndexed { run, result ->
-                val generationalResults = result.statistics.map { generation ->
-                    RunBasedExportableResult<T>(run, generation)
-                }
-
-                aggregator.addAll(generationalResults)
-            }
+            this.aggregator.close()
 
             return TrainingResult(results, this.models)
+        }
+
+        private fun aggregateResults(run: Int, result: EvolutionResult<T>) {
+            val generationalResults = result.statistics.map { generation ->
+                RunBasedExportableResult<T>(run, generation)
+            }
+
+            aggregator.addAll(generationalResults)
         }
     }
 
@@ -108,9 +110,7 @@ object Trainers {
             this.model.deepCopy()
         }.toList()
 
-        private val aggregator: ResultAggregator<T> = this.environment.registeredModule(
-                CoreModuleType.ResultsAggregator
-        )
+        private val aggregator: ResultAggregator<T> = this.environment.resultAggregator
 
         // We use an ExecutorService to execute the runs in different threads.
         private val executor = Executors.newFixedThreadPool(runs)
@@ -124,15 +124,26 @@ object Trainers {
          * @suppress
          */
         class ModelTrainerTask<TProgram>(
+                private val run: Int,
                 private val model: EvolutionModel<TProgram>,
-                private val dataset: Dataset<TProgram>
+                private val dataset: Dataset<TProgram>,
+                private val aggregator: ResultAggregator<TProgram>
         ) : Callable<EvolutionResult<TProgram>> {
 
             /**
              * Trains the model and returns the result of the evolutionary process.
              */
             override fun call(): EvolutionResult<TProgram> {
-                return this.model.train(this.dataset)
+                val result = this.model.train(this.dataset)
+
+                // Aggregate results
+                val generationalResults = result.statistics.map { generation ->
+                    RunBasedExportableResult<TProgram>(this.run, generation)
+                }
+
+                this.aggregator.addAll(generationalResults)
+
+                return result
             }
         }
 
@@ -142,8 +153,8 @@ object Trainers {
         override fun train(dataset: Dataset<T>): TrainingResult<T> {
             // Submit all tasks to the executor. Each model will have a task created for it
             // that the executor is responsible for executing.
-            val futures = this.models.map { model ->
-                this.executor.submit(ModelTrainerTask(model, dataset))
+            val futures = this.models.mapIndexed { run, model ->
+                this.executor.submit(ModelTrainerTask(run, model, dataset, this.aggregator))
             }
 
             // Collect the results -- waiting when necessary.
@@ -151,16 +162,9 @@ object Trainers {
                 future.get()
             }
 
-            results.forEachIndexed { run, result ->
-                val generationalResults = result.statistics.map { generation ->
-                    RunBasedExportableResult<T>(run, generation)
-                }
-
-                aggregator.addAll(generationalResults)
-            }
-
             // We're done so we can shut the executor down.
             this.executor.shutdown()
+            this.aggregator.close()
 
             return TrainingResult(results, this.models)
         }
