@@ -10,7 +10,6 @@ matrix:
         - oracle-java8-installer
         - oracle-java8-set-default
 script:
-  - ./gradlew build --no-daemon --stacktrace --console=plain
   - ./gradlew coreJar --no-daemon --stacktrace --console=plain
   - ./gradlew examplesJar --no-daemon --stacktrace --console=plain
 before_cache:
@@ -20,7 +19,7 @@ cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
-before_deploy: ls build/libs
+# Deployment of master branch
 deploy:
   provider: releases
   api_key:
@@ -32,4 +31,38 @@ deploy:
   overwrite: true
   on:
     repo: JedS6391/LGP
+    branch: master
     tags: true
+# Deployment of next release branch
+before_deploy: bash deploy.sh release $TRAVIS_BRANCH
+deploy:
+  provider: releases
+  api_key:
+    secure: kODcZ0qyds33TRQVio0ZpDhxCh04/wXbSDnaYxYGTg+PRZ52PHuUO1cGpasGTWlMW2mxpmtY2zCfvlt8+YNf7qwTFsqSPbeMsaXkmybOunaib4eRsfdHSE5HzMK//WqCN9KDrxvItN/LqLwtxrSMbYdWnOpdmaUzgGusNwoMB7nY2xcZgTDCpO1o1zq2h95XGi0s/JqMNStziTegtVKQ1YshlNFwd9z5ytXNcfgxksuwSPl4smIX2sLZVQEWtupcNmQHfehJurBksYex1GvJfhii6DLi36m8gke1elnJDMXhppUKn1qUMmI/Hva6aHPqSX4q6yfMKP+qBN73fVhMVztv5uCAvH+r9Bl81W85gpN1aYPDfqjyqSgCy6UaOq0XdvBsZVqsQZpRX7/+U/Fz30B4+S16NCg/5eK6mSia4au8gqqmXFt3V5m7aT44vKNZXM+y6Fl5Nb/dI4MKV5Uv+2K1wS4db9fXNEgt3zYy8i+x5l2ig7jNPiJk/+rUwgIkt8g7RlHSDM/X1vGI2xgSdH/piGLARTWf6sw3r8zqMm3k8R77ajGy8bGyEvF4tsVflKQwLj/2x5rTHK8/l6arWfjcp5EpNuxkOgCpu135S8vQ7kEVmlMLqbjsRtwTvKSxDrZwFwhYUTphh3hDNtzXW9GAHv9GhJCbNghZS+gpAXM=
+  file:
+    - build/libs/LGP-core-1.2-beta.jar
+    - build/libs/LGP-examples-1.2-beta.jar
+  skip_cleanup: true
+  overwrite: true
+  on:
+    repo: JedS6391/LGP
+    branch: release-1.2
+    tags: true
+# Deployment of feature branch
+before_deploy: ./deploy.sh feature $TRAVIS_BRANCH
+deploy:
+  provider: s3
+  access_key_id: "AKIAJANAJVHKT2QOGQUA"
+  secret_access_key:
+    secure: ri56TrWIVAdBYpfInma5weyfzB9boCqBOggrt0hXusNpcN+zyoNUzglQR3sDicLaC/OMulOLg0GnEIjIS2yjFyvVajN65XEg/zZ6QraW4jfAbAeArabgtnu53ap4F0HC0LXehG2GDT5TnbOAvu/Ec7mtiloEZrqnTjiVcVMhAogsqfuYTWaaiAtMDjP/QmHTOO3TR71B6NvONvnN8Pr5gQAGHnQA98au2E9kyZA0e/0YOutwPM9KAKz8Y0T6fpcbP5vNquFdJn3x0CqSBOnnlcF4jUybZeBa5+v4F6Bofswdo9L9GAUeZ4ISX8iZ+wIFd2SRaHeoVEhpRKnEe9h0gcRrmpGbcEwn246hHx2bvvfH3tiv9GJxFUNNMOmdQC1a9fu1yeKpMgJzjqX99JyBUK4wDsknTuQ9im922eD3cjW9r+qVq8ZhVhFGg5hx06mDxeZBgvKBF2zfviFijULk44uaMoWoBWQyQx0BqWs+oy1Y6YB716fUd4S0vdzV2e4JnuyMQL6FjVcIO7O9fgcSRA49R2iP6oinKTUtMyRr0LlQ2LUFkwx0JdSaQZoSwg2QSFHt6aOrREOCqNVe4McDIjThDV/JdpkJyEFpiKzSJqUvnTi7kTgDhNkJPsBdcvk4UsmYWnRZMtSu9FnZ0whK17yIXOMOCzRPoWsoWTNqjCE=
+  bucket: "lgp-feature-builds"
+  acl: public_read
+  api_key:
+    secure: kODcZ0qyds33TRQVio0ZpDhxCh04/wXbSDnaYxYGTg+PRZ52PHuUO1cGpasGTWlMW2mxpmtY2zCfvlt8+YNf7qwTFsqSPbeMsaXkmybOunaib4eRsfdHSE5HzMK//WqCN9KDrxvItN/LqLwtxrSMbYdWnOpdmaUzgGusNwoMB7nY2xcZgTDCpO1o1zq2h95XGi0s/JqMNStziTegtVKQ1YshlNFwd9z5ytXNcfgxksuwSPl4smIX2sLZVQEWtupcNmQHfehJurBksYex1GvJfhii6DLi36m8gke1elnJDMXhppUKn1qUMmI/Hva6aHPqSX4q6yfMKP+qBN73fVhMVztv5uCAvH+r9Bl81W85gpN1aYPDfqjyqSgCy6UaOq0XdvBsZVqsQZpRX7/+U/Fz30B4+S16NCg/5eK6mSia4au8gqqmXFt3V5m7aT44vKNZXM+y6Fl5Nb/dI4MKV5Uv+2K1wS4db9fXNEgt3zYy8i+x5l2ig7jNPiJk/+rUwgIkt8g7RlHSDM/X1vGI2xgSdH/piGLARTWf6sw3r8zqMm3k8R77ajGy8bGyEvF4tsVflKQwLj/2x5rTHK8/l6arWfjcp5EpNuxkOgCpu135S8vQ7kEVmlMLqbjsRtwTvKSxDrZwFwhYUTphh3hDNtzXW9GAHv9GhJCbNghZS+gpAXM=
+  local_dir: build/libs
+  skip_cleanup: true
+  overwrite: true
+  on:
+    repo: JedS6391/LGP
+    all_branches: true
+    condition: "$TRAVIS_BRANCH =~ ^feature.*$"
