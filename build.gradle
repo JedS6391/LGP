@@ -78,7 +78,6 @@ task examplesJar(type: Jar) {
     with jar
 }
 
-
 task coreJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LGP',
@@ -92,3 +91,8 @@ task coreJar(type: Jar) {
     with jar
 }
 
+task printVersion {
+    doLast {
+        println project.version
+    }
+}
