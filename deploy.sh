@@ -2,21 +2,23 @@
 
 deployment_type=$1
 branch_name=$2
-now=$(date +%Y-%m-%d.%H:%M:%S)
+tag_name=$3
+now=$(date +%Y-%m-%d)
+version=$(gradle -q printVersion)
 
 case "$deployment_type" in
 "feature")
     echo "Renaming build files for feature branch..."
-    rm build/libs/LGP-1.1.jar
-    mv build/libs/LGP-core-1.1.jar build/libs/LGP-core-"$branch_name"-"$now".jar
-    mv build/libs/LGP-examples-1.1.jar build/libs/LGP-examples-"$branch_name"-"$now".jar
+    rm build/libs/LGP-"$version".jar
+    mv build/libs/LGP-core-"$version".jar build/libs/LGP-core-"$branch_name"-"$now".jar
+    mv build/libs/LGP-examples-"$version".jar build/libs/LGP-examples-"$branch_name"-"$now".jar
     ls build/libs
     ;;
 "release")
     echo "Renaming build files for release branch..."
-    rm build/libs/LGP-1.1.jar
-    mv build/libs/LGP-core-1.1.jar build/libs/LGP-core-1.2-beta.jar
-    mv build/libs/LGP-examples-1.1.jar build/libs/LGP-examples-1.2-beta.jar
+    rm build/libs/LGP-"$version".jar
+    mv build/libs/LGP-core-"$version".jar build/libs/LGP-core-"$tag_name"-"$now".jar
+    mv build/libs/LGP-examples-"$version".jar build/libs/LGP-examples-"$tag_name"-"$now".jar
     ls build/libs
     ;;
 *)
