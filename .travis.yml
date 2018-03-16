@@ -9,6 +9,11 @@ matrix:
         packages:
         - oracle-java8-installer
         - oracle-java8-set-default
+env:
+  global:
+    # Because release builds work with tagged commits (which in our case will always be related to a branch),
+    # we need to attempt to fetch the real branch name for a tagged commit.
+    - REAL_BRANCH=$(git ls-remote origin | sed -n "\|$TRAVIS_COMMIT\s\+refs/heads/|{s///p}")
 script:
   - ./gradlew coreJar --no-daemon --stacktrace --console=plain
   - ./gradlew examplesJar --no-daemon --stacktrace --console=plain
@@ -19,7 +24,7 @@ cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
-before_deploy: bash deploy.sh $TRAVIS_BRANCH $TRAVIS_TAG
+before_deploy: bash deploy.sh $REAL_BRANCH $TRAVIS_TAG
 deploy:
   # Deployment of master branch:
   #   - Uses binary names from buildscript (will need to update whenever version of master is bumped after release).
