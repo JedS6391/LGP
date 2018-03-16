@@ -19,26 +19,26 @@ cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
-# Deployment of master branch:
-#   - Uses binary names from buildscript (will need to update whenever version of master is bumped after release).
-#   - Deploys files to GitHub releases.
-#   - Only deploys when a tag is pushed to the master branch.
-#
-# Note: This deployment should only happen when the release branch is merged into master and a new release branch is created.
 before_deploy: bash deploy.sh $TRAVIS_BRANCH $TRAVIS_TAG
 deploy:
+  # Deployment of master branch:
+  #   - Uses binary names from buildscript (will need to update whenever version of master is bumped after release).
+  #   - Deploys files to GitHub releases.
+  #   - Only deploys when a tag is pushed to the master branch.
+  #
+  # Note: This deployment should only happen when the release branch is merged into master and a new release branch is created.
   - provider: releases
-  api_key:
-    secure: kODcZ0qyds33TRQVio0ZpDhxCh04/wXbSDnaYxYGTg+PRZ52PHuUO1cGpasGTWlMW2mxpmtY2zCfvlt8+YNf7qwTFsqSPbeMsaXkmybOunaib4eRsfdHSE5HzMK//WqCN9KDrxvItN/LqLwtxrSMbYdWnOpdmaUzgGusNwoMB7nY2xcZgTDCpO1o1zq2h95XGi0s/JqMNStziTegtVKQ1YshlNFwd9z5ytXNcfgxksuwSPl4smIX2sLZVQEWtupcNmQHfehJurBksYex1GvJfhii6DLi36m8gke1elnJDMXhppUKn1qUMmI/Hva6aHPqSX4q6yfMKP+qBN73fVhMVztv5uCAvH+r9Bl81W85gpN1aYPDfqjyqSgCy6UaOq0XdvBsZVqsQZpRX7/+U/Fz30B4+S16NCg/5eK6mSia4au8gqqmXFt3V5m7aT44vKNZXM+y6Fl5Nb/dI4MKV5Uv+2K1wS4db9fXNEgt3zYy8i+x5l2ig7jNPiJk/+rUwgIkt8g7RlHSDM/X1vGI2xgSdH/piGLARTWf6sw3r8zqMm3k8R77ajGy8bGyEvF4tsVflKQwLj/2x5rTHK8/l6arWfjcp5EpNuxkOgCpu135S8vQ7kEVmlMLqbjsRtwTvKSxDrZwFwhYUTphh3hDNtzXW9GAHv9GhJCbNghZS+gpAXM=
-  file:
-    - build/libs/LGP-core-"$(gradle -q printVersion)".jar
-    - build/libs/LGP-examples-"$(gradle -q printVersion)".jar
-  skip_cleanup: true
-  overwrite: true
-  on:
-    repo: JedS6391/LGP
-    branch: master
-    tags: true
+    api_key:
+      secure: kODcZ0qyds33TRQVio0ZpDhxCh04/wXbSDnaYxYGTg+PRZ52PHuUO1cGpasGTWlMW2mxpmtY2zCfvlt8+YNf7qwTFsqSPbeMsaXkmybOunaib4eRsfdHSE5HzMK//WqCN9KDrxvItN/LqLwtxrSMbYdWnOpdmaUzgGusNwoMB7nY2xcZgTDCpO1o1zq2h95XGi0s/JqMNStziTegtVKQ1YshlNFwd9z5ytXNcfgxksuwSPl4smIX2sLZVQEWtupcNmQHfehJurBksYex1GvJfhii6DLi36m8gke1elnJDMXhppUKn1qUMmI/Hva6aHPqSX4q6yfMKP+qBN73fVhMVztv5uCAvH+r9Bl81W85gpN1aYPDfqjyqSgCy6UaOq0XdvBsZVqsQZpRX7/+U/Fz30B4+S16NCg/5eK6mSia4au8gqqmXFt3V5m7aT44vKNZXM+y6Fl5Nb/dI4MKV5Uv+2K1wS4db9fXNEgt3zYy8i+x5l2ig7jNPiJk/+rUwgIkt8g7RlHSDM/X1vGI2xgSdH/piGLARTWf6sw3r8zqMm3k8R77ajGy8bGyEvF4tsVflKQwLj/2x5rTHK8/l6arWfjcp5EpNuxkOgCpu135S8vQ7kEVmlMLqbjsRtwTvKSxDrZwFwhYUTphh3hDNtzXW9GAHv9GhJCbNghZS+gpAXM=
+    file:
+      - build/libs/LGP-core-"$(gradle -q printVersion)".jar
+      - build/libs/LGP-examples-"$(gradle -q printVersion)".jar
+    skip_cleanup: true
+    overwrite: true
+    on:
+      repo: JedS6391/LGP
+      branch: master
+      tags: true
   # Deployment of next release branch:
   #   - Renames binaries to include release version.
   #   - Deploys files to GitHub releases.
