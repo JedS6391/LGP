@@ -24,7 +24,7 @@ interface ExportableResult<T> {
 /**
  * A module that can collect [ExportableResult] instances for later export from the system.
  */
-abstract class ResultAggregator<T> : Module {
+abstract class ResultAggregator<T> : Module, AutoCloseable {
     /**
      * A collection of [ExportableResult] instances.
      */
@@ -39,11 +39,6 @@ abstract class ResultAggregator<T> : Module {
      * Add a collection of [ExportableResult] instances in a batch aggregation.
      */
     abstract fun addAll(results: List<ExportableResult<T>>)
-
-    /**
-     * Signals that no more results will be collected.
-     */
-    abstract fun close()
 }
 
 /**
