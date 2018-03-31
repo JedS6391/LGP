@@ -45,6 +45,11 @@ enum class RegisterType {
  */
 class Register<T>(var value: T, val index: Int) {
 
+    /**
+     * Creates a new register that is a clone of [source].
+     *
+     * @param source A register to create a clone of.
+     */
     constructor(source: Register<T>) : this(source.value, source.index)
 
     /**
@@ -308,10 +313,20 @@ class RegisterSet<T> {
         }
     }
 
+    /**
+     * Writes the initial constant values to their registers, overwriting whatever is currently stored.
+     */
     private fun writeConstants() {
         this.writeRange(this.constants, this.constantRegisters)
     }
 
+    /**
+     * Writes [source] to the registers with indices given by [range].
+     *
+     * @param source A collections of value to write to the specified indices.
+     * @param range A collection of indices to write [source] values to.
+     * @throws RegisterWriteRangeException When the number of values does not equal the number of indices.
+     */
     private fun writeRange(source: List<T>, range: IntRange) {
         val size = (range.endInclusive - range.start) + 1
 
