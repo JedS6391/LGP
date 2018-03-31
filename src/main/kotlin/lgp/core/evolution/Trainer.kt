@@ -60,13 +60,14 @@ object Trainers {
          */
         override fun train(dataset: Dataset<T>): TrainingResult<T> {
 
-            val results = this.models.mapIndexed { run, model ->
-                val result = model.train(dataset)
-                this.aggregateResults(run, result)
-                result
-            }
+            val results = aggregator.use {
+                this.models.mapIndexed { run, model ->
+                    val result = model.train(dataset)
+                    this.aggregateResults(run, result)
 
-            this.aggregator.close()
+                    result
+                }
+            }
 
             return TrainingResult(results, this.models)
         }
@@ -76,7 +77,7 @@ object Trainers {
                 RunBasedExportableResult<T>(run, generation)
             }
 
-            aggregator.addAll(generationalResults)
+            this.aggregator.addAll(generationalResults)
         }
     }
 
@@ -160,13 +161,14 @@ object Trainers {
             }
 
             // Collect the results -- waiting when necessary.
-            val results = futures.map { future ->
-                future.get()
+            val results = this.aggregator.use {
+                futures.map { future ->
+                    future.get()
+                }
             }
 
             // We're done so we can shut the executor down.
             this.executor.shutdown()
-            this.aggregator.close()
 
             return TrainingResult(results, this.models)
         }

@@ -161,7 +161,7 @@ class SimpleFunctionProblem : Problem<Double>() {
                 this.defaultValueProvider,
                 this.fitnessFunction,
                 ResultAggregators.BufferedResultAggregator(
-                        ResultOutputProviders.CsvResultOutputProvider("/Users/jedsimson/Desktop/results.csv")
+                        ResultOutputProviders.CsvResultOutputProvider("results.csv")
                 )
         )
 

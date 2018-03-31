@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch_name=$1
+branch_name=$(echo $1 | sed -e 's/\//-/g')
 tag_name=$2
 now=$(date +%Y-%m-%d)
 version=$(gradle -q printVersion)
