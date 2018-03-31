@@ -2,9 +2,9 @@ group 'LGP'
 version '1.2'
 
 buildscript {
-    ext.kotlin_version = '1.2.21'
-    ext.dokka_version = '0.9.15'
-    ext.kotlinx_coroutines_version = '0.22.2'
+    ext.kotlin_version = '1.2.31'
+    ext.dokka_version = '0.9.16'
+    ext.kotlinx_coroutines_version = '0.22.5'
 
     repositories {
         mavenCentral()
@@ -33,10 +33,10 @@ dependencies {
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
 
     // https://mvnrepository.com/artifact/com.opencsv/opencsv
-    compile group: 'com.opencsv', name: 'opencsv', version: '3.7'
+    compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
