@@ -34,6 +34,39 @@ enum class RegisterType {
 }
 
 /**
+ * A register that is available to an LGP program.
+ *
+ * Registers contain some value and have a specified index, which
+ * defines their position in the context of a [RegisterSet].
+ *
+ * @param T Type of values the register can contain.
+ * @property value A value this register contains.
+ * @property index The index of this register in a [RegisterSet].
+ */
+class Register<T>(var value: T, val index: Int) {
+
+    /**
+     * Creates a new register that is a clone of [source].
+     *
+     * @param source A register to create a clone of.
+     */
+    constructor(source: Register<T>) : this(source.value, source.index)
+
+    /**
+     * Converts this register into an argument to be consumed by operations.
+     *
+     * @returns An [Argument] with the same value that this register contains.
+     */
+    fun toArgument(): Argument<T> {
+        return Argument(this.value)
+    }
+
+    override fun toString(): String {
+        return "r[${this.index}] = ${this.value}"
+    }
+}
+
+/**
  * Thrown when a write operation is attempted on a [RegisterType.Constant] register.
  *
  * @param message A message accompanying the exception.
@@ -78,27 +111,36 @@ class RegisterWriteRangeException(message: String) : Exception(message)
  * @param T The type of the value that each register contains.
  */
 class RegisterSet<T> {
-    val totalRegisters: Int
 
-    // Bounds for different register types
+    /**
+     * Number of [RegisterType.Input] registers.
+     */
     val inputRegisters: IntRange
+
+    /**
+     * Number of [RegisterType.Calculation] registers.
+     */
     val calculationRegisters: IntRange
+
+    /**
+     * Number of [RegisterType.Constant] registers.
+     */
     val constantRegisters: IntRange
-
-    private val inputRegistersCount: Int
-    private val calculationRegistersCount: Int
-    private val constantRegistersCount: Int
-
-    private val defaultValueProvider: DefaultValueProvider<T>
-
-    val registers: MutableList<Register<T>>
 
     /**
      * The total number of registers in this register set.
      */
     val count: Int get() = this.registers.size
 
-    val constants: List<T>
+    // Register set backing store
+    private val registers: MutableList<Register<T>>
+    private val totalRegisters: Int
+
+    // Keep a track of the original constants the register set is initialised with.
+    private val constants: List<T>
+
+    // Used for initialising calculation registers.
+    private val defaultValueProvider: DefaultValueProvider<T>
 
     /**
      * Creates a new [RegisterSet] with the specified parameters.
@@ -108,28 +150,22 @@ class RegisterSet<T> {
      * @param constants A collection of constants to be stored in read-only constant registers.
      * @param defaultValueProvider An implementation that can provide default values for the calculation registers.
      */
-    constructor(inputRegisters: Int,
-                calculationRegisters: Int,
-                constants: List<T>,
-                defaultValueProvider: DefaultValueProvider<T>) {
-
-        // TODO: Busy constructor... could possibly be stream-lined.
+    constructor(
+        inputRegisters: Int,
+        calculationRegisters: Int,
+        constants: List<T>,
+        defaultValueProvider: DefaultValueProvider<T>
+    ) {
         val constantRegisters = constants.size
 
         this.totalRegisters = inputRegisters + calculationRegisters + constantRegisters
 
-        this.inputRegisters = 0 .. (inputRegisters - 1)
-        this.calculationRegisters = inputRegisters .. ((inputRegisters + calculationRegisters) - 1)
+        this.inputRegisters = 0 until inputRegisters
+        this.calculationRegisters = inputRegisters until (inputRegisters + calculationRegisters)
         this.constantRegisters = (inputRegisters + calculationRegisters) until this.totalRegisters
 
-        this.inputRegistersCount = inputRegisters
-        this.calculationRegistersCount = calculationRegisters
-        this.constantRegistersCount = constantRegisters
-
         this.constants = constants
-
         this.defaultValueProvider = defaultValueProvider
-
         this.registers = mutableListOf()
 
         // Make sure every register slot has a default value.
@@ -139,26 +175,32 @@ class RegisterSet<T> {
         this.writeConstants()
     }
 
+    /**
+     * Creates a new [RegisterSet] based on the [source] [RegisterSet].
+     *
+     * Essentially, this constructor will create a clone of [source] but with its own [Register]
+     * instances, so that modifications don't effect the original.
+     *
+     * @param source A [RegisterSet] instance to clone.
+     */
     internal constructor(source: RegisterSet<T>) {
         this.totalRegisters = source.totalRegisters
-
         this.inputRegisters = source.inputRegisters
         this.calculationRegisters = source.calculationRegisters
         this.constantRegisters = source.constantRegisters
-
-        this.inputRegistersCount = source.inputRegistersCount
-        this.calculationRegistersCount = source.calculationRegistersCount
-        this.constantRegistersCount = source.constantRegistersCount
-
         this.defaultValueProvider = source.defaultValueProvider
         this.constants = source.constants
-        this.registers = mutableListOf()
-
-        for (register in source.registers) {
-            this.registers.add(register.index, Register(register))
-        }
+        // We have to make sure we map to new Register instances because otherwise
+        // the modifying the register set copy will effect the original.
+        this.registers = source.registers.map { r -> Register(r) }.toMutableList()
     }
 
+    /**
+     * Get the [Register] with the given index.
+     *
+     * @param index The index of the desired register.
+     * @returns The [Register] instance that has the index specified.
+     */
     fun register(index: Int): Register<T> {
         return this.registers[index]
     }
@@ -169,7 +211,7 @@ class RegisterSet<T> {
      * @param index The register to read from.
      * @returns The value of the register at the given index.
      */
-    fun read(index: Int): T {
+    operator fun get(index: Int): T {
         return this.registers[index].value
     }
 
@@ -180,9 +222,10 @@ class RegisterSet<T> {
      * @param value The value to write to the register.
      * @throws RegisterAccessException When the index refers to a constant register.
      */
-    fun write(index: Int, value: T) {
+    operator fun set(index: Int, value: T) {
         val type = this.registerType(index)
 
+        // Constant registers can't be overwritten.
         when (type) {
             RegisterType.Constant -> throw RegisterAccessException("Can't write to constant register.")
             else -> {
@@ -192,22 +235,46 @@ class RegisterSet<T> {
     }
 
     /**
+     * Forcefully sets the value or the register with the given [index].
+     *
+     * This method has similar functionality to the [RegisterSet::set] method but does not
+     * check the type of the register -- allowing constant registers to be overwritten without exception.
+     *
+     * @param index The register to write to.
+     * @param value The value to write to the register.
+     */
+    fun overwrite(index: Int, value: T) {
+        this.registers[index] = Register(value, index)
+    }
+
+    /**
      * Writes an instance from some data set to the register sets input registers.
      *
      * NOTE: The number of input registers of the set must match the number of features in the instance.
      *
      * @param data An instance to write to the input registers.
+     * @throws RegisterWriteRangeException When the number of features does not match the number of input registers.
      */
     fun writeInstance(data: Sample<T>) {
-        // The number of features must match the number of input registers
-        assert(this.inputRegistersCount == data.features.size)
-
-        this.writeRange(
-                data.features.map(Feature<T>::value),
-                this.inputRegisters
-        )
+        when {
+            (this.inputRegisters.count() != data.features.size) -> {
+                throw RegisterWriteRangeException("The number of features must match the number of input registers.")
+            }
+            else -> {
+                this.writeRange(
+                    data.features.map(Feature<T>::value),
+                    this.inputRegisters
+                )
+            }
+        }
     }
 
+    /**
+     * Determines the type of the register with the given [index].
+     *
+     * @param index The index of the register whose type is desired.
+     * @returns A [RegisterType] mapping for the given register.
+     */
     fun registerType(index: Int): RegisterType {
         return when (index) {
             in this.inputRegisters -> RegisterType.Input
@@ -217,50 +284,67 @@ class RegisterSet<T> {
         }
     }
 
+    /**
+     * Resets the input and calculation registers to their default values.
+     */
     fun reset() {
-        // A reset is similar to a clear operation except that it only sets the value of the input and calculation
-        // registers to default values.
-        for (r in this.inputRegisters) {
+        val registersToReset = listOf(this.inputRegisters, this.calculationRegisters)
+
+        registersToReset.flatten().forEach { r ->
             this.registers[r] = Register(this.defaultValueProvider.value, r)
         }
-
-        for (r in this.calculationRegisters) {
-            this.registers[r] = Register(this.defaultValueProvider.value, r)
-        }
-
-        //this.writeConstants()
     }
 
+    /**
+     * Creates a clone of this register set.
+     *
+     * @returns A clone of this register set.
+     */
+    fun copy(): RegisterSet<T> {
+        return RegisterSet(this)
+    }
+
+    /**
+     * Initialises all registers with a default value using [defaultValueProvider].
+     */
     private fun initialise() {
-        for (r in 0 until this.totalRegisters) {
+        (0 until this.totalRegisters).forEach { r ->
             this.registers.add(r, Register(this.defaultValueProvider.value, r))
         }
     }
 
-    fun overwrite(index: Int, value: T) {
-        this.registers[index] = Register(value, index)
-    }
-
+    /**
+     * Writes the initial constant values to their registers, overwriting whatever is currently stored.
+     */
     private fun writeConstants() {
         this.writeRange(this.constants, this.constantRegisters)
     }
 
-    private fun writeRange(coll: List<T>, range: IntRange) {
+    /**
+     * Writes [source] to the registers with indices given by [range].
+     *
+     * @param source A collections of value to write to the specified indices.
+     * @param range A collection of indices to write [source] values to.
+     * @throws RegisterWriteRangeException When the number of values does not equal the number of indices.
+     */
+    private fun writeRange(source: List<T>, range: IntRange) {
         val size = (range.endInclusive - range.start) + 1
 
-        if (size != coll.size) {
-            throw RegisterWriteRangeException("$size != ${coll.size}")
-        }
-
-        for ((idx, value) in range.zip(coll)) {
-            this.overwrite(idx, value)
+        // This should be asserted by callers, but we do it here as a sanity check.
+        when {
+            (size != source.size) -> throw RegisterWriteRangeException("$size != ${source.size}")
+            else -> {
+                range.zip(source).forEach { (idx, value) ->
+                    this.overwrite(idx, value)
+                }
+            }
         }
     }
 
     override fun toString(): String {
         val sb = StringBuilder()
 
-        for (register in this.registers) {
+        this.registers.forEach { register ->
             sb.append(register.toString())
             sb.append(if (register.index in this.constantRegisters) " (CONSTANT)" else "")
             sb.append('\n')
@@ -268,9 +352,5 @@ class RegisterSet<T> {
 
         return sb.toString()
     }
-}
-
-fun <T> RegisterSet<T>.copy(): RegisterSet<T> {
-    return RegisterSet(this)
 }
 

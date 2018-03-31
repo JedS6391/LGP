@@ -299,7 +299,7 @@ class MicroMutationOperator<T>(
 
                     // Use the first operand that refers to a constant register.
                     val reg = constantRegisters.first()
-                    val oldValue = individual.registers.read(reg)
+                    val oldValue = individual.registers[reg]
 
                     // Compute a new value using the current constant register value.
                     val newValue = this.constantMutationFunc(oldValue)
