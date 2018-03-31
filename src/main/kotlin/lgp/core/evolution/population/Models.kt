@@ -201,7 +201,7 @@ object Models {
                 this.bestProgram.execute()
 
                 // Collect output
-                this.bestProgram.registers.read(this.bestProgram.outputRegisterIndex)
+                this.bestProgram.registers[this.bestProgram.outputRegisterIndex]
             }
 
             return TestResult(
@@ -374,7 +374,7 @@ object Models {
                 this.bestProgram.execute()
 
                 // Collect output
-                this.bestProgram.registers.read(this.bestProgram.outputRegisterIndex)
+                this.bestProgram.registers[this.bestProgram.outputRegisterIndex]
             }
 
             return TestResult(

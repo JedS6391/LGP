@@ -72,7 +72,7 @@ class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : Fitne
             program.execute()
 
             // ... and gather a result from the programs specified output register.
-            program.registers.read(program.outputRegisterIndex)
+            program.registers[program.outputRegisterIndex]
         }
 
         // Copy the fitness to the program for later accesses

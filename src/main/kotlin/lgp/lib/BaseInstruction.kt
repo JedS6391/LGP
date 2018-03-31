@@ -29,7 +29,7 @@ class BaseInstruction<T>(
                 }
         )
 
-        registers.write(this.destination, this.operation.execute(arguments))
+        registers[this.destination] = this.operation.execute(arguments)
     }
 
     /**
