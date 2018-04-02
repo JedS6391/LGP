@@ -183,7 +183,7 @@ public class SimpleFunctionProblem extends Problem<Double> {
                 Double x = it.next();
                 
                 samples.add(
-                        new Sample(Arrays.asList(new Feature("x", x)))
+                        new Sample<>(Collections.singletonList(new Feature<>("x", x)))
                 );
             }
 

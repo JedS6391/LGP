@@ -567,7 +567,7 @@ object Models {
                 var best = initialEvaluations.sortedBy(Evaluation<TProgram>::fitness).first()
                 this.bestIndividual = best.individual
 
-                (0 until numGenerations).forEach { gen ->
+                (0 until numGenerations).forEach { _ ->
                     val children = this.select.select(this.individuals)
 
                     children.pairwise().map { (mother, father) ->
