@@ -1,9 +1,10 @@
 package lgp.core.environment
 
-import lgp.core.environment.config.Config
-import lgp.core.environment.config.ConfigLoader
+import lgp.core.environment.config.*
 import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.operations.OperationLoader
+import lgp.core.evolution.ResultAggregator
+import lgp.core.evolution.ResultAggregators
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.instructions.Operation
 import lgp.core.evolution.registers.RegisterSet
@@ -180,7 +181,7 @@ open class Environment<T> {
 
     // Dependencies that we require at construction time and are used during initialisation
     // but aren't needed after that.
-    private val configLoader: ConfigLoader
+    private val configLoader: ConfigurationLoader
     private val constantLoader: ConstantLoader<T>
     private val operationLoader: OperationLoader<T>
     private val defaultValueProvider: DefaultValueProvider<T>
@@ -200,7 +201,7 @@ open class Environment<T> {
     /**
      * Contains the various configuration options available to the LGP system.
      */
-    lateinit var config: Config
+    lateinit var configuration: Configuration
 
     /**
      * A set of constants loaded using the [ConstantLoader] given at construction time.
@@ -222,6 +223,8 @@ open class Environment<T> {
      */
     var container: ModuleContainer<T>
 
+    val resultAggregator: ResultAggregator<T>
+
     /**
      * Builds an environment with the specified construction components.
      *
@@ -235,13 +238,14 @@ open class Environment<T> {
      */
     // TODO: Move all components to an object to make constructor smaller.
     // TODO: Allow custom initialisation method for initialisation components.
-    // TODO: Default value provider and fitness function could be given in config?
+    // TODO: Default value provider and fitness function could be given in configuration?
     constructor(
-            configLoader: ConfigLoader,
+            configLoader: ConfigurationLoader,
             constantLoader: ConstantLoader<T>,
             operationLoader: OperationLoader<T>,
             defaultValueProvider: DefaultValueProvider<T>,
             fitnessFunction: FitnessFunction<T>,
+            resultAggregator: ResultAggregator<T>? = null,
             randomStateSeed: Long? = null
     ) {
 
@@ -251,6 +255,8 @@ open class Environment<T> {
         this.defaultValueProvider = defaultValueProvider
         this.fitnessFunction = fitnessFunction
         this.randomStateSeed = randomStateSeed
+        // If no result aggregator is provided then use the default aggregator which doesn't collect results.
+        this.resultAggregator = resultAggregator ?: ResultAggregators.DefaultResultAggregator()
 
         // Determine whether we need to seed the RNG or not.
         when (this.randomStateSeed) {
@@ -267,9 +273,17 @@ open class Environment<T> {
 
     private fun initialise() {
         // Load the components each loader is responsible for.
-        this.config = this.configLoader.load()
+        this.configuration = this.configLoader.load()
         this.constants = this.constantLoader.load()
         this.operations = this.operationLoader.load()
+
+        // Early exit if the configuration provided is invalid
+        val configValidity = this.configuration.isValid()
+
+        when (configValidity) {
+            is Invalid -> throw InvalidConfigurationException(configValidity.reason)
+            else -> { /* No-op */ }
+        }
 
         // TODO: Instead of initialising, allow user to register?
         this.initialiseRegisterSet()
@@ -284,8 +298,8 @@ open class Environment<T> {
         // TODO: Pass environment to register set and make it a dependency that must be registered.
 
         this.registerSet = RegisterSet(
-                inputRegisters = this.config.numFeatures,
-                calculationRegisters = this.config.numCalculationRegisters,
+                inputRegisters = this.configuration.numFeatures,
+                calculationRegisters = this.configuration.numCalculationRegisters,
                 constants = this.constants,
                 defaultValueProvider = this.defaultValueProvider
         )
@@ -375,6 +389,7 @@ open class Environment<T> {
                 this.operationLoader,
                 this.defaultValueProvider,
                 this.fitnessFunction,
+                this.resultAggregator,
                 this.randomState.nextLong()
         )
 

@@ -13,13 +13,13 @@ import java.util.Map;
 public class SimpleFunction {
 
     public static void main(String[] args) {
-        Problem problem = new SimpleFunctionProblem();
+        Problem<Double> problem = new SimpleFunctionProblem();
 
         problem.initialiseEnvironment();
         problem.initialiseModel();
 
         SimpleFunctionSolution solution = (SimpleFunctionSolution) problem.solve();
-        BaseProgramSimplifier simplifier = new BaseProgramSimplifier();
+        BaseProgramSimplifier<Double> simplifier = new BaseProgramSimplifier<>();
 
         System.out.println("Results:");
         int run = 0;

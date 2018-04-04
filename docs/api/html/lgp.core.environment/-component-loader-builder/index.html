@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../index.html">lgp.core.environment</a>&nbsp;/&nbsp;<a href=".">ComponentLoaderBuilder</a><br/>
+<a href="../index.html">lgp.core.environment</a>&nbsp;/&nbsp;<a href="./index.html">ComponentLoaderBuilder</a><br/>
 <br/>
 <h1>ComponentLoaderBuilder</h1>
 <code><span class="keyword">interface </span><span class="identifier">ComponentLoaderBuilder</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TComponentLoader</span><span class="symbol">&gt;</span></code>
@@ -24,7 +24,7 @@ preferred to use named arguments to the constructor of the loader.</p>
 <p><a href="build.html">build</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">build</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TComponentLoader</span></code></td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">build</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="index.html#TComponentLoader"><span class="identifier">TComponentLoader</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -33,11 +33,11 @@ preferred to use named arguments to the constructor of the loader.</p>
 <tbody>
 <tr>
 <td>
-<p><a href="../../lgp.core.environment.config/-json-config-loader/-builder/index.html">Builder</a></p>
+<p><a href="../../lgp.core.environment.config/-json-configuration-loader/-builder/index.html">Builder</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Builder</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoaderBuilder</span><span class="symbol">&lt;</span><a href="../../lgp.core.environment.config/-json-config-loader/index.html"><span class="identifier">JsonConfigLoader</span></a><span class="symbol">&gt;</span></code>
-<p>A custom ComponentLoaderBuilder implementation for building a <a href="../../lgp.core.environment.config/-json-config-loader/index.html">JsonConfigLoader</a> instance.</p>
+<code><span class="keyword">class </span><span class="identifier">Builder</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.environment.config/-json-configuration-loader/index.html"><span class="identifier">JsonConfigurationLoader</span></a><span class="symbol">&gt;</span></code>
+<p>A custom <a href="./index.html">ComponentLoaderBuilder</a> implementation for building a <a href="../../lgp.core.environment.config/-json-configuration-loader/index.html">JsonConfigurationLoader</a> instance.</p>
 </td>
 </tr>
 <tr>
@@ -45,8 +45,8 @@ preferred to use named arguments to the constructor of the loader.</p>
 <p><a href="../../lgp.core.environment.constants/-generic-constant-loader/-builder/index.html">Builder</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoaderBuilder</span><span class="symbol">&lt;</span><a href="../../lgp.core.environment.constants/-generic-constant-loader/index.html"><span class="identifier">GenericConstantLoader</span></a><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
-<p>A custom ComponentLoaderBuilder implementation for building a <a href="../../lgp.core.environment.constants/-generic-constant-loader/index.html">GenericConstantLoader</a> instance.</p>
+<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.environment.constants/-generic-constant-loader/index.html"><span class="identifier">GenericConstantLoader</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.environment.constants/-generic-constant-loader/-builder/index.html#U"><span class="identifier">U</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>A custom <a href="./index.html">ComponentLoaderBuilder</a> implementation for building a <a href="../../lgp.core.environment.constants/-generic-constant-loader/index.html">GenericConstantLoader</a> instance.</p>
 </td>
 </tr>
 <tr>
@@ -54,7 +54,7 @@ preferred to use named arguments to the constructor of the loader.</p>
 <p><a href="../../lgp.core.environment.dataset/-csv-dataset-loader/-builder/index.html">Builder</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoaderBuilder</span><span class="symbol">&lt;</span><a href="../../lgp.core.environment.dataset/-csv-dataset-loader/index.html"><span class="identifier">CsvDatasetLoader</span></a><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.environment.dataset/-csv-dataset-loader/index.html"><span class="identifier">CsvDatasetLoader</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.environment.dataset/-csv-dataset-loader/-builder/index.html#U"><span class="identifier">U</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Builds an instance of <a href="../../lgp.core.environment.dataset/-csv-dataset-loader/index.html">CsvDatasetLoader</a>.</p>
 </td>
 </tr>
@@ -63,17 +63,17 @@ preferred to use named arguments to the constructor of the loader.</p>
 <p><a href="../../lgp.core.environment.operations/-default-operation-loader/-builder/index.html">Builder</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoaderBuilder</span><span class="symbol">&lt;</span><a href="../../lgp.core.environment.operations/-default-operation-loader/index.html"><span class="identifier">DefaultOperationLoader</span></a><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.environment.operations/-default-operation-loader/index.html"><span class="identifier">DefaultOperationLoader</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.environment.operations/-default-operation-loader/-builder/index.html#U"><span class="identifier">U</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Builds an instance of <a href="../../lgp.core.environment.operations/-default-operation-loader/index.html">DefaultOperationLoader</a>.</p>
 </td>
 </tr>
 <tr>
 <td>
-<p><a href="../../lgp.lib.misc/-yaml-config-loader/-builder/index.html">Builder</a></p>
+<p><a href="../../lgp.lib.misc/-yaml-configuration-loader/-builder/index.html">Builder</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Builder</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ComponentLoaderBuilder</span><span class="symbol">&lt;</span><a href="../../lgp.lib.misc/-yaml-config-loader/index.html"><span class="identifier">YamlConfigLoader</span></a><span class="symbol">&gt;</span></code>
-<p>A custom ComponentLoaderBuilder implementation for building a <a href="../../lgp.lib.misc/-yaml-config-loader/index.html">YamlConfigLoader</a> instance.</p>
+<code><span class="keyword">class </span><span class="identifier">Builder</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><a href="../../lgp.lib.misc/-yaml-configuration-loader/index.html"><span class="identifier">YamlConfigurationLoader</span></a><span class="symbol">&gt;</span></code>
+<p>A custom <a href="./index.html">ComponentLoaderBuilder</a> implementation for building a <a href="../../lgp.lib.misc/-yaml-configuration-loader/index.html">YamlConfigurationLoader</a> instance.</p>
 </td>
 </tr>
 </tbody>

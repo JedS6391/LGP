@@ -1,8 +1,8 @@
 package lgp.examples
 
 import lgp.core.environment.*
-import lgp.core.environment.config.Config
-import lgp.core.environment.config.ConfigLoader
+import lgp.core.environment.config.Configuration
+import lgp.core.environment.config.ConfigurationLoader
 import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
@@ -37,11 +37,11 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override val description = Description("f(x) = x^2 + 2x + 2\n\trange = [-10:10:0.5]")
 
-    override val configLoader = object : ConfigLoader {
-        override val information = ModuleInformation("Overrides default config for this problem.")
+    override val configLoader = object : ConfigurationLoader {
+        override val information = ModuleInformation("Overrides default configuration for this problem.")
 
-        override fun load(): Config {
-            val config = Config()
+        override fun load(): Configuration {
+            val config = Configuration()
 
             config.initialMinimumProgramLength = 10
             config.initialMaximumProgramLength = 30
@@ -159,7 +159,10 @@ class SimpleFunctionProblem : Problem<Double>() {
                 this.constantLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
-                this.fitnessFunction
+                this.fitnessFunction,
+                ResultAggregators.BufferedResultAggregator(
+                        ResultOutputProviders.CsvResultOutputProvider("results.csv")
+                )
         )
 
         this.environment.registerModules(this.registeredModules)

@@ -8,7 +8,6 @@ import lgp.core.evolution.population.Program
 import lgp.core.evolution.population.ProgramTranslator
 import lgp.core.evolution.registers.RegisterSet
 import lgp.core.evolution.registers.RegisterType
-import lgp.core.evolution.registers.copy
 import lgp.core.modules.ModuleInformation
 
 /**
@@ -38,7 +37,7 @@ class BaseProgram<T>(
                 branchResult -> {
                     instruction.execute(this.registers)
 
-                    val output = this.registers.read(instruction.destination)
+                    val output = this.registers[instruction.destination]
 
                     ((instruction.operation !is BranchOperation<T>) ||
                             (instruction.operation is BranchOperation<T>
@@ -182,7 +181,7 @@ class BaseProgramSimplifier<T> {
             }
             RegisterType.Constant -> {
                 // Simplify constant
-                program.registers.read(register).toString()
+                program.registers[register].toString()
             }
             else -> "r[$register]"
         }
@@ -225,7 +224,7 @@ class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : Progr
         var calculationRegisters = ""
 
         program.registers.calculationRegisters.map { reg ->
-            val contents = program.registers.read(reg)
+            val contents = program.registers[reg]
 
             calculationRegisters += "$contents, // calculation\n"
         }
@@ -233,7 +232,7 @@ class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : Progr
         var constantRegisters = ""
 
         program.registers.constantRegisters.map { reg ->
-            val contents = program.registers.read(reg)
+            val contents = program.registers[reg]
 
             constantRegisters += "$contents, // constant\n"
         }

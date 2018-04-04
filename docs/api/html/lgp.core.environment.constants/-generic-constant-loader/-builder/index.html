@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="../../../style.css">
 </HEAD>
 <BODY>
-<a href="../../index.html">lgp.core.environment.constants</a>&nbsp;/&nbsp;<a href="../index.html">GenericConstantLoader</a>&nbsp;/&nbsp;<a href=".">Builder</a><br/>
+<a href="../../index.html">lgp.core.environment.constants</a>&nbsp;/&nbsp;<a href="../index.html">GenericConstantLoader</a>&nbsp;/&nbsp;<a href="./index.html">Builder</a><br/>
 <br/>
 <h1>Builder</h1>
-<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment/-component-loader-builder/index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><a href="../index.html"><span class="identifier">GenericConstantLoader</span></a><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment/-component-loader-builder/index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><a href="../index.html"><span class="identifier">GenericConstantLoader</span></a><span class="symbol">&lt;</span><a href="index.html#U"><span class="identifier">U</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>A custom <a href="../../../lgp.core.environment/-component-loader-builder/index.html">ComponentLoaderBuilder</a> implementation for building a <a href="../index.html">GenericConstantLoader</a> instance.</p>
 <p>The builder allows for a collection of constants (as strings) to be specified, which
 will be parsed into the type specified as a type parameter.</p>
@@ -41,7 +41,7 @@ will be parsed into the type specified as a type parameter.</p>
 <p><a href="parse-function.html">parseFunction</a></p>
 </td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">parseFunction</span><span class="symbol">: </span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">U</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">parseFunction</span><span class="symbol">: </span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="index.html#U"><span class="identifier">U</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -53,7 +53,7 @@ will be parsed into the type specified as a type parameter.</p>
 <p><a href="build.html">build</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">build</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../index.html"><span class="identifier">GenericConstantLoader</span></a><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">build</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../index.html"><span class="identifier">GenericConstantLoader</span></a><span class="symbol">&lt;</span><a href="index.html#U"><span class="identifier">U</span></a><span class="symbol">&gt;</span></code>
 <p>Builds an instance of <a href="../index.html">GenericConstantLoader</a> with the information given to the builder.</p>
 </td>
 </tr>
@@ -62,7 +62,7 @@ will be parsed into the type specified as a type parameter.</p>
 <p><a href="constants.html">constants</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">constants</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.constants.GenericConstantLoader.Builder$constants(kotlin.collections.List((kotlin.String)))/values">values</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">constants</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.constants.GenericConstantLoader.Builder$constants(kotlin.collections.List((kotlin.String)))/values">values</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Builder</span></a><span class="symbol">&lt;</span><a href="index.html#U"><span class="identifier">U</span></a><span class="symbol">&gt;</span></code>
 <p>Sets the constants to be parsed as the type given.</p>
 </td>
 </tr>
@@ -71,7 +71,7 @@ will be parsed into the type specified as a type parameter.</p>
 <p><a href="parse-function.html">parseFunction</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">parseFunction</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.constants.GenericConstantLoader.Builder$parseFunction(kotlin.Function1((kotlin.String, lgp.core.environment.constants.GenericConstantLoader.Builder.U)))/func">func</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">U</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">parseFunction</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.constants.GenericConstantLoader.Builder$parseFunction(kotlin.Function1((kotlin.String, lgp.core.environment.constants.GenericConstantLoader.Builder.U)))/func">func</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="index.html#U"><span class="identifier">U</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Builder</span></a><span class="symbol">&lt;</span><a href="index.html#U"><span class="identifier">U</span></a><span class="symbol">&gt;</span></code>
 <p>Sets the function to use to parse each constant.</p>
 </td>
 </tr>

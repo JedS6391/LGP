@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../index.html">lgp.examples</a>&nbsp;/&nbsp;<a href=".">SinPolyProblem</a><br/>
+<a href="../index.html">lgp.examples</a>&nbsp;/&nbsp;<a href="./index.html">SinPolyProblem</a><br/>
 <br/>
 <h1>SinPolyProblem</h1>
 <code><span class="keyword">class </span><span class="identifier">SinPolyProblem</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution/-problem/index.html"><span class="identifier">Problem</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
@@ -29,7 +29,7 @@
 <p><a href="config-loader.html">configLoader</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">configLoader</span><span class="symbol">: </span><a href="../../lgp.core.environment.config/-config-loader.html"><span class="identifier">ConfigLoader</span></a></code>
+<code><span class="keyword">val </span><span class="identifier">configLoader</span><span class="symbol">: </span><a href="../../lgp.core.environment.config/-configuration-loader.html"><span class="identifier">ConfigurationLoader</span></a></code>
 <p>A component that can provide configuration for the problem.</p>
 </td>
 </tr>
@@ -113,7 +113,7 @@
 <p><a href="../../lgp.core.evolution/-problem/environment.html">environment</a></p>
 </td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution/-problem/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>An environment built up of the components this problem uses.</p>
 </td>
 </tr>
@@ -122,7 +122,7 @@
 <p><a href="../../lgp.core.evolution/-problem/model.html">model</a></p>
 </td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">model</span><span class="symbol">: </span><a href="../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">model</span><span class="symbol">: </span><a href="../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution/-problem/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>An evolutionary model that should be used to solve this problem.</p>
 </td>
 </tr>

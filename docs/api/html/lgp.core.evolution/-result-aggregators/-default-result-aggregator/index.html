@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ResultAggregators.DefaultResultAggregator - </title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">lgp.core.evolution</a>&nbsp;/&nbsp;<a href="../index.html">ResultAggregators</a>&nbsp;/&nbsp;<a href="./index.html">DefaultResultAggregator</a><br/>
+<br/>
+<h1>DefaultResultAggregator</h1>
+<code><span class="keyword">class </span><span class="identifier">DefaultResultAggregator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../-result-aggregator/index.html"><span class="identifier">ResultAggregator</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>A <a href="../../-result-aggregator/index.html">ResultAggregator</a> implementation which does nothing.</p>
+<p>Useful for situations where it is not required to aggregate results and export to an output source.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">DefaultResultAggregator</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>A <a href="../../-result-aggregator/index.html">ResultAggregator</a> implementation which does nothing.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="information.html">information</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../../lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
+<p>Provides information about the module.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="results.html">results</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">results</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../-exportable-result/index.html"><span class="identifier">ExportableResult</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>A collection of <a href="../../-exportable-result/index.html">ExportableResult</a> instances.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="add.html">add</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">add</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.ResultAggregators.DefaultResultAggregator$add(lgp.core.evolution.ExportableResult((lgp.core.evolution.ResultAggregators.DefaultResultAggregator.T)))/result">result</span><span class="symbol">:</span>&nbsp;<a href="../../-exportable-result/index.html"><span class="identifier">ExportableResult</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Add an <a href="../../-exportable-result/index.html">ExportableResult</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="add-all.html">addAll</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">addAll</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.ResultAggregators.DefaultResultAggregator$addAll(kotlin.collections.List((lgp.core.evolution.ExportableResult((lgp.core.evolution.ResultAggregators.DefaultResultAggregator.T)))))/results">results</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../-exportable-result/index.html"><span class="identifier">ExportableResult</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Add a collection of <a href="../../-exportable-result/index.html">ExportableResult</a> instances in a batch aggregation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="close.html">close</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">close</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

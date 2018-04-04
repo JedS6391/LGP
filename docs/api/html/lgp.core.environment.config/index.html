@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../style.css">
 </HEAD>
 <BODY>
-<a href=".">lgp.core.environment.config</a><br/>
+<a href="./index.html">lgp.core.environment.config</a><br/>
 <br/>
 <h2>Package lgp.core.environment.config</h2>
 <h3>Types</h3>
@@ -13,30 +13,63 @@
 <tbody>
 <tr>
 <td>
-<p><a href="-config/index.html">Config</a></p>
+<p><a href="-configuration/index.html">Configuration</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Config</span></code>
+<code><span class="keyword">class </span><span class="identifier">Configuration</span></code>
 <p>Represents the parameters that can be set for the an LGP environment.</p>
 </td>
 </tr>
 <tr>
 <td>
-<p><a href="-config-loader.html">ConfigLoader</a></p>
+<p><a href="-configuration-loader.html">ConfigurationLoader</a></p>
 </td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">ConfigLoader</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="-config/index.html"><span class="identifier">Config</span></a><span class="symbol">&gt;</span></code>
-<p>An extended <a href="../lgp.core.environment/-component-loader/index.html">ComponentLoader</a> that is responsible for loading <a href="-config/index.html">Config</a> instances.</p>
+<code><span class="keyword">interface </span><span class="identifier">ConfigurationLoader</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="-configuration/index.html"><span class="identifier">Configuration</span></a><span class="symbol">&gt;</span></code>
+<p>An extended <a href="../lgp.core.environment/-component-loader/index.html">ComponentLoader</a> that is responsible for loading <a href="-configuration/index.html">Configuration</a> instances.</p>
 </td>
 </tr>
 <tr>
 <td>
-<p><a href="-json-config-loader/index.html">JsonConfigLoader</a></p>
+<p><a href="-configuration-validity/index.html">ConfigurationValidity</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">JsonConfigLoader</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-config-loader.html"><span class="identifier">ConfigLoader</span></a></code>
-<p>An implementation of <a href="-config-loader.html">ConfigLoader</a> that loads configuration from a JSON file.</p>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">ConfigurationValidity</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-invalid/index.html">Invalid</a></p>
 </td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Invalid</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-configuration-validity/index.html"><span class="identifier">ConfigurationValidity</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-json-configuration-loader/index.html">JsonConfigurationLoader</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">JsonConfigurationLoader</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-configuration-loader.html"><span class="identifier">ConfigurationLoader</span></a></code>
+<p>An implementation of <a href="-configuration-loader.html">ConfigurationLoader</a> that loads configuration from a JSON file.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-valid/index.html">Valid</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Valid</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-configuration-validity/index.html"><span class="identifier">ConfigurationValidity</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-invalid-configuration-exception/index.html">InvalidConfigurationException</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">InvalidConfigurationException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html"><span class="identifier">Exception</span></a></code></td>
 </tr>
 </tbody>
 </table>

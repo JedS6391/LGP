@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../index.html">lgp.core.evolution</a>&nbsp;/&nbsp;<a href=".">Trainer</a><br/>
+<a href="../index.html">lgp.core.evolution</a>&nbsp;/&nbsp;<a href="./index.html">Trainer</a><br/>
 <br/>
 <h1>Trainer</h1>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Trainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
@@ -21,7 +21,7 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">Trainer</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.Trainer$<init>(lgp.core.environment.Environment((lgp.core.evolution.Trainer.T)), lgp.core.evolution.population.EvolutionModel((lgp.core.evolution.Trainer.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.Trainer$<init>(lgp.core.environment.Environment((lgp.core.evolution.Trainer.T)), lgp.core.evolution.population.EvolutionModel((lgp.core.evolution.Trainer.T)))/model">model</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">Trainer</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.Trainer$<init>(lgp.core.environment.Environment((lgp.core.evolution.Trainer.T)), lgp.core.evolution.population.EvolutionModel((lgp.core.evolution.Trainer.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.Trainer$<init>(lgp.core.environment.Environment((lgp.core.evolution.Trainer.T)), lgp.core.evolution.population.EvolutionModel((lgp.core.evolution.Trainer.T)))/model">model</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A service capable of training evolutionary models in a particular environment.</p>
 </td>
 </tr>
@@ -35,7 +35,7 @@
 <p><a href="environment.html">environment</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>The environment evolution is performed within.</p>
 </td>
 </tr>
@@ -44,7 +44,7 @@
 <p><a href="model.html">model</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">model</span><span class="symbol">: </span><a href="../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">model</span><span class="symbol">: </span><a href="../../lgp.core.evolution.population/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>The model of evolution to use.</p>
 </td>
 </tr>
@@ -58,7 +58,7 @@
 <p><a href="train.html">train</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">train</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.Trainer$train(lgp.core.environment.dataset.Dataset((lgp.core.evolution.Trainer.T)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-training-result/index.html"><span class="identifier">TrainingResult</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">train</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.Trainer$train(lgp.core.environment.dataset.Dataset((lgp.core.evolution.Trainer.T)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-training-result/index.html"><span class="identifier">TrainingResult</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>Trains the model and gathers results from training.</p>
 </td>
 </tr>
@@ -72,7 +72,7 @@
 <p><a href="../-trainers/-distributed-trainer/index.html">DistributedTrainer</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">DistributedTrainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Trainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">DistributedTrainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Trainer</span></a><span class="symbol">&lt;</span><a href="../-trainers/-distributed-trainer/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>Trains the model for a given number of runs, in a parallel manner.</p>
 </td>
 </tr>
@@ -81,7 +81,7 @@
 <p><a href="../-trainers/-sequential-trainer/index.html">SequentialTrainer</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">SequentialTrainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Trainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">SequentialTrainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Trainer</span></a><span class="symbol">&lt;</span><a href="../-trainers/-sequential-trainer/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>Trains the model for a given number of runs, in a sequential manner.</p>
 </td>
 </tr>

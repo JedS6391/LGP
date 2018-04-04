@@ -10,7 +10,6 @@ import lgp.core.evolution.population.ProgramGenerator
 import lgp.core.evolution.population.choice
 import lgp.core.evolution.population.randInt
 import lgp.core.evolution.registers.RegisterType
-import lgp.core.evolution.registers.copy
 import lgp.core.modules.ModuleInformation
 
 /**
@@ -31,8 +30,8 @@ class BaseProgramGenerator<T>(
 
     override fun generateProgram(): Program<T> {
         val length = this.random.randInt(
-                this.environment.config.initialMinimumProgramLength,
-                this.environment.config.initialMaximumProgramLength
+                this.environment.configuration.initialMinimumProgramLength,
+                this.environment.configuration.initialMaximumProgramLength
         )
 
         val branchesUsed = this.environment.operations.any { op -> op is BranchOperation<T> }
@@ -62,7 +61,7 @@ class BaseProgramGenerator<T>(
                 effectiveRegisters.add(output)
             }
 
-            if (branchesUsed && random.nextDouble() < this.environment.config.branchInitialisationRate) {
+            if (branchesUsed && random.nextDouble() < this.environment.configuration.branchInitialisationRate) {
                 val instr = this.instructionGenerator.next().first { instruction ->
                     instruction.operation is BranchOperation<T>
                 }
