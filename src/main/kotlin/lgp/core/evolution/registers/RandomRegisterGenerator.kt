@@ -24,7 +24,7 @@ class RandomRegisterGenerator<T>(val randomState: Random, val registerSet: Regis
             // Let's just be extra cautious
             assert(0 <= idx && idx <= registerSet.count)
 
-            yield(registerSet.registers[idx])
+            yield(registerSet.register(idx))
         }
     }
 

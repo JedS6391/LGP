@@ -10,7 +10,6 @@ import lgp.core.evolution.population.ProgramGenerator
 import lgp.core.evolution.population.choice
 import lgp.core.evolution.population.randInt
 import lgp.core.evolution.registers.RegisterType
-import lgp.core.evolution.registers.copy
 import lgp.core.modules.ModuleInformation
 
 /**
