@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../index.html">lgp.core.evolution.instructions</a>&nbsp;/&nbsp;<a href=".">BinaryOperation</a><br/>
+<a href="../index.html">lgp.core.evolution.instructions</a>&nbsp;/&nbsp;<a href="./index.html">BinaryOperation</a><br/>
 <br/>
 <h1>BinaryOperation</h1>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>An operation that has an arity of two (i.e. its function takes 2 arguments).</p>
 <h3>Constructors</h3>
 <table>
@@ -18,7 +18,7 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">BinaryOperation</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.instructions.BinaryOperation$<init>(kotlin.Function1((lgp.core.evolution.registers.Arguments((lgp.core.evolution.instructions.BinaryOperation.T)), )))/func">func</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../../lgp.core.evolution.registers/-arguments/index.html"><span class="identifier">Arguments</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span></code>
+<code><span class="identifier">BinaryOperation</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.instructions.BinaryOperation$<init>(kotlin.Function1((lgp.core.evolution.registers.Arguments((lgp.core.evolution.instructions.BinaryOperation.T)), )))/func">func</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../../lgp.core.evolution.registers/-arguments/index.html"><span class="identifier">Arguments</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span></code>
 <p>An operation that has an arity of two (i.e. its function takes 2 arguments).</p>
 </td>
 </tr>
@@ -32,14 +32,18 @@
 <p><a href="../-operation/arity.html">arity</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">arity</span><span class="symbol">: </span><a href="../-arity/index.html"><span class="identifier">Arity</span></a></code></td>
+<code><span class="keyword">val </span><span class="identifier">arity</span><span class="symbol">: </span><a href="../-arity/index.html"><span class="identifier">Arity</span></a></code>
+<p>How many arguments the operations function takes.</p>
+</td>
 </tr>
 <tr>
 <td>
 <p><a href="../-operation/func.html">func</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">func</span><span class="symbol">: </span><a href="../-function.html"><span class="identifier">Function</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">func</span><span class="symbol">: </span><a href="../-function.html"><span class="identifier">Function</span></a><span class="symbol">&lt;</span><a href="../-operation/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>A function mapping arguments to some value.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -60,7 +64,7 @@
 <p><a href="execute.html">execute</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">execute</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.instructions.BinaryOperation$execute(lgp.core.evolution.registers.Arguments((lgp.core.evolution.instructions.BinaryOperation.T)))/arguments">arguments</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.registers/-arguments/index.html"><span class="identifier">Arguments</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">execute</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.instructions.BinaryOperation$execute(lgp.core.evolution.registers.Arguments((lgp.core.evolution.instructions.BinaryOperation.T)))/arguments">arguments</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.registers/-arguments/index.html"><span class="identifier">Arguments</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code>
 <p>Applies the operations function to the argument(s) given.</p>
 </td>
 </tr>
@@ -74,7 +78,7 @@
 <p><a href="../../lgp.lib.operations/-addition/index.html">Addition</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Addition</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Addition</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
 <p>Performs addition on two Double arguments.</p>
 </td>
 </tr>
@@ -83,21 +87,21 @@
 <p><a href="../../lgp.lib.operations/-and/index.html">And</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">And</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">class </span><span class="identifier">And</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="../-branch-operation/index.html">BranchOperation</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BranchOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BranchOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><a href="../-branch-operation/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="../../lgp.lib.operations/-division/index.html">Division</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Division</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Division</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
 <p>Performs division on two Double arguments.</p>
 </td>
 </tr>
@@ -106,7 +110,7 @@
 <p><a href="../../lgp.lib.operations/-exponent/index.html">Exponent</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Exponent</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Exponent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
 <p>Performs exponentiation on two Double arguments.</p>
 </td>
 </tr>
@@ -115,7 +119,7 @@
 <p><a href="../../lgp.lib.operations/-multiplication/index.html">Multiplication</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Multiplication</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Multiplication</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
 <p>Performs multiplication on two Double arguments.</p>
 </td>
 </tr>
@@ -124,14 +128,14 @@
 <p><a href="../../lgp.lib.operations/-or/index.html">Or</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Or</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">class </span><span class="identifier">Or</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="../../lgp.lib.operations/-subtraction/index.html">Subtraction</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Subtraction</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">BinaryOperation</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Subtraction</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
 <p>Performs subtraction on two Double arguments.</p>
 </td>
 </tr>

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../index.html">lgp.core.evolution.population</a>&nbsp;/&nbsp;<a href=".">SelectionOperator</a><br/>
+<a href="../index.html">lgp.core.evolution.population</a>&nbsp;/&nbsp;<a href="./index.html">SelectionOperator</a><br/>
 <br/>
 <h1>SelectionOperator</h1>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SelectionOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
@@ -27,7 +27,7 @@ to recombination/mutation before being introduced back into a population.</p>
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">SelectionOperator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.SelectionOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.SelectionOperator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">SelectionOperator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.SelectionOperator$<init>(lgp.core.environment.Environment((lgp.core.evolution.population.SelectionOperator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A search operator used during evolution to select a subset of individuals from a population.</p>
 </td>
 </tr>
@@ -41,7 +41,7 @@ to recombination/mutation before being introduced back into a population.</p>
 <p><a href="environment.html">environment</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>The environment evolution is being performed within.</p>
 </td>
 </tr>
@@ -69,7 +69,7 @@ to recombination/mutation before being introduced back into a population.</p>
 <p><a href="select.html">select</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">select</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.SelectionOperator$select(kotlin.collections.MutableList((lgp.core.evolution.population.Program((lgp.core.evolution.population.SelectionOperator.T)))))/population">population</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">select</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.population.SelectionOperator$select(kotlin.collections.MutableList((lgp.core.evolution.population.Program((lgp.core.evolution.population.SelectionOperator.T)))))/population">population</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Selects a subset of programs from the population given using some method of selection.</p>
 </td>
 </tr>
@@ -83,7 +83,7 @@ to recombination/mutation before being introduced back into a population.</p>
 <p><a href="../-binary-tournament-selection/index.html">BinaryTournamentSelection</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">BinaryTournamentSelection</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">SelectionOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BinaryTournamentSelection</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SelectionOperator</span></a><span class="symbol">&lt;</span><a href="../-binary-tournament-selection/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>Performs Binary Tournament Selection as described in Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).</p>
 </td>
 </tr>
@@ -92,8 +92,8 @@ to recombination/mutation before being introduced back into a population.</p>
 <p><a href="../-tournament-selection/index.html">TournamentSelection</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">TournamentSelection</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">SelectionOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
-<p>A SelectionOperator implementation that selects individuals using Tournament Selection.</p>
+<code><span class="keyword">class </span><span class="identifier">TournamentSelection</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SelectionOperator</span></a><span class="symbol">&lt;</span><a href="../-tournament-selection/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>A <a href="./index.html">SelectionOperator</a> implementation that selects individuals using Tournament Selection.</p>
 </td>
 </tr>
 </tbody>

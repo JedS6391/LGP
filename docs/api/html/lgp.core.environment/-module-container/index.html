@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../index.html">lgp.core.environment</a>&nbsp;/&nbsp;<a href=".">ModuleContainer</a><br/>
+<a href="../index.html">lgp.core.environment</a>&nbsp;/&nbsp;<a href="./index.html">ModuleContainer</a><br/>
 <br/>
 <h1>ModuleContainer</h1>
 <code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">ModuleContainer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
@@ -18,7 +18,7 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">ModuleContainer</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.ModuleContainer$<init>(kotlin.collections.MutableMap((lgp.core.environment.RegisteredModuleType, kotlin.Function1((lgp.core.environment.Environment((lgp.core.environment.ModuleContainer.T)), lgp.core.modules.Module)))))/modules">modules</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><a href="../-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">ModuleContainer</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.ModuleContainer$<init>(kotlin.collections.MutableMap((lgp.core.environment.RegisteredModuleType, kotlin.Function1((lgp.core.environment.Environment((lgp.core.environment.ModuleContainer.T)), lgp.core.modules.Module)))))/modules">modules</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><a href="../-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A container that provides modules that need to be registered with an environment.</p>
 </td>
 </tr>
@@ -32,7 +32,7 @@
 <p><a href="environment.html">environment</a></p>
 </td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
@@ -46,7 +46,7 @@
 <p><a href="modules.html">modules</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">modules</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><a href="../-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">modules</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><a href="../-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span></code>
 <p>A mapping of modules that can be registered to a function that constructs that module.</p>
 </td>
 </tr>
@@ -60,7 +60,7 @@
 <p><a href="instance.html">instance</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">instance</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.ModuleContainer$instance(lgp.core.environment.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TModule</span></code>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">instance</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.ModuleContainer$instance(lgp.core.environment.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="instance.html#TModule"><span class="identifier">TModule</span></a></code>
 <p>Provides an instance of the module <a href="instance.html#lgp.core.environment.ModuleContainer$instance(lgp.core.environment.RegisteredModuleType)/type">type</a> given.</p>
 </td>
 </tr>
@@ -69,7 +69,7 @@
 <p><a href="instance-unsafe.html">instanceUnsafe</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">instanceUnsafe</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.ModuleContainer$instanceUnsafe(lgp.core.environment.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TModule</span></code>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">instanceUnsafe</span><span class="symbol">(</span><span class="identifier" id="lgp.core.environment.ModuleContainer$instanceUnsafe(lgp.core.environment.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="instance-unsafe.html#TModule"><span class="identifier">TModule</span></a></code>
 <p>Provides an instance of the module <a href="instance-unsafe.html#lgp.core.environment.ModuleContainer$instanceUnsafe(lgp.core.environment.RegisteredModuleType)/type">type</a> given (for Java interoperability).</p>
 </td>
 </tr>

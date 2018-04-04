@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../index.html">lgp.lib</a>&nbsp;/&nbsp;<a href=".">BaseProgramGenerator</a><br/>
+<a href="../index.html">lgp.lib</a>&nbsp;/&nbsp;<a href="./index.html">BaseProgramGenerator</a><br/>
 <br/>
 <h1>BaseProgramGenerator</h1>
-<code><span class="keyword">class </span><span class="identifier">BaseProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.population/-program-generator/index.html"><span class="identifier">ProgramGenerator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BaseProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.population/-program-generator/index.html"><span class="identifier">ProgramGenerator</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>A <code>ProgramGenerator</code> implementation that provides effective <code>BaseProgram</code> instances.</p>
 <p>This generator only creates programs which are "effective".</p>
 <h3>Constructors</h3>
@@ -19,7 +19,7 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">BaseProgramGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseProgramGenerator$<init>(lgp.core.environment.Environment((lgp.lib.BaseProgramGenerator.T)), lgp.lib.BaseProgramGenerator.T, kotlin.Int)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgramGenerator$<init>(lgp.core.environment.Environment((lgp.lib.BaseProgramGenerator.T)), lgp.lib.BaseProgramGenerator.T, kotlin.Int)/sentinelTrueValue">sentinelTrueValue</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgramGenerator$<init>(lgp.core.environment.Environment((lgp.lib.BaseProgramGenerator.T)), lgp.lib.BaseProgramGenerator.T, kotlin.Int)/outputRegisterIndex">outputRegisterIndex</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.instructions/-register-index.html"><span class="identifier">RegisterIndex</span></a><span class="symbol">)</span></code>
+<code><span class="identifier">BaseProgramGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseProgramGenerator$<init>(lgp.core.environment.Environment((lgp.lib.BaseProgramGenerator.T)), lgp.lib.BaseProgramGenerator.T, kotlin.Int)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgramGenerator$<init>(lgp.core.environment.Environment((lgp.lib.BaseProgramGenerator.T)), lgp.lib.BaseProgramGenerator.T, kotlin.Int)/sentinelTrueValue">sentinelTrueValue</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgramGenerator$<init>(lgp.core.environment.Environment((lgp.lib.BaseProgramGenerator.T)), lgp.lib.BaseProgramGenerator.T, kotlin.Int)/outputRegisterIndex">outputRegisterIndex</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.instructions/-register-index.html"><span class="identifier">RegisterIndex</span></a><span class="symbol">)</span></code>
 <p>A <code>ProgramGenerator</code> implementation that provides effective <code>BaseProgram</code> instances.</p>
 </td>
 </tr>
@@ -49,7 +49,7 @@
 <p><a href="sentinel-true-value.html">sentinelTrueValue</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">sentinelTrueValue</span><span class="symbol">: </span><span class="identifier">T</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">sentinelTrueValue</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -61,7 +61,7 @@
 <p><a href="../../lgp.core.evolution.population/-program-generator/environment.html">environment</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.population/-program-generator/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>A reference to an LGP environment.</p>
 </td>
 </tr>
@@ -70,7 +70,7 @@
 <p><a href="../../lgp.core.evolution.population/-program-generator/instruction-generator.html">instructionGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">instructionGenerator</span><span class="symbol">: </span><a href="../../lgp.core.evolution.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">instructionGenerator</span><span class="symbol">: </span><a href="../../lgp.core.evolution.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.population/-program-generator/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>A reference to an instruction generator.</p>
 </td>
 </tr>
@@ -84,7 +84,7 @@
 <p><a href="generate-program.html">generateProgram</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">generateProgram</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../lgp.core.evolution.population/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">generateProgram</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../lgp.core.evolution.population/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>Generates a single <a href="../../lgp.core.evolution.population/-program/index.html">Program</a> instance in some way.</p>
 </td>
 </tr>
@@ -98,7 +98,7 @@
 <p><a href="../../lgp.core.evolution.population/-program-generator/next.html">next</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.population/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.population/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.population/-program-generator/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Generates a sequence of programs by yielding the result of the overridden function <a href="../../lgp.core.evolution.population/-program-generator/generate-program.html">generateProgram</a>.</p>
 </td>
 </tr>

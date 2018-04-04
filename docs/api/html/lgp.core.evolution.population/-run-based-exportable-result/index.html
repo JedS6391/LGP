@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../index.html">lgp.core.evolution.population</a>&nbsp;/&nbsp;<a href=".">RunBasedExportableResult</a><br/>
+<a href="../index.html">lgp.core.evolution.population</a>&nbsp;/&nbsp;<a href="./index.html">RunBasedExportableResult</a><br/>
 <br/>
 <h1>RunBasedExportableResult</h1>
-<code><span class="keyword">class </span><span class="identifier">RunBasedExportableResult</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution/-exportable-result/index.html"><span class="identifier">ExportableResult</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">RunBasedExportableResult</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution/-exportable-result/index.html"><span class="identifier">ExportableResult</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>An <a href="../../lgp.core.evolution/-exportable-result/index.html">ExportableResult</a> implementation that represents evolution statistics for a particular run.</p>
 <p>Because evolution statistics are collected on a per-generation basis, this type of exportable result
 collects data on each generation for each run.</p>
@@ -39,7 +39,9 @@ collects data on each generation for each run.</p>
 <p><a href="run.html">run</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">run</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+<code><span class="keyword">val </span><span class="identifier">run</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>The run this result relates to.</p>
+</td>
 </tr>
 </tbody>
 </table>
