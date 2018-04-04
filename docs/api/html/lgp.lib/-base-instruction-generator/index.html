@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../index.html">lgp.lib</a>&nbsp;/&nbsp;<a href=".">BaseInstructionGenerator</a><br/>
+<a href="../index.html">lgp.lib</a>&nbsp;/&nbsp;<a href="./index.html">BaseInstructionGenerator</a><br/>
 <br/>
 <h1>BaseInstructionGenerator</h1>
-<code><span class="keyword">class </span><span class="identifier">BaseInstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BaseInstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>Built-in offering of the <code>InstructionGenerator</code> interface.</p>
 <p>The generator provides an endless stream of randomly generated instructions
 that are constructed from the pool of available operations and registers.</p>
@@ -20,7 +20,7 @@ that are constructed from the pool of available operations and registers.</p>
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">BaseInstructionGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseInstructionGenerator$<init>(lgp.core.environment.Environment((lgp.lib.BaseInstructionGenerator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
+<code><span class="identifier">BaseInstructionGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseInstructionGenerator$<init>(lgp.core.environment.Environment((lgp.lib.BaseInstructionGenerator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -41,7 +41,7 @@ that are constructed from the pool of available operations and registers.</p>
 <p><a href="operation-pool.html">operationPool</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">operationPool</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">operationPool</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-operation/index.html"><span class="identifier">Operation</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -53,7 +53,7 @@ that are constructed from the pool of available operations and registers.</p>
 <p><a href="../../lgp.core.evolution.instructions/-instruction-generator/environment.html">environment</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-instruction-generator/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -65,7 +65,7 @@ that are constructed from the pool of available operations and registers.</p>
 <p><a href="generate-instruction.html">generateInstruction</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">generateInstruction</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../lgp.core.evolution.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">generateInstruction</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../lgp.core.evolution.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
 <p>Generates a new, completely random instruction.</p>
 </td>
 </tr>
@@ -79,7 +79,7 @@ that are constructed from the pool of available operations and registers.</p>
 <p><a href="../../lgp.core.evolution.instructions/-instruction-generator/next.html">next</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">next</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.instructions/-instruction-generator/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Generates a sequence of instructions by yielding the result of the overridden function <a href="../../lgp.core.evolution.instructions/-instruction-generator/generate-instruction.html">generateInstruction</a>.</p>
 </td>
 </tr>
