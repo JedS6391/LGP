@@ -42,8 +42,7 @@ deploy:
     overwrite: true
     on:
       repo: JedS6391/LGP
-      branch: master
-      condition: "$TRAVIS_BRANCH = master"
+      condition: "$REAL_BRANCH = master"
       tags: true
   # Deployment of next release branch:
   #   - Renames binaries to include release version.
