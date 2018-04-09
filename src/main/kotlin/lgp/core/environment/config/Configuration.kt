@@ -121,6 +121,15 @@ class Configuration {
      */
     var stoppingCriterion = 0.0
 
+    /**
+     * Provides the ability to pass in the number of runs as a configuration parameter
+     * instead of a hard-coded value in the problem definition.
+     *
+     * The parameter is not used by default anywhere in the system, but consumers
+     * can choose to use it.
+     */
+    var numberOfRuns = 1
+
     fun isValid(): ConfigurationValidity {
         return when {
             // Need at least one feature in the data set.
@@ -140,6 +149,9 @@ class Configuration {
             // There is no point in configuring the system with no population or generations.
             populationSize <= 0 || generations <= 0 -> Invalid(
                 "populationSize/generations: A positive population size and number of generations is needed."
+            )
+            numberOfRuns < 1 -> Invalid(
+                "At least one run needs to be performed."
             )
             // In all other cases, the configuration is valid.
             else -> Valid()
