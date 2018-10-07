@@ -1,4 +1,4 @@
-package lgp.core.evolution.population
+package lgp.core.evolution.model
 
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
@@ -6,7 +6,11 @@ import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.ExportableResult
 import lgp.core.evolution.fitness.Evaluation
 import lgp.core.evolution.fitness.FitnessEvaluator
+import lgp.core.evolution.operators.*
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Program
+import lgp.core.program.ProgramGenerator
+
 import java.util.Random
 import kotlin.concurrent.thread
 import kotlin.streams.toList
@@ -88,10 +92,10 @@ object Models {
             val rg = this.environment.randomState
 
             // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
-            // 1. Initialise a population of random programs
+            // 1. Initialise a operators of random programs
             this.initialise()
 
-            // Determine the initial fitness of the individuals in the population
+            // Determine the initial fitness of the individuals in the operators
             val initialEvaluations = this.individuals.map { individual ->
                 this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
             }.toList()
@@ -144,8 +148,8 @@ object Models {
                 best = if (bestChild.fitness < best.fitness) bestChild else best
                 this.bestProgram = best.individual
 
-                // The children are copies of individuals in the population, so add the copies
-                // to the population.
+                // The children are copies of individuals in the operators, so add the copies
+                // to the operators.
                 this.individuals.addAll(children)
 
                 statistics.add(this.statistics(gen, best))
@@ -176,14 +180,14 @@ object Models {
             val standardDeviation = this.individuals.map(Program<TProgram>::fitness).standardDeviation(meanFitness)
 
             return EvolutionStatistics(
-                    data = mapOf(
-                            "generation" to generation,
-                            "bestFitness" to bestFitness,
-                            "meanFitness" to meanFitness,
-                            "standardDeviationFitness" to standardDeviation,
-                            "meanProgramLength" to meanProgramLength,
-                            "meanEffectiveProgramLength" to meanEffectiveProgramLength
-                    )
+                data = mapOf(
+                    "generation" to generation,
+                    "bestFitness" to bestFitness,
+                    "meanFitness" to meanFitness,
+                    "standardDeviationFitness" to standardDeviation,
+                    "meanProgramLength" to meanProgramLength,
+                    "meanEffectiveProgramLength" to meanEffectiveProgramLength
+                )
             )
         }
 
@@ -205,8 +209,8 @@ object Models {
             }
 
             return TestResult(
-                    predicted = outputs,
-                    expected = dataset.outputs
+                predicted = outputs,
+                expected = dataset.outputs
             )
         }
 
@@ -261,10 +265,10 @@ object Models {
             val rg = this.environment.randomState
 
             // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
-            // 1. Initialise a population of random programs
+            // 1. Initialise a operators of random programs
             this.initialise()
 
-            // Determine the initial fitness of the individuals in the population
+            // Determine the initial fitness of the individuals in the operators
             val initialEvaluations = this.individuals.pmap { individual ->
                 this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
             }.toList()
@@ -317,8 +321,8 @@ object Models {
                 best = if (bestChild.fitness < best.fitness) bestChild else best
                 this.bestProgram = best.individual
 
-                // The children are copies of individuals in the population, so add the copies
-                // to the population.
+                // The children are copies of individuals in the operators, so add the copies
+                // to the operators.
                 this.individuals.addAll(children)
 
                 statistics.add(this.statistics(gen, best))
@@ -349,14 +353,14 @@ object Models {
             val standardDeviation = this.individuals.map(Program<TProgram>::fitness).standardDeviation(meanFitness)
 
             return EvolutionStatistics(
-                    data = mapOf(
-                            "generation" to generation,
-                            "bestFitness" to bestFitness,
-                            "meanFitness" to meanFitness,
-                            "standardDeviationFitness" to standardDeviation,
-                            "meanProgramLength" to meanProgramLength,
-                            "meanEffectiveProgramLength" to meanEffectiveProgramLength
-                    )
+                data = mapOf(
+                    "generation" to generation,
+                    "bestFitness" to bestFitness,
+                    "meanFitness" to meanFitness,
+                    "standardDeviationFitness" to standardDeviation,
+                    "meanProgramLength" to meanProgramLength,
+                    "meanEffectiveProgramLength" to meanEffectiveProgramLength
+                )
             )
         }
 
@@ -378,8 +382,8 @@ object Models {
             }
 
             return TestResult(
-                    predicted = outputs,
-                    expected = dataset.outputs
+                predicted = outputs,
+                expected = dataset.outputs
             )
         }
 
@@ -397,10 +401,10 @@ object Models {
     /**
      * A model for evolution using a island-migration algorithm.
      *
-     * In an island-migration algorithm, the population is split into a number of islands,
+     * In an island-migration algorithm, the operators is split into a number of islands,
      * and a fixed number of solutions migrate between the islands with some interval.
      *
-     * This is done in an attempt to promote diversity in the population to prevent early
+     * This is done in an attempt to promote diversity in the operators to prevent early
      * convergence on local optima.
      *
      * @param environment The environment that evolution is taking place in.
@@ -416,7 +420,7 @@ object Models {
         /**
          * Controls the configuration of evolution when using an [IslandMigration] model.
          *
-         * @property numIslands Determines the number of islands the population should be split into. At least 4 islands should be given.
+         * @property numIslands Determines the number of islands the operators should be split into. At least 4 islands should be given.
          * @property migrationInterval Sets the interval that solutions are migrated with (i.e. how many generations).
          * @property migrationSize Controls how many solutions migrate between islands at each interval.
          */
@@ -462,7 +466,12 @@ object Models {
                 this.islands = arrayOfNulls(rows.toInt())
 
                 for (row in 0 until rows.toInt()) {
-                    this.islands[row] = Array(columns, { Island(environment, dataset) })
+                    this.islands[row] = Array(columns) {
+                        Island(
+                            environment,
+                            dataset
+                        )
+                    }
                 }
             }
 
@@ -494,7 +503,7 @@ object Models {
         /**
          * An individual island.
          *
-         * Each island has its own population and is essentially just an implementation of the
+         * Each island has its own operators and is essentially just an implementation of the
          * [SteadyState] algorithm. The main difference is that an island can be evolved for a
          * set number of generations at a time, each time starting from the state that the previous
          * call left it in.
@@ -552,14 +561,14 @@ object Models {
             }
 
             /**
-             * Evolves the population for [numGenerations] generations.
+             * Evolves the operators for [numGenerations] generations.
              */
             fun evolve(numGenerations: Int) {
                 // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
-                // 1. Initialise a population of random programs
+                // 1. Initialise a operators of random programs
                 //this.initialise()
 
-                // Determine the initial fitness of the individuals in the population
+                // Determine the initial fitness of the individuals in the operators
                 val initialEvaluations = this.individuals.map { individual ->
                     this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
                 }.toList()
@@ -600,8 +609,8 @@ object Models {
                     best = if (bestChild.fitness < best.fitness) bestChild else best
                     this.bestIndividual = best.individual
 
-                    // The children are copies of individuals in the population, so add the copies
-                    // to the population.
+                    // The children are copies of individuals in the operators, so add the copies
+                    // to the operators.
                     this.individuals.addAll(children)
                 }
 
@@ -618,9 +627,9 @@ object Models {
             // Create a grid of islands. The grids are populated so that each island has a set of
             // neighbours with which individuals can migrate to.
             this.islands = IslandGrid(
-                    numIslands = this@IslandMigration.options.numIslands,
-                    environment = this.environment,
-                    dataset = dataset
+                numIslands = this@IslandMigration.options.numIslands,
+                environment = this.environment,
+                dataset = dataset
             )
 
             // We've now got a grid of islands ready to start evolving. For each island we will run the
@@ -663,8 +672,8 @@ object Models {
                     val neighbourCoords = random.choice(neighbours)
                     val neighbour = this@IslandMigration.islands[neighbourCoords.first][neighbourCoords.second]
 
-                    // Do migration: in our case we simply replace the worst (least fit) individual in the population
-                    // with the best individual from another population. We also sort the individuals in an island
+                    // Do migration: in our case we simply replace the worst (least fit) individual in the operators
+                    // with the best individual from another operators. We also sort the individuals in an island
                     // such that the least fit individual is last.
                     val sortedNeighbourIndividuals = neighbour.individuals.sortedBy { it.fitness }
                     val sortedIslandIndividuals = island.individuals.sortedBy { it.fitness }

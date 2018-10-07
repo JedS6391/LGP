@@ -1,6 +1,6 @@
-package lgp.core.evolution.instructions
+package lgp.core.program.instructions
 
-import lgp.core.evolution.registers.Arguments
+import lgp.core.program.registers.Arguments
 import lgp.core.modules.Module
 
 /**
@@ -16,7 +16,7 @@ typealias Function<T> = (arguments: Arguments<T>) -> T
  * An operation has an [Arity] and some function that it can perform on [Arguments] given to it.
  *
  * Operations are specified as [Module]s, meaning that custom operations can be implemented and use
- * when generating instructions for an individual in the population.
+ * when generating instructions for an individual in the operators.
  *
  * Operations should have some representation with them, so that the operation that they convey can
  * be expressed in a textual form.

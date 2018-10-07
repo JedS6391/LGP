@@ -1,4 +1,4 @@
-package lgp.core.evolution.registers
+package lgp.core.program.registers
 
 /**
  * A simple collection of [Argument]s.

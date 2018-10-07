@@ -1,9 +1,9 @@
-package lgp.core.evolution.population
+package lgp.core.program
 
 import lgp.core.evolution.fitness.FitnessFunctions
-import lgp.core.evolution.instructions.Instruction
-import lgp.core.evolution.registers.RegisterSet
+import lgp.core.program.registers.RegisterSet
 import lgp.core.modules.Module
+import lgp.core.program.instructions.Instruction
 
 /**
  * An LGP program that is composed of instructions that operate on registers.
@@ -14,9 +14,9 @@ import lgp.core.modules.Module
  * @property outputRegisterIndex An index of a register that the program uses as output.
  */
 abstract class Program<T>(
-        var instructions: MutableList<Instruction<T>>,
-        val registers: RegisterSet<T>,
-        val outputRegisterIndex: Int
+    var instructions: MutableList<Instruction<T>>,
+    val registers: RegisterSet<T>,
+    val outputRegisterIndex: Int
 ) : Module {
 
     /**

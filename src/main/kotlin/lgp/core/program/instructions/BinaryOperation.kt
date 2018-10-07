@@ -1,6 +1,6 @@
-package lgp.core.evolution.instructions
+package lgp.core.program.instructions
 
-import lgp.core.evolution.registers.Arguments
+import lgp.core.program.registers.Arguments
 
 /**
  * An operation that has an arity of two (i.e. its function takes 2 arguments).

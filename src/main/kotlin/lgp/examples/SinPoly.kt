@@ -10,7 +10,8 @@ import lgp.core.evolution.*
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.fitness.SingleOutputFitnessContext
-import lgp.core.evolution.population.*
+import lgp.core.evolution.model.Models
+import lgp.core.evolution.operators.*
 import lgp.core.modules.ModuleInformation
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram

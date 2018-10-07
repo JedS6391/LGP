@@ -3,7 +3,7 @@ package lgp.core.evolution.fitness
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
-import lgp.core.evolution.population.Program
+import lgp.core.program.Program
 
 /**
  * An evaluation of a program on a set of fitness cases.
@@ -31,9 +31,9 @@ class FitnessEvaluator<TData> {
      * @returns An evaluation of the program.
      */
     fun evaluate(
-            program: Program<TData>,
-            dataset: Dataset<TData>,
-            environment: Environment<TData>
+        program: Program<TData>,
+        dataset: Dataset<TData>,
+        environment: Environment<TData>
     ): Evaluation<TData> {
 
         // Request access to a fitness context implementation.

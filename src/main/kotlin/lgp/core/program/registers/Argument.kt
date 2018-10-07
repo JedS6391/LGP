@@ -1,4 +1,4 @@
-package lgp.core.evolution.registers
+package lgp.core.program.registers
 
 /**
  * An [Argument] is essentially just the value of a particular [Register],

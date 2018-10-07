@@ -1,8 +1,8 @@
 package lgp.lib.operations
 
-import lgp.core.evolution.instructions.BinaryOperation
-import lgp.core.evolution.instructions.UnaryOperation
-import lgp.core.evolution.registers.Arguments
+import lgp.core.program.instructions.BinaryOperation
+import lgp.core.program.instructions.UnaryOperation
+import lgp.core.program.registers.Arguments
 import lgp.core.modules.ModuleInformation
 
 /**

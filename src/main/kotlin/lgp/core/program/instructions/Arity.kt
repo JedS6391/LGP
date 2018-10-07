@@ -1,4 +1,4 @@
-package lgp.core.evolution.instructions
+package lgp.core.program.instructions
 
 /**
  * The arity of an operation, specifying how many arguments it can take.

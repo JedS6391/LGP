@@ -1,13 +1,10 @@
 package lgp.core.evolution
 
-import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
-import lgp.core.evolution.population.EvolutionModel
-import lgp.core.evolution.population.EvolutionResult
-import lgp.core.evolution.population.EvolutionStatistics
-import lgp.core.evolution.population.RunBasedExportableResult
-import java.util.*
+import lgp.core.evolution.model.EvolutionModel
+import lgp.core.evolution.model.EvolutionResult
+import lgp.core.evolution.model.RunBasedExportableResult
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 
@@ -125,10 +122,10 @@ object Trainers {
          * @suppress
          */
         class ModelTrainerTask<TProgram>(
-                private val run: Int,
-                private val model: EvolutionModel<TProgram>,
-                private val dataset: Dataset<TProgram>,
-                private val aggregator: ResultAggregator<TProgram>
+            private val run: Int,
+            private val model: EvolutionModel<TProgram>,
+            private val dataset: Dataset<TProgram>,
+            private val aggregator: ResultAggregator<TProgram>
         ) : Callable<EvolutionResult<TProgram>> {
 
             /**

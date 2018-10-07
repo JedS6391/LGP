@@ -11,7 +11,10 @@ import lgp.core.evolution.*
 import lgp.core.evolution.fitness.FitnessCase
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
-import lgp.core.evolution.population.*
+import lgp.core.evolution.model.EvolutionModel
+import lgp.core.evolution.model.Models
+import lgp.core.evolution.model.TestResult
+import lgp.core.evolution.operators.*
 import lgp.core.modules.ModuleInformation
 
 /**
@@ -144,7 +147,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
             )
     )
 
-    var bestTrainingModel: EvolutionModel<Double>? = null
+    private var bestTrainingModel: EvolutionModel<Double>? = null
 
     override fun initialiseEnvironment() {
         this.environment = Environment(

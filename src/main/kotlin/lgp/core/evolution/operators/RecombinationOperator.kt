@@ -1,12 +1,13 @@
-package lgp.core.evolution.population
+package lgp.core.evolution.operators
 
 import lgp.core.environment.Environment
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Program
 import java.util.Random
 
 /**
- * A search operator used during evolution to combine two individuals from a population.
+ * A search operator used during evolution to combine two individuals from a operators.
  *
  * The individuals are mutated directly by the reference given, so calls to this function
  * directly modify the arguments.

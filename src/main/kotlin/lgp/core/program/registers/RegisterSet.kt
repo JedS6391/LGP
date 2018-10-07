@@ -1,4 +1,4 @@
-package lgp.core.evolution.registers
+package lgp.core.program.registers
 
 import lgp.core.environment.DefaultValueProvider
 import lgp.core.environment.dataset.Feature

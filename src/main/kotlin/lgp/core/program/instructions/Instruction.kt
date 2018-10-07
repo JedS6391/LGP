@@ -1,6 +1,6 @@
-package lgp.core.evolution.instructions
+package lgp.core.program.instructions
 
-import lgp.core.evolution.registers.RegisterSet
+import lgp.core.program.registers.RegisterSet
 import lgp.core.modules.Module
 
 typealias RegisterIndex = Int

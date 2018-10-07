@@ -1,16 +1,17 @@
-package lgp.core.evolution.population
+package lgp.core.evolution.operators
 
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
-import lgp.core.evolution.instructions.InstructionGenerator
-import lgp.core.evolution.instructions.RegisterIndex
-import lgp.core.evolution.registers.RandomRegisterGenerator
-import lgp.core.evolution.registers.RegisterType
+import lgp.core.program.instructions.InstructionGenerator
+import lgp.core.program.instructions.RegisterIndex
+import lgp.core.program.registers.RandomRegisterGenerator
+import lgp.core.program.registers.RegisterType
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Program
 
 /**
- * A search operator used during evolution to mutate an individual from a population.
+ * A search operator used during evolution to mutate an individual from a operators.
  *
  * The individual is mutated in place, that is a call to [MutationOperator.mutate] will directly
  * modify the given individual.

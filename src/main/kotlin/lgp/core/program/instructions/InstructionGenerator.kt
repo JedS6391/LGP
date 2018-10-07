@@ -1,4 +1,4 @@
-package lgp.core.evolution.instructions
+package lgp.core.program.instructions
 
 import lgp.core.environment.Environment
 import lgp.core.modules.Module

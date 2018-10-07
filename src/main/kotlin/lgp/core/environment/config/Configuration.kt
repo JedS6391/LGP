@@ -24,12 +24,12 @@ class InvalidConfigurationException(message: String) : Exception(message)
 class Configuration {
 
     /**
-     * The minimum length of a program generated during population initialisation.
+     * The minimum length of a program generated during operators initialisation.
      */
     var initialMinimumProgramLength = 10
 
     /**
-     * The maximum length of a program generated during population initialisation.
+     * The maximum length of a program generated during operators initialisation.
      */
     var initialMaximumProgramLength = 30
 
@@ -74,7 +74,7 @@ class Configuration {
     var numCalculationRegisters = 10
 
     /**
-     * How many individuals should be generated in the initial population.
+     * How many individuals should be generated in the initial operators.
      */
     var populationSize = 100
 
@@ -104,7 +104,7 @@ class Configuration {
     var generations = 50
 
     /**
-     * Number of individuals that should be taken from the population in each generation.
+     * Number of individuals that should be taken from the operators in each generation.
      */
     var numOffspring = 20
 
@@ -146,9 +146,9 @@ class Configuration {
             )
             // Need at least one operation in order to create programs.
             operations.isEmpty() -> Invalid("operations: At least one operation is needed in order to create programs.")
-            // There is no point in configuring the system with no population or generations.
+            // There is no point in configuring the system with no operators or generations.
             populationSize <= 0 || generations <= 0 -> Invalid(
-                "populationSize/generations: A positive population size and number of generations is needed."
+                "populationSize/generations: A positive operators size and number of generations is needed."
             )
             numberOfRuns < 1 -> Invalid(
                 "At least one run needs to be performed."

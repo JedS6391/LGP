@@ -1,7 +1,8 @@
-package lgp.core.evolution.population
+package lgp.core.evolution.model
 
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
+import lgp.core.program.Program
 import lgp.core.modules.Module
 
 /**
@@ -14,16 +15,16 @@ import lgp.core.modules.Module
 data class EvolutionStatistics(val data: Map<String, Any>)
 
 /**
- * The best individual and final population from the result of evolution.
+ * The best individual and final operators from the result of evolution.
  *
  * @property best The best program at the end of the evolution process.
- * @property individuals The population at the end of the evolution process.
+ * @property individuals The operators at the end of the evolution process.
  * @property statistics Any statistics from evolution. It is expected to be on a per generation basis.
  */
 open class EvolutionResult<T>(
-        val best: Program<T>,
-        val individuals: List<Program<T>>,
-        val statistics: List<EvolutionStatistics>
+    val best: Program<T>,
+    val individuals: List<Program<T>>,
+    val statistics: List<EvolutionStatistics>
 )
 
 /**
