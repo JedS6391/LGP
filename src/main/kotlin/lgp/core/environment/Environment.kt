@@ -344,7 +344,7 @@ open class Environment<T> {
      * @throws MissingModuleException When no builder has been registered for the type of module requested.
      */
     inline fun <reified TModule : Module> registeredModule(type: RegisteredModuleType): TModule {
-        return this.container.instance<TModule>(type)
+        return this.container.instance(type)
     }
 
     /**

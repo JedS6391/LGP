@@ -651,7 +651,7 @@ object Models {
 
                 // We've just run a set number of generations so we need to migrate a set
                 // amount of individuals between the islands and update the generation count.
-                (0 until this@IslandMigration.options.migrationSize).forEach {
+                (0 until this@IslandMigration.options.migrationSize).forEach { _ ->
                     // Choose a random island
                     val i = random.randInt(0, this@IslandMigration.islands.rows() - 1)
                     val j = random.randInt(0, this@IslandMigration.islands.columns() - 1)
@@ -675,8 +675,8 @@ object Models {
                     // Do migration: in our case we simply replace the worst (least fit) individual in the operators
                     // with the best individual from another operators. We also sort the individuals in an island
                     // such that the least fit individual is last.
-                    val sortedNeighbourIndividuals = neighbour.individuals.sortedBy { it.fitness }
-                    val sortedIslandIndividuals = island.individuals.sortedBy { it.fitness }
+                    val sortedNeighbourIndividuals = neighbour.individuals.sortedBy(Program<TProgram>::fitness)
+                    val sortedIslandIndividuals = island.individuals.sortedBy(Program<TProgram>::fitness)
 
                     val toRemove = sortedNeighbourIndividuals.last()
                     val toCopy = sortedIslandIndividuals.first()
@@ -739,9 +739,8 @@ object Models {
 // Extension methods for various functionality that is nice to have.
 fun List<Double>.standardDeviation(mean: Double = this.average()): Double {
     val variance = this.map { x -> Math.pow(x - mean, 2.0) }.sum()
-    val stdDev = Math.pow((variance / this.size), 0.5)
 
-    return stdDev
+    return Math.pow((variance / size), 0.5)
 }
 
 fun <T, R> List<T>.pmap(transform: (T) -> R): List<R> {

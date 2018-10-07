@@ -43,8 +43,10 @@ abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
  *
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  */
-class BinaryTournamentSelection<T>(environment: Environment<T>,
-                                   val tournamentSize: Int) : SelectionOperator<T>(environment) {
+class BinaryTournamentSelection<T>(
+    environment: Environment<T>,
+    val tournamentSize: Int
+) : SelectionOperator<T>(environment) {
 
     private val random = this.environment.randomState
 
