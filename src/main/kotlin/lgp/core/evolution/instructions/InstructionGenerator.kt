@@ -3,8 +3,6 @@ package lgp.core.evolution.instructions
 import lgp.core.environment.Environment
 import lgp.core.modules.Module
 
-import kotlin.coroutines.experimental.buildSequence
-
 /**
  * A generator of instructions in an LGP system.
  *
@@ -32,7 +30,7 @@ abstract class InstructionGenerator<T>(val environment: Environment<T>) : Module
      *
      * @returns A sequence of programs.
      */
-    fun next(): Sequence<Instruction<T>> = buildSequence {
+    fun next(): Sequence<Instruction<T>> = sequence {
         while (true) {
             yield(this@InstructionGenerator.generateInstruction())
         }

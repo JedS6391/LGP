@@ -1,7 +1,6 @@
 package lgp.core.evolution.registers
 
 import java.util.Random
-import kotlin.coroutines.experimental.buildSequence
 
 /**
  * Generates an infinite random sequence of registers from the register set given.
@@ -16,7 +15,7 @@ class RandomRegisterGenerator<T>(val randomState: Random, val registerSet: Regis
      *
      * @returns A sequence of registers.
      */
-    fun next(): Sequence<Register<T>> = buildSequence {
+    fun next(): Sequence<Register<T>> = sequence {
 
         while (true) {
             val idx = randomState.nextInt(registerSet.count)

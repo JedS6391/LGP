@@ -4,8 +4,6 @@ import lgp.core.environment.Environment
 import lgp.core.evolution.instructions.InstructionGenerator
 import lgp.core.modules.Module
 
-import kotlin.coroutines.experimental.buildSequence
-
 /**
  * Generates [Program] instances to be used in an LGP population.
  *
@@ -27,7 +25,7 @@ abstract class ProgramGenerator<T>(val environment: Environment<T>, val instruct
      *
      * @returns A sequence of programs.
      */
-    fun next(): Sequence<Program<T>> = buildSequence {
+    fun next(): Sequence<Program<T>> = sequence {
         while (true) {
             yield(this@ProgramGenerator.generateProgram())
         }
