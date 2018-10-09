@@ -1,5 +1,10 @@
 package lgp.core.evolution
 
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.channels.produce
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.model.EvolutionModel
@@ -14,6 +19,56 @@ import java.util.concurrent.Executors
  * @property evaluations A collection of results from evolution.
  */
 data class TrainingResult<T>(val evaluations: List<EvolutionResult<T>>, val models: List<EvolutionModel<T>>)
+
+class TrainingJob<T>(
+    private val trainingProgress: SendChannel<TrainingProgressMessage>,
+    private val job: Deferred<TrainingResult<T>>
+) {
+    suspend fun result(): TrainingResult<T> {
+        if (job.isCompleted) {
+            return job.getCompleted()
+        }
+
+        return job.await()
+    }
+
+    suspend fun progress(): Double {
+        val channel = Channel<Double>()
+
+        trainingProgress.send(TrainingProgressMessage.ProgressRequest(channel))
+
+        return channel.receive()
+    }
+
+     fun CoroutineScope.progress(channel: Channel<Double>) = produce<Double> {
+        while (!job.isCompleted) {
+            delay(500)
+            trainingProgress.send(TrainingProgressMessage.ProgressRequest(channel))
+        }
+    }
+}
+
+sealed class TrainingProgressMessage {
+    // One-way message to update the progress
+    class ProgressUpdate(val progress: Double) : TrainingProgressMessage()
+    // A request with a channel for reply
+    class ProgressRequest(val response: SendChannel<Double>): TrainingProgressMessage()
+}
+
+private fun trainingProgressActor() = GlobalScope.actor<TrainingProgressMessage> {
+    var progress = 0.0
+
+    for (msg in channel) {
+        when (msg) {
+            is TrainingProgressMessage.ProgressUpdate -> {
+                progress = msg.progress
+            }
+            is TrainingProgressMessage.ProgressRequest -> {
+                msg.response.send(progress)
+            }
+        }
+    }
+}
 
 /**
  * A service capable of training evolutionary models in a particular environment.
@@ -30,6 +85,8 @@ abstract class Trainer<T>(val environment: Environment<T>, val model: EvolutionM
      * @returns The results of the training phase(s).
      */
     abstract fun train(dataset: Dataset<T>): TrainingResult<T>
+
+    abstract suspend fun trainAsync(dataset: Dataset<T>): TrainingJob<T>
 }
 
 /**
@@ -42,8 +99,11 @@ object Trainers {
      *
      * @property runs The number of times to train the given model.
      */
-    class SequentialTrainer<T>(environment: Environment<T>, model: EvolutionModel<T>, val runs: Int)
-        : Trainer<T>(environment, model) {
+    class SequentialTrainer<T>(
+        environment: Environment<T>,
+        model: EvolutionModel<T>,
+        val runs: Int
+    ) : Trainer<T>(environment, model) {
 
         private val models = (0 until runs).map {
             // Create `runs` untrained models.
@@ -67,6 +127,32 @@ object Trainers {
             }
 
             return TrainingResult(results, this.models)
+        }
+
+        override suspend fun trainAsync(dataset: Dataset<T>) : TrainingJob<T> {
+            val progress = trainingProgressActor()
+
+            val job = GlobalScope.async {
+                // Progress is from 0-100.
+                progress.send(TrainingProgressMessage.ProgressUpdate(0.0))
+
+                val results = aggregator.use {
+                    this@SequentialTrainer.models.mapIndexed { run, model ->
+                        val result = model.train(dataset)
+                        this@SequentialTrainer.aggregateResults(run, result)
+
+                        progress.send(
+                            TrainingProgressMessage.ProgressUpdate(((run + 1).toDouble() / runs.toDouble()) * 100.0)
+                        )
+
+                        result
+                    }
+                }
+
+                TrainingResult(results, this@SequentialTrainer.models)
+            }
+
+            return TrainingJob(progress, job)
         }
 
         private fun aggregateResults(run: Int, result: EvolutionResult<T>) {
@@ -97,8 +183,11 @@ object Trainers {
      *
      *  @property runs The number of times to train the given model.
      */
-    class DistributedTrainer<T>(environment: Environment<T>, model: EvolutionModel<T>, val runs: Int)
-        : Trainer<T>(environment, model) {
+    class DistributedTrainer<T>(
+        environment: Environment<T>,
+        model: EvolutionModel<T>,
+        val runs: Int
+    ) : Trainer<T>(environment, model) {
 
         // Construct `runs` deep copies of the models. We need deep copies so that
         // each model can have its own environment. This is necessary for providing
@@ -168,6 +257,11 @@ object Trainers {
             this.executor.shutdown()
 
             return TrainingResult(results, this.models)
+        }
+
+        override suspend fun trainAsync(dataset: Dataset<T>): TrainingJob<T> {
+            // TODO: Provide an async distributed training method.
+            throw NotImplementedError()
         }
     }
 }

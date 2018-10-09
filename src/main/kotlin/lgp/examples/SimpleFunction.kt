@@ -1,5 +1,6 @@
 package lgp.examples
 
+import kotlinx.coroutines.runBlocking
 import lgp.core.environment.*
 import lgp.core.environment.config.Configuration
 import lgp.core.environment.config.ConfigurationLoader
@@ -175,10 +176,25 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun solve(): SimpleFunctionSolution {
         try {
-            val runner = Trainers.DistributedTrainer(environment, model, runs = 2)
-            val result = runner.train(this.datasetLoader.load())
+            val runner = Trainers.SequentialTrainer(environment, model, runs = 2)
 
-            return SimpleFunctionSolution(this.name, result)
+            return runBlocking {
+                val job = runner.trainAsync(
+                    this@SimpleFunctionProblem.datasetLoader.load()
+                )
+
+                var progress = job.progress()
+
+                while (progress < 100.0) {
+                    println("progress =  $progress")
+
+                    progress = job.progress()
+                }
+
+                val result = job.result()
+
+                SimpleFunctionSolution(this@SimpleFunctionProblem.name, result)
+            }
         } catch (ex: UninitializedPropertyAccessException) {
             // The initialisation routines haven't been run.
             throw ProblemNotInitialisedException(
