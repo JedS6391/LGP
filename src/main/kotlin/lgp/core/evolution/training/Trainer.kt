@@ -15,7 +15,7 @@ import lgp.core.evolution.model.EvolutionResult
 data class TrainingResult<T>(val evaluations: List<EvolutionResult<T>>, val models: List<EvolutionModel<T>>)
 
 /**
- * A message sent from a [Trainer] to a subscriber (by calling [TrainingJob.subscribeToProgress].
+ * A message sent from a [Trainer] to a subscriber (by calling [TrainingJob.subscribeToUpdates].
  */
 interface TrainingUpdateMessage
 

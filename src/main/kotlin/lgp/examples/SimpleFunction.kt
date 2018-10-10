@@ -1,8 +1,5 @@
 package lgp.examples
 
-import kotlinx.coroutines.cancelChildren
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lgp.core.environment.*
 import lgp.core.environment.config.Configuration
@@ -16,6 +13,8 @@ import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.fitness.SingleOutputFitnessContext
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
+import lgp.core.evolution.training.SequentialTrainer
+import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
@@ -179,14 +178,14 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun solve(): SimpleFunctionSolution {
         try {
-            val runner = Trainers.SequentialTrainer(environment, model, runs = 2)
+            val runner = SequentialTrainer(environment, model, runs = 2)
 
             return runBlocking {
                 val job = runner.trainAsync(
                     this@SimpleFunctionProblem.datasetLoader.load()
                 )
 
-                job.subscribeToProgress { println("training progress = ${it.progress}%") }
+                job.subscribeToUpdates { println("training progress = ${it.progress}%") }
 
                 val result = job.result()
 

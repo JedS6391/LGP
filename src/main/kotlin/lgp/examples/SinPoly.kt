@@ -12,6 +12,8 @@ import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.fitness.SingleOutputFitnessContext
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
+import lgp.core.evolution.training.DistributedTrainer
+import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
@@ -164,7 +166,7 @@ class SinPolyProblem : Problem<Double>() {
 
     override fun solve(): SinPolySolution {
         try {
-            val runner = Trainers.DistributedTrainer(environment, model, runs = 1)
+            val runner = DistributedTrainer(environment, model, runs = 1)
             val result = runner.train(this.datasetLoader.load())
 
             return SinPolySolution(this.name, result)
