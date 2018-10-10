@@ -1,10 +1,7 @@
 package lgp.core.evolution
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.SendChannel
-import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.channels.*
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.model.EvolutionModel
@@ -20,41 +17,58 @@ import java.util.concurrent.Executors
  */
 data class TrainingResult<T>(val evaluations: List<EvolutionResult<T>>, val models: List<EvolutionModel<T>>)
 
-class TrainingJob<T>(
-    private val trainingProgress: SendChannel<TrainingProgressMessage>,
-    private val job: Deferred<TrainingResult<T>>
+/**
+ * Represents an asynchronous training operation.
+ *
+ * When using the built-in trainers in an asynchronous manner, a [TrainingJob] will be returned
+ * which provides access to the underlying result and a communication channel for training progress.
+ */
+class TrainingJob<T> internal constructor(
+    val trainingProgress: ConflatedBroadcastChannel<TrainingProgressMessage.ProgressUpdate>,
+    private val training: Deferred<TrainingResult<T>>
 ) {
+    /**
+     * Retrieves the result of training.
+     *
+     * If the job has already been completed then the method will not block. Otherwise,
+     * the method will block until training is complete.
+     *
+     * @returns The result of the training phase(s).
+     */
     suspend fun result(): TrainingResult<T> {
-        if (job.isCompleted) {
-            return job.getCompleted()
+        // Don't need to block if the job is complete already.
+        if (training.isCompleted) {
+            return training.getCompleted()
         }
 
-        return job.await()
+        return training.await()
     }
 
-    suspend fun progress(): Double {
-        val channel = Channel<Double>()
+    /**
+     * Subscribes a [callback] function that will be executed each time the training progress is updated.
+     *
+     * The callback will be passed the current training progress and allow the subscriber
+     * to use that progress value how it requires.
+     *
+     * @param callback The function to execute when a training progress update is received.
+     */
+    fun subscribeToProgress(callback: (TrainingProgressMessage.ProgressUpdate) -> Unit) {
+        val subscription = trainingProgress.openSubscription()
 
-        trainingProgress.send(TrainingProgressMessage.ProgressRequest(channel))
-
-        return channel.receive()
-    }
-
-     fun CoroutineScope.progress(channel: Channel<Double>) = produce<Double> {
-        while (!job.isCompleted) {
-            delay(500)
-            trainingProgress.send(TrainingProgressMessage.ProgressRequest(channel))
+        GlobalScope.launch {
+            subscription.consumeEach(callback)
         }
     }
 }
 
 sealed class TrainingProgressMessage {
-    // One-way message to update the progress
+    /**
+     * Represents a training progress update.
+     */
     class ProgressUpdate(val progress: Double) : TrainingProgressMessage()
-    // A request with a channel for reply
-    class ProgressRequest(val response: SendChannel<Double>): TrainingProgressMessage()
 }
 
+/*
 private fun trainingProgressActor() = GlobalScope.actor<TrainingProgressMessage> {
     var progress = 0.0
 
@@ -69,6 +83,7 @@ private fun trainingProgressActor() = GlobalScope.actor<TrainingProgressMessage>
         }
     }
 }
+*/
 
 /**
  * A service capable of training evolutionary models in a particular environment.
@@ -130,19 +145,21 @@ object Trainers {
         }
 
         override suspend fun trainAsync(dataset: Dataset<T>) : TrainingJob<T> {
-            val progress = trainingProgressActor()
+            val progressChannel = ConflatedBroadcastChannel<TrainingProgressMessage.ProgressUpdate>()
 
             val job = GlobalScope.async {
                 // Progress is from 0-100.
-                progress.send(TrainingProgressMessage.ProgressUpdate(0.0))
+                progressChannel.send(TrainingProgressMessage.ProgressUpdate(0.0))
 
                 val results = aggregator.use {
                     this@SequentialTrainer.models.mapIndexed { run, model ->
                         val result = model.train(dataset)
                         this@SequentialTrainer.aggregateResults(run, result)
 
-                        progress.send(
-                            TrainingProgressMessage.ProgressUpdate(((run + 1).toDouble() / runs.toDouble()) * 100.0)
+                        val progress = ((run + 1).toDouble() / runs.toDouble()) * 100.0
+
+                        progressChannel.send(
+                            TrainingProgressMessage.ProgressUpdate(progress)
                         )
 
                         result
@@ -152,7 +169,7 @@ object Trainers {
                 TrainingResult(results, this@SequentialTrainer.models)
             }
 
-            return TrainingJob(progress, job)
+            return TrainingJob(progressChannel, job)
         }
 
         private fun aggregateResults(run: Int, result: EvolutionResult<T>) {

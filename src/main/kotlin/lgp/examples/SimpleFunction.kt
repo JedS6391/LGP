@@ -1,5 +1,8 @@
 package lgp.examples
 
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lgp.core.environment.*
 import lgp.core.environment.config.Configuration
@@ -183,13 +186,7 @@ class SimpleFunctionProblem : Problem<Double>() {
                     this@SimpleFunctionProblem.datasetLoader.load()
                 )
 
-                var progress = job.progress()
-
-                while (progress < 100.0) {
-                    println("progress =  $progress")
-
-                    progress = job.progress()
-                }
+                job.subscribeToProgress { println("training progress = ${it.progress}%") }
 
                 val result = job.result()
 
