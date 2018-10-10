@@ -6,6 +6,7 @@ import lgp.core.evolution.ResultAggregator
 import lgp.core.evolution.model.EvolutionModel
 import lgp.core.evolution.model.EvolutionResult
 import lgp.core.evolution.model.RunBasedExportableResult
+import lgp.core.evolution.training.TrainingMessages.ProgressUpdate
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 
@@ -32,7 +33,7 @@ class DistributedTrainer<T>(
     environment: Environment<T>,
     model: EvolutionModel<T>,
     val runs: Int
-) : Trainer<T, TrainingMessages.ProgressUpdate>(environment, model) {
+) : Trainer<T, ProgressUpdate<T>>(environment, model) {
 
     // Construct `runs` deep copies of the models. We need deep copies so that
     // each model can have its own environment. This is necessary for providing
@@ -109,7 +110,7 @@ class DistributedTrainer<T>(
         return TrainingResult(results, this.models)
     }
 
-    override suspend fun trainAsync(dataset: Dataset<T>): TrainingJob<T, TrainingMessages.ProgressUpdate> {
+    override suspend fun trainAsync(dataset: Dataset<T>): TrainingJob<T, ProgressUpdate<T>> {
         // TODO: Provide an async distributed training method.
         throw NotImplementedError()
     }

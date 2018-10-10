@@ -26,7 +26,19 @@ object TrainingMessages {
     /**
      * Represents a training progress update.
      */
-    class ProgressUpdate(val progress: Double) : TrainingUpdateMessage
+    class ProgressUpdate<TProgram>(
+        /**
+         * The current training progress, from 0% to 100%.
+         */
+        val progress: Double,
+
+        /**
+         * The most recent [EvolutionResult] created by the training process.
+         *
+         * Will be null when the update does not correspond to the completion of training a model.
+         */
+        val result: EvolutionResult<TProgram>?
+    ) : TrainingUpdateMessage
 }
 
 /**

@@ -9,6 +9,7 @@ import lgp.core.evolution.ResultAggregator
 import lgp.core.evolution.model.EvolutionModel
 import lgp.core.evolution.model.EvolutionResult
 import lgp.core.evolution.model.RunBasedExportableResult
+import lgp.core.evolution.training.TrainingMessages.ProgressUpdate
 
 /**
  * Trains the model for a given number of runs, in a sequential manner.
@@ -19,7 +20,7 @@ class SequentialTrainer<TProgram>(
     environment: Environment<TProgram>,
     model: EvolutionModel<TProgram>,
     val runs: Int
-) : Trainer<TProgram, TrainingMessages.ProgressUpdate>(environment, model) {
+) : Trainer<TProgram, ProgressUpdate<TProgram>>(environment, model) {
 
     private val models = (0 until runs).map {
         // Create `runs` untrained models.
@@ -50,18 +51,20 @@ class SequentialTrainer<TProgram>(
      *
      * The general flow is:
      * 1. Call [trainAsync] to get a [TrainingJob]
-     * 2. Optionally subscribe to training progress updates using [TrainingJob.subscribeToProgress]
+     * 2. Optionally subscribe to training progress updates using [TrainingJob.subscribeToUpdates]
      * 3. Wait for the training to complete using [TrainingJob.result]
      */
-    override suspend fun trainAsync(dataset: Dataset<TProgram>) : TrainingJob<TProgram, TrainingMessages.ProgressUpdate> {
+    override suspend fun trainAsync(dataset: Dataset<TProgram>) : TrainingJob<TProgram, ProgressUpdate<TProgram>> {
         // This channel will be used to communicate updates to any training progress subscribers.
-        val progressChannel = ConflatedBroadcastChannel<TrainingMessages.ProgressUpdate>()
+        val progressChannel = ConflatedBroadcastChannel<ProgressUpdate<TProgram>>()
 
         // Our worker co-routine will perform the training and return a result when it is complete.
         // As it makes progress, updates will be sent through the channel to any subscribers.
         val job = GlobalScope.async {
             // Progress is from 0-100.
-            progressChannel.send(TrainingMessages.ProgressUpdate(0.0))
+            progressChannel.send(
+                ProgressUpdate(0.0, null)
+            )
 
             val results = aggregator.use {
                 this@SequentialTrainer.models.mapIndexed { run, model ->
@@ -71,7 +74,7 @@ class SequentialTrainer<TProgram>(
                     val progress = ((run + 1).toDouble() / runs.toDouble()) * 100.0
 
                     progressChannel.send(
-                        TrainingMessages.ProgressUpdate(progress)
+                        ProgressUpdate(progress, result)
                     )
 
                     result
