@@ -7,25 +7,25 @@ import lgp.core.program.Program
 import java.util.Random
 
 /**
- * A search operator used during evolution to select a subset of individuals from a operators.
+ * A search operator used during evolution to select a subset of individuals from a population.
  *
  * The subset of individuals determined by the search operator are used when applying the
  * [RecombinationOperator] and [MutationOperator] to move through the search space of LGP
  * programs for the problem being solved.
  *
  * Generally, it is expected that that the individuals selected will be removed from the original
- * operators, and clones of those individuals returned. These individuals can then be subjected
- * to recombination/mutation before being introduced back into a operators.
+ * population, and clones of those individuals returned. These individuals can then be subjected
+ * to recombination/mutation before being introduced back into a population.
  *
  * @param T The type of programs being selected.
  * @property environment The environment evolution is being performed within.
  */
 abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
     /**
-     * Selects a subset of programs from the operators given using some method of selection.
+     * Selects a subset of programs from the population given using some method of selection.
      *
      * @param population A collection of program individuals.
-     * @return A subset of the operators given.
+     * @return A subset of the population given.
      */
     abstract fun select(population: MutableList<Program<T>>): List<Program<T>>
 }
@@ -34,11 +34,11 @@ abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
  * Performs Binary Tournament Selection as described in Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).
  *
  * The steps involved are:
- * 1. Randomly select 2 * N_ts individuals from the operators without replacement.
+ * 1. Randomly select 2 * N_ts individuals from the population without replacement.
  * 2. Perform two fitness tournaments of size N_ts.
  *
- * The algorithm removes each tournament winner from the operators, meaning that the original
- * operators given will have it's size decreased by 2 (due to two fitness tournaments),
+ * The algorithm removes each tournament winner from the population, meaning that the original
+ * population given will have it's size decreased by 2 (due to two fitness tournaments),
  * and 2 winners will be produced.
  *
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
@@ -51,10 +51,10 @@ class BinaryTournamentSelection<T>(
     private val random = this.environment.randomState
 
     /**
-     * Selects two individuals from the operators given using tournament selection.
+     * Selects two individuals from the population given using tournament selection.
      */
     override fun select(population: MutableList<Program<T>>): List<Program<T>> {
-        // Select individuals from the operators without replacement.
+        // Select individuals from the population without replacement.
         val selected = random.sample(population, 2 * this.tournamentSize).toMutableList()
 
         // Perform two fitness tournaments of size tournamentSize.
@@ -70,7 +70,7 @@ class BinaryTournamentSelection<T>(
         return winners
     }
 
-    override val information = ModuleInformation("Performs Binary Tournament Selection on a operators of individuals.")
+    override val information = ModuleInformation("Performs Binary Tournament Selection on a population of individuals.")
 }
 
 /**
@@ -78,7 +78,7 @@ class BinaryTournamentSelection<T>(
  *
  * The number of tournaments held is determined by the configuration parameter
  * [lgp.core.environment.config.Configuration.numOffspring], meaning that `numOffspring`
- * individuals will be chosen from the operators using tournaments of the given size.
+ * individuals will be chosen from the population using tournaments of the given size.
 
  * The size of the tournaments is determined by [tournamentSize]. Each winner of a tournament
  * is removed from the set of individuals selected to participate in the tournaments.
@@ -100,7 +100,7 @@ class TournamentSelection<T>(environment: Environment<T>,
         }
     }
 
-    override val information = ModuleInformation("Performs Tournament Selection on a operators of individuals.")
+    override val information = ModuleInformation("Performs Tournament Selection on a population of individuals.")
 }
 
 /**
@@ -110,14 +110,14 @@ class TournamentSelection<T>(environment: Environment<T>,
 internal data class TournamentResult<T>(val original: Program<T>, val clone: Program<T>)
 
 /**
- * Performs Tournament Selection on a operators of individuals.
+ * Performs Tournament Selection on a population of individuals.
  *
- * If [replacement] is false, then tournament winners will be removed from the operators.
+ * If [replacement] is false, then tournament winners will be removed from the population.
  *
  * @param T The type of the programs participating in the tournament.
- * @property individuals A operators of individuals.
+ * @property individuals A population of individuals.
  * @property tournamentSize The size of the tournament.
- * @property replacement Determines whether winning individuals remain in the operators.
+ * @property replacement Determines whether winning individuals remain in the population.
  */
 internal fun <T> tournament(
     individuals: MutableList<Program<T>>,
@@ -144,7 +144,7 @@ internal fun <T> tournament(
 }
 
 /**
- * Chooses k unique random elements from the operators given.
+ * Chooses k unique random elements from the population given.
  *
  * @see <a href="https://hg.python.org/cpython/file/2.7/Lib/random.py#l295"></a>
  */
@@ -154,12 +154,12 @@ fun <T> Random.sample(population: List<T>, k: Int): List<T> {
     val log = { a: Double, b: Double -> (Math.log(a) / Math.log(b)) }
 
     if (k < 0 || k > n)
-        throw IllegalArgumentException("Negative sample or sample larger than operators given.")
+        throw IllegalArgumentException("Negative sample or sample larger than population given.")
 
     val result = mutableListOf<T>()
 
     (0..(k - 1)).map { idx ->
-        // Just fill the list with the first element of the operators as a placeholder.
+        // Just fill the list with the first element of the population as a placeholder.
         result.add(idx, population[0])
     }
 

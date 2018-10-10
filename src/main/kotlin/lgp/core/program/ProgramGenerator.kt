@@ -5,7 +5,7 @@ import lgp.core.modules.Module
 import lgp.core.program.instructions.InstructionGenerator
 
 /**
- * Generates [Program] instances to be used in an LGP operators.
+ * Generates [Program] instances to be used in an LGP population.
  *
  * The implementation is done as a module, allowing for custom generation logic for programs
  * to be defined. The only requirement is that calls to the [next] method returns a sequence

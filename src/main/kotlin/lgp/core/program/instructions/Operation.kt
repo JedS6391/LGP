@@ -16,7 +16,7 @@ typealias Function<T> = (arguments: Arguments<T>) -> T
  * An operation has an [Arity] and some function that it can perform on [Arguments] given to it.
  *
  * Operations are specified as [Module]s, meaning that custom operations can be implemented and use
- * when generating instructions for an individual in the operators.
+ * when generating instructions for an individual in the population.
  *
  * Operations should have some representation with them, so that the operation that they convey can
  * be expressed in a textual form.

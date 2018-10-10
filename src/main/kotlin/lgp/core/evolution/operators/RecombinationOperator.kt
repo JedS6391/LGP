@@ -7,7 +7,7 @@ import lgp.core.program.Program
 import java.util.Random
 
 /**
- * A search operator used during evolution to combine two individuals from a operators.
+ * A search operator used during evolution to combine two individuals from a population.
  *
  * The individuals are mutated directly by the reference given, so calls to this function
  * directly modify the arguments.

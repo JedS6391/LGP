@@ -11,7 +11,7 @@ import lgp.core.modules.ModuleInformation
 import lgp.core.program.Program
 
 /**
- * A search operator used during evolution to mutate an individual from a operators.
+ * A search operator used during evolution to mutate an individual from a population.
  *
  * The individual is mutated in place, that is a call to [MutationOperator.mutate] will directly
  * modify the given individual.
