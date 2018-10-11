@@ -89,5 +89,10 @@ abstract class Trainer<TProgram, TMessage : TrainingUpdateMessage>(
      */
     abstract fun train(dataset: Dataset<TProgram>): TrainingResult<TProgram>
 
+    /**
+     * Asynchronously trains the model and gathers results from training.
+     *
+     * @returns The results of the training phase(s).
+     */
     abstract suspend fun trainAsync(dataset: Dataset<TProgram>): TrainingJob<TProgram, TMessage>
 }
