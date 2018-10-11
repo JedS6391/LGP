@@ -1,0 +1,21 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ProgramGenerator.<init> - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.program</a>&nbsp;/&nbsp;<a href="index.html">ProgramGenerator</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="lgp.core.program.ProgramGenerator$&lt;init&gt;(lgp.core.environment.Environment((lgp.core.program.ProgramGenerator.T)), lgp.core.program.instructions.InstructionGenerator((lgp.core.program.ProgramGenerator.T)))"></a>
+<code><span class="identifier">ProgramGenerator</span><span class="symbol">(</span><span class="identifier" id="lgp.core.program.ProgramGenerator$<init>(lgp.core.environment.Environment((lgp.core.program.ProgramGenerator.T)), lgp.core.program.instructions.InstructionGenerator((lgp.core.program.ProgramGenerator.T)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.core.program.ProgramGenerator$<init>(lgp.core.environment.Environment((lgp.core.program.ProgramGenerator.T)), lgp.core.program.instructions.InstructionGenerator((lgp.core.program.ProgramGenerator.T)))/instructionGenerator">instructionGenerator</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<p>Generates <a href="../-program/index.html">Program</a> instances to be used in an LGP population.</p>
+<p>The implementation is done as a module, allowing for custom generation logic for programs
+to be defined. The only requirement is that calls to the <a href="next.html">next</a> method returns a sequence
+of program samples.</p>
+<p>An implementation is expected to provide an <a href="../../lgp.core.environment/-environment/index.html">Environment</a>, in order to provide access to any
+component loaded into the the LGP environment, as well as an <a href="../../lgp.core.program.instructions/-instruction-generator/index.html">InstructionGenerator</a>. Instruction
+generators themselves are modules, so each can be defined as a module.</p>
+</BODY>
+</HTML>

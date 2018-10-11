@@ -2,14 +2,14 @@ package lgp.lib
 
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
-import lgp.core.evolution.instructions.BranchOperation
-import lgp.core.evolution.instructions.Instruction
-import lgp.core.evolution.instructions.RegisterIndex
-import lgp.core.evolution.population.Program
-import lgp.core.evolution.population.ProgramGenerator
-import lgp.core.evolution.population.choice
-import lgp.core.evolution.population.randInt
-import lgp.core.evolution.registers.RegisterType
+import lgp.core.program.instructions.BranchOperation
+import lgp.core.program.instructions.Instruction
+import lgp.core.program.instructions.RegisterIndex
+import lgp.core.program.Program
+import lgp.core.program.ProgramGenerator
+import lgp.core.evolution.operators.choice
+import lgp.core.evolution.operators.randInt
+import lgp.core.program.registers.RegisterType
 import lgp.core.modules.ModuleInformation
 
 /**

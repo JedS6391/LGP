@@ -11,7 +11,12 @@ import lgp.core.evolution.*
 import lgp.core.evolution.fitness.FitnessCase
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
-import lgp.core.evolution.population.*
+import lgp.core.evolution.model.EvolutionModel
+import lgp.core.evolution.model.Models
+import lgp.core.evolution.model.TestResult
+import lgp.core.evolution.operators.*
+import lgp.core.evolution.training.DistributedTrainer
+import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
 
 /**
@@ -144,7 +149,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
             )
     )
 
-    var bestTrainingModel: EvolutionModel<Double>? = null
+    private var bestTrainingModel: EvolutionModel<Double>? = null
 
     override fun initialiseEnvironment() {
         this.environment = Environment(
@@ -172,7 +177,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
 
     fun train(dataset: Dataset<Double>): TrainingResult<Double> {
         try {
-            val trainer = Trainers.DistributedTrainer(environment, model, runs = this.params.runs)
+            val trainer = DistributedTrainer(environment, model, runs = this.params.runs)
             val trainingResult = trainer.train(dataset)
 
             // Choose the best model during training and save it so that it can be applied

@@ -1,5 +1,20 @@
 # Change Log
 
+## [v-2.0](https://github.com/JedS6391/LGP/tree/v-2.0) (2018-10-11)
+
+**Breaking changes:**
+
+- The `Trainers` object no longer exists
+- Related to above, the `Trainer` implementations have moved from `lgp.core.evolution` to `lgp.core.evolution.training`
+- A new package `lgp.core.program` has been created and quite a few classes from `lgp.core.evolution` were migrated
+
+The version was bumped to 2.0 to reflect these potentially breaking changes.
+
+**Enhancements:**
+
+- Added the ability to train asynchronously using the built-in `Trainer` implementations
+- Update to the Kotlin 1.3 release candidate to make use of the soon to be stable co-routine APIs
+
 ## [v-1.2-beta](https://github.com/JedS6391/LGP/tree/v-1.2-beta) (2018-02-10)
 [Full Changelog](https://github.com/JedS6391/LGP/compare/v-1.1...v-1.2-beta)
 

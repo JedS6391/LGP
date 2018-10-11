@@ -1,7 +1,7 @@
 package lgp.core.environment.operations
 
 import lgp.core.environment.ComponentLoader
-import lgp.core.evolution.instructions.Operation
+import lgp.core.program.instructions.Operation
 
 /**
  * Loads a collection of [Operation]s in some way defined by the implementer.

@@ -1,7 +1,7 @@
 package lgp.lib.operations
 
-import lgp.core.evolution.instructions.UnaryOperation
-import lgp.core.evolution.registers.Arguments
+import lgp.core.program.instructions.UnaryOperation
+import lgp.core.program.registers.Arguments
 import lgp.core.modules.ModuleInformation
 
 /**

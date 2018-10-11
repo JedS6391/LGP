@@ -14,7 +14,10 @@ import lgp.core.evolution.*;
 import lgp.core.evolution.fitness.FitnessFunction;
 import lgp.core.evolution.fitness.FitnessFunctions;
 import lgp.core.evolution.fitness.SingleOutputFitnessContext;
-import lgp.core.evolution.population.*;
+import lgp.core.evolution.model.Models;
+import lgp.core.evolution.operators.*;
+import lgp.core.evolution.training.DistributedTrainer;
+import lgp.core.evolution.training.TrainingResult;
 import lgp.core.modules.Module;
 import lgp.core.modules.ModuleInformation;
 import lgp.lib.BaseInstructionGenerator;
@@ -222,7 +225,7 @@ public class SimpleFunctionProblem extends Problem<Double> {
     @NotNull
     public SimpleFunctionSolution solve() {
         try {
-            Trainers.DistributedTrainer<Double> runner = new Trainers.DistributedTrainer<>(
+            DistributedTrainer<Double> runner = new DistributedTrainer<>(
                     this.environment,
                     this.model,
                     // runs
