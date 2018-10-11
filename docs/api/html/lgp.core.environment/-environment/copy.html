@@ -16,7 +16,7 @@ when making a copy, it is required that the copied environment have its own RNG 
 To fulfil this requirement, when an environment is copied, it will initialise a new RNG that is
 seeded with a seed given from the RNG of the environment instance performing the copy (confusing -- yes!).</p>
 <p>The main reason behind this complication is to ensure that there are no contention issues when multiple
-environment instances are operating in a multi-threaded context (e.g. through a <a href="../../lgp.core.evolution/-trainers/-distributed-trainer/index.html">lgp.core.evolution.Trainers.DistributedTrainer</a>).</p>
+environment instances are operating in a multi-threaded context (e.g. through a <a href="#">lgp.core.evolution.Trainers.DistributedTrainer</a>).</p>
 <p>Furthermore, any modules that are registered with the environment being copied, will be updated so
 that the reference the correct environment instance (i.e. the copy). This ensures that while the
 module registrations themselves are shared between copies, when a module is accessed, it gets initialised

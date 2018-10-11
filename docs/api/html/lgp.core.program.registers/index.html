@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>lgp.core.program.registers - </title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="./index.html">lgp.core.program.registers</a><br/>
+<br/>
+<h2>Package lgp.core.program.registers</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-argument/index.html">Argument</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Argument</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>An <a href="-argument/index.html">Argument</a> is essentially just the value of a particular <a href="-register/index.html">Register</a>,
+but in the context of an <a href="#">lgp.core.evolution.instructions.Operation</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-arguments/index.html">Arguments</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Arguments</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A simple collection of <a href="-argument/index.html">Argument</a>s.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-random-register-generator/index.html">RandomRegisterGenerator</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RandomRegisterGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Generates an infinite random sequence of registers from the register set given.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-register/index.html">Register</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Register</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>A register that is available to an LGP program.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-register-set/index.html">RegisterSet</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RegisterSet</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Represents a collection of <a href="-register/index.html">Register</a>s.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-register-type/index.html">RegisterType</a></p>
+</td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">RegisterType</span></code>
+<p>Represents the type of a register.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-register-access-exception/index.html">RegisterAccessException</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RegisterAccessException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html"><span class="identifier">Exception</span></a></code>
+<p>Thrown when a write operation is attempted on a <a href="-register-type/-constant.html">RegisterType.Constant</a> register.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-register-write-range-exception/index.html">RegisterWriteRangeException</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RegisterWriteRangeException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html"><span class="identifier">Exception</span></a></code>
+<p>Thrown when the number of values being written to a particular register range,
+does not match the size of the range.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

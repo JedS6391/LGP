@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>TrainingJob - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">lgp.core.evolution.training</a>&nbsp;/&nbsp;<a href="./index.html">TrainingJob</a><br/>
+<br/>
+<h1>TrainingJob</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">TrainingJob</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TMessage</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-training-update-message.html"><span class="identifier">TrainingUpdateMessage</span></a><span class="symbol">&gt;</span></code>
+<p>Represents an asynchronous training operation.</p>
+<p>As different <a href="../-trainer/index.html">Trainer</a> implementations will have different requirements, it is up to the
+implementor to define how the job should handle various requests.</p>
+<h3>Parameters</h3>
+<p><a name="TProgram"></a>
+<code>TProgram</code> - The type of program being evolved.</p>
+<h3>Param</h3>
+<p><a name="TMessage"></a>
+<code>TMessage</code> - </p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">TrainingJob</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Represents an asynchronous training operation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="result.html">result</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">suspend</span> <span class="keyword">fun </span><span class="identifier">result</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-training-result/index.html"><span class="identifier">TrainingResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span></code>
+<p>Retrieves the result of training.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="subscribe-to-updates.html">subscribeToUpdates</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">subscribeToUpdates</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.training.TrainingJob$subscribeToUpdates(kotlin.Function1((lgp.core.evolution.training.TrainingJob.TMessage, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="index.html#TMessage"><span class="identifier">TMessage</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Subscribes a <a href="subscribe-to-updates.html#lgp.core.evolution.training.TrainingJob$subscribeToUpdates(kotlin.Function1((lgp.core.evolution.training.TrainingJob.TMessage, kotlin.Unit)))/callback">callback</a> function that will be executed each time a <a href="../-training-update-message.html">TrainingUpdateMessage</a> is received.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-distributed-training-job/index.html">DistributedTrainingJob</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DistributedTrainingJob</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TrainingJob</span></a><span class="symbol">&lt;</span><a href="../-distributed-training-job/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="../-training-messages/-progress-update/index.html"><span class="identifier">ProgressUpdate</span></a><span class="symbol">&lt;</span><a href="../-distributed-training-job/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Represents an asynchronous distributed training operation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-sequential-training-job/index.html">SequentialTrainingJob</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SequentialTrainingJob</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">TrainingJob</span></a><span class="symbol">&lt;</span><a href="../-sequential-training-job/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="../-training-messages/-progress-update/index.html"><span class="identifier">ProgressUpdate</span></a><span class="symbol">&lt;</span><a href="../-sequential-training-job/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Represents an asynchronous sequential training operation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
