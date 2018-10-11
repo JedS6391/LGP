@@ -1,7 +1,5 @@
 package lgp.core.evolution.training
 
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.model.EvolutionModel
@@ -44,63 +42,33 @@ object TrainingMessages {
 /**
  * Represents an asynchronous training operation.
  *
- * When using the built-in [Trainer] implementations in an asynchronous manner, a [TrainingJob] will be returned
- * which provides mechanisms to retrieve the [TrainingResult] and subscribe to [TrainingUpdateMessage]s sent
- * from the [Trainer].
+ * As different [Trainer] implementations will have different requirements, it is up to the
+ * implementor to define how the job should handle various requests.
+ *
+ * @param TProgram The type of program being evolved.
+ * @Param TMessage
  */
-class TrainingJob<TProgram, TMessage : TrainingUpdateMessage> internal constructor(
-    private val trainingUpdateChannel: ConflatedBroadcastChannel<TMessage>,
-    private val training: Deferred<TrainingResult<TProgram>>
-) {
+abstract class TrainingJob<TProgram, TMessage : TrainingUpdateMessage> {
+
     /**
      * Retrieves the result of training.
      *
-     * If the job has already been completed then the method will not suspend. Otherwise,
-     * the method will suspend until training is complete.
-     *
      * @returns The result of the training phase(s).
      */
-    suspend fun result(): TrainingResult<TProgram> {
-        // Don't need to block if the job is complete already.
-        if (training.isCompleted) {
-            return training.getCompleted()
-        }
-
-        return training.await()
-    }
+    abstract suspend fun result(): TrainingResult<TProgram>
 
     /**
      * Subscribes a [callback] function that will be executed each time a [TrainingUpdateMessage] is received.
      *
      * The callback will be passed the message and allow the subscriber to use the value as it wishes.
      *
+     * **Note:** If the [Trainer] implementation does not provide a communication channel then this
+     * function can be left as not implemented.
+     *
      * @param callback The function to execute when a [TrainingUpdateMessage] is received.
      */
-    fun subscribeToUpdates(callback: (TMessage) -> Unit) {
-        val subscription = trainingUpdateChannel.openSubscription()
-
-        GlobalScope.launch {
-            subscription.consumeEach(callback)
-        }
-    }
+    abstract fun subscribeToUpdates(callback: (TMessage) -> Unit)
 }
-
-/*
-private fun trainingProgressActor() = GlobalScope.actor<TrainingProgressMessage> {
-    var progress = 0.0
-
-    for (msg in channel) {
-        when (msg) {
-            is TrainingProgressMessage.ProgressUpdate -> {
-                progress = msg.progress
-            }
-            is TrainingProgressMessage.ProgressRequest -> {
-                msg.response.send(progress)
-            }
-        }
-    }
-}
-*/
 
 /**
  * A service capable of training evolutionary models in a particular environment.
