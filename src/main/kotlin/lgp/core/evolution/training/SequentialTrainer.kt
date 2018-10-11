@@ -32,8 +32,8 @@ class SequentialTrainingJob<TProgram> internal constructor(
     /**
      * Retrieves the result of training.
      *
-     * If the job has already been completed then the method will not suspend. Otherwise,
-     * the method will suspend until training is complete.
+     * If the job has already been completed then the function will not suspend. Otherwise,
+     * the function will suspend until training is complete.
      *
      * @returns The result of the training phase(s).
      */
@@ -106,7 +106,8 @@ class SequentialTrainer<TProgram>(
      * The general flow is:
      * 1. Call [trainAsync] to get a [TrainingJob]
      * 2. Optionally subscribe to training progress updates using [TrainingJob.subscribeToUpdates]
-     * 3. Wait for the training to complete using [TrainingJob.result]
+     * 3. Perform other tasks unrelated to the training.
+     * 4. Wait for the training to complete using [TrainingJob.result]
      *
      * This implementation will still run each training task sequentially, but it allows the training
      * execution to be suspended so that other tasks can be performed.

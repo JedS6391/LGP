@@ -13,6 +13,8 @@ import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.fitness.SingleOutputFitnessContext
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
+import lgp.core.evolution.training.DistributedTrainer
+import lgp.core.evolution.training.DistributedTrainingJob
 import lgp.core.evolution.training.SequentialTrainer
 import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
@@ -178,6 +180,8 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun solve(): SimpleFunctionSolution {
         try {
+            /*
+            // This is an example of training sequentially in an asynchronous manner.
             val runner = SequentialTrainer(environment, model, runs = 2)
 
             return runBlocking {
@@ -191,6 +195,22 @@ class SimpleFunctionProblem : Problem<Double>() {
 
                 SimpleFunctionSolution(this@SimpleFunctionProblem.name, result)
             }
+            */
+
+            val runner = DistributedTrainer(environment, model, runs = 2)
+
+            return runBlocking {
+                val job = runner.trainAsync(
+                    this@SimpleFunctionProblem.datasetLoader.load()
+                )
+
+                job.subscribeToUpdates { println("training progress = ${it.progress}") }
+
+                val result = job.result()
+
+                SimpleFunctionSolution(this@SimpleFunctionProblem.name, result)
+            }
+
         } catch (ex: UninitializedPropertyAccessException) {
             // The initialisation routines haven't been run.
             throw ProblemNotInitialisedException(
