@@ -1,12 +1,12 @@
 $dokka.format:html
 $dokka.linkExtension:html
-$dokka.location:lgp.core.evolution.population$choice(java.util.Random, kotlin.collections.List((lgp.core.evolution.population.choice.T)))lgp.core.evolution.population/java.util.-random/choice.html
-$dokka.location:lgp.core.evolution.population$pairwise(kotlin.collections.List((lgp.core.evolution.population.pairwise.T)))lgp.core.evolution.population/kotlin.collections.-list/pairwise.html
-$dokka.location:lgp.core.evolution.population$pmap(kotlin.collections.List((lgp.core.evolution.population.pmap.T)), kotlin.Function1((lgp.core.evolution.population.pmap.T, lgp.core.evolution.population.pmap.R)))lgp.core.evolution.population/kotlin.collections.-list/pmap.html
-$dokka.location:lgp.core.evolution.population$randInt(java.util.Random, kotlin.Int, kotlin.Int)lgp.core.evolution.population/java.util.-random/rand-int.html
-$dokka.location:lgp.core.evolution.population$sample(java.util.Random, kotlin.collections.List((lgp.core.evolution.population.sample.T)), kotlin.Int)lgp.core.evolution.population/java.util.-random/sample.html
-$dokka.location:lgp.core.evolution.population$slice(kotlin.collections.MutableList((lgp.core.evolution.population.slice.T)), kotlin.ranges.IntRange)lgp.core.evolution.population/kotlin.collections.-mutable-list/slice.html
-$dokka.location:lgp.core.evolution.population$standardDeviation(kotlin.collections.List((kotlin.Double)), kotlin.Double)lgp.core.evolution.population/kotlin.collections.-list/standard-deviation.html
+$dokka.location:lgp.core.evolution.model$pairwise(kotlin.collections.List((lgp.core.evolution.model.pairwise.T)))lgp.core.evolution.model/kotlin.collections.-list/pairwise.html
+$dokka.location:lgp.core.evolution.model$pmap(kotlin.collections.List((lgp.core.evolution.model.pmap.T)), kotlin.Function1((lgp.core.evolution.model.pmap.T, lgp.core.evolution.model.pmap.R)))lgp.core.evolution.model/kotlin.collections.-list/pmap.html
+$dokka.location:lgp.core.evolution.model$standardDeviation(kotlin.collections.List((kotlin.Double)), kotlin.Double)lgp.core.evolution.model/kotlin.collections.-list/standard-deviation.html
+$dokka.location:lgp.core.evolution.operators$choice(java.util.Random, kotlin.collections.List((lgp.core.evolution.operators.choice.T)))lgp.core.evolution.operators/java.util.-random/choice.html
+$dokka.location:lgp.core.evolution.operators$randInt(java.util.Random, kotlin.Int, kotlin.Int)lgp.core.evolution.operators/java.util.-random/rand-int.html
+$dokka.location:lgp.core.evolution.operators$sample(java.util.Random, kotlin.collections.List((lgp.core.evolution.operators.sample.T)), kotlin.Int)lgp.core.evolution.operators/java.util.-random/sample.html
+$dokka.location:lgp.core.evolution.operators$slice(kotlin.collections.MutableList((lgp.core.evolution.operators.slice.T)), kotlin.ranges.IntRange)lgp.core.evolution.operators/kotlin.collections.-mutable-list/slice.html
 $dokka.location:lgp.lib.operations$toBoolean(kotlin.Double)lgp.lib.operations/kotlin.-double/to-boolean.html
 $dokka.location:lgp.lib.operations$toDouble(kotlin.Boolean)lgp.lib.operations/kotlin.-boolean/to-double.html
 lgp.core.environment
@@ -16,10 +16,13 @@ lgp.core.environment.dataset
 lgp.core.environment.operations
 lgp.core.evolution
 lgp.core.evolution.fitness
-lgp.core.evolution.instructions
-lgp.core.evolution.population
-lgp.core.evolution.registers
+lgp.core.evolution.model
+lgp.core.evolution.operators
+lgp.core.evolution.training
 lgp.core.modules
+lgp.core.program
+lgp.core.program.instructions
+lgp.core.program.registers
 lgp.examples
 lgp.examples.java
 lgp.lib

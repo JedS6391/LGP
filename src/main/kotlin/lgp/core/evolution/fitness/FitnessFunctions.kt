@@ -172,11 +172,10 @@ object FitnessFunctions {
         override fun fitness(outputs: List<Double>, cases: List<FitnessCase<Double>>): Double {
             return cases.zip(outputs).filter { (case, output) ->
                 val expected = case.target
-                val actual = output
 
                 // Program is correct when the distance between the actual
                 // and expected values is within some threshold.
-                Math.abs(actual - expected) > this.threshold
+                Math.abs(output - expected) > this.threshold
             }.count().toDouble()
         }
     }

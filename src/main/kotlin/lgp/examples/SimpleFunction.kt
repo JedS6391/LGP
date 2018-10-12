@@ -1,5 +1,6 @@
 package lgp.examples
 
+import kotlinx.coroutines.runBlocking
 import lgp.core.environment.*
 import lgp.core.environment.config.Configuration
 import lgp.core.environment.config.ConfigurationLoader
@@ -10,7 +11,12 @@ import lgp.core.evolution.*
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
 import lgp.core.evolution.fitness.SingleOutputFitnessContext
-import lgp.core.evolution.population.*
+import lgp.core.evolution.model.Models
+import lgp.core.evolution.operators.*
+import lgp.core.evolution.training.DistributedTrainer
+import lgp.core.evolution.training.DistributedTrainingJob
+import lgp.core.evolution.training.SequentialTrainer
+import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
 import lgp.lib.BaseInstructionGenerator
 import lgp.lib.BaseProgram
@@ -174,10 +180,37 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun solve(): SimpleFunctionSolution {
         try {
-            val runner = Trainers.DistributedTrainer(environment, model, runs = 2)
-            val result = runner.train(this.datasetLoader.load())
+            /*
+            // This is an example of training sequentially in an asynchronous manner.
+            val runner = SequentialTrainer(environment, model, runs = 2)
 
-            return SimpleFunctionSolution(this.name, result)
+            return runBlocking {
+                val job = runner.trainAsync(
+                    this@SimpleFunctionProblem.datasetLoader.load()
+                )
+
+                job.subscribeToUpdates { println("training progress = ${it.progress}%") }
+
+                val result = job.result()
+
+                SimpleFunctionSolution(this@SimpleFunctionProblem.name, result)
+            }
+            */
+
+            val runner = DistributedTrainer(environment, model, runs = 2)
+
+            return runBlocking {
+                val job = runner.trainAsync(
+                    this@SimpleFunctionProblem.datasetLoader.load()
+                )
+
+                job.subscribeToUpdates { println("training progress = ${it.progress}") }
+
+                val result = job.result()
+
+                SimpleFunctionSolution(this@SimpleFunctionProblem.name, result)
+            }
+
         } catch (ex: UninitializedPropertyAccessException) {
             // The initialisation routines haven't been run.
             throw ProblemNotInitialisedException(

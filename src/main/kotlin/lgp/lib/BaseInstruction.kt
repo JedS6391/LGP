@@ -1,8 +1,8 @@
 package lgp.lib
 
-import lgp.core.evolution.instructions.*
-import lgp.core.evolution.registers.Arguments
-import lgp.core.evolution.registers.RegisterSet
+import lgp.core.program.instructions.*
+import lgp.core.program.registers.Arguments
+import lgp.core.program.registers.RegisterSet
 import lgp.core.modules.ModuleInformation
 
 /**
@@ -14,9 +14,9 @@ import lgp.core.modules.ModuleInformation
  *     - It provides the ability to be exported as a C-style instruction (e.g. "r[1] = r[1] + r[2]")
  */
 class BaseInstruction<T>(
-        override var operation: Operation<T>,
-        override var destination: RegisterIndex,
-        override var operands: MutableList<RegisterIndex>
+    override var operation: Operation<T>,
+    override var destination: RegisterIndex,
+    override var operands: MutableList<RegisterIndex>
 ) : Instruction<T>() {
 
     /**

@@ -45,10 +45,10 @@ class Configuration {
 
     /**
      * A collection of fully-qualified class names specifying the classes of
-     * [lgp.core.evolution.instructions.Operation]s to be loaded into an [lgp.core.environment.Environment].
+     * [lgp.core.program.instructions.Operation]s to be loaded into an [lgp.core.environment.Environment].
      *
      * **NOTE:** Custom loaders can be provided that can provided a collection of
-     * [lgp.core.evolution.instructions.Operation]s in some custom way, by implementing
+     * [lgp.core.program.instructions.Operation]s in some custom way, by implementing
      * the [lgp.core.environment.operations.OperationLoader] interface.
      */
     var operations: List<String> = ArrayList()

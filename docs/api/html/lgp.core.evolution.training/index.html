@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>lgp.core.evolution.training - </title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="./index.html">lgp.core.evolution.training</a><br/>
+<br/>
+<h2>Package lgp.core.evolution.training</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-distributed-trainer/index.html">DistributedTrainer</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DistributedTrainer</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-trainer/index.html"><span class="identifier">Trainer</span></a><span class="symbol">&lt;</span><a href="-distributed-trainer/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-training-messages/-progress-update/index.html"><span class="identifier">ProgressUpdate</span></a><span class="symbol">&lt;</span><a href="-distributed-trainer/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Trains the model for a given number of runs, in a parallel manner.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-distributed-training-job/index.html">DistributedTrainingJob</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DistributedTrainingJob</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-training-job/index.html"><span class="identifier">TrainingJob</span></a><span class="symbol">&lt;</span><a href="-distributed-training-job/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-training-messages/-progress-update/index.html"><span class="identifier">ProgressUpdate</span></a><span class="symbol">&lt;</span><a href="-distributed-training-job/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Represents an asynchronous distributed training operation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-sequential-trainer/index.html">SequentialTrainer</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SequentialTrainer</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-trainer/index.html"><span class="identifier">Trainer</span></a><span class="symbol">&lt;</span><a href="-sequential-trainer/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-training-messages/-progress-update/index.html"><span class="identifier">ProgressUpdate</span></a><span class="symbol">&lt;</span><a href="-sequential-trainer/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Trains the model for a given number of runs, in a sequential manner.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-sequential-training-job/index.html">SequentialTrainingJob</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SequentialTrainingJob</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-training-job/index.html"><span class="identifier">TrainingJob</span></a><span class="symbol">&lt;</span><a href="-sequential-training-job/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-training-messages/-progress-update/index.html"><span class="identifier">ProgressUpdate</span></a><span class="symbol">&lt;</span><a href="-sequential-training-job/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Represents an asynchronous sequential training operation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-trainer/index.html">Trainer</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Trainer</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TMessage</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-training-update-message.html"><span class="identifier">TrainingUpdateMessage</span></a><span class="symbol">&gt;</span></code>
+<p>A service capable of training evolutionary models in a particular environment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-training-job/index.html">TrainingJob</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">TrainingJob</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TMessage</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-training-update-message.html"><span class="identifier">TrainingUpdateMessage</span></a><span class="symbol">&gt;</span></code>
+<p>Represents an asynchronous training operation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-training-messages/index.html">TrainingMessages</a></p>
+</td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">TrainingMessages</span></code>
+<p>Contains the different messages that can be sent from a <a href="-trainer/index.html">Trainer</a> when training asynchronously.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-training-result/index.html">TrainingResult</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">TrainingResult</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Represents the result of training a model using a runner.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-training-update-message.html">TrainingUpdateMessage</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">TrainingUpdateMessage</span></code>
+<p>A message sent from a <a href="-trainer/index.html">Trainer</a> to a subscriber (by calling <a href="-training-job/subscribe-to-updates.html">TrainingJob.subscribeToUpdates</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

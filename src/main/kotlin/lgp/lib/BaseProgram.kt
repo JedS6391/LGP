@@ -1,13 +1,13 @@
 package lgp.lib
 
-import lgp.core.evolution.instructions.BaseArity
-import lgp.core.evolution.instructions.BranchOperation
-import lgp.core.evolution.instructions.Instruction
-import lgp.core.evolution.instructions.RegisterIndex
-import lgp.core.evolution.population.Program
-import lgp.core.evolution.population.ProgramTranslator
-import lgp.core.evolution.registers.RegisterSet
-import lgp.core.evolution.registers.RegisterType
+import lgp.core.program.instructions.BaseArity
+import lgp.core.program.instructions.BranchOperation
+import lgp.core.program.instructions.Instruction
+import lgp.core.program.instructions.RegisterIndex
+import lgp.core.program.Program
+import lgp.core.program.ProgramTranslator
+import lgp.core.program.registers.RegisterSet
+import lgp.core.program.registers.RegisterType
 import lgp.core.modules.ModuleInformation
 
 /**
@@ -17,10 +17,10 @@ import lgp.core.modules.ModuleInformation
  * from a single output register.
  */
 class BaseProgram<T>(
-        instructions: List<Instruction<T>>,
-        registerSet: RegisterSet<T>,
-        outputRegisterIndex: RegisterIndex,
-        val sentinelTrueValue: T
+    instructions: List<Instruction<T>>,
+    registerSet: RegisterSet<T>,
+    outputRegisterIndex: RegisterIndex,
+    val sentinelTrueValue: T
 ) : Program<T>(
         instructions.toMutableList(),
         registerSet,

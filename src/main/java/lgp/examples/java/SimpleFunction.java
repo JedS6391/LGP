@@ -1,7 +1,7 @@
 package lgp.examples.java;
 
 import lgp.core.evolution.Problem;
-import lgp.core.evolution.population.EvolutionResult;
+import lgp.core.evolution.model.EvolutionResult;
 import lgp.lib.BaseProgram;
 import lgp.lib.BaseProgramSimplifier;
 

@@ -1,7 +1,7 @@
 package lgp.core.environment.operations
 
 import lgp.core.environment.ComponentLoaderBuilder
-import lgp.core.evolution.instructions.Operation
+import lgp.core.program.instructions.Operation
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 

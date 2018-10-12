@@ -1,12 +1,12 @@
 package lgp.lib
 
 import lgp.core.environment.Environment
-import lgp.core.evolution.instructions.Instruction
-import lgp.core.evolution.instructions.InstructionGenerator
-import lgp.core.evolution.instructions.Operation
-import lgp.core.evolution.instructions.RegisterIndex
-import lgp.core.evolution.population.choice
-import lgp.core.evolution.registers.*
+import lgp.core.program.instructions.Instruction
+import lgp.core.program.instructions.InstructionGenerator
+import lgp.core.program.instructions.Operation
+import lgp.core.program.instructions.RegisterIndex
+import lgp.core.evolution.operators.choice
+import lgp.core.program.registers.*
 import lgp.core.modules.ModuleInformation
 
 /**
@@ -18,7 +18,7 @@ import lgp.core.modules.ModuleInformation
 class BaseInstructionGenerator<T> : InstructionGenerator<T> {
 
     private val random = this.environment.randomState
-    val operationPool: List<Operation<T>>
+    private val operationPool: List<Operation<T>>
     private val registers: RegisterSet<T>
     private val registerGenerator: RandomRegisterGenerator<T>
 

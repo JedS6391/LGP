@@ -1,7 +1,6 @@
 package lgp.core.environment.dataset
 
 import java.util.Random
-import kotlin.coroutines.experimental.buildSequence
 
 /**
  * Can generate a sequence of values evenly spread between a range.
@@ -27,7 +26,7 @@ class SequenceGenerator {
             end: Double,
             step: Double,
             inclusive: Boolean = false
-    ): Sequence<Double> = buildSequence {
+    ): Sequence<Double> = sequence {
         var x = start
 
         while (x <= end) {
@@ -56,7 +55,7 @@ class UniformlyDistributedGenerator(val randomState: Random = Random()) {
      * @param start Lower bound on the range of values.
      * @param end Upper bound on the range of values.
      */
-    fun generate(n: Int, start: Double, end: Double): Sequence<Double> = buildSequence {
+    fun generate(n: Int, start: Double, end: Double): Sequence<Double> = sequence {
         (0..n).map {
             val r = this@UniformlyDistributedGenerator.randomState.nextDouble()
 

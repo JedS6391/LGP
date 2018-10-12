@@ -2,7 +2,7 @@ package lgp.core.evolution.fitness
 
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Sample
-import lgp.core.evolution.population.Program
+import lgp.core.program.Program
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 

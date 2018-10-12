@@ -8,8 +8,8 @@
 <a href="../index.html">lgp.lib</a>&nbsp;/&nbsp;<a href="./index.html">BaseProgramTranslator</a><br/>
 <br/>
 <h1>BaseProgramTranslator</h1>
-<code><span class="keyword">class </span><span class="identifier">BaseProgramTranslator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.population/-program-translator/index.html"><span class="identifier">ProgramTranslator</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>A <a href="../../lgp.core.evolution.population/-program-translator/index.html">ProgramTranslator</a> implementation that converts <a href="../-base-program/index.html">BaseProgram</a> instances to a C-based representation.</p>
+<code><span class="keyword">class </span><span class="identifier">BaseProgramTranslator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-program-translator/index.html"><span class="identifier">ProgramTranslator</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>A <a href="../../lgp.core.program/-program-translator/index.html">ProgramTranslator</a> implementation that converts <a href="../-base-program/index.html">BaseProgram</a> instances to a C-based representation.</p>
 <p>There are two modes that can be used:</p>
 <pre><code>    1. `includeMainFunction == true` will include a main function in the export which can
        be used to execute the model from the command-line.
@@ -24,7 +24,7 @@
 </td>
 <td>
 <code><span class="identifier">BaseProgramTranslator</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseProgramTranslator$<init>(kotlin.Boolean)/includeMainFunction">includeMainFunction</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span></code>
-<p>A <a href="../../lgp.core.evolution.population/-program-translator/index.html">ProgramTranslator</a> implementation that converts <a href="../-base-program/index.html">BaseProgram</a> instances to a C-based representation.</p>
+<p>A <a href="../../lgp.core.program/-program-translator/index.html">ProgramTranslator</a> implementation that converts <a href="../-base-program/index.html">BaseProgram</a> instances to a C-based representation.</p>
 </td>
 </tr>
 </tbody>
@@ -51,8 +51,8 @@
 <p><a href="translate.html">translate</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">translate</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseProgramTranslator$translate(lgp.core.evolution.population.Program((lgp.lib.BaseProgramTranslator.T)))/program">program</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution.population/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
-<p>Translates <a href="translate.html#lgp.lib.BaseProgramTranslator$translate(lgp.core.evolution.population.Program((lgp.lib.BaseProgramTranslator.T)))/program">program</a> from some internal representation to a concrete representation.</p>
+<code><span class="keyword">fun </span><span class="identifier">translate</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseProgramTranslator$translate(lgp.core.program.Program((lgp.lib.BaseProgramTranslator.T)))/program">program</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Translates <a href="translate.html#lgp.lib.BaseProgramTranslator$translate(lgp.core.program.Program((lgp.lib.BaseProgramTranslator.T)))/program">program</a> from some internal representation to a concrete representation.</p>
 </td>
 </tr>
 </tbody>
