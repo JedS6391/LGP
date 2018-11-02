@@ -7,6 +7,7 @@ import lgp.core.environment.config.ConfigurationLoader
 import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.operations.OperationLoader
 import lgp.core.evolution.fitness.FitnessFunction
+import lgp.core.evolution.fitness.FitnessFunctionProvider
 import lgp.core.evolution.model.EvolutionModel
 
 data class Description(val description: String)
@@ -70,7 +71,7 @@ abstract class Problem<T> {
     /**
      * A fitness metric to be used for this problem.
      */
-    abstract val fitnessFunction: FitnessFunction<T>
+    abstract val fitnessFunctionProvider: FitnessFunctionProvider<T>
 
     /**
      * A collection of modules that should be registered with the environment.

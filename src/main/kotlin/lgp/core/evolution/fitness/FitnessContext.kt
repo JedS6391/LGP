@@ -1,8 +1,8 @@
 package lgp.core.evolution.fitness
 
 import lgp.core.environment.Environment
+import lgp.core.environment.dataset.Target
 import lgp.core.environment.dataset.Sample
-import lgp.core.program.instructions.Instruction
 import lgp.core.program.Program
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
@@ -14,7 +14,7 @@ import lgp.core.modules.ModuleInformation
  * @property features A sampling of features from a data set.
  * @property target The target value for this cases set of features.
  */
-data class FitnessCase<out TData>(val features: Sample<TData>, val target: List<TData>)
+data class FitnessCase<out TData>(val features: Sample<TData>, val target: Target<TData>)
 
 /**
  * Provides a way to map a program to fitness cases using a given fitness function.
@@ -55,7 +55,7 @@ abstract class FitnessContext<TData>(
  */
 class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : FitnessContext<TData>(environment) {
 
-    private val fitnessFunction = this.environment.fitnessFunction
+    private val fitnessFunction = this.environment.fitnessFunctionProvider()
 
     override fun fitness(program: Program<TData>, fitnessCases: List<FitnessCase<TData>>): Double {
         // Make sure the programs effective instructions have been found
@@ -72,10 +72,12 @@ class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : Fitne
             // Run the program...
             program.execute()
 
-            val getOutput : (Int) -> TData = { index -> program.registers[index] }
+            // ... and gather a result from the programs first specified output register.
+            // We will ignore any other output registers, under the assumption that if this
+            // fitness context is being used, the other registers don't matter.
+            val output = program.outputRegisterIndices.first()
 
-            // ... and gather a result from the programs specified output register.
-            program.outputRegisterIndices.map(getOutput)
+            Outputs.Single(program.registers[output])
         }
 
         // Copy the fitness to the program for later accesses

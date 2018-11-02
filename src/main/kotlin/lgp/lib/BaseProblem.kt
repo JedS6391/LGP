@@ -8,9 +8,7 @@ import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.dataset.Dataset
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
-import lgp.core.evolution.fitness.FitnessCase
-import lgp.core.evolution.fitness.FitnessFunction
-import lgp.core.evolution.fitness.FitnessFunctions
+import lgp.core.evolution.fitness.*
 import lgp.core.evolution.model.EvolutionModel
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.model.TestResult
@@ -35,7 +33,7 @@ data class BaseProblemParameters(
                 "lgp.lib.operations.Division"
         ),
         val defaultRegisterValue: Double = 1.0,
-        val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.MSE,
+        val fitnessFunction: SingleOutputFitnessFunction<Double> = FitnessFunctions.MSE,
         val tournamentSize: Int = 20,
         val maximumSegmentLength: Int = 6,
         val maximumCrossoverDistance: Int = 5,
@@ -106,7 +104,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(params.defaultRegisterValue)
 
-    override val fitnessFunction = params.fitnessFunction
+    override val fitnessFunctionProvider = { params.fitnessFunction as FitnessFunction<Double, Output<Double>> }
 
     override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(
@@ -153,15 +151,12 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
 
     override fun initialiseEnvironment() {
         this.environment = Environment(
-                this.configLoader,
-                this.constantLoader,
-                this.operationLoader,
-                this.defaultValueProvider,
-                this.fitnessFunction,
-                this.configLoader.load().featuresBeingCategorical.mapIndexed { index: Int, _ ->
-                    listOf(Pair(index, null))
-                },
-                randomStateSeed = this.params.randomStateSeed
+            this.configLoader,
+            this.constantLoader,
+            this.operationLoader,
+            this.defaultValueProvider,
+            this.fitnessFunctionProvider,
+            randomStateSeed = this.params.randomStateSeed
         )
 
         this.environment.registerModules(this.registeredModules)
@@ -209,7 +204,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
 
         val testResult = this.bestTrainingModel!!.test(dataset)
 
-        val testFitness = this.fitnessFunction(
+        val testFitness = this.fitnessFunctionProvider()(
                 testResult.predicted,
                 dataset.inputs.zip(dataset.outputs).map { (features, target) ->
                     FitnessCase(features, target)

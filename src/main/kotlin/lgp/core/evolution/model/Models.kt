@@ -6,6 +6,7 @@ import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.ExportableResult
 import lgp.core.evolution.fitness.Evaluation
 import lgp.core.evolution.fitness.FitnessEvaluator
+import lgp.core.evolution.fitness.Outputs
 import lgp.core.evolution.operators.*
 import lgp.core.modules.ModuleInformation
 import lgp.core.program.Program
@@ -204,14 +205,13 @@ object Models {
                 // Run the program...
                 this.bestProgram.execute()
 
-                val getOutput : (Int) -> TProgram = { index -> this.bestProgram.registers[index] }
-
                 // ... and gather a result from the programs specified output registers.
-                this.bestProgram.outputRegisterIndices.map(getOutput)
+                // TODO: Handle multiple outputs
+                this.bestProgram.registers[this.bestProgram.outputRegisterIndices.first()]
             }
 
             return TestResult(
-                    predicted = outputs,
+                    predicted = outputs.map { output -> Outputs.Single(output) },
                     expected = dataset.outputs
             )
         }
@@ -379,15 +379,14 @@ object Models {
                 // Run the program...
                 this.bestProgram.execute()
 
-                val getOutput : (Int) -> TProgram = { index -> this.bestProgram.registers[index] }
-
                 // ... and gather a result from the programs specified output registers.
-                this.bestProgram.outputRegisterIndices.map(getOutput)
+                // TODO: Handle multiple outputs
+                this.bestProgram.registers[this.bestProgram.outputRegisterIndices.first()]
             }
 
             return TestResult(
-                    predicted = outputs,
-                    expected = dataset.outputs
+                predicted = outputs.map { output -> Outputs.Single(output) },
+                expected = dataset.outputs
             )
         }
 

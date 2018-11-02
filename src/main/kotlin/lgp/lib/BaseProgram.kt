@@ -22,9 +22,9 @@ class BaseProgram<T>(
         outputRegisterIndices: List<RegisterIndex>,
         val sentinelTrueValue: T
 ) : Program<T>(
-        instructions.toMutableList(),
-        registerSet,
-        outputRegisterIndices = outputRegisterIndices
+    instructions.toMutableList(),
+    registerSet,
+    outputRegisterIndices
 ) {
 
     override fun execute() {

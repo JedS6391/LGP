@@ -79,14 +79,10 @@ class Configuration {
     var populationSize = 100
 
     /**
+     * The number of features in the data set (i.e. the number of input registers that should be made available).
      * Whether each of the features is categorical, and thus needs vectorization.
-     */
-    var featuresBeingCategorical: List<String> = ArrayList()
-
-    /**
-     * Whether each of the outputs is categorical, and thus needs vectorization.
-     */
-    var outputsBeingCategorical: List<String> = ArrayList()
+    */
+    var numFeatures = 0
 
     /**
      * The frequency with which crossover should occur.
@@ -137,10 +133,6 @@ class Configuration {
 
     fun isValid(): ConfigurationValidity {
         return when {
-            // Need at least one feature in the data set.
-            featuresBeingCategorical.count() == 0 -> Invalid("featuresBeingCategorical: At least one feature variable should be specified.")
-            // Need at least one output in the data set.
-            outputsBeingCategorical.count() == 0 -> Invalid("outputsBeingCategorical: At least one output should be specified.")
             // If no constants are provided then a rate of constants can't be specified.
             constants.isEmpty() && constantsRate > 0.0 -> Invalid(
                 "constants/constantsRate: No constants were provided but a constant rate greater than 0 was given."
@@ -183,8 +175,6 @@ class Configuration {
         sb.appendln("\tconstants = $constants")
         sb.appendln("\tnumCalculationRegisters = $numCalculationRegisters")
         sb.appendln("\tpopulationSize = $populationSize")
-        sb.appendln("\tfeaturesBeingCategorical = $featuresBeingCategorical")
-        sb.appendln("\toutputsBeingCategorical = $outputsBeingCategorical")
         sb.appendln("\tcrossoverRate = $crossoverRate")
         sb.appendln("\tmicroMutationRate = $microMutationRate")
         sb.appendln("\tmacroMutationRate = $macroMutationRate")

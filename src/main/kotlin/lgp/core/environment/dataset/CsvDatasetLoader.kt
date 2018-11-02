@@ -3,7 +3,6 @@ package lgp.core.environment.dataset
 import com.opencsv.CSVReader
 import lgp.core.environment.ComponentLoaderBuilder
 import lgp.core.modules.ModuleInformation
-import java.io.BufferedReader
 import java.io.FileReader
 import java.io.Reader
 
@@ -25,43 +24,13 @@ class InvalidCsvFileException(message: String) : Exception(message)
  * @property featureParseFunction A function to parse the features of each row in the CSV file.
  * @property targetParseFunction A function to parse the target of each row in the CSV file.
  */
-class CsvDatasetLoader<out T> constructor(
+class CsvDatasetLoader<out TData> constructor(
         val reader: Reader,
-        val featureParseFunction: (Header, Row) -> Sample<T>,
-        val targetParseFunction: (Header, Row) -> List<T>
-) : DatasetLoader<T> {
+        val featureParseFunction: (Header, Row) -> Sample<TData>,
+        val targetParseFunction: (Header, Row) -> Target<TData>
+) : DatasetLoader<TData> {
 
-    companion object {
-        fun vectorize(datasetFilename: String, featuresBeingCategorical: List<Boolean>, outputsBeingCategorical: List<Boolean>): Pair<List<List<Pair<Int, String?>>>, List<List<Pair<Int, String?>>>> {
-            val lines: MutableList<Array<String>> = CSVReader(BufferedReader(FileReader(datasetFilename))).readAll()
-            lines.removeAt(0)
-            var inputIndex: Int = 0;
-            val inputVectorization = mutableListOf<List<Pair<Int, String?>>>()
-            for (i in 0..(featuresBeingCategorical.count() - 1)) {
-                if (featuresBeingCategorical.get(i)) {
-                    val categories: List<String> = lines.map { line: Array<String> -> line[i] }.distinct()
-                    inputVectorization.add((inputIndex..(inputIndex + categories.count() - 1)).zip(categories))
-                } else {
-                    inputVectorization.add(listOf(Pair(inputIndex, null)))
-                }
-                inputIndex += inputVectorization.last().count()
-            }
-            var outputIndex: Int = 0;
-            val outputVectorization = mutableListOf<List<Pair<Int, String?>>>()
-            for (i in 0..(outputsBeingCategorical.count() - 1)) {
-                if (outputsBeingCategorical.get(i)) {
-                    val categories: List<String> = lines.map { line: Array<String> -> line[i + featuresBeingCategorical.count()] }.distinct()
-                    outputVectorization.add((outputIndex..(outputIndex + categories.count() - 1)).zip(categories))
-                } else {
-                    outputVectorization.add(listOf(Pair(outputIndex, null)))
-                }
-                outputIndex += outputVectorization.last().count()
-            }
-            return Pair(inputVectorization, outputVectorization)
-        }
-    }
-
-    private constructor(builder: Builder<T>)
+    private constructor(builder: Builder<TData>)
             : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
 
     private val memoizedDataset by lazy {
@@ -77,7 +46,7 @@ class CsvDatasetLoader<out T> constructor(
 
         lateinit var reader: Reader
         lateinit var featureParseFunction: (Header, Row) -> Sample<U>
-        lateinit var targetParseFunction: (Header, Row) -> List<U>
+        lateinit var targetParseFunction: (Header, Row) -> Target<U>
 
         /**
          * Sets the filename of the CSV file to load the data set from.
@@ -111,7 +80,7 @@ class CsvDatasetLoader<out T> constructor(
         /**
          * Sets the function to use when parsing target values from the data set file.
          */
-        fun targetParseFunction(function: (Header, Row) -> List<U>): Builder<U> {
+        fun targetParseFunction(function: (Header, Row) -> Target<U>): Builder<U> {
             this.targetParseFunction = function
 
             return this
@@ -131,11 +100,11 @@ class CsvDatasetLoader<out T> constructor(
      * @throws [java.io.IOException] when the file given does not exist.
      * @returns a data set containing values parsed appropriately.
      */
-    override fun load(): Dataset<T> {
+    override fun load(): Dataset<TData> {
         return this.memoizedDataset
     }
 
-    private fun initialiseDataset(): Dataset<T> {
+    private fun initialiseDataset(): Dataset<TData> {
         val reader = CSVReader(this.reader)
         val lines: MutableList<Array<String>> = reader.readAll()
 

@@ -2,6 +2,8 @@ package lgp.core.evolution.model
 
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
+import lgp.core.environment.dataset.Target
+import lgp.core.evolution.fitness.Output
 import lgp.core.program.Program
 import lgp.core.modules.Module
 
@@ -30,9 +32,9 @@ open class EvolutionResult<T>(
 /**
  *
  */
-data class TestResult<out T>(
-        val predicted: List<List<T>>,
-        val expected: List<List<T>>
+data class TestResult<T>(
+    val predicted: List<Output<T>>,
+    val expected: List<Target<T>>
 )
 
 /**

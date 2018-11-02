@@ -6,6 +6,8 @@ import lgp.core.environment.operations.OperationLoader
 import lgp.core.evolution.ResultAggregator
 import lgp.core.evolution.ResultAggregators
 import lgp.core.evolution.fitness.FitnessFunction
+import lgp.core.evolution.fitness.FitnessFunctionProvider
+import lgp.core.evolution.fitness.Output
 import lgp.core.program.instructions.Operation
 import lgp.core.program.registers.RegisterSet
 import lgp.core.modules.Module
@@ -185,16 +187,15 @@ open class Environment<T> {
     private val constantLoader: ConstantLoader<T>
     private val operationLoader: OperationLoader<T>
     private val defaultValueProvider: DefaultValueProvider<T>
-    private val inputVectorization: List<List<Pair<Int, String?>>>
     private val randomStateSeed: Long?
     var randomState: Random
 
     /**
-     * A function that can measure the fitness of a program.
+     * A provider for a function that can measure the fitness of a program.
      *
      * This property should be provided at construction time.
      */
-    val fitnessFunction: FitnessFunction<T>
+    val fitnessFunctionProvider: FitnessFunctionProvider<T>
 
     // Dependencies that come from the loaders given to the environment and are not necessarily
     // needed until the environment is initialised.
@@ -245,8 +246,7 @@ open class Environment<T> {
             constantLoader: ConstantLoader<T>,
             operationLoader: OperationLoader<T>,
             defaultValueProvider: DefaultValueProvider<T>,
-            fitnessFunction: FitnessFunction<T>,
-            inputVectorization: List<List<Pair<Int, String?>>>,
+            fitnessFunctionProvider: FitnessFunctionProvider<T>,
             resultAggregator: ResultAggregator<T>? = null,
             randomStateSeed: Long? = null
     ) {
@@ -255,8 +255,7 @@ open class Environment<T> {
         this.constantLoader = constantLoader
         this.operationLoader = operationLoader
         this.defaultValueProvider = defaultValueProvider
-        this.fitnessFunction = fitnessFunction
-        this.inputVectorization = inputVectorization
+        this.fitnessFunctionProvider = fitnessFunctionProvider
         this.randomStateSeed = randomStateSeed
         // If no result aggregator is provided then use the default aggregator which doesn't collect results.
         this.resultAggregator = resultAggregator ?: ResultAggregators.DefaultResultAggregator()
@@ -301,7 +300,7 @@ open class Environment<T> {
         // TODO: Pass environment to register set and make it a dependency that must be registered.
 
         this.registerSet = RegisterSet(
-                inputRegisters = this.inputVectorization.flatten().count(),
+                inputRegisters = this.configuration.numFeatures,
                 calculationRegisters = this.configuration.numCalculationRegisters,
                 constants = this.constants,
                 defaultValueProvider = this.defaultValueProvider
@@ -391,8 +390,7 @@ open class Environment<T> {
                 this.constantLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
-                this.fitnessFunction,
-                this.inputVectorization,
+                this.fitnessFunctionProvider,
                 this.resultAggregator,
                 this.randomState.nextLong()
         )
