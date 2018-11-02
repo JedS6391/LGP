@@ -39,4 +39,6 @@ abstract class Operation<T>(val arity: Arity, val func: Function<T>) : Module {
      * @return A value of type T mapped from the arguments.
      */
     abstract fun execute(arguments: Arguments<T> ): T
+
+    abstract fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String
 }

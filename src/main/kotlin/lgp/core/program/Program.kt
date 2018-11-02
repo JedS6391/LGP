@@ -16,7 +16,7 @@ import lgp.core.program.instructions.Instruction
 abstract class Program<T>(
     var instructions: MutableList<Instruction<T>>,
     val registers: RegisterSet<T>,
-    val outputRegisterIndex: Int
+    val outputRegisterIndices: List<Int>
 ) : Module {
 
     /**

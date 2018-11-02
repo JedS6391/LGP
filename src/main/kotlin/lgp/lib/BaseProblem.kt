@@ -117,7 +117,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                         BaseProgramGenerator(
                                 environment,
                                 sentinelTrueValue = 1.0,
-                                outputRegisterIndex = 0
+                                outputRegisterIndices = listOf(0)
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->
@@ -158,6 +158,9 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                 this.operationLoader,
                 this.defaultValueProvider,
                 this.fitnessFunction,
+                this.configLoader.load().featuresBeingCategorical.mapIndexed { index: Int, _ ->
+                    listOf(Pair(index, null))
+                },
                 randomStateSeed = this.params.randomStateSeed
         )
 

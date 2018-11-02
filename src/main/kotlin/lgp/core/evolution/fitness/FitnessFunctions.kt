@@ -21,12 +21,12 @@ abstract class FitnessFunction<in T> {
      * @param cases A set of expected outputs.
      * @return A double value that represents the error measure between the predicted/expected outputs.
      */
-    abstract fun fitness(outputs: List<T>, cases: List<FitnessCase<T>>): Double
+    abstract fun fitness(outputs: List<List<T>>, cases: List<FitnessCase<T>>): Double
 
     /**
      * Allows [fitness] to be called directly using `()` syntax (e.g. `fitnessFunctionInstance(outputs, cases)`).
      */
-    operator fun invoke(outputs: List<T>, cases: List<FitnessCase<T>>): Double {
+    operator fun invoke(outputs: List<List<T>>, cases: List<FitnessCase<T>>): Double {
         return this.fitness(outputs, cases)
     }
 }
@@ -52,11 +52,13 @@ object FitnessFunctions {
     @JvmStatic
     val MAE: FitnessFunction<Double> = object : FitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Double>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<List<Double>>, cases: List<FitnessCase<Double>>): Double {
             val fitness = cases.zip(outputs).map { (case, actual) ->
                 val expected = case.target
 
-                Math.abs(actual - expected)
+                actual.zip(expected).map { (actualValue, expectedValue) ->
+                    Math.abs(actualValue - expectedValue)
+                }.sum()
             }.sum()
 
             return when {
@@ -74,11 +76,13 @@ object FitnessFunctions {
     @JvmStatic
     val SSE: FitnessFunction<Double> = object : FitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Double>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<List<Double>>, cases: List<FitnessCase<Double>>): Double {
             val fitness = cases.zip(outputs).map { (case, actual) ->
                 val expected = case.target
 
-                Math.pow((actual - expected), 2.0)
+                actual.zip(expected).map { (actualValue, expectedValue) ->
+                    Math.pow((actualValue - expectedValue), 2.0)
+                }.sum()
             }.sum()
 
             return when {
@@ -96,11 +100,13 @@ object FitnessFunctions {
     @JvmStatic
     val MSE: FitnessFunction<Double> = object : FitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Double>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<List<Double>>, cases: List<FitnessCase<Double>>): Double {
             val fitness = cases.zip(outputs).map { (case, actual) ->
                 val expected = case.target
 
-                Math.pow((actual - expected), 2.0)
+                actual.zip(expected).map { (actualValue, expectedValue) ->
+                    Math.pow((actualValue - expectedValue), 2.0)
+                }.sum()
             }.sum()
 
             return when {
@@ -118,11 +124,13 @@ object FitnessFunctions {
     @JvmStatic
     val RMSE: FitnessFunction<Double> = object : FitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Double>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<List<Double>>, cases: List<FitnessCase<Double>>): Double {
             val fitness = cases.zip(outputs).map { (case, actual) ->
                 val expected = case.target
 
-                Math.pow((actual - expected), 2.0)
+                actual.zip(expected).map { (actualValue, expectedValue) ->
+                    Math.pow((actualValue - expectedValue), 2.0)
+                }.sum()
             }.sum()
 
             val mse = ((1.0 / cases.size.toDouble()) * fitness)
@@ -141,12 +149,13 @@ object FitnessFunctions {
      */
     private class ClassificationError(val mappingFunction: (Double) -> Double) : FitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Double>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<List<Double>>, cases: List<FitnessCase<Double>>): Double {
             return cases.zip(outputs).map { (case, output) ->
-                    val expected = case.target
-                    val actual = this.mappingFunction(output)
+                    output.zip(case.target).map { (outputValue, expectedValue) ->
+                            val actualValue = this.mappingFunction(outputValue)
 
-                    if (actual != expected) 1.0 else 0.0
+                            if (actualValue != expectedValue) 1.0 else 0.0
+                    }.sum()
                 }.sum()
         }
     }
@@ -169,14 +178,14 @@ object FitnessFunctions {
      */
     private class ThresholdClassificationError(val threshold: Double) : FitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Double>, cases: List<FitnessCase<Double>>): Double {
-            return cases.zip(outputs).filter { (case, output) ->
-                val expected = case.target
-
-                // Program is correct when the distance between the actual
-                // and expected values is within some threshold.
-                Math.abs(output - expected) > this.threshold
-            }.count().toDouble()
+        override fun fitness(outputs: List<List<Double>>, cases: List<FitnessCase<Double>>): Double {
+            return cases.zip(outputs).map { (case, output) ->
+                case.target.zip(output).filter { (expectedValue, outputValue) ->
+                    // Program is correct when the distance between the actual
+                    // and expected values is within some threshold.
+                    Math.abs(outputValue - expectedValue) > this.threshold
+                }.count().toDouble()
+            }.sum()
         }
     }
 

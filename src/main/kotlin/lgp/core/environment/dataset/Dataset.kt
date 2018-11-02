@@ -55,7 +55,7 @@ class InvalidNumberOfSamplesException(message: String) : Exception(message)
  */
 open class Dataset<out TData>(
         val inputs: List<Sample<TData>>,
-        val outputs: List<TData>
+        val outputs: List<List<TData>>
 ) {
 
     init {

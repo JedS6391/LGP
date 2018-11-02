@@ -185,6 +185,7 @@ open class Environment<T> {
     private val constantLoader: ConstantLoader<T>
     private val operationLoader: OperationLoader<T>
     private val defaultValueProvider: DefaultValueProvider<T>
+    private val inputVectorization: List<List<Pair<Int, String?>>>
     private val randomStateSeed: Long?
     var randomState: Random
 
@@ -245,6 +246,7 @@ open class Environment<T> {
             operationLoader: OperationLoader<T>,
             defaultValueProvider: DefaultValueProvider<T>,
             fitnessFunction: FitnessFunction<T>,
+            inputVectorization: List<List<Pair<Int, String?>>>,
             resultAggregator: ResultAggregator<T>? = null,
             randomStateSeed: Long? = null
     ) {
@@ -254,6 +256,7 @@ open class Environment<T> {
         this.operationLoader = operationLoader
         this.defaultValueProvider = defaultValueProvider
         this.fitnessFunction = fitnessFunction
+        this.inputVectorization = inputVectorization
         this.randomStateSeed = randomStateSeed
         // If no result aggregator is provided then use the default aggregator which doesn't collect results.
         this.resultAggregator = resultAggregator ?: ResultAggregators.DefaultResultAggregator()
@@ -298,7 +301,7 @@ open class Environment<T> {
         // TODO: Pass environment to register set and make it a dependency that must be registered.
 
         this.registerSet = RegisterSet(
-                inputRegisters = this.configuration.numFeatures,
+                inputRegisters = this.inputVectorization.flatten().count(),
                 calculationRegisters = this.configuration.numCalculationRegisters,
                 constants = this.constants,
                 defaultValueProvider = this.defaultValueProvider
@@ -389,6 +392,7 @@ open class Environment<T> {
                 this.operationLoader,
                 this.defaultValueProvider,
                 this.fitnessFunction,
+                this.inputVectorization,
                 this.resultAggregator,
                 this.randomState.nextLong()
         )

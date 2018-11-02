@@ -330,7 +330,7 @@ class MicroMutationOperator<T>(
 }
 
 internal fun <T> findEffectiveCalculationRegisters(individual: Program<T>, stopPoint: Int): List<RegisterIndex> {
-    val effectiveRegisters = mutableListOf(individual.outputRegisterIndex)
+    val effectiveRegisters = individual.outputRegisterIndices.toMutableList()
     // Only instructions up until to the stop point should be searched.
     val instructions = individual.instructions.reversed().filterIndexed { idx, _ -> idx < stopPoint }
 

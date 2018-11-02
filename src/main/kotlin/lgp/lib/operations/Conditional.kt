@@ -1,6 +1,6 @@
 package lgp.lib.operations
 
-import lgp.core.program.instructions.BranchOperation
+import lgp.core.program.instructions.*
 import lgp.core.program.registers.Arguments
 import lgp.core.modules.ModuleInformation
 
@@ -31,6 +31,10 @@ class IfGreater : BranchOperation<Double>(
     override val information = ModuleInformation(
             description = ""
     )
+
+    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+        return "if(r[${ operands[0] }] > r[${ operands[1] }])"
+    }
 }
 
 /**
@@ -60,4 +64,8 @@ class IfLessThanOrEqualTo : BranchOperation<Double>(
     override val information = ModuleInformation(
             description = ""
     )
+
+    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+        return "if(r[${ operands[0] }] <= r[${ operands[1] }])"
+    }
 }

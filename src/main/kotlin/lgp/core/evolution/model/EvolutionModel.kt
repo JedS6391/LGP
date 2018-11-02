@@ -31,8 +31,8 @@ open class EvolutionResult<T>(
  *
  */
 data class TestResult<out T>(
-        val predicted: List<T>,
-        val expected: List<T>
+        val predicted: List<List<T>>,
+        val expected: List<List<T>>
 )
 
 /**

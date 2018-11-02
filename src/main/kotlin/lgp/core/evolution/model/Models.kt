@@ -180,14 +180,14 @@ object Models {
             val standardDeviation = this.individuals.map(Program<TProgram>::fitness).standardDeviation(meanFitness)
 
             return EvolutionStatistics(
-                data = mapOf(
-                    "generation" to generation,
-                    "bestFitness" to bestFitness,
-                    "meanFitness" to meanFitness,
-                    "standardDeviationFitness" to standardDeviation,
-                    "meanProgramLength" to meanProgramLength,
-                    "meanEffectiveProgramLength" to meanEffectiveProgramLength
-                )
+                    data = mapOf(
+                            "generation" to generation,
+                            "bestFitness" to bestFitness,
+                            "meanFitness" to meanFitness,
+                            "standardDeviationFitness" to standardDeviation,
+                            "meanProgramLength" to meanProgramLength,
+                            "meanEffectiveProgramLength" to meanEffectiveProgramLength
+                    )
             )
         }
 
@@ -204,13 +204,15 @@ object Models {
                 // Run the program...
                 this.bestProgram.execute()
 
-                // Collect output
-                this.bestProgram.registers[this.bestProgram.outputRegisterIndex]
+                val getOutput : (Int) -> TProgram = { index -> this.bestProgram.registers[index] }
+
+                // ... and gather a result from the programs specified output registers.
+                this.bestProgram.outputRegisterIndices.map(getOutput)
             }
 
             return TestResult(
-                predicted = outputs,
-                expected = dataset.outputs
+                    predicted = outputs,
+                    expected = dataset.outputs
             )
         }
 
@@ -353,14 +355,14 @@ object Models {
             val standardDeviation = this.individuals.map(Program<TProgram>::fitness).standardDeviation(meanFitness)
 
             return EvolutionStatistics(
-                data = mapOf(
-                    "generation" to generation,
-                    "bestFitness" to bestFitness,
-                    "meanFitness" to meanFitness,
-                    "standardDeviationFitness" to standardDeviation,
-                    "meanProgramLength" to meanProgramLength,
-                    "meanEffectiveProgramLength" to meanEffectiveProgramLength
-                )
+                    data = mapOf(
+                            "generation" to generation,
+                            "bestFitness" to bestFitness,
+                            "meanFitness" to meanFitness,
+                            "standardDeviationFitness" to standardDeviation,
+                            "meanProgramLength" to meanProgramLength,
+                            "meanEffectiveProgramLength" to meanEffectiveProgramLength
+                    )
             )
         }
 
@@ -377,13 +379,15 @@ object Models {
                 // Run the program...
                 this.bestProgram.execute()
 
-                // Collect output
-                this.bestProgram.registers[this.bestProgram.outputRegisterIndex]
+                val getOutput : (Int) -> TProgram = { index -> this.bestProgram.registers[index] }
+
+                // ... and gather a result from the programs specified output registers.
+                this.bestProgram.outputRegisterIndices.map(getOutput)
             }
 
             return TestResult(
-                predicted = outputs,
-                expected = dataset.outputs
+                    predicted = outputs,
+                    expected = dataset.outputs
             )
         }
 
@@ -414,6 +418,8 @@ object Models {
             environment: Environment<TProgram>,
             val options: IslandMigrationOptions
     ) : EvolutionModel<TProgram>(environment) {
+
+        private val fitnessEvaluator: FitnessEvaluator<TProgram> = FitnessEvaluator()
 
         lateinit var islands: IslandGrid<TProgram>
 
@@ -466,12 +472,7 @@ object Models {
                 this.islands = arrayOfNulls(rows.toInt())
 
                 for (row in 0 until rows.toInt()) {
-                    this.islands[row] = Array(columns) {
-                        Island(
-                            environment,
-                            dataset
-                        )
-                    }
+                    this.islands[row] = Array(columns, { Island(environment, dataset) })
                 }
             }
 
@@ -627,16 +628,52 @@ object Models {
             // Create a grid of islands. The grids are populated so that each island has a set of
             // neighbours with which individuals can migrate to.
             this.islands = IslandGrid(
-                numIslands = this@IslandMigration.options.numIslands,
-                environment = this.environment,
-                dataset = dataset
+                    numIslands = this@IslandMigration.options.numIslands,
+                    environment = this.environment,
+                    dataset = dataset
             )
+
+            var bestIndividuals = mutableListOf<Program<TProgram>>()
+
+            (0 until this@IslandMigration.islands.rows()).map { row ->
+                (0 until this@IslandMigration.islands.columns()).map { col ->
+                    val island = this@IslandMigration.islands[row][col]
+
+                    val sortedIslandIndividuals = island.individuals.sortedBy { it.fitness }
+
+                    val best = sortedIslandIndividuals.first()
+
+                    bestIndividuals.add(best)
+                }
+            }
+
+            var best = bestIndividuals.sortedBy(Program<TProgram>::fitness).first()
+
+            var individuals = mutableListOf<Program<TProgram>>()
+
+            (0 until this@IslandMigration.islands.rows()).map { row ->
+                (0 until this@IslandMigration.islands.columns()).map { col ->
+                    val island = this@IslandMigration.islands[row][col]
+
+                    individuals.addAll(island.individuals)
+                }
+            }
 
             // We've now got a grid of islands ready to start evolving. For each island we will run the
             // evolution process for a set number of generations before stopping to do migration.
             var generation = 0
 
+            val statistics = mutableListOf<EvolutionStatistics>()
+
             while (generation < this@IslandMigration.environment.configuration.generations) {
+                // Stop early whenever we can.
+                if (best.fitness <= this.environment.configuration.stoppingCriterion) {
+                    // Make sure to add at least one set of statistics.
+                    statistics.add(this.statistics(generation, this.fitnessEvaluator.evaluate(best, dataset, this.environment)))
+
+                    return EvolutionResult(best, individuals, statistics)
+                }
+
                 (0 until this@IslandMigration.islands.rows()).map { row ->
                     (0 until this@IslandMigration.islands.columns()).map { col ->
                         val island = this@IslandMigration.islands[row][col]
@@ -666,7 +703,7 @@ object Models {
                     }.flatten().filter { (x, y) ->
                         x in (0 until this@IslandMigration.islands.rows()) &&
                                 y in (0 until this@IslandMigration.islands.columns()) &&
-                                x != i && y != j
+                                (x != i || y != j)
                     }.toList()
 
                     val neighbourCoords = random.choice(neighbours)
@@ -689,26 +726,48 @@ object Models {
                 }
 
                 generation += this@IslandMigration.options.migrationInterval
+
+                individuals = mutableListOf<Program<TProgram>>()
+
+                (0 until this@IslandMigration.islands.rows()).map { row ->
+                    (0 until this@IslandMigration.islands.columns()).map { col ->
+                        val island = this@IslandMigration.islands[row][col]
+
+                        individuals.addAll(island.individuals)
+                    }
+                }
+
+                bestIndividuals = mutableListOf<Program<TProgram>>()
+
+                (0 until this@IslandMigration.islands.rows()).map { row ->
+                    (0 until this@IslandMigration.islands.columns()).map { col ->
+                        val island = this@IslandMigration.islands[row][col]
+
+                        val sortedIslandIndividuals = island.individuals.sortedBy { it.fitness }
+
+                        val best = sortedIslandIndividuals.first()
+
+                        bestIndividuals.add(best)
+                    }
+                }
+
+                best = bestIndividuals.sortedBy(Program<TProgram>::fitness).first()
+
+                statistics.add(this.statistics(generation, this.fitnessEvaluator.evaluate(best, dataset, this.environment)))
+
             }
 
             // We've reached the maximum number of generations, so choose the best individual from
             // all of the islands as our overall best.
-            val bestIndividuals = mutableListOf<Program<TProgram>>()
 
-            (0 until this@IslandMigration.islands.rows()).map { row ->
-                (0 until this@IslandMigration.islands.columns()).map { col ->
-                    val island = this@IslandMigration.islands[row][col]
+            return EvolutionResult(best, individuals, statistics)
+        }
 
-                    val sortedIslandIndividuals = island.individuals.sortedBy { it.fitness }
-
-                    val best = sortedIslandIndividuals.first()
-
-                    bestIndividuals.add(best)
-                }
-            }
-
-            val best = bestIndividuals.sortedBy(Program<TProgram>::fitness).first()
-
+        private fun statistics(generation: Int, best: Evaluation<TProgram>): EvolutionStatistics {
+            var meanFitness = 0.0
+            var meanProgramLength = 0.0
+            var meanEffectiveProgramLength = 0.0
+            val bestFitness = best.fitness
             val individuals = mutableListOf<Program<TProgram>>()
 
             (0 until this@IslandMigration.islands.rows()).map { row ->
@@ -719,7 +778,29 @@ object Models {
                 }
             }
 
-            return EvolutionResult(best, individuals, mutableListOf())
+            individuals.forEach { individual ->
+                meanFitness += individual.fitness
+                meanProgramLength += individual.instructions.size
+                meanEffectiveProgramLength += individual.effectiveInstructions.size
+            }
+
+            meanFitness /= individuals.size
+            meanProgramLength /= individuals.size
+            meanEffectiveProgramLength /= individuals.size
+
+            // Use the mean that we've already calculated.
+            val standardDeviation = individuals.map(Program<TProgram>::fitness).standardDeviation(meanFitness)
+
+            return EvolutionStatistics(
+                    data = mapOf(
+                            "generation" to generation,
+                            "bestFitness" to bestFitness,
+                            "meanFitness" to meanFitness,
+                            "standardDeviationFitness" to standardDeviation,
+                            "meanProgramLength" to meanProgramLength,
+                            "meanEffectiveProgramLength" to meanEffectiveProgramLength
+                    )
+            )
         }
 
         override fun test(dataset: Dataset<TProgram>): TestResult<TProgram> {
@@ -740,7 +821,7 @@ object Models {
 fun List<Double>.standardDeviation(mean: Double = this.average()): Double {
     val variance = this.map { x -> Math.pow(x - mean, 2.0) }.sum()
 
-    return Math.pow((variance / size), 0.5)
+    return Math.pow((variance / this.size), 0.5)
 }
 
 fun <T, R> List<T>.pmap(transform: (T) -> R): List<R> {

@@ -2,6 +2,7 @@ package lgp.core.evolution.fitness
 
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Sample
+import lgp.core.program.instructions.Instruction
 import lgp.core.program.Program
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
@@ -13,7 +14,7 @@ import lgp.core.modules.ModuleInformation
  * @property features A sampling of features from a data set.
  * @property target The target value for this cases set of features.
  */
-data class FitnessCase<out TData>(val features: Sample<TData>, val target: TData)
+data class FitnessCase<out TData>(val features: Sample<TData>, val target: List<TData>)
 
 /**
  * Provides a way to map a program to fitness cases using a given fitness function.
@@ -71,8 +72,10 @@ class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : Fitne
             // Run the program...
             program.execute()
 
+            val getOutput : (Int) -> TData = { index -> program.registers[index] }
+
             // ... and gather a result from the programs specified output register.
-            program.registers[program.outputRegisterIndex]
+            program.outputRegisterIndices.map(getOutput)
         }
 
         // Copy the fitness to the program for later accesses

@@ -20,7 +20,7 @@ import lgp.core.modules.ModuleInformation
 class BaseProgramGenerator<T>(
         environment: Environment<T>,
         val sentinelTrueValue: T,
-        val outputRegisterIndex: RegisterIndex
+        val outputRegisterIndices: List<RegisterIndex>
 ) : ProgramGenerator<T>(
         environment,
         instructionGenerator = environment.registeredModule(CoreModuleType.InstructionGenerator)
@@ -85,7 +85,7 @@ class BaseProgramGenerator<T>(
         return BaseProgram(
                 instructions = instructions.toList(),
                 registerSet = this.environment.registerSet.copy(),
-                outputRegisterIndex = this.outputRegisterIndex,
+                outputRegisterIndices = this.outputRegisterIndices,
                 sentinelTrueValue = this.sentinelTrueValue
         )
     }
