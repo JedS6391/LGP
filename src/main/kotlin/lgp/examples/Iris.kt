@@ -7,9 +7,7 @@ import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
-import lgp.core.evolution.fitness.FitnessFunction
-import lgp.core.evolution.fitness.FitnessFunctions
-import lgp.core.evolution.fitness.SingleOutputFitnessContext
+import lgp.core.evolution.fitness.*
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
 import lgp.core.evolution.training.DistributedTrainer
@@ -105,7 +103,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
             targetParseFunction = { _: Header, row: Row ->
                 val target = row[targetIndex]
 
-                targetLabels.indexOf(target).toDouble()
+                Targets.Single(targetLabels.indexOf(target).toDouble())
             }
     )
 
@@ -115,7 +113,9 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
-    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.thresholdCE(0.5)
+    override val fitnessFunctionProvider = {
+        FitnessFunctions.thresholdCE(0.5) as FitnessFunction<Double, Output<Double>>
+    }
 
     override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(
@@ -126,7 +126,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
                         BaseProgramGenerator(
                                 environment,
                                 sentinelTrueValue = 1.0,
-                                outputRegisterIndex = 0
+                                outputRegisterIndices = listOf(0)
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->
@@ -167,7 +167,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
                 this.constantLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
-                this.fitnessFunction
+                this.fitnessFunctionProvider
         )
 
         this.environment.registerModules(this.registeredModules)

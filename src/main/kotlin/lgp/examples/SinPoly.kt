@@ -9,6 +9,7 @@ import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
 import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctions
+import lgp.core.evolution.fitness.Output
 import lgp.core.evolution.fitness.SingleOutputFitnessContext
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
@@ -86,7 +87,7 @@ class SinPolyProblem : Problem<Double>() {
             }.toList()
 
             val ys = xs.map { x ->
-                this.func(x.feature("x").value)
+                Targets.Single(this.func(x.feature("x").value))
             }
 
             return Dataset(
@@ -102,7 +103,9 @@ class SinPolyProblem : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
-    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.SSE
+    override val fitnessFunctionProvider = {
+        FitnessFunctions.SSE as FitnessFunction<Double, Output<Double>>
+    }
 
     override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(
@@ -113,7 +116,7 @@ class SinPolyProblem : Problem<Double>() {
                         BaseProgramGenerator(
                                 environment,
                                 sentinelTrueValue = 1.0,
-                                outputRegisterIndex = 0
+                                outputRegisterIndices = listOf(0)
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->
@@ -154,7 +157,7 @@ class SinPolyProblem : Problem<Double>() {
                 this.constantLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
-                this.fitnessFunction
+                this.fitnessFunctionProvider
         )
 
         this.environment.registerModules(this.registeredModules)

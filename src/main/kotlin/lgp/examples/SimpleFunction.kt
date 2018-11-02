@@ -8,9 +8,7 @@ import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
-import lgp.core.evolution.fitness.FitnessFunction
-import lgp.core.evolution.fitness.FitnessFunctions
-import lgp.core.evolution.fitness.SingleOutputFitnessContext
+import lgp.core.evolution.fitness.*
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
 import lgp.core.evolution.training.DistributedTrainer
@@ -94,7 +92,7 @@ class SimpleFunctionProblem : Problem<Double>() {
             }
 
             val ys = xs.map { x ->
-                this.func(x.features[0].value)
+                Targets.Single(this.func(x.features[0].value))
             }
 
             return Dataset(
@@ -110,7 +108,9 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
-    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.MSE
+    override val fitnessFunctionProvider = {
+        FitnessFunctions.MSE as FitnessFunction<Double, Output<Double>>
+    }
 
     override val registeredModules = ModuleContainer<Double>(
             modules = mutableMapOf(
@@ -121,7 +121,7 @@ class SimpleFunctionProblem : Problem<Double>() {
                         BaseProgramGenerator(
                                 environment,
                                 sentinelTrueValue = 1.0,
-                                outputRegisterIndex = 0
+                                outputRegisterIndices = listOf(0)
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->
@@ -161,14 +161,14 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun initialiseEnvironment() {
         this.environment = Environment(
-                this.configLoader,
-                this.constantLoader,
-                this.operationLoader,
-                this.defaultValueProvider,
-                this.fitnessFunction,
-                ResultAggregators.BufferedResultAggregator(
-                        ResultOutputProviders.CsvResultOutputProvider("results.csv")
-                )
+            this.configLoader,
+            this.constantLoader,
+            this.operationLoader,
+            this.defaultValueProvider,
+            this.fitnessFunctionProvider,
+            ResultAggregators.BufferedResultAggregator(
+                ResultOutputProviders.CsvResultOutputProvider("results.csv")
+            )
         )
 
         this.environment.registerModules(this.registeredModules)
