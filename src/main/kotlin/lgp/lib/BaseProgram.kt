@@ -55,6 +55,9 @@ object BaseProgramOutputResolvers {
  *
  * Instructions of this program are executed in sequence and can be gathered
  * from a single output register.
+ *
+ * @property sentinelTrueValue A value that should be considered as boolean "true".
+ * @property outputResolver A function that can be used to resolve the programs register contents to an [Output].
  */
 class BaseProgram<TProgram, TOutput : Output<TProgram>>(
         instructions: List<Instruction<TProgram>>,
@@ -198,21 +201,19 @@ class BaseProgramSimplifier<TProgram, TOutput : Output<TProgram>> {
             }
 
             // TODO: Sanity check length of registers
-            if (instruction.operation.arity === BaseArity.Unary) {
-                sb.append(instruction.operation.representation)
-                sb.append("(")
-                sb.append(this.simplifyOperand(program, instruction.operands[0]))
-                sb.append(")")
-            } else if (instruction.operation.arity === BaseArity.Binary) {
-                sb.append(this.simplifyOperand(program, instruction.operands[0]))
-                sb.append(instruction.operation.representation)
-                sb.append(this.simplifyOperand(program, instruction.operands[1]))
-            } else {
-                sb.append(instruction.operation.representation + "(" + this.simplifyOperand(program, instruction.operands[0]))
-                for (operand in instruction.operands.drop(1)) {
-                    sb.append("," + this.simplifyOperand(program, operand))
+            when {
+                instruction.operation.arity === BaseArity.Unary -> {
+                    sb.append(instruction.operation.representation)
+                    sb.append("(")
+                    sb.append(this.simplifyOperand(program, instruction.operands[0]))
+                    sb.append(")")
                 }
-                sb.append(")")
+                instruction.operation.arity === BaseArity.Binary -> {
+                    sb.append(this.simplifyOperand(program, instruction.operands[0]))
+                    sb.append(instruction.operation.representation)
+                    sb.append(this.simplifyOperand(program, instruction.operands[1]))
+                }
+                // TODO: Handle more arity if defined in BaseArity.
             }
 
             if (instruction.operation is BranchOperation<TProgram>)

@@ -17,6 +17,10 @@ import lgp.core.program.Output
  * A ``ProgramGenerator`` implementation that provides effective ``BaseProgram`` instances.
  *
  * This generator only creates programs which are "effective".
+ *
+ * @property sentinelTrueValue A value that should be considered as boolean "true".
+ * @property outputRegisterIndices A collection of indices that should be considered as the program output registers.
+ * @property outputResolver A function that can be used to resolve the programs register contents to an [Output].
  */
 class BaseProgramGenerator<TProgram, TOutput : Output<TProgram>>(
         environment: Environment<TProgram, TOutput>,
