@@ -23,18 +23,18 @@ data class EvolutionStatistics(val data: Map<String, Any>)
  * @property individuals The population at the end of the evolution process.
  * @property statistics Any statistics from evolution. It is expected to be on a per generation basis.
  */
-open class EvolutionResult<T>(
-    val best: Program<T>,
-    val individuals: List<Program<T>>,
+open class EvolutionResult<TProgram, TOutput : Output<TProgram>>(
+    val best: Program<TProgram, TOutput>,
+    val individuals: List<Program<TProgram, TOutput>>,
     val statistics: List<EvolutionStatistics>
 )
 
 /**
  *
  */
-data class TestResult<T>(
-    val predicted: List<Output<T>>,
-    val expected: List<Target<T>>
+data class TestResult<TProgram, TOutput : Output<TProgram>>(
+    val predicted: List<TOutput>,
+    val expected: List<Target<TProgram>>
 )
 
 /**
@@ -43,7 +43,9 @@ data class TestResult<T>(
  * @param TProgram The type of programs this models evolves.
  * @property environment The environment evolution takes place within.
  */
-abstract class EvolutionModel<TProgram>(val environment: Environment<TProgram>) : Module {
+abstract class EvolutionModel<TProgram, TOutput : Output<TProgram>>(
+    val environment: Environment<TProgram, TOutput>
+) : Module {
 
     /**
      * Train the model on the given data set.
@@ -53,7 +55,7 @@ abstract class EvolutionModel<TProgram>(val environment: Environment<TProgram>) 
      * @param dataset A set of features and target values.
      * @returns A description of the evolution process during training.
      */
-    abstract fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram>
+    abstract fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram, TOutput>
 
     /**
      * Tests the model on a given data set and returns the program outputs.
@@ -61,9 +63,9 @@ abstract class EvolutionModel<TProgram>(val environment: Environment<TProgram>) 
      * @param dataset A set of features and target values.
      * @returns The output of the program for each sample in the data set.
      */
-    abstract fun test(dataset: Dataset<TProgram>): TestResult<TProgram>
+    abstract fun test(dataset: Dataset<TProgram>): TestResult<TProgram, TOutput>
 
-    abstract fun copy(): EvolutionModel<TProgram>
+    abstract fun copy(): EvolutionModel<TProgram, TOutput>
 
-    abstract fun deepCopy(): EvolutionModel<TProgram>
+    abstract fun deepCopy(): EvolutionModel<TProgram, TOutput>
 }

@@ -31,37 +31,6 @@ class CsvDatasetLoader<out TData> constructor(
         val targetParseFunction: (Header, Row) -> Target<TData>
 ) : DatasetLoader<TData> {
 
-
-    companion object {
-        fun vectorize(reader: BufferedReader, featuresBeingCategorical: List<Boolean>, outputsBeingCategorical: List<Boolean>): Pair<List<List<Pair<Int, String?>>>, List<List<Pair<Int, String?>>>> {
-            val lines: MutableList<Array<String>> = CSVReader(reader).readAll()
-            lines.removeAt(0)
-            var inputIndex: Int = 0;
-            val inputVectorization = mutableListOf<List<Pair<Int, String?>>>()
-            for (i in 0..(featuresBeingCategorical.count() - 1)) {
-                if (featuresBeingCategorical.get(i)) {
-                    val categories: List<String> = lines.map { line: Array<String> -> line[i] }.distinct()
-                    inputVectorization.add((inputIndex..(inputIndex + categories.count() - 1)).zip(categories))
-                } else {
-                    inputVectorization.add(listOf(Pair(inputIndex, null)))
-                }
-                inputIndex += inputVectorization.last().count()
-            }
-            var outputIndex: Int = 0;
-            val outputVectorization = mutableListOf<List<Pair<Int, String?>>>()
-            for (i in 0..(outputsBeingCategorical.count() - 1)) {
-                if (outputsBeingCategorical.get(i)) {
-                    val categories: List<String> = lines.map { line: Array<String> -> line[i + featuresBeingCategorical.count()] }.distinct()
-                    outputVectorization.add((outputIndex..(outputIndex + categories.count() - 1)).zip(categories))
-                } else {
-                    outputVectorization.add(listOf(Pair(outputIndex, null)))
-                }
-                outputIndex += outputVectorization.last().count()
-            }
-            return Pair(inputVectorization, outputVectorization)
-        }
-    }
-
     private constructor(builder: Builder<TData>)
             : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
 
@@ -207,57 +176,6 @@ object ParsingFunctions {
             row.slice(targetIndices)
                .map { targetValue ->
                    targetValue.toDouble()
-               }
-        }
-    }
-
-    /**
-     * A feature parsing function that will create a sample of features by mapping each header row
-     * to its corresponding data row (using the feature indices provided). The function expects to
-     * be creating features with [Double] values.
-     *
-     * @param featureIndices The indices of any feature variables in the current [Row] being processed.
-     * @return A function that creates [Sample] instances from a CSV data row and header.
-     */
-    fun vectorizedDoubleFeatureParsingFunction(featureIndices: IntRange, inputVectorization: List<List<Pair<Int, String?>>>): (Header, Row) -> Sample<Double> {
-        return { header: Header, row: Row ->
-            val features = row.zip(header)
-                    .slice(featureIndices)
-                    .zip(inputVectorization)
-                    .flatMap { triple ->
-                        triple.second.map { (_, label) ->
-                            if (label == null)
-                                Feature(
-                                    name = triple.first.second,
-                                    value = triple.first.first.toDouble()
-                                )
-                            else
-                                Feature(
-                                    name = triple.first.second + "_is_" + label,
-                                    value = if (triple.first.first == label) 1.0 else 0.0
-                                )
-                        }
-                    }
-
-            Sample(features)
-        }
-    }
-
-    /**
-     * A target parsing function that simply takes a specific value from a [Row] using its index.
-     * The function expects to return target variables of the [Double] type.
-     *
-     * @param targetIndices The indices of any target variables in the current [Row] being processed.
-     * @return A target parsing function that returns the target variable as a [Double] value.
-     */
-    fun vectorizedDoubleTargetParsingFunction(targetIndices: IntRange, outputVectorization: List<List<Pair<Int, String?>>>): (Header, Row) -> List<Double> {
-        return { _: Header, row: Row ->
-            row.slice(targetIndices)
-               .zip(outputVectorization)
-               .flatMap { (targetValue, outputVector) ->
-                   outputVector.map { (_, label) ->
-                       if (label == null) targetValue.toDouble() else if (targetValue == label) 1.0 else 0.0
-                   }
                }
         }
     }

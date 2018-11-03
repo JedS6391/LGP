@@ -2,6 +2,7 @@ package lgp.core.evolution.operators
 
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
+import lgp.core.evolution.fitness.Output
 import lgp.core.program.instructions.InstructionGenerator
 import lgp.core.program.instructions.RegisterIndex
 import lgp.core.program.registers.RandomRegisterGenerator
@@ -9,6 +10,7 @@ import lgp.core.program.registers.RegisterType
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 import lgp.core.program.Program
+import java.util.*
 
 /**
  * A search operator used during evolution to mutate an individual from a population.
@@ -16,14 +18,14 @@ import lgp.core.program.Program
  * The individual is mutated in place, that is a call to [MutationOperator.mutate] will directly
  * modify the given individual.
  *
- * @param T The type of programs being mutated.
+ * @param TProgram The type of programs being mutated.
  * @property environment The environment evolution is being performed within.
  */
-abstract class MutationOperator<T>(val environment: Environment<T>) : Module {
+abstract class MutationOperator<TProgram, TOutput : Output<TProgram>>(val environment: Environment<TProgram, TOutput>) : Module {
     /**
      * Mutates the individual given using some mutation method.
      */
-    abstract fun mutate(individual: Program<T>)
+    abstract fun mutate(individual: Program<TProgram, TOutput>)
 }
 
 // Used internally to make the macro/micro mutation code a bit clearer.
@@ -48,11 +50,11 @@ private enum class MicroMutationType {
  * @property insertionRate The probability with which instructions should be inserted.
  * @property deletionRate The probability with which instructions should be deleted.
  */
-class MacroMutationOperator<T>(
-        environment: Environment<T>,
+class MacroMutationOperator<TProgram, TOutput : Output<TProgram>>(
+        environment: Environment<TProgram, TOutput>,
         val insertionRate: Double,      // p_ins
         val deletionRate: Double        // p_del
-) : MutationOperator<T>(environment) {
+) : MutationOperator<TProgram, TOutput>(environment) {
 
     init {
         // Give a nasty runtime message if we get invalid parameters.
@@ -62,14 +64,14 @@ class MacroMutationOperator<T>(
     private val minimumProgramLength = this.environment.configuration.minimumProgramLength
     private val maximumProgramLength = this.environment.configuration.maximumProgramLength
     private val random = this.environment.randomState
-    private val instructionGenerator = this.environment.registeredModule<InstructionGenerator<T>>(
+    private val instructionGenerator = this.environment.registeredModule<InstructionGenerator<TProgram, TOutput>>(
             CoreModuleType.InstructionGenerator
     )
 
     /**
      * Performs a single, effective macro mutation to the individual given.
      */
-    override fun mutate(individual: Program<T>) {
+    override fun mutate(individual: Program<TProgram, TOutput>) {
         // Make sure the individuals effective program is found before mutating, since
         // we need it to perform effective mutations.
         individual.findEffectiveProgram()
@@ -144,14 +146,12 @@ object ConstantMutationFunctions {
     /**
      * A [ConstantMutationFunction] which returns the original constant with a small amount of gaussian noise added.
      *
-     * @param environment An [Environment] instance that can be used to access the systems RNG.
+     * @param randomState The system random number generator.
      */
     @JvmStatic
-    fun randomGaussianNoise(environment: Environment<Double>): ConstantMutationFunction<Double> {
-        val random = environment.randomState
-
+    fun randomGaussianNoise(randomState: Random): ConstantMutationFunction<Double> {
         return { v ->
-            v + (random.nextGaussian() * 1)
+            v + (randomState.nextGaussian() * 1)
         }
     }
 }
@@ -166,14 +166,14 @@ object ConstantMutationFunctions {
  *
  * @property registerMutationRate The rate with which registers should be mutated.
  * @property operatorMutationRate The rate with which operates should be mutated.
- * @property constantMutationFunc A function that can mutate values in the domain of [T].
+ * @property constantMutationFunc A function that can mutate values in the domain of [TProgram].
  */
-class MicroMutationOperator<T>(
-        environment: Environment<T>,
+class MicroMutationOperator<TProgram, TOutput : Output<TProgram>>(
+        environment: Environment<TProgram, TOutput>,
         val registerMutationRate: Double,
         val operatorMutationRate: Double,
-        val constantMutationFunc: ConstantMutationFunction<T>
-) : MutationOperator<T>(environment) {
+        val constantMutationFunc: ConstantMutationFunction<TProgram>
+) : MutationOperator<TProgram, TOutput>(environment) {
 
     private val constantsRate = this.environment.configuration.constantsRate
     private val operations = this.environment.operations
@@ -182,7 +182,7 @@ class MicroMutationOperator<T>(
     /**
      * Performs a single, effective micro mutation to the individual given.
      */
-    override fun mutate(individual: Program<T>) {
+    override fun mutate(individual: Program<TProgram, TOutput>) {
         // 1. Randomly select an (effective) instruction from program gp.
         individual.findEffectiveProgram()
 
@@ -287,6 +287,7 @@ class MicroMutationOperator<T>(
                 // Unfortunately the way of searching for an instruction that uses a constant is not
                 // particularly elegant, requiring a random search of the entire program.
                 var instr = random.choice(individual.effectiveInstructions)
+
                 var constantRegisters = instr.operands.filter { operand ->
                     individual.registers.registerType(operand) == RegisterType.Constant
                 }
@@ -329,7 +330,10 @@ class MicroMutationOperator<T>(
     override val information = ModuleInformation("Algorithm 6.2 ((effective) micro mutation).")
 }
 
-internal fun <T> findEffectiveCalculationRegisters(individual: Program<T>, stopPoint: Int): List<RegisterIndex> {
+internal fun <TProgram, TOutput : Output<TProgram>> findEffectiveCalculationRegisters(
+    individual: Program<TProgram, TOutput>,
+    stopPoint: Int
+): List<RegisterIndex> {
     val effectiveRegisters = individual.outputRegisterIndices.toMutableList()
     // Only instructions up until to the stop point should be searched.
     val instructions = individual.instructions.reversed().filterIndexed { idx, _ -> idx < stopPoint }

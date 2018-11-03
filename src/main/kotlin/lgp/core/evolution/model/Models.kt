@@ -6,6 +6,7 @@ import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.ExportableResult
 import lgp.core.evolution.fitness.Evaluation
 import lgp.core.evolution.fitness.FitnessEvaluator
+import lgp.core.evolution.fitness.Output
 import lgp.core.evolution.fitness.Outputs
 import lgp.core.evolution.operators.*
 import lgp.core.modules.ModuleInformation
@@ -57,39 +58,41 @@ object Models {
      * For more information, see Algorithm 2.1 (LGP Algorithm) from Linear Genetic Programming
      * (Brameier, M., Banzhaf, W. 2001).
      */
-    class SteadyState<TProgram>(environment: Environment<TProgram>) : EvolutionModel<TProgram>(environment) {
+    class SteadyState<TProgram, TOutput : Output<TProgram>>(
+        environment: Environment<TProgram, TOutput>
+    ) : EvolutionModel<TProgram, TOutput>(environment) {
 
-        private val select: SelectionOperator<TProgram> = this.environment.registeredModule(
+        private val select: SelectionOperator<TProgram, TOutput> = this.environment.registeredModule(
                 CoreModuleType.SelectionOperator
         )
 
-        private val combine: RecombinationOperator<TProgram> = this.environment.registeredModule(
+        private val combine: RecombinationOperator<TProgram, TOutput> = this.environment.registeredModule(
                 CoreModuleType.RecombinationOperator
         )
 
-        private val microMutate: MutationOperator<TProgram> = this.environment.registeredModule(
+        private val microMutate: MutationOperator<TProgram, TOutput> = this.environment.registeredModule(
                 CoreModuleType.MicroMutationOperator
         )
 
-        private val macroMutate: MutationOperator<TProgram> = this.environment.registeredModule(
+        private val macroMutate: MutationOperator<TProgram, TOutput> = this.environment.registeredModule(
                 CoreModuleType.MacroMutationOperator
         )
 
-        private val fitnessEvaluator: FitnessEvaluator<TProgram> = FitnessEvaluator()
+        private val fitnessEvaluator: FitnessEvaluator<TProgram, TOutput> = FitnessEvaluator()
 
-        lateinit var individuals: MutableList<Program<TProgram>>
+        lateinit var individuals: MutableList<Program<TProgram, TOutput>>
 
-        lateinit var bestProgram: Program<TProgram>
+        lateinit var bestProgram: Program<TProgram, TOutput>
 
         private fun initialise() {
-            val programGenerator: ProgramGenerator<TProgram> = this.environment.registeredModule(CoreModuleType.ProgramGenerator)
+            val programGenerator: ProgramGenerator<TProgram, TOutput> = this.environment.registeredModule(CoreModuleType.ProgramGenerator)
 
             this.individuals = programGenerator.next()
                     .take(this.environment.configuration.populationSize)
                     .toMutableList()
         }
 
-        override fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram> {
+        override fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram, TOutput> {
             val rg = this.environment.randomState
 
             // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
@@ -101,7 +104,7 @@ object Models {
                 this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
             }.toList()
 
-            var best = initialEvaluations.sortedBy(Evaluation<TProgram>::fitness).first()
+            var best = initialEvaluations.sortedBy(Evaluation<TProgram, TOutput>::fitness).first()
             this.bestProgram = best.individual
 
             val statistics = mutableListOf<EvolutionStatistics>()
@@ -142,7 +145,7 @@ object Models {
                 // TODO: Do validation step
                 val evaluations = children.map { individual ->
                     this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
-                }.sortedBy(Evaluation<TProgram>::fitness)
+                }.sortedBy(Evaluation<TProgram, TOutput>::fitness)
 
                 val bestChild = evaluations.first()
 
@@ -161,7 +164,7 @@ object Models {
             return EvolutionResult(best.individual, this.individuals, statistics)
         }
 
-        private fun statistics(generation: Int, best: Evaluation<TProgram>): EvolutionStatistics {
+        private fun statistics(generation: Int, best: Evaluation<TProgram, TOutput>): EvolutionStatistics {
             var meanFitness = 0.0
             var meanProgramLength = 0.0
             var meanEffectiveProgramLength = 0.0
@@ -178,7 +181,7 @@ object Models {
             meanEffectiveProgramLength /= this.individuals.size
 
             // Use the mean that we've already calculated.
-            val standardDeviation = this.individuals.map(Program<TProgram>::fitness).standardDeviation(meanFitness)
+            val standardDeviation = this.individuals.map(Program<TProgram, TOutput>::fitness).standardDeviation(meanFitness)
 
             return EvolutionStatistics(
                     data = mapOf(
@@ -192,7 +195,7 @@ object Models {
             )
         }
 
-        override fun test(dataset: Dataset<TProgram>): TestResult<TProgram> {
+        override fun test(dataset: Dataset<TProgram>): TestResult<TProgram, TOutput> {
             this.bestProgram.findEffectiveProgram()
 
             val outputs = dataset.inputs.map { features ->
@@ -206,23 +209,22 @@ object Models {
                 this.bestProgram.execute()
 
                 // ... and gather a result from the programs specified output registers.
-                // TODO: Handle multiple outputs
-                this.bestProgram.registers[this.bestProgram.outputRegisterIndices.first()]
+                this.bestProgram.output()
             }
 
             return TestResult(
-                    predicted = outputs.map { output -> Outputs.Single(output) },
+                    predicted = outputs,
                     expected = dataset.outputs
             )
         }
 
         override val information = ModuleInformation("Algorithm 2.1 (LGP Algorithm)")
 
-        override fun copy(): SteadyState<TProgram> {
+        override fun copy(): SteadyState<TProgram, TOutput> {
             return SteadyState(this.environment)
         }
 
-        override fun deepCopy(): EvolutionModel<TProgram> {
+        override fun deepCopy(): EvolutionModel<TProgram, TOutput> {
             return SteadyState(this.environment.copy())
         }
     }
@@ -231,39 +233,43 @@ object Models {
      * A model for evolution using a steady-state algorithm. The evaluation and mutation processes are
      * parallelised in a master-slave based technique.
      */
-    class MasterSlave<TProgram>(environment: Environment<TProgram>) : EvolutionModel<TProgram>(environment) {
+    class MasterSlave<TProgram, TOutput : Output<TProgram>>(
+        environment: Environment<TProgram, TOutput>
+    ) : EvolutionModel<TProgram, TOutput>(environment) {
 
-        private val select: SelectionOperator<TProgram> = this.environment.registeredModule(
+        private val select: SelectionOperator<TProgram, TOutput> = this.environment.registeredModule(
                 CoreModuleType.SelectionOperator
         )
 
-        private val combine: RecombinationOperator<TProgram> = this.environment.registeredModule(
+        private val combine: RecombinationOperator<TProgram, TOutput> = this.environment.registeredModule(
                 CoreModuleType.RecombinationOperator
         )
 
-        private val microMutate: MutationOperator<TProgram> = this.environment.registeredModule(
+        private val microMutate: MutationOperator<TProgram, TOutput> = this.environment.registeredModule(
                 CoreModuleType.MicroMutationOperator
         )
 
-        private val macroMutate: MutationOperator<TProgram> = this.environment.registeredModule(
+        private val macroMutate: MutationOperator<TProgram, TOutput> = this.environment.registeredModule(
                 CoreModuleType.MacroMutationOperator
         )
 
-        private val fitnessEvaluator: FitnessEvaluator<TProgram> = FitnessEvaluator()
+        private val fitnessEvaluator: FitnessEvaluator<TProgram, TOutput> = FitnessEvaluator()
 
-        lateinit var individuals: MutableList<Program<TProgram>>
+        lateinit var individuals: MutableList<Program<TProgram, TOutput>>
 
-        lateinit var bestProgram: Program<TProgram>
+        lateinit var bestProgram: Program<TProgram, TOutput>
 
         private fun initialise() {
-            val programGenerator: ProgramGenerator<TProgram> = this.environment.registeredModule(CoreModuleType.ProgramGenerator)
+            val programGenerator: ProgramGenerator<TProgram, TOutput> = this.environment.registeredModule(
+                CoreModuleType.ProgramGenerator
+            )
 
             this.individuals = programGenerator.next()
                     .take(this.environment.configuration.populationSize)
                     .toMutableList()
         }
 
-        override fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram> {
+        override fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram, TOutput> {
             val rg = this.environment.randomState
 
             // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
@@ -275,7 +281,7 @@ object Models {
                 this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
             }.toList()
 
-            var best = initialEvaluations.sortedBy(Evaluation<TProgram>::fitness).first()
+            var best = initialEvaluations.sortedBy(Evaluation<TProgram, TOutput>::fitness).first()
             this.bestProgram = best.individual
 
             val statistics = mutableListOf<EvolutionStatistics>()
@@ -316,7 +322,7 @@ object Models {
                 // TODO: Do validation step
                 val evaluations = children.pmap { individual ->
                     this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
-                }.sortedBy(Evaluation<TProgram>::fitness)
+                }.sortedBy(Evaluation<TProgram, TOutput>::fitness)
 
                 val bestChild = evaluations.first()
 
@@ -335,7 +341,7 @@ object Models {
             return EvolutionResult(best.individual, this.individuals, statistics)
         }
 
-        private fun statistics(generation: Int, best: Evaluation<TProgram>): EvolutionStatistics {
+        private fun statistics(generation: Int, best: Evaluation<TProgram, TOutput>): EvolutionStatistics {
             var meanFitness = 0.0
             var meanProgramLength = 0.0
             var meanEffectiveProgramLength = 0.0
@@ -352,7 +358,9 @@ object Models {
             meanEffectiveProgramLength /= this.individuals.size
 
             // Use the mean that we've already calculated.
-            val standardDeviation = this.individuals.map(Program<TProgram>::fitness).standardDeviation(meanFitness)
+            val standardDeviation = this.individuals.map(
+                Program<TProgram, TOutput>::fitness
+            ).standardDeviation(meanFitness)
 
             return EvolutionStatistics(
                     data = mapOf(
@@ -366,7 +374,7 @@ object Models {
             )
         }
 
-        override fun test(dataset: Dataset<TProgram>): TestResult<TProgram> {
+        override fun test(dataset: Dataset<TProgram>): TestResult<TProgram, TOutput> {
             this.bestProgram.findEffectiveProgram()
 
             val outputs = dataset.inputs.map { features ->
@@ -380,23 +388,22 @@ object Models {
                 this.bestProgram.execute()
 
                 // ... and gather a result from the programs specified output registers.
-                // TODO: Handle multiple outputs
-                this.bestProgram.registers[this.bestProgram.outputRegisterIndices.first()]
+                this.bestProgram.output()
             }
 
             return TestResult(
-                predicted = outputs.map { output -> Outputs.Single(output) },
+                predicted = outputs,
                 expected = dataset.outputs
             )
         }
 
         override val information = ModuleInformation("Algorithm 2.1 (LGP Algorithm)")
 
-        override fun copy(): MasterSlave<TProgram> {
+        override fun copy(): MasterSlave<TProgram, TOutput> {
             return MasterSlave(this.environment)
         }
 
-        override fun deepCopy(): EvolutionModel<TProgram> {
+        override fun deepCopy(): EvolutionModel<TProgram, TOutput> {
             return MasterSlave(this.environment.copy())
         }
     }
@@ -413,14 +420,14 @@ object Models {
      * @param environment The environment that evolution is taking place in.
      * @param options Determines the configuration for the algorithm. See [IslandMigrationOptions] for more.
      */
-    class IslandMigration<TProgram>(
-            environment: Environment<TProgram>,
-            val options: IslandMigrationOptions
-    ) : EvolutionModel<TProgram>(environment) {
+    class IslandMigration<TProgram, TOutput : Output<TProgram>>(
+            environment: Environment<TProgram, TOutput>,
+            private val options: IslandMigrationOptions
+    ) : EvolutionModel<TProgram, TOutput>(environment) {
 
-        private val fitnessEvaluator: FitnessEvaluator<TProgram> = FitnessEvaluator()
+        private val fitnessEvaluator: FitnessEvaluator<TProgram, TOutput> = FitnessEvaluator()
 
-        lateinit var islands: IslandGrid<TProgram>
+        private lateinit var islands: IslandGrid<TProgram, TOutput>
 
         /**
          * Controls the configuration of evolution when using an [IslandMigration] model.
@@ -453,11 +460,11 @@ object Models {
          *
          * @suppress
          */
-        class IslandGrid<TProgram> {
-            val islands: Array<Array<Island<TProgram>>?>
+        private class IslandGrid<TProgram, TOutput : Output<TProgram>> {
+            val islands: Array<Array<Island<TProgram, TOutput>>?>
             val numIslands: Int
 
-            constructor(numIslands: Int, environment: Environment<TProgram>, dataset: Dataset<TProgram>) {
+            constructor(numIslands: Int, environment: Environment<TProgram, TOutput>, dataset: Dataset<TProgram>) {
                 this.numIslands = numIslands
 
                 // Compute grid dimensions and construct the grid of islands.
@@ -471,21 +478,21 @@ object Models {
                 this.islands = arrayOfNulls(rows.toInt())
 
                 for (row in 0 until rows.toInt()) {
-                    this.islands[row] = Array(columns, { Island(environment, dataset) })
+                    this.islands[row] = Array(columns) { Island(environment, dataset) }
                 }
             }
 
             /**
              * Allows a row of islands to be retrieved using the `grid[i]` syntax.
              */
-            operator fun get(i: Int): Array<Island<TProgram>> {
+            operator fun get(i: Int): Array<Island<TProgram, TOutput>> {
                 return this.islands[i]!!
             }
 
             /**
              * Allows a particular island to be retrieved using the `grid[i][j]` syntax.
              */
-            operator fun get(i: Int, j: Int): Island<TProgram> {
+            operator fun get(i: Int, j: Int): Island<TProgram, TOutput> {
                 return this[i][j]
             }
 
@@ -510,12 +517,12 @@ object Models {
          *
          * @suppress
          */
-        class Island<TProgram> {
+        class Island<TProgram, TOutput : Output<TProgram>> {
 
-            val environment: Environment<TProgram>
+            val environment: Environment<TProgram, TOutput>
             val dataset: Dataset<TProgram>
 
-            constructor(environment: Environment<TProgram>, dataset: Dataset<TProgram>) {
+            constructor(environment: Environment<TProgram, TOutput>, dataset: Dataset<TProgram>) {
                 this.environment = environment
                 this.dataset = dataset
                 this.select = this.environment.registeredModule(
@@ -536,24 +543,26 @@ object Models {
                 this.initialise()
             }
 
-            lateinit var individuals: MutableList<Program<TProgram>>
+            lateinit var individuals: MutableList<Program<TProgram, TOutput>>
 
-            private val select: SelectionOperator<TProgram>
+            private val select: SelectionOperator<TProgram, TOutput>
 
-            private val combine: RecombinationOperator<TProgram>
+            private val combine: RecombinationOperator<TProgram, TOutput>
 
-            private val microMutate: MutationOperator<TProgram>
+            private val microMutate: MutationOperator<TProgram, TOutput>
 
-            private val macroMutate: MutationOperator<TProgram>
+            private val macroMutate: MutationOperator<TProgram, TOutput>
 
-            private val fitnessEvaluator: FitnessEvaluator<TProgram>
+            private val fitnessEvaluator: FitnessEvaluator<TProgram, TOutput>
 
-            var bestIndividual: Program<TProgram>? = null
+            var bestIndividual: Program<TProgram, TOutput>? = null
 
             val random: Random
 
             private fun initialise() {
-                val programGenerator: ProgramGenerator<TProgram> = this.environment.registeredModule(CoreModuleType.ProgramGenerator)
+                val programGenerator: ProgramGenerator<TProgram, TOutput> = this.environment.registeredModule(
+                    CoreModuleType.ProgramGenerator
+                )
 
                 this.individuals = programGenerator.next()
                         .take(this.environment.configuration.populationSize)
@@ -573,7 +582,7 @@ object Models {
                     this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
                 }.toList()
 
-                var best = initialEvaluations.sortedBy(Evaluation<TProgram>::fitness).first()
+                var best = initialEvaluations.sortedBy(Evaluation<TProgram, TOutput>::fitness).first()
                 this.bestIndividual = best.individual
 
                 (0 until numGenerations).forEach { _ ->
@@ -602,7 +611,7 @@ object Models {
                     // TODO: Do validation step
                     val evaluations = children.map { individual ->
                         this.fitnessEvaluator.evaluate(individual, dataset, this.environment)
-                    }.sortedBy(Evaluation<TProgram>::fitness)
+                    }.sortedBy(Evaluation<TProgram, TOutput>::fitness)
 
                     val bestChild = evaluations.first()
 
@@ -621,7 +630,7 @@ object Models {
         override val information: ModuleInformation
             get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
-        override fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram> {
+        override fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram, TOutput> {
             val random = this.environment.randomState
 
             // Create a grid of islands. The grids are populated so that each island has a set of
@@ -632,7 +641,7 @@ object Models {
                     dataset = dataset
             )
 
-            var bestIndividuals = mutableListOf<Program<TProgram>>()
+            var bestIndividuals = mutableListOf<Program<TProgram, TOutput>>()
 
             (0 until this@IslandMigration.islands.rows()).map { row ->
                 (0 until this@IslandMigration.islands.columns()).map { col ->
@@ -646,9 +655,9 @@ object Models {
                 }
             }
 
-            var best = bestIndividuals.sortedBy(Program<TProgram>::fitness).first()
+            var best = bestIndividuals.sortedBy(Program<TProgram, TOutput>::fitness).first()
 
-            var individuals = mutableListOf<Program<TProgram>>()
+            var individuals = mutableListOf<Program<TProgram, TOutput>>()
 
             (0 until this@IslandMigration.islands.rows()).map { row ->
                 (0 until this@IslandMigration.islands.columns()).map { col ->
@@ -711,8 +720,8 @@ object Models {
                     // Do migration: in our case we simply replace the worst (least fit) individual in the population
                     // with the best individual from another population. We also sort the individuals in an island
                     // such that the least fit individual is last.
-                    val sortedNeighbourIndividuals = neighbour.individuals.sortedBy(Program<TProgram>::fitness)
-                    val sortedIslandIndividuals = island.individuals.sortedBy(Program<TProgram>::fitness)
+                    val sortedNeighbourIndividuals = neighbour.individuals.sortedBy(Program<TProgram, TOutput>::fitness)
+                    val sortedIslandIndividuals = island.individuals.sortedBy(Program<TProgram, TOutput>::fitness)
 
                     val toRemove = sortedNeighbourIndividuals.last()
                     val toCopy = sortedIslandIndividuals.first()
@@ -726,7 +735,7 @@ object Models {
 
                 generation += this@IslandMigration.options.migrationInterval
 
-                individuals = mutableListOf<Program<TProgram>>()
+                individuals = mutableListOf<Program<TProgram, TOutput>>()
 
                 (0 until this@IslandMigration.islands.rows()).map { row ->
                     (0 until this@IslandMigration.islands.columns()).map { col ->
@@ -736,7 +745,7 @@ object Models {
                     }
                 }
 
-                bestIndividuals = mutableListOf<Program<TProgram>>()
+                bestIndividuals = mutableListOf<Program<TProgram, TOutput>>()
 
                 (0 until this@IslandMigration.islands.rows()).map { row ->
                     (0 until this@IslandMigration.islands.columns()).map { col ->
@@ -750,7 +759,7 @@ object Models {
                     }
                 }
 
-                best = bestIndividuals.sortedBy(Program<TProgram>::fitness).first()
+                best = bestIndividuals.sortedBy(Program<TProgram, TOutput>::fitness).first()
 
                 statistics.add(this.statistics(generation, this.fitnessEvaluator.evaluate(best, dataset, this.environment)))
 
@@ -762,12 +771,12 @@ object Models {
             return EvolutionResult(best, individuals, statistics)
         }
 
-        private fun statistics(generation: Int, best: Evaluation<TProgram>): EvolutionStatistics {
+        private fun statistics(generation: Int, best: Evaluation<TProgram, TOutput>): EvolutionStatistics {
             var meanFitness = 0.0
             var meanProgramLength = 0.0
             var meanEffectiveProgramLength = 0.0
             val bestFitness = best.fitness
-            val individuals = mutableListOf<Program<TProgram>>()
+            val individuals = mutableListOf<Program<TProgram, TOutput>>()
 
             (0 until this@IslandMigration.islands.rows()).map { row ->
                 (0 until this@IslandMigration.islands.columns()).map { col ->
@@ -788,7 +797,7 @@ object Models {
             meanEffectiveProgramLength /= individuals.size
 
             // Use the mean that we've already calculated.
-            val standardDeviation = individuals.map(Program<TProgram>::fitness).standardDeviation(meanFitness)
+            val standardDeviation = individuals.map(Program<TProgram, TOutput>::fitness).standardDeviation(meanFitness)
 
             return EvolutionStatistics(
                     data = mapOf(
@@ -802,15 +811,15 @@ object Models {
             )
         }
 
-        override fun test(dataset: Dataset<TProgram>): TestResult<TProgram> {
-            return TestResult(listOf(), listOf())
+        override fun test(dataset: Dataset<TProgram>): TestResult<TProgram, TOutput> {
+            throw NotImplementedError("Testing the model has not been implemented for IslandMigration")
         }
 
-        override fun copy(): EvolutionModel<TProgram> {
+        override fun copy(): EvolutionModel<TProgram, TOutput> {
             return IslandMigration(this.environment, this.options)
         }
 
-        override fun deepCopy(): EvolutionModel<TProgram> {
+        override fun deepCopy(): EvolutionModel<TProgram, TOutput> {
             return IslandMigration(this.environment.copy(), this.options)
         }
     }

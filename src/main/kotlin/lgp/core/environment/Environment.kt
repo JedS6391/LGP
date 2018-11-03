@@ -79,9 +79,9 @@ enum class CoreModuleType : RegisteredModuleType {
  *
  * @property modules A mapping of modules that can be registered to a function that constructs that module.
  */
-data class ModuleContainer<T>(val modules: MutableMap<RegisteredModuleType, (Environment<T>) -> Module>) {
+data class ModuleContainer<T, TOutput : Output<T>>(val modules: MutableMap<RegisteredModuleType, (Environment<T, TOutput>) -> Module>) {
 
-    lateinit var environment: Environment<T>
+    lateinit var environment: Environment<T, TOutput>
 
     // All instances are provided as singletons
     val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
@@ -179,14 +179,14 @@ data class ModuleContainer<T>(val modules: MutableMap<RegisteredModuleType, (Env
  * After an environment is built and all components are resolved, it can be used to initiate the core
  * evolution process of LGP.
  */
-open class Environment<T> {
+open class Environment<TProgram, TOutput : Output<TProgram>> {
 
     // Dependencies that we require at construction time and are used during initialisation
     // but aren't needed after that.
     private val configLoader: ConfigurationLoader
-    private val constantLoader: ConstantLoader<T>
-    private val operationLoader: OperationLoader<T>
-    private val defaultValueProvider: DefaultValueProvider<T>
+    private val constantLoader: ConstantLoader<TProgram>
+    private val operationLoader: OperationLoader<TProgram>
+    private val defaultValueProvider: DefaultValueProvider<TProgram>
     private val randomStateSeed: Long?
     var randomState: Random
 
@@ -195,7 +195,7 @@ open class Environment<T> {
      *
      * This property should be provided at construction time.
      */
-    val fitnessFunctionProvider: FitnessFunctionProvider<T>
+    val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>
 
     // Dependencies that come from the loaders given to the environment and are not necessarily
     // needed until the environment is initialised.
@@ -208,24 +208,24 @@ open class Environment<T> {
     /**
      * A set of constants loaded using the [ConstantLoader] given at construction time.
      */
-    lateinit var constants: List<T>
+    lateinit var constants: List<TProgram>
 
     /**
      * A set of operations loaded using the [OperationLoader] given at construction time.
      */
-    lateinit var operations: List<Operation<T>>
+    lateinit var operations: List<Operation<TProgram>>
 
     /**
      * A set of registers that is built at initialisation time.
      */
-    lateinit var registerSet: RegisterSet<T>
+    lateinit var registerSet: RegisterSet<TProgram>
 
     /**
      * A container for the various registered component modules that the environment maintains.
      */
-    var container: ModuleContainer<T>
+    var container: ModuleContainer<TProgram, TOutput>
 
-    val resultAggregator: ResultAggregator<T>
+    val resultAggregator: ResultAggregator<TProgram>
 
     /**
      * Builds an environment with the specified construction components.
@@ -234,7 +234,7 @@ open class Environment<T> {
      * @param constantLoader A component that can load constants.
      * @param operationLoader A component that can load operations for the LGP system.
      * @param defaultValueProvider A component that provides default values for the registers in the register set.
-     * @param fitnessFunction A function used to evaluate the fitness of LGP programs.
+     * @param fitnessFunctionProvider A function used to evaluate the fitness of LGP programs.
      * @param randomStateSeed Sets the seed of the random number generator. If a value is given, the seed will
      *        be set, and will produce deterministic runs. If null is given, a random seed will be chosen.
      */
@@ -243,11 +243,11 @@ open class Environment<T> {
     // TODO: Default value provider and fitness function could be given in configuration?
     constructor(
             configLoader: ConfigurationLoader,
-            constantLoader: ConstantLoader<T>,
-            operationLoader: OperationLoader<T>,
-            defaultValueProvider: DefaultValueProvider<T>,
-            fitnessFunctionProvider: FitnessFunctionProvider<T>,
-            resultAggregator: ResultAggregator<T>? = null,
+            constantLoader: ConstantLoader<TProgram>,
+            operationLoader: OperationLoader<TProgram>,
+            defaultValueProvider: DefaultValueProvider<TProgram>,
+            fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>,
+            resultAggregator: ResultAggregator<TProgram>? = null,
             randomStateSeed: Long? = null
     ) {
 
@@ -312,7 +312,7 @@ open class Environment<T> {
      *
      * @param container A container that specifies modules to be registered.
      */
-    fun registerModules(container: ModuleContainer<T>) {
+    fun registerModules(container: ModuleContainer<TProgram, TOutput>) {
         this.container = container
 
         // Update the containers environment dependency.
@@ -325,7 +325,7 @@ open class Environment<T> {
      * @param type The type of module to associate this builder with.
      * @param builder A function that can create the module.
      */
-    fun registerModule(type: RegisteredModuleType, builder: (Environment<T>) -> Module) {
+    fun registerModule(type: RegisteredModuleType, builder: (Environment<TProgram, TOutput>) -> Module) {
         this.container.modules[type] = builder
     }
 
@@ -383,7 +383,7 @@ open class Environment<T> {
      *
      * @return A new [Environment] instance that is a copy of that the method is called on.
      */
-    fun copy(): Environment<T> {
+    fun copy(): Environment<TProgram, TOutput> {
         // Construct a copy with the correct construction/initialised components.
         val copy = Environment(
                 this.configLoader,

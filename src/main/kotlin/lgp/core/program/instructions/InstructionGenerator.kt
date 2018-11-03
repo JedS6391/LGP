@@ -1,6 +1,7 @@
 package lgp.core.program.instructions
 
 import lgp.core.environment.Environment
+import lgp.core.evolution.fitness.Output
 import lgp.core.modules.Module
 
 /**
@@ -21,16 +22,18 @@ import lgp.core.modules.Module
  * An instruction generator expects that a set of registers is provided to it. Note that this register
  * set will provide registers
  *
- * @param T The type that the instructions generated operate on.
+ * @param TProgram The type that the instructions generated operate on.
  */
-abstract class InstructionGenerator<T>(val environment: Environment<T>) : Module {
+abstract class InstructionGenerator<TProgram, TOutput : Output<TProgram>>(
+    val environment: Environment<TProgram, TOutput>
+) : Module {
 
     /**
      * Generates a sequence of instructions by yielding the result of the overridden function [generateInstruction].
      *
      * @returns A sequence of programs.
      */
-    fun next(): Sequence<Instruction<T>> = sequence {
+    fun next(): Sequence<Instruction<TProgram>> = sequence {
         while (true) {
             yield(this@InstructionGenerator.generateInstruction())
         }
@@ -41,5 +44,5 @@ abstract class InstructionGenerator<T>(val environment: Environment<T>) : Module
      *
      * @returns An instruction instance.
      */
-    abstract fun generateInstruction(): Instruction<T>
+    abstract fun generateInstruction(): Instruction<TProgram>
 }

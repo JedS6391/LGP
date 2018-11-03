@@ -1,6 +1,7 @@
 package lgp.core.program
 
 import lgp.core.evolution.fitness.FitnessFunctions
+import lgp.core.evolution.fitness.Output
 import lgp.core.program.registers.RegisterSet
 import lgp.core.modules.Module
 import lgp.core.program.instructions.Instruction
@@ -9,14 +10,14 @@ import lgp.core.program.instructions.RegisterIndex
 /**
  * An LGP program that is composed of instructions that operate on registers.
  *
- * @param T Type of data the programs instructions operate on.
+ * @param TData Type of data the programs instructions operate on.
  * @property instructions A collection of instructions that can be modified.
  * @property registers A set of registers.
  * @property outputRegisterIndices The indices of register(s) that the program uses as output.
  */
-abstract class Program<T>(
-    var instructions: MutableList<Instruction<T>>,
-    val registers: RegisterSet<T>,
+abstract class Program<TData, TOutput : Output<TData>>(
+    var instructions: MutableList<Instruction<TData>>,
+    val registers: RegisterSet<TData>,
     val outputRegisterIndices: List<RegisterIndex>
 ) : Module {
 
@@ -28,7 +29,12 @@ abstract class Program<T>(
     /**
      * The instructions of this program that are effective.
      */
-    var effectiveInstructions: MutableList<Instruction<T>> = mutableListOf()
+    var effectiveInstructions: MutableList<Instruction<TData>> = mutableListOf()
+
+    /**
+     * Retrieves the program output.
+     */
+    abstract fun output(): TOutput
 
     /**
      * Executes the program.
@@ -44,7 +50,7 @@ abstract class Program<T>(
      *
      * @returns A copy of the given program.
      */
-    abstract fun copy(): Program<T>
+    abstract fun copy(): Program<TData, TOutput>
 
     /**
      * Provides a way to find an LGP programs effective set of instructions.
@@ -58,7 +64,7 @@ abstract class Program<T>(
  * This class primarily exists to make it easy to translate programs from a single place,
  * rather than from internally defined logic.
  */
-abstract class ProgramTranslator<TProgram> : Module {
+abstract class ProgramTranslator<TProgram, TOutput : Output<TProgram>> : Module {
 
     /**
      * Translates [program] from some internal representation to a concrete representation.
@@ -69,5 +75,5 @@ abstract class ProgramTranslator<TProgram> : Module {
      * @param program A program to translate.
      * @returns A translated representation of [program] as a string.
      */
-    abstract fun translate(program: Program<TProgram>): String
+    abstract fun translate(program: Program<TProgram, TOutput>): String
 }

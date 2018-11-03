@@ -1,6 +1,7 @@
 package lgp.core.program
 
 import lgp.core.environment.Environment
+import lgp.core.evolution.fitness.Output
 import lgp.core.modules.Module
 import lgp.core.program.instructions.InstructionGenerator
 
@@ -18,14 +19,17 @@ import lgp.core.program.instructions.InstructionGenerator
  * @property environment A reference to an LGP environment.
  * @property instructionGenerator A reference to an instruction generator.
  */
-abstract class ProgramGenerator<T>(val environment: Environment<T>, val instructionGenerator: InstructionGenerator<T>) : Module {
+abstract class ProgramGenerator<TProgram, TOutput : Output<TProgram>>(
+    val environment: Environment<TProgram, TOutput>,
+    val instructionGenerator: InstructionGenerator<TProgram, TOutput>
+) : Module {
 
     /**
      * Generates a sequence of programs by yielding the result of the overridden function [generateProgram].
      *
      * @returns A sequence of programs.
      */
-    fun next(): Sequence<Program<T>> = sequence {
+    fun next(): Sequence<Program<TProgram, TOutput>> = sequence {
         while (true) {
             yield(this@ProgramGenerator.generateProgram())
         }
@@ -36,6 +40,6 @@ abstract class ProgramGenerator<T>(val environment: Environment<T>, val instruct
      *
      * @returns A program instance.
      */
-    abstract fun generateProgram(): Program<T>
+    abstract fun generateProgram(): Program<TProgram, TOutput>
 }
 

@@ -80,8 +80,7 @@ class Configuration {
 
     /**
      * The number of features in the data set (i.e. the number of input registers that should be made available).
-     * Whether each of the features is categorical, and thus needs vectorization.
-    */
+     */
     var numFeatures = 0
 
     /**
@@ -133,6 +132,8 @@ class Configuration {
 
     fun isValid(): ConfigurationValidity {
         return when {
+            // Need at least one feature in the data set.
+            numFeatures == 0 -> Invalid("numFeatures: At least one feature variable should be specified.")
             // If no constants are provided then a rate of constants can't be specified.
             constants.isEmpty() && constantsRate > 0.0 -> Invalid(
                 "constants/constantsRate: No constants were provided but a constant rate greater than 0 was given."

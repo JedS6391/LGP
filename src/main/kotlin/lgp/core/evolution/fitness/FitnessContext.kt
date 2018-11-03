@@ -29,8 +29,8 @@ data class FitnessCase<out TData>(val features: Sample<TData>, val target: Targe
  *
  * @property environment
  */
-abstract class FitnessContext<TData>(
-        val environment: Environment<TData>
+abstract class FitnessContext<TData, TOutput : Output<TData>>(
+        val environment: Environment<TData, TOutput>
 ) : Module {
 
     /**
@@ -41,7 +41,7 @@ abstract class FitnessContext<TData>(
      *
      * @returns A double value as returned by the fitness function.
      */
-    abstract fun fitness(program: Program<TData>, fitnessCases: List<FitnessCase<TData>>): Double
+    abstract fun fitness(program: Program<TData, TOutput>, fitnessCases: List<FitnessCase<TData>>): Double
 }
 
 /**
@@ -53,11 +53,13 @@ abstract class FitnessContext<TData>(
  * For programs with multiple outputs, a custom [Program] and [FitnessContext] implementation
  * will need to be built.
  */
-class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : FitnessContext<TData>(environment) {
+class SingleOutputFitnessContext<TData>(
+    environment: Environment<TData, Outputs.Single<TData>>
+) : FitnessContext<TData, Outputs.Single<TData>>(environment) {
 
     private val fitnessFunction = this.environment.fitnessFunctionProvider()
 
-    override fun fitness(program: Program<TData>, fitnessCases: List<FitnessCase<TData>>): Double {
+    override fun fitness(program: Program<TData, Outputs.Single<TData>>, fitnessCases: List<FitnessCase<TData>>): Double {
         // Make sure the programs effective instructions have been found
         program.findEffectiveProgram()
 
@@ -91,11 +93,13 @@ class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : Fitne
     )
 }
 
-class MultipleOutputFitnessContext<TData>(environment: Environment<TData>) : FitnessContext<TData>(environment) {
+class MultipleOutputFitnessContext<TData>(
+    environment: Environment<TData, Outputs.Multiple<TData>>
+) : FitnessContext<TData, Outputs.Multiple<TData>>(environment) {
 
     private val fitnessFunction = this.environment.fitnessFunctionProvider()
 
-    override fun fitness(program: Program<TData>, fitnessCases: List<FitnessCase<TData>>): Double {
+    override fun fitness(program: Program<TData, Outputs.Multiple<TData>>, fitnessCases: List<FitnessCase<TData>>): Double {
         // Make sure the programs effective instructions have been found
         program.findEffectiveProgram()
 

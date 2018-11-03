@@ -42,15 +42,40 @@ class Sample<out TFeature>(val features: List<Feature<TFeature>>) {
     }
 }
 
+/**
+ * A target output in a [Dataset].
+ *
+ * An interface is provided to cater for scenarios with differing output requirements (e.g. single vs multiple).
+ *
+ * @param TTarget The type of the value(s) this target represents.
+ */
 interface Target<out TTarget> {
-    public val size: Int
+
+    /**
+     * How many output values this target represents.
+     */
+    val size: Int
 }
 
+/**
+ * A collection of built-in [Target] implementations
+ */
 object Targets {
+
+    /**
+     * Represents a target with a single output value.
+     *
+     * @property value The output value this target represents.
+     */
     class Single<TData>(val value: TData) : Target<TData> {
         override val size = 1
     }
 
+    /**
+     * Represents a target with multiple output values.
+     *
+     * @property values The output values this target represents.
+     */
     class Multiple<TData>(val values: List<TData>): Target<TData> {
         override val size = values.size
     }
@@ -58,6 +83,15 @@ object Targets {
 
 class InvalidNumberOfSamplesException(message: String) : Exception(message)
 
+/**
+ * A basic data set composed of a vector of input [Sample]s and a collection of output [Target]s.
+ *
+ * **NOTE:** The type of the inputs and outputs is constrained to be the same.
+ *
+ * @param TData The type of the features in the input vector and the type of the outputs.
+ * @property inputs Vector of inputs with the shape [numSamples, numFeatures]
+ * @property outputs Vector that describes target values for each sample in the input vector, with shape [numSamples].
+ */
 class Dataset<out TData>(
     val inputs: List<Sample<TData>>,
     val outputs: List<Target<TData>>
@@ -89,7 +123,7 @@ class Dataset<out TData>(
      *
      * @returns The number of outputs in this data set.
      */
-    fun numOutputs(): Int {
+    fun numTargets(): Int {
         return when {
             this.outputs.isEmpty() -> 0
             else                   -> this.outputs.first().size

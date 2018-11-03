@@ -1,6 +1,7 @@
 package lgp.core.evolution.operators
 
 import lgp.core.environment.Environment
+import lgp.core.evolution.fitness.Output
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 import lgp.core.program.Program
@@ -12,10 +13,12 @@ import java.util.Random
  * The individuals are mutated directly by the reference given, so calls to this function
  * directly modify the arguments.
  *
- * @param T The type of programs being combined.
+ * @param TProgram The type of programs being combined.
  * @property environment The environment evolution is being performed within.
  */
-abstract class RecombinationOperator<T>(val environment: Environment<T>) : Module {
+abstract class RecombinationOperator<TProgram, TOutput : Output<TProgram>>(
+    val environment: Environment<TProgram, TOutput>
+) : Module {
 
     /**
      * Combines the two programs given using some recombination technique.
@@ -23,7 +26,7 @@ abstract class RecombinationOperator<T>(val environment: Environment<T>) : Modul
      * @param mother The first individual.
      * @param father The second individual.
      */
-    abstract fun combine(mother: Program<T>, father: Program<T>)
+    abstract fun combine(mother: Program<TProgram, TOutput>, father: Program<TProgram, TOutput>)
 }
 
 /**
@@ -36,11 +39,11 @@ abstract class RecombinationOperator<T>(val environment: Environment<T>) : Modul
  * @property maximumSegmentLengthDifference An upper bound on the difference between the two segment lengths.
  * @see <a href="http://www.springer.com/gp/book/9780387310299">http://www.springer.com/gp/book/9780387310299</a>
  */
-class LinearCrossover<T>(environment: Environment<T>,
+class LinearCrossover<TProgram, TOutput : Output<TProgram>>(environment: Environment<TProgram, TOutput>,
                          val maximumSegmentLength: Int,
                          val maximumCrossoverDistance: Int,
                          val maximumSegmentLengthDifference: Int
-) : RecombinationOperator<T>(environment) {
+) : RecombinationOperator<TProgram, TOutput>(environment) {
 
     private val random = this.environment.randomState
 
@@ -51,7 +54,7 @@ class LinearCrossover<T>(environment: Environment<T>,
     /**
      * Combines the two individuals given by exchanging two segments of instructions.
      */
-    override fun combine(mother: Program<T>, father: Program<T>) {
+    override fun combine(mother: Program<TProgram, TOutput>, father: Program<TProgram, TOutput>) {
         // 1. Randomly select an instruction position i[k] (crossover point) in program gp[k] (k in {1, 2})
         // with len(gp[1]) <= len(gp[2]) and distance |i[1] - i[2]| <= min(len(gp[1]) -1, dc_max)
 

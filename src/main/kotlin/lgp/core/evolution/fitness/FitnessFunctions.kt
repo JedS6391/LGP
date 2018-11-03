@@ -43,7 +43,7 @@ abstract class FitnessFunction<TData, TOutput : Output<TData>> {
     }
 }
 
-typealias FitnessFunctionProvider<TData> = () -> FitnessFunction<TData, Output<TData>>
+typealias FitnessFunctionProvider<TData, TOutput> = () -> FitnessFunction<TData, TOutput>
 
 /**
  * A collection of standard fitness functions.

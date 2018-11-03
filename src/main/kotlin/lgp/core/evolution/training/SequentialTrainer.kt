@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.ResultAggregator
+import lgp.core.evolution.fitness.Output
 import lgp.core.evolution.model.EvolutionModel
 import lgp.core.evolution.model.EvolutionResult
 import lgp.core.evolution.model.RunBasedExportableResult
@@ -24,10 +25,10 @@ import lgp.core.evolution.training.TrainingMessages.ProgressUpdate
  * @param trainingUpdateChannel A channel that can be used to communicate from the trainer to subscribers.
  * @param training A deferred training result.
  */
-class SequentialTrainingJob<TProgram> internal constructor(
-    private val trainingUpdateChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram>>,
-    private val training: Deferred<TrainingResult<TProgram>>
-) : TrainingJob<TProgram, ProgressUpdate<TProgram>>() {
+class SequentialTrainingJob<TProgram, TOutput : Output<TProgram>> internal constructor(
+    private val trainingUpdateChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>,
+    private val training: Deferred<TrainingResult<TProgram, TOutput>>
+) : TrainingJob<TProgram, TOutput, ProgressUpdate<TProgram, TOutput>>() {
 
     /**
      * Retrieves the result of training.
@@ -37,7 +38,7 @@ class SequentialTrainingJob<TProgram> internal constructor(
      *
      * @returns The result of the training phase(s).
      */
-    override suspend fun result(): TrainingResult<TProgram> {
+    override suspend fun result(): TrainingResult<TProgram, TOutput> {
         // Don't need to block if the job is complete already.
         if (training.isCompleted) {
             return training.getCompleted()
@@ -53,7 +54,7 @@ class SequentialTrainingJob<TProgram> internal constructor(
      *
      * @param callback The function to execute when a [TrainingUpdateMessage] is received.
      */
-    override fun subscribeToUpdates(callback: (ProgressUpdate<TProgram>) -> Unit) {
+    override fun subscribeToUpdates(callback: (ProgressUpdate<TProgram, TOutput>) -> Unit) {
         val subscription = trainingUpdateChannel.openSubscription()
 
         GlobalScope.launch {
@@ -67,11 +68,11 @@ class SequentialTrainingJob<TProgram> internal constructor(
  *
  * @property runs The number of times to train the given model.
  */
-class SequentialTrainer<TProgram>(
-    environment: Environment<TProgram>,
-    model: EvolutionModel<TProgram>,
+class SequentialTrainer<TProgram, TOutput : Output<TProgram>>(
+    environment: Environment<TProgram, TOutput>,
+    model: EvolutionModel<TProgram, TOutput>,
     val runs: Int
-) : Trainer<TProgram, ProgressUpdate<TProgram>>(environment, model) {
+) : Trainer<TProgram, TOutput, ProgressUpdate<TProgram, TOutput>>(environment, model) {
 
     private val models = (0 until runs).map {
         // Create `runs` untrained models.
@@ -86,7 +87,7 @@ class SequentialTrainer<TProgram>(
      * **Note:** This function will block until the training is complete.
      * To training in a non-blocking fashion, use the [trainAsync] function.
      */
-    override fun train(dataset: Dataset<TProgram>): TrainingResult<TProgram> {
+    override fun train(dataset: Dataset<TProgram>): TrainingResult<TProgram, TOutput> {
 
         val results = aggregator.use {
             this.models.mapIndexed { run, model ->
@@ -112,9 +113,9 @@ class SequentialTrainer<TProgram>(
      * This implementation will still run each training task sequentially, but it allows the training
      * execution to be suspended so that other tasks can be performed.
      */
-    override suspend fun trainAsync(dataset: Dataset<TProgram>) : SequentialTrainingJob<TProgram> {
+    override suspend fun trainAsync(dataset: Dataset<TProgram>) : SequentialTrainingJob<TProgram, TOutput> {
         // This channel will be used to communicate updates to any training progress subscribers.
-        val progressChannel = ConflatedBroadcastChannel<ProgressUpdate<TProgram>>()
+        val progressChannel = ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>()
 
         // Our worker co-routine will perform the training and return a result when it is complete.
         // As it makes progress, updates will be sent through the channel to any subscribers.
@@ -145,7 +146,7 @@ class SequentialTrainer<TProgram>(
         return SequentialTrainingJob(progressChannel, job)
     }
 
-    private fun aggregateResults(run: Int, result: EvolutionResult<TProgram>) {
+    private fun aggregateResults(run: Int, result: EvolutionResult<TProgram, TOutput>) {
         val generationalResults = result.statistics.map { generation ->
             RunBasedExportableResult<TProgram>(run, generation)
         }

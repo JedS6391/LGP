@@ -1,6 +1,7 @@
 package lgp.core.evolution.operators
 
 import lgp.core.environment.Environment
+import lgp.core.evolution.fitness.Output
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 import lgp.core.program.Program
@@ -17,17 +18,19 @@ import java.util.Random
  * population, and clones of those individuals returned. These individuals can then be subjected
  * to recombination/mutation before being introduced back into a population.
  *
- * @param T The type of programs being selected.
+ * @param TProgram The type of programs being selected.
  * @property environment The environment evolution is being performed within.
  */
-abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
+abstract class SelectionOperator<TProgram, TOutput : Output<TProgram>>(
+    val environment: Environment<TProgram, TOutput>
+) : Module {
     /**
      * Selects a subset of programs from the population given using some method of selection.
      *
      * @param population A collection of program individuals.
      * @return A subset of the population given.
      */
-    abstract fun select(population: MutableList<Program<T>>): List<Program<T>>
+    abstract fun select(population: MutableList<Program<TProgram, TOutput>>): List<Program<TProgram, TOutput>>
 }
 
 /**
@@ -43,17 +46,17 @@ abstract class SelectionOperator<T>(val environment: Environment<T>) : Module {
  *
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  */
-class BinaryTournamentSelection<T>(
-    environment: Environment<T>,
+class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>>(
+    environment: Environment<TProgram, TOutput>,
     val tournamentSize: Int
-) : SelectionOperator<T>(environment) {
+) : SelectionOperator<TProgram, TOutput>(environment) {
 
     private val random = this.environment.randomState
 
     /**
      * Selects two individuals from the population given using tournament selection.
      */
-    override fun select(population: MutableList<Program<T>>): List<Program<T>> {
+    override fun select(population: MutableList<Program<TProgram, TOutput>>): List<Program<TProgram, TOutput>> {
         // Select individuals from the population without replacement.
         val selected = random.sample(population, 2 * this.tournamentSize).toMutableList()
 
@@ -86,15 +89,17 @@ class BinaryTournamentSelection<T>(
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  * @see <a href="https://en.wikipedia.org/wiki/Tournament_selection"></a>
  */
-class TournamentSelection<T>(environment: Environment<T>,
-                             val tournamentSize: Int) : SelectionOperator<T>(environment) {
+class TournamentSelection<TProgram, TOutput : Output<TProgram>>(
+    environment: Environment<TProgram, TOutput>,
+    val tournamentSize: Int
+) : SelectionOperator<TProgram, TOutput>(environment) {
 
     private val random = this.environment.randomState
 
     /**
      * Selects individuals by performing 2 * `numOffspring` tournaments of size [tournamentSize].
      */
-    override fun select(population: MutableList<Program<T>>): List<Program<T>> {
+    override fun select(population: MutableList<Program<TProgram, TOutput>>): List<Program<TProgram, TOutput>> {
         return (0..(2 * this.environment.configuration.numOffspring - 1)).map {
             tournament(population, this.random, this.tournamentSize).clone
         }
@@ -107,7 +112,10 @@ class TournamentSelection<T>(environment: Environment<T>,
  * Provides a way to access the winner of tournament selection as the original and
  * the cloned winner.
  */
-internal data class TournamentResult<T>(val original: Program<T>, val clone: Program<T>)
+internal data class TournamentResult<TProgram, TOutput : Output<TProgram>>(
+    val original: Program<TProgram, TOutput>,
+    val clone: Program<TProgram, TOutput>
+)
 
 /**
  * Performs Tournament Selection on a population of individuals.
@@ -119,12 +127,12 @@ internal data class TournamentResult<T>(val original: Program<T>, val clone: Pro
  * @property tournamentSize The size of the tournament.
  * @property replacement Determines whether winning individuals remain in the population.
  */
-internal fun <T> tournament(
-    individuals: MutableList<Program<T>>,
+internal fun <TProgram, TOutput : Output<TProgram>> tournament(
+    individuals: MutableList<Program<TProgram, TOutput>>,
     random: Random,
     tournamentSize: Int,
     replacement: Boolean = false
-): TournamentResult<T> {
+): TournamentResult<TProgram, TOutput> {
 
     var winner = random.choice(individuals)
 
