@@ -1,7 +1,7 @@
 package lgp.core.program.instructions
 
 import lgp.core.environment.Environment
-import lgp.core.evolution.fitness.Output
+import lgp.core.program.Output
 import lgp.core.modules.Module
 
 /**

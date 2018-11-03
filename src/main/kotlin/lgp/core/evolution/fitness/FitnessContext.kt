@@ -6,6 +6,8 @@ import lgp.core.environment.dataset.Sample
 import lgp.core.program.Program
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Output
+import lgp.core.program.Outputs
 
 /**
  * A case to evaluate a programs fitness on.
@@ -45,13 +47,9 @@ abstract class FitnessContext<TData, TOutput : Output<TData>>(
 }
 
 /**
- * A default mapping of program to fitness cases using a given fitness function.
+ * Facilitates fitness evaluation for programs which have a single output.
  *
- * This particular fitness context facilitates fitness evaluation for programs which
- * have a single output (i.e. the default program class).
- *
- * For programs with multiple outputs, a custom [Program] and [FitnessContext] implementation
- * will need to be built.
+ * For programs with multiple outputs, [MultipleOutputFitnessContext] should be used.
  */
 class SingleOutputFitnessContext<TData>(
     environment: Environment<TData, Outputs.Single<TData>>
@@ -93,6 +91,11 @@ class SingleOutputFitnessContext<TData>(
     )
 }
 
+/**
+ * Facilitates fitness evaluation for programs which have multiple outputs.
+ *
+ * For programs with a single output, [SingleOutputFitnessContext] should be used.
+ */
 class MultipleOutputFitnessContext<TData>(
     environment: Environment<TData, Outputs.Multiple<TData>>
 ) : FitnessContext<TData, Outputs.Multiple<TData>>(environment) {
@@ -129,6 +132,6 @@ class MultipleOutputFitnessContext<TData>(
     }
 
     override val information = ModuleInformation(
-        description = "A built-in fitness context for evaluating the fitness of single-output programs."
+        description = "A built-in fitness context for evaluating the fitness of multiple-output programs."
     )
 }

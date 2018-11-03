@@ -47,7 +47,7 @@ class Sample<out TData>(val features: List<Feature<TData>>) {
  *
  * An interface is provided to cater for scenarios with differing output requirements (e.g. single vs multiple).
  *
- * @param TTarget The type of the value(s) this target represents.
+ * @param TData The type of the value(s) this target represents.
  */
 interface Target<out TData> {
 

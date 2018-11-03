@@ -6,8 +6,8 @@ import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.ExportableResult
 import lgp.core.evolution.fitness.Evaluation
 import lgp.core.evolution.fitness.FitnessEvaluator
-import lgp.core.evolution.fitness.Output
-import lgp.core.evolution.fitness.Outputs
+import lgp.core.program.Output
+import lgp.core.program.Outputs
 import lgp.core.evolution.operators.*
 import lgp.core.modules.ModuleInformation
 import lgp.core.program.Program

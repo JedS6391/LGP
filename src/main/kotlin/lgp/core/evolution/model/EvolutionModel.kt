@@ -3,7 +3,7 @@ package lgp.core.evolution.model
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.environment.dataset.Target
-import lgp.core.evolution.fitness.Output
+import lgp.core.program.Output
 import lgp.core.program.Program
 import lgp.core.modules.Module
 
@@ -30,7 +30,10 @@ open class EvolutionResult<TProgram, TOutput : Output<TProgram>>(
 )
 
 /**
+ * A result given when calling [EvolutionModel.test].
  *
+ * @property predicted The outputs of the program trained by the model.
+ * @property expected The expected outputs as defined by a [Dataset].
  */
 data class TestResult<TProgram, TOutput : Output<TProgram>>(
     val predicted: List<TOutput>,

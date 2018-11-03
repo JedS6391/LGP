@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.ResultAggregator
-import lgp.core.evolution.fitness.Output
+import lgp.core.program.Output
 import lgp.core.evolution.model.EvolutionModel
 import lgp.core.evolution.model.EvolutionResult
 import lgp.core.evolution.model.RunBasedExportableResult

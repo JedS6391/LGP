@@ -1,15 +1,17 @@
 package lgp.core.evolution.fitness
 
 import lgp.core.environment.dataset.Targets
+import lgp.core.program.Output
+import lgp.core.program.Outputs
 
-interface Output<TData>
-
-object Outputs {
-    class Single<TData>(val value: TData) : Output<TData>
-    class Multiple<TData>(val values: List<TData>): Output<TData>
-}
-
+/**
+ * A [FitnessFunction] for [lgp.core.program.Program]s with a single output.
+ */
 typealias SingleOutputFitnessFunction<TData> = FitnessFunction<TData, Outputs.Single<TData>>
+
+/**
+ * A [FitnessFunction] for [lgp.core.program.Program]s with multiple outputs.
+ */
 typealias MultipleOutputFitnessFunction<TData> = FitnessFunction<TData, Outputs.Multiple<TData>>
 
 /**
@@ -43,6 +45,9 @@ abstract class FitnessFunction<TData, TOutput : Output<TData>> {
     }
 }
 
+/**
+ * A function that provides a [FitnessFunction] implementation on request.
+ */
 typealias FitnessFunctionProvider<TData, TOutput> = () -> FitnessFunction<TData, TOutput>
 
 /**

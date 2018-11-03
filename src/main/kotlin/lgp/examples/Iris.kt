@@ -13,6 +13,7 @@ import lgp.core.evolution.operators.*
 import lgp.core.evolution.training.DistributedTrainer
 import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Outputs
 import lgp.lib.*
 
 import java.io.BufferedReader

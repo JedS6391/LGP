@@ -2,15 +2,15 @@ package lgp.core.evolution.operators
 
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
-import lgp.core.evolution.fitness.Output
 import lgp.core.program.instructions.InstructionGenerator
 import lgp.core.program.instructions.RegisterIndex
 import lgp.core.program.registers.RandomRegisterGenerator
 import lgp.core.program.registers.RegisterType
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Output
 import lgp.core.program.Program
-import java.util.*
+import java.util.Random
 
 /**
  * A search operator used during evolution to mutate an individual from a population.
@@ -19,6 +19,7 @@ import java.util.*
  * modify the given individual.
  *
  * @param TProgram The type of programs being mutated.
+ * @param TOutput The type of the program output(s).
  * @property environment The environment evolution is being performed within.
  */
 abstract class MutationOperator<TProgram, TOutput : Output<TProgram>>(val environment: Environment<TProgram, TOutput>) : Module {

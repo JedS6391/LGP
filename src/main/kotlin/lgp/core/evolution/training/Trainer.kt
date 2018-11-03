@@ -2,7 +2,7 @@ package lgp.core.evolution.training
 
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
-import lgp.core.evolution.fitness.Output
+import lgp.core.program.Output
 import lgp.core.evolution.model.EvolutionModel
 import lgp.core.evolution.model.EvolutionResult
 
@@ -50,7 +50,8 @@ object TrainingMessages {
  * implementor to define how the job should handle various requests.
  *
  * @param TProgram The type of program being evolved.
- * @Param TMessage
+ * @param TOutput The type of the program output(s).
+ * @param TMessage The type of messages sent by the [Trainer].
  */
 abstract class TrainingJob<TProgram, TOutput : Output<TProgram>, TMessage : TrainingUpdateMessage> {
 
@@ -78,6 +79,8 @@ abstract class TrainingJob<TProgram, TOutput : Output<TProgram>, TMessage : Trai
  * A service capable of training evolutionary models in a particular environment.
  *
  * @param TProgram The type of programs being evolved.
+ * @param TOutput The type of the program output(s).
+ * @param TMessage The type of messages sent by the trainer.
  * @property environment The environment evolution is performed within.
  * @property model The model of evolution to use.
  */

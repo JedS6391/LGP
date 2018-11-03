@@ -2,7 +2,6 @@ package lgp.lib
 
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
-import lgp.core.evolution.fitness.Output
 import lgp.core.program.instructions.BranchOperation
 import lgp.core.program.instructions.Instruction
 import lgp.core.program.instructions.RegisterIndex
@@ -12,6 +11,7 @@ import lgp.core.evolution.operators.choice
 import lgp.core.evolution.operators.randInt
 import lgp.core.program.registers.RegisterType
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Output
 
 /**
  * A ``ProgramGenerator`` implementation that provides effective ``BaseProgram`` instances.

@@ -16,6 +16,7 @@ import lgp.core.evolution.training.DistributedTrainingJob
 import lgp.core.evolution.training.SequentialTrainer
 import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Outputs
 import lgp.lib.*
 
 /*

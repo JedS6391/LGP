@@ -10,18 +10,21 @@ import lgp.core.environment.constants.DoubleConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
-import lgp.core.evolution.fitness.*
+import lgp.core.evolution.fitness.FitnessCase
+import lgp.core.evolution.fitness.MultipleOutputFitnessContext
+import lgp.core.evolution.fitness.MultipleOutputFitnessFunction
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
 import lgp.core.evolution.training.SequentialTrainer
 import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Outputs
 import lgp.lib.*
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 
-val match: MultipleOutputFitnessFunction<Double> = object : MultipleOutputFitnessFunction<Double>() {
+private val match: MultipleOutputFitnessFunction<Double> = object : MultipleOutputFitnessFunction<Double>() {
 
     override fun fitness(outputs: List<Outputs.Multiple<Double>>, cases: List<FitnessCase<Double>>): Double {
         val mismatches = cases.zip(outputs).filter { (case, actual) ->

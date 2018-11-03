@@ -6,9 +6,8 @@ import lgp.core.environment.ModuleContainer
 import lgp.core.environment.config.ConfigurationLoader
 import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.operations.OperationLoader
-import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctionProvider
-import lgp.core.evolution.fitness.Output
+import lgp.core.program.Output
 import lgp.core.evolution.model.EvolutionModel
 
 data class Description(val description: String)

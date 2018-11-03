@@ -1,7 +1,7 @@
 package lgp.core.evolution.operators
 
 import lgp.core.environment.Environment
-import lgp.core.evolution.fitness.Output
+import lgp.core.program.Output
 import lgp.core.modules.Module
 import lgp.core.modules.ModuleInformation
 import lgp.core.program.Program
@@ -14,6 +14,7 @@ import java.util.Random
  * directly modify the arguments.
  *
  * @param TProgram The type of programs being combined.
+ * @param TOutput The type of the program output(s).
  * @property environment The environment evolution is being performed within.
  */
 abstract class RecombinationOperator<TProgram, TOutput : Output<TProgram>>(

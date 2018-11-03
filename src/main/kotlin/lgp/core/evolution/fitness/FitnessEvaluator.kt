@@ -3,6 +3,7 @@ package lgp.core.evolution.fitness
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
+import lgp.core.program.Output
 import lgp.core.program.Program
 
 /**

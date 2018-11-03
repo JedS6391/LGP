@@ -1,7 +1,5 @@
 package lgp.lib
 
-import lgp.core.evolution.fitness.Output
-import lgp.core.evolution.fitness.Outputs
 import lgp.core.program.instructions.BaseArity
 import lgp.core.program.instructions.BranchOperation
 import lgp.core.program.instructions.Instruction
@@ -11,6 +9,8 @@ import lgp.core.program.ProgramTranslator
 import lgp.core.program.registers.RegisterSet
 import lgp.core.program.registers.RegisterType
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Output
+import lgp.core.program.Outputs
 
 object BaseProgramOutputResolvers {
     fun <TProgram> singleOutput(): (BaseProgram<TProgram, Outputs.Single<TProgram>>) -> Outputs.Single<TProgram> {

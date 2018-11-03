@@ -5,12 +5,11 @@ import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.operations.OperationLoader
 import lgp.core.evolution.ResultAggregator
 import lgp.core.evolution.ResultAggregators
-import lgp.core.evolution.fitness.FitnessFunction
 import lgp.core.evolution.fitness.FitnessFunctionProvider
-import lgp.core.evolution.fitness.Output
 import lgp.core.program.instructions.Operation
 import lgp.core.program.registers.RegisterSet
 import lgp.core.modules.Module
+import lgp.core.program.Output
 import java.util.Random
 
 /**

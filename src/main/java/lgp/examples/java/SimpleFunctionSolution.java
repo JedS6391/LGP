@@ -1,8 +1,8 @@
 package lgp.examples.java;
 
 import lgp.core.evolution.Solution;
-import lgp.core.evolution.fitness.Outputs;
 import lgp.core.evolution.training.TrainingResult;
+import lgp.core.program.Outputs;
 import org.jetbrains.annotations.NotNull;
 
 /**

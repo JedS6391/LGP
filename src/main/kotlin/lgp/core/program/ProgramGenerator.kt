@@ -1,7 +1,6 @@
 package lgp.core.program
 
 import lgp.core.environment.Environment
-import lgp.core.evolution.fitness.Output
 import lgp.core.modules.Module
 import lgp.core.program.instructions.InstructionGenerator
 
