@@ -54,7 +54,7 @@ class BaseProblemException(message: String) : Exception(message)
 /**
  * Encapsulates the information given from a call to [BaseProblem.test].
  */
-data class BaseProblemTestResult(val testResult: TestResult<Double>, val testFitness: Double)
+data class BaseProblemTestResult(val testResult: TestResult<Double, Outputs.Single<Double>>, val testFitness: Double)
 
 /**
  * A basic skeleton for a problem setup with commonly used components and modules.
@@ -62,7 +62,7 @@ data class BaseProblemTestResult(val testResult: TestResult<Double>, val testFit
  * This class is supposed to streamline the process of setting up a problem by providing
  * a set of reasonable defaults and a base set of parameters that can be tweaked.
  */
-class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
+class BaseProblem(val params: BaseProblemParameters) : Problem<Double, Outputs.Single<Double>>() {
     // Unpack values from parameters.
     override val name = params.name
 
@@ -104,18 +104,23 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(params.defaultRegisterValue)
 
-    override val fitnessFunctionProvider = { params.fitnessFunction as FitnessFunction<Double, Output<Double>> }
+    override val fitnessFunctionProvider = { params.fitnessFunction }
 
-    override val registeredModules = ModuleContainer<Double>(
+    override val registeredModules = ModuleContainer<Double, Outputs.Single<Double>>(
             modules = mutableMapOf(
                     CoreModuleType.InstructionGenerator to { environment ->
                         BaseInstructionGenerator(environment)
                     },
                     CoreModuleType.ProgramGenerator to { environment ->
                         BaseProgramGenerator(
-                                environment,
-                                sentinelTrueValue = 1.0,
-                                outputRegisterIndices = listOf(0)
+                            environment,
+                            sentinelTrueValue = 1.0,
+                            outputRegisterIndices = listOf(0),
+                            outputResolver = { program ->
+                                Outputs.Single(
+                                    program.registers[program.outputRegisterIndices.first()]
+                                )
+                            }
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->
@@ -141,13 +146,15 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                                 environment,
                                 registerMutationRate = params.microRegisterMutationRate,
                                 operatorMutationRate = params.microOperationMutationRate,
-                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(environment)
+                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(
+                                    environment.randomState
+                                )
                         )
                     }
             )
     )
 
-    private var bestTrainingModel: EvolutionModel<Double>? = null
+    private var bestTrainingModel: EvolutionModel<Double, Outputs.Single<Double>>? = null
 
     override fun initialiseEnvironment() {
         this.environment = Environment(
@@ -173,7 +180,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
         )
     }
 
-    fun train(dataset: Dataset<Double>): TrainingResult<Double> {
+    fun train(dataset: Dataset<Double>): TrainingResult<Double, Outputs.Single<Double>> {
         try {
             val trainer = DistributedTrainer(environment, model, runs = this.params.runs)
             val trainingResult = trainer.train(dataset)
