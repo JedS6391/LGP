@@ -3,19 +3,19 @@ package lgp.core.environment.dataset
 /**
  * A feature of a sample in some data set.
  *
- * @param TFeature The type of the feature.
+ * @param TData The type of the feature.
  * @property name The name of the this feature in the data set.
  * @property value The value of this feature in the data set.
  */
-open class Feature<out TFeature>(val name: String, val value: TFeature) {
+open class Feature<out TData>(val name: String, val value: TData) {
 
     override fun toString(): String {
         return "Feature(name = ${this.name}, value = ${this.value})"
     }
 }
 
-class NominalFeature<out TFeature>(name: String, value: TFeature, val labels: List<String>)
-    : Feature<TFeature>(name, value) {
+class NominalFeature<out TData>(name: String, value: TData, val labels: List<String>)
+    : Feature<TData>(name, value) {
 
     override fun toString(): String {
         return "NominalFeature(name = ${this.name}, value = ${this.value}, labels = ${this.labels})"
@@ -29,9 +29,9 @@ class NominalFeature<out TFeature>(name: String, value: TFeature, val labels: Li
  * @property features A collection of [Feature]s that this sample represents.
  * @see [Dataset]
  */
-class Sample<out TFeature>(val features: List<Feature<TFeature>>) {
+class Sample<out TData>(val features: List<Feature<TData>>) {
 
-    fun feature(name: String): Feature<TFeature> {
+    fun feature(name: String): Feature<TData> {
         return this.features.first { feature ->
             feature.name == name
         }
@@ -49,7 +49,7 @@ class Sample<out TFeature>(val features: List<Feature<TFeature>>) {
  *
  * @param TTarget The type of the value(s) this target represents.
  */
-interface Target<out TTarget> {
+interface Target<out TData> {
 
     /**
      * How many output values this target represents.
