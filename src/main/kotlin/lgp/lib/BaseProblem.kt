@@ -117,11 +117,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double, Outputs.S
                             environment,
                             sentinelTrueValue = 1.0,
                             outputRegisterIndices = listOf(0),
-                            outputResolver = { program ->
-                                Outputs.Single(
-                                    program.registers[program.outputRegisterIndices.first()]
-                                )
-                            }
+                            outputResolver = BaseProgramOutputResolvers.singleOutput()
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->

@@ -79,7 +79,7 @@ class Or : BinaryOperation<Double>(Or.Companion::or) {
     }
 }
 
-class Xor : BinaryOperation<Double>(Xor.Companion::xor) {
+class ExclusiveOr : BinaryOperation<Double>(ExclusiveOr.Companion::xor) {
 
     companion object {
         fun xor(args: Arguments<Double>): Double {

@@ -73,7 +73,7 @@ class FullAdderExperiment(
             config.operations = listOf(
                 "lgp.lib.operations.And",
                 "lgp.lib.operations.Or",
-                "lgp.lib.operations.Xor"
+                "lgp.lib.operations.ExclusiveOr"
             )
             config.constantsRate = 0.0
             config.numCalculationRegisters = 5
