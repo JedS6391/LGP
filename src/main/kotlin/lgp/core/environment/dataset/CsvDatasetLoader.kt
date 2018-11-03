@@ -3,7 +3,6 @@ package lgp.core.environment.dataset
 import com.opencsv.CSVReader
 import lgp.core.environment.ComponentLoaderBuilder
 import lgp.core.modules.ModuleInformation
-import java.io.BufferedReader
 import java.io.FileReader
 import java.io.Reader
 
@@ -166,17 +165,29 @@ object ParsingFunctions {
 
     /**
      * A target parsing function that simply takes a specific value from a [Row] using its index.
+     * The function expects to return a single target variable of the [Double] type.
+     *
+     * @param targetIndex The index of the target variable in the current [Row] being processed.
+     * @return A target parsing function that returns the target variable as a [Double] value.
+     */
+    fun indexedDoubleSingleTargetParsingFunction(targetIndex: Int): (Header, Row) -> Targets.Single<Double> {
+        return { _: Header, row: Row ->
+            Targets.Single(row[targetIndex].toDouble())
+        }
+    }
+
+    /**
+     * A target parsing function that takes a range of values from a [Row] using a set of indices.
      * The function expects to return target variables of the [Double] type.
      *
      * @param targetIndices The indices of any target variables in the current [Row] being processed.
-     * @return A target parsing function that returns the target variable as a [Double] value.
+     * @return A target parsing function that returns the target variables as a collection of [Double] values.
      */
-    fun indexedDoubleTargetParsingFunction(targetIndices: IntRange): (Header, Row) -> List<Double> {
+    fun indexedDoubleMultipleTargetParsingFunction(targetIndices: IntRange): (Header, Row) -> Targets.Multiple<Double> {
         return { _: Header, row: Row ->
-            row.slice(targetIndices)
-               .map { targetValue ->
-                   targetValue.toDouble()
-               }
+            Targets.Multiple(
+                row.slice(targetIndices).map(String::toDouble)
+            )
         }
     }
 }
