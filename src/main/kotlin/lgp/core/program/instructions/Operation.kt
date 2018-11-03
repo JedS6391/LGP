@@ -40,5 +40,11 @@ abstract class Operation<T>(val arity: Arity, val func: Function<T>) : Module {
      */
     abstract fun execute(arguments: Arguments<T> ): T
 
-    abstract fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String
+    /**
+     * Provides a string representation of this operation.
+     *
+     * @param operands The registers used by the [Instruction] that this [Operation] belongs to.
+     * @param destination The destination register of the [Instruction] this [Operation] belongs to.
+     */
+    abstract fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String
 }

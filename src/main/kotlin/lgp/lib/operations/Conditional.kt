@@ -32,7 +32,7 @@ class IfGreater : BranchOperation<Double>(
             description = ""
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "if(r[${ operands[0] }] > r[${ operands[1] }])"
     }
 }
@@ -65,7 +65,7 @@ class IfLessThanOrEqualTo : BranchOperation<Double>(
             description = ""
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "if(r[${ operands[0] }] <= r[${ operands[1] }])"
     }
 }

@@ -30,7 +30,7 @@ class Not : UnaryOperation<Double>(Not.Companion::not) {
             description = "An operation for performing the bitwise not function on a single Double argument."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = r[${ operands[0] }] > 0.0 ? 0.0 : 1.0"
     }
 }
@@ -52,7 +52,7 @@ class And : BinaryOperation<Double>(And.Companion::and) {
             description = "An operation for performing the bitwise and function on two Double arguments."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = (r[${ operands[0] }] > 0.0 & r[${ operands[1] }] > 0.0) ? 1.0 : 0.0"
     }
 }
@@ -74,7 +74,7 @@ class Or : BinaryOperation<Double>(Or.Companion::or) {
             description = "An operation for performing the bitwise or function on two Double arguments."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = (r[${ operands[0] }] > 0.0 | r[${ operands[1] }] > 0.0) ? 1.0 : 0.0"
     }
 }
@@ -96,7 +96,7 @@ class Xor : BinaryOperation<Double>(Xor.Companion::xor) {
             description = "An operation for performing the bitwise xor function on two Double arguments."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = (r[${ operands[0] }] > 0.0 ^ r[${ operands[1] }] > 0.0) ? 1.0 : 0.0"
     }
 }

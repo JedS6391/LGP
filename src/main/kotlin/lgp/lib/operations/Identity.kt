@@ -17,7 +17,7 @@ class Identity : UnaryOperation<Double>(
         description = "An operation to copy a single Double argument to the destination register."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = r[${ operands[0] }]"
     }
 }

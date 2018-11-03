@@ -17,7 +17,7 @@ class Sine : UnaryOperation<Double>(
         description = "An operation for performing the sine function on a single Double argument."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = sin(r[${ operands[0] }])"
     }
 }

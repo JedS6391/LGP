@@ -23,7 +23,7 @@ class Addition : BinaryOperation<Double>(Addition.Companion::add) {
             description = "An operation for performing the addition function on two Double arguments."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = r[${ operands[0] }] + r[${ operands[1] }]"
     }
 }
@@ -42,7 +42,7 @@ class Subtraction : BinaryOperation<Double>(
             description = "An operation for performing the subtraction function on two Double arguments."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = r[${ operands[0] }] - r[${ operands[1] }]"
     }
 }
@@ -61,7 +61,7 @@ class Multiplication : BinaryOperation<Double>(
             description = "An operation for performing the multiplication function on two Double arguments."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = r[${ operands[0] }] * r[${ operands[1] }]"
     }
 }
@@ -85,7 +85,7 @@ class Division : BinaryOperation<Double>(
             description = "An operation for performing the division function on two Double arguments."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = r[${ operands[1] }] == 0.0 ? 1000000.0 : r[${ operands[0] }] / r[${ operands[1] }]"
     }
 }
@@ -109,7 +109,7 @@ class Exponent : BinaryOperation<Double>(
             description = "An operation for performing the exponent function on two Double arguments."
     )
 
-    override fun toString(operands: MutableList<RegisterIndex>, destination: RegisterIndex): String {
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
         return "r[$destination] = pow(r[${ operands[0] }], r[${ operands[1] }])"
     }
 }
