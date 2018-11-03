@@ -110,9 +110,7 @@ class MultipleOutputFitnessContext<TData>(environment: Environment<TData>) : Fit
             // Run the program...
             program.execute()
 
-            // ... and gather a result from the programs first specified output register.
-            // We will ignore any other output registers, under the assumption that if this
-            // fitness context is being used, the other registers don't matter.
+            // ... and gather results from the programs specified output registers.
             val outputs = program.outputRegisterIndices.map { output ->
                 program.registers[output]
             }

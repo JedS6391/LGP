@@ -266,6 +266,12 @@ class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : Progr
                 // be executed from the command-line.
                 append("\n")
 
+                var outputRegisters = ""
+
+                program.outputRegisterIndices.map { register ->
+                    outputRegisters += "printf(\"%f\\n\", r[$register]);\n"
+                }
+
                 append("""
 int main(int argc, char *argv[]) {
     if (argc != NUM_INPUTS + 1) {
@@ -289,7 +295,7 @@ ${ constantRegisters.trim().prependIndent("        ") }
       exit(1);
     }
     gp(r);
-    printf("%f\n", r[${program.outputRegisterIndices.first()}]);
+${ outputRegisters.trim().prependIndent("    ")}
     return 0;
 }
                 """.trimIndent())
