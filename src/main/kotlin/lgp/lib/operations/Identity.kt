@@ -5,7 +5,7 @@ import lgp.core.program.registers.Arguments
 import lgp.core.modules.ModuleInformation
 
 /**
- * Performs the sine function on a single Double argument.
+ * Performs the identity function on a single Double argument.
  */
 class Identity : UnaryOperation<Double>(
         func = { args: Arguments<Double> -> args.get(0) }

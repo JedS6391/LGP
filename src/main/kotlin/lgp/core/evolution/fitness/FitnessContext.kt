@@ -90,3 +90,43 @@ class SingleOutputFitnessContext<TData>(environment: Environment<TData>) : Fitne
             description = "A built-in fitness context for evaluating the fitness of single-output programs."
     )
 }
+
+class MultipleOutputFitnessContext<TData>(environment: Environment<TData>) : FitnessContext<TData>(environment) {
+
+    private val fitnessFunction = this.environment.fitnessFunctionProvider()
+
+    override fun fitness(program: Program<TData>, fitnessCases: List<FitnessCase<TData>>): Double {
+        // Make sure the programs effective instructions have been found
+        program.findEffectiveProgram()
+
+        // Collect the results of the program for each fitness case.
+        val outputs = fitnessCases.map { case ->
+            // Make sure the registers are in a default state
+            program.registers.reset()
+
+            // Load the case
+            program.registers.writeInstance(case.features)
+
+            // Run the program...
+            program.execute()
+
+            // ... and gather a result from the programs first specified output register.
+            // We will ignore any other output registers, under the assumption that if this
+            // fitness context is being used, the other registers don't matter.
+            val outputs = program.outputRegisterIndices.map { output ->
+                program.registers[output]
+            }
+
+            Outputs.Multiple(outputs)
+        }
+
+        // Copy the fitness to the program for later accesses
+        program.fitness = this.fitnessFunction(outputs, fitnessCases)
+
+        return program.fitness
+    }
+
+    override val information = ModuleInformation(
+        description = "A built-in fitness context for evaluating the fitness of single-output programs."
+    )
+}

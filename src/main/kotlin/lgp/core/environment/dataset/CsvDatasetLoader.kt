@@ -3,6 +3,7 @@ package lgp.core.environment.dataset
 import com.opencsv.CSVReader
 import lgp.core.environment.ComponentLoaderBuilder
 import lgp.core.modules.ModuleInformation
+import java.io.BufferedReader
 import java.io.FileReader
 import java.io.Reader
 
@@ -29,6 +30,37 @@ class CsvDatasetLoader<out TData> constructor(
         val featureParseFunction: (Header, Row) -> Sample<TData>,
         val targetParseFunction: (Header, Row) -> Target<TData>
 ) : DatasetLoader<TData> {
+
+
+    companion object {
+        fun vectorize(reader: BufferedReader, featuresBeingCategorical: List<Boolean>, outputsBeingCategorical: List<Boolean>): Pair<List<List<Pair<Int, String?>>>, List<List<Pair<Int, String?>>>> {
+            val lines: MutableList<Array<String>> = CSVReader(reader).readAll()
+            lines.removeAt(0)
+            var inputIndex: Int = 0;
+            val inputVectorization = mutableListOf<List<Pair<Int, String?>>>()
+            for (i in 0..(featuresBeingCategorical.count() - 1)) {
+                if (featuresBeingCategorical.get(i)) {
+                    val categories: List<String> = lines.map { line: Array<String> -> line[i] }.distinct()
+                    inputVectorization.add((inputIndex..(inputIndex + categories.count() - 1)).zip(categories))
+                } else {
+                    inputVectorization.add(listOf(Pair(inputIndex, null)))
+                }
+                inputIndex += inputVectorization.last().count()
+            }
+            var outputIndex: Int = 0;
+            val outputVectorization = mutableListOf<List<Pair<Int, String?>>>()
+            for (i in 0..(outputsBeingCategorical.count() - 1)) {
+                if (outputsBeingCategorical.get(i)) {
+                    val categories: List<String> = lines.map { line: Array<String> -> line[i + featuresBeingCategorical.count()] }.distinct()
+                    outputVectorization.add((outputIndex..(outputIndex + categories.count() - 1)).zip(categories))
+                } else {
+                    outputVectorization.add(listOf(Pair(outputIndex, null)))
+                }
+                outputIndex += outputVectorization.last().count()
+            }
+            return Pair(inputVectorization, outputVectorization)
+        }
+    }
 
     private constructor(builder: Builder<TData>)
             : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)

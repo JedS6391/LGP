@@ -204,172 +204,10 @@ class BaseProgramSimplifier<T> {
  *     2. `includeMainFunction == false` will NOT include a main function, and is more suited for
  *        contexts where the model will be integrated into existing code bases.
  */
-class ExtendedProgramTranslator(
-        private val includeMainFunction: Boolean,
-        private val inputVectorization: List<List<Pair<RegisterIndex, String?>>>,
-        private val outputVectorization: List<List<Pair<RegisterIndex, String?>>>
-) : ProgramTranslator<Double>() {
-    override val information = ModuleInformation(
-        description = "A Program Translator that can translate BaseProgram instances to their equivalent" +
-                      " representation in the C programming language."
-    )
-
-    override fun translate(program: Program<Double>): String {
-        val sb = StringBuilder()
-
-        // Make sure that the registers are set to their initial values.
-        program.registers.reset()
-
-        val numOutputs = program.outputRegisterIndices.count()
-        val numRegisters = program.registers.count
-        val programString = program.toString()
-
-        // First, we construct any placeholder information we might need.
-        var inputPlaceholders = ""
-
-        for (i in 0 until program.registers.inputRegisters.count()) {
-            inputPlaceholders += "0.0, // input\n"
-        }
-
-        var calculationRegisters = ""
-
-        program.registers.calculationRegisters.map { reg ->
-            val contents = program.registers[reg]
-
-            calculationRegisters += "$contents, // calculation\n"
-        }
-
-        var constantRegisters = ""
-
-        program.registers.constantRegisters.map { reg ->
-            val contents = program.registers[reg]
-
-            constantRegisters += "$contents, // constant\n"
-        }
-
-        with (sb) {
-            if (includeMainFunction) {
-                // Includes and globals needed for the inclusion of a main function
-                append("#include <stdio.h>\n")
-                append("#include <stdlib.h>\n")
-                append("#include <string.h>\n")
-                append("#include <math.h>\n")
-                append("\n")
-                append("static int NUM_INPUTS = ${ inputVectorization.count() };\n")
-                append("static int NUM_OUTPUTS = $numOutputs;\n")
-                append("\n")
-            }
-
-            // The model -- the exact representation is defined by the program instance.
-            // Generally, we expect `BaseProgram` instances which export C-based instruction representations.
-            append("void gp(double r[$numRegisters]) {\n")
-            append("\n")
-            append(programString.prependIndent("    "))
-            append("\n")
-            append("}\n")
-
-            if (includeMainFunction) {
-                // Add a main function that parses command-line inputs so that the model can
-                // be executed from the command-line.
-                append("\n")
-
-                append("""
-char *classify(double values[], char *categories[], int numCategories) {
-    int classification = 0;
-    double value = values[0];
-    for (int i = 1; i < numCategories; i++)
-        if (values[i] > value) {
-            classification = i;
-            value = values[i];
-        }
-    return categories[classification];
-}
-
-int main(int argc, char *argv[]) {
-
-    if (argc != NUM_INPUTS + 1) {
-        printf("Please specify %d input value(s)...\n", NUM_INPUTS);
-
-        exit(1);
-    }
-
-    double r[$numRegisters] = {
-${ inputPlaceholders.trim().prependIndent("        ") }
-${ calculationRegisters.trim().prependIndent("        ") }
-${ constantRegisters.trim().prependIndent("        ") }
-    };
-
-    if (NUM_INPUTS >= 1) {
-""")
-                inputVectorization.forEachIndexed { index: Int, vector: List<Pair<RegisterIndex, String?>> ->
-                    if (vector.first().second == null) {
-                        append("""
-        r[${ vector.first().first }] = strtod(argv[${ index + 1 }], NULL);""")
-                    } else {
-                        vector.forEach { category: Pair<RegisterIndex, String?> ->
-                            append("""
-        r[${ category.first }] = (double) (strcmp(argv[${ index + 1 }], "${ category.second }") == 0);""")
-                        }
-                    }
-                }
-
-                append("""
-
-    } else {
-      printf("Unexpected number of inputs...\n");
-
-      exit(1);
-    }
-
-    gp(r);
-""")
-
-                outputVectorization.forEach { vector: List<Pair<RegisterIndex, String?>> ->
-                    if (vector.first().second == null) {
-                        append("""
-    printf("%f\n", r[${ vector.first().first }]);""")
-                    } else {
-                        append("""
-    printf("%s\n", classify((double[]) { r[${ vector.first().first }]""")
-                        vector.drop(1).forEach { category: Pair<RegisterIndex, String?> ->
-                            append(""", r[${ category.first }]""")
-                        }
-                        append(" }, ")
-                        append("""(char *[]) { "${ vector.first().second }"
-                        """.trimIndent())
-                        vector.drop(1).forEach { category: Pair<RegisterIndex, String?> ->
-                            append(""", "${ category.second }"
-                            """.trimIndent())
-                        }
-                        append(" }, ${ vector.count() }));")
-                    }
-                }
-
-                append("""
-    return 0;
-}
-""")
-            }
-        }
-
-        return sb.toString()
-    }
-}
-
-/**
- * A [ProgramTranslator] implementation that converts [BaseProgram] instances to a C-based representation.
- *
- * There are two modes that can be used:
- *
- *     1. `includeMainFunction == true` will include a main function in the export which can
- *        be used to execute the model from the command-line.
- *     2. `includeMainFunction == false` will NOT include a main function, and is more suited for
- *        contexts where the model will be integrated into existing code bases.
- */
 class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : ProgramTranslator<T>() {
     override val information = ModuleInformation(
         description = "A Program Translator that can translate BaseProgram instances to their equivalent" +
-                      " representation in the C programming language."
+                " representation in the C programming language."
     )
 
     override fun translate(program: Program<T>): String {
@@ -379,7 +217,6 @@ class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : Progr
         program.registers.reset()
 
         val numInputs = program.registers.inputRegisters.count()
-        val numOutputs = program.outputRegisterIndices.count()
         val numRegisters = program.registers.count
         val programString = program.toString()
 
@@ -411,10 +248,8 @@ class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : Progr
                 // Includes and globals needed for the inclusion of a main function
                 append("#include <stdio.h>\n")
                 append("#include <stdlib.h>\n")
-                append("#include <math.h>\n")
                 append("\n")
                 append("static int NUM_INPUTS = $numInputs;\n")
-                append("static int NUM_OUTPUTS = $numOutputs;\n")
                 append("\n")
             }
 
@@ -433,44 +268,31 @@ class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : Progr
 
                 append("""
 int main(int argc, char *argv[]) {
-
     if (argc != NUM_INPUTS + 1) {
         printf("Please specify %d input value(s)...\n", NUM_INPUTS);
-
         exit(1);
     }
-
     double r[$numRegisters] = {
 ${ inputPlaceholders.trim().prependIndent("        ") }
 ${ calculationRegisters.trim().prependIndent("        ") }
 ${ constantRegisters.trim().prependIndent("        ") }
     };
-
-    if (NUM_INPUTS >= 1) {
-
+    if (NUM_INPUTS == 1) {
+        double input = strtod(argv[1], NULL);
+        r[0] = input;
+    } else if (NUM_INPUTS > 1) {
         for (int i = 0; i < NUM_INPUTS; i++) {
             r[i] = strtod(argv[i + 1], NULL);
         }
-
     } else {
       printf("Unexpected number of inputs...\n");
-
       exit(1);
     }
-
     gp(r);
-
-""")
-
-                for(i in 0..(numOutputs - 1)) {
-                    append("""
-    printf("%f\n", r[${ program.outputRegisterIndices.get(i) }]);""")
-                }
-
-                append("""
+    printf("%f\n", r[${program.outputRegisterIndices.first()}]);
     return 0;
 }
-""")
+                """.trimIndent())
             }
         }
 
