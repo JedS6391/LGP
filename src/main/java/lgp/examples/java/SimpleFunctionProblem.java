@@ -21,6 +21,7 @@ import lgp.core.modules.Module;
 import lgp.core.modules.ModuleInformation;
 import lgp.lib.BaseInstructionGenerator;
 import lgp.lib.BaseProgramGenerator;
+import lgp.lib.BaseProgramOutputResolvers;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -30,8 +31,7 @@ import java.util.function.Function;
 /**
  * A re-implementation of {@link lgp.examples.SimpleFunctionProblem} to showcase Java interoperability.
  */
-/*
-public class SimpleFunctionProblem extends Problem<Double> {
+public class SimpleFunctionProblem extends Problem<Double, Outputs.Single<Double>> {
 
     @NotNull
     public String getName() {
@@ -109,16 +109,23 @@ public class SimpleFunctionProblem extends Problem<Double> {
     }
 
     @NotNull
-    public ModuleContainer<Double> getRegisteredModules() {
-        HashMap<RegisteredModuleType, Function1<Environment<Double>, Module>> modules = new HashMap<>();
+    @Override
+    public Function0<FitnessFunction<Double, Outputs.Single<Double>>> getFitnessFunctionProvider() {
+        return FitnessFunctions::getMSE;
+    }
+
+    @NotNull
+    public ModuleContainer<Double, Outputs.Single<Double>> getRegisteredModules() {
+        HashMap<RegisteredModuleType, Function1<Environment<Double, Outputs.Single<Double>>, Module>> modules = new HashMap<>();
 
         modules.put(CoreModuleType.InstructionGenerator, BaseInstructionGenerator::new);
         modules.put(
                 CoreModuleType.ProgramGenerator,
                 (environment) -> new BaseProgramGenerator<>(
                         environment,
-                        1.0,                                          // sentinelTrueValue
-                        new ArrayList<>(Collections.singletonList(0)) // outputRegisterIndex
+                        1.0,                                           // sentinelTrueValue
+                        new ArrayList<>(Collections.singletonList(0)), // outputRegisterIndex
+                        BaseProgramOutputResolvers.INSTANCE.singleOutput()
                 )
         );
         modules.put(
@@ -221,14 +228,14 @@ public class SimpleFunctionProblem extends Problem<Double> {
     @NotNull
     public SimpleFunctionSolution solve() {
         try {
-            DistributedTrainer<Double> runner = new DistributedTrainer<>(
+            DistributedTrainer<Double, Outputs.Single<Double>> runner = new DistributedTrainer<>(
                     this.environment,
                     this.model,
                     // runs
                     2
             );
 
-            TrainingResult<Double> result = runner.train(this.datasetLoader.load());
+            TrainingResult<Double, Outputs.Single<Double>> result = runner.train(this.datasetLoader.load());
 
             return new SimpleFunctionSolution(this.getName(), result);
 
@@ -245,13 +252,4 @@ public class SimpleFunctionProblem extends Problem<Double> {
 
         return new SimpleFunctionSolution(this.getName(), null);
     }
-
-    @NotNull
-    @Override
-    public Function0<FitnessFunction<Double, Output<Double>>> getFitnessFunctionProvider() {
-        FitnessFunction<Double, Outputs.Single<Double>> mse = FitnessFunctions.getMSE();
-
-        return () -> (FitnessFunction<Double, Output<Double>>) mse;
-    }
 }
-*/

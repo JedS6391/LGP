@@ -39,7 +39,7 @@ val match: MultipleOutputFitnessFunction<Double> = object : MultipleOutputFitnes
  */
 class FullAdderExperimentSolution(
     override val problem: String,
-    val result: TrainingResult<Double>,
+    val result: TrainingResult<Double, Outputs.Multiple<Double>>,
     val dataset: Dataset<Double>
 ) : Solution<Double>
 
@@ -48,7 +48,7 @@ class FullAdderExperimentSolution(
  */
 class FullAdderExperiment(
     val datasetStream: InputStream
-) : Problem<Double>() {
+) : Problem<Double, Outputs.Multiple<Double>>() {
 
     // 1. Give the problem a name and simple description.
     override val name = "Custom Fitness Functions Experiment"
@@ -95,9 +95,9 @@ class FullAdderExperiment(
     // Set the default value of any registers to 1.0.
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
     // Use the mean-squared error fitness function.
-    override val fitnessFunctionProvider = { match as FitnessFunction<Double, Output<Double>> }
+    override val fitnessFunctionProvider = { match }
     // Define the modules to be used for the core evolutionary operations.
-    override val registeredModules = ModuleContainer<Double>(modules = mutableMapOf(
+    override val registeredModules = ModuleContainer<Double, Outputs.Multiple<Double>>(modules = mutableMapOf(
         // Generate instructions using the built-in instruction generator.
         CoreModuleType.InstructionGenerator to { environment ->
             BaseInstructionGenerator(environment)
@@ -107,7 +107,8 @@ class FullAdderExperiment(
             BaseProgramGenerator(
                 environment,
                 sentinelTrueValue = 1.0, // Determines the value that represents a boolean "true".
-                outputRegisterIndices = listOf(6, 7) // Two program outputs
+                outputRegisterIndices = listOf(6, 7), // Two program outputs
+                outputResolver = BaseProgramOutputResolvers.multipleOutput()
             )
         },
         // Perform selection using the built-in tournament selection.
@@ -137,7 +138,7 @@ class FullAdderExperiment(
                 environment,
                 registerMutationRate = 0.5,
                 operatorMutationRate = 0.5,
-                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(this.environment)
+                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(this.environment.randomState)
             )
         },
         // Use the multiple-output fitness context -- meaning that program fitness will be evaluated
@@ -241,12 +242,12 @@ class FullAdder {
             problem.initialiseEnvironment()
             problem.initialiseModel()
             val solution = problem.solve()
-            val simplifier = BaseProgramSimplifier<Double>()
-            val programTranslator = BaseProgramTranslator<Double>(includeMainFunction = true)
+            val simplifier = BaseProgramSimplifier<Double, Outputs.Multiple<Double>>()
+            val programTranslator = BaseProgramTranslator<Double, Outputs.Multiple<Double>>(includeMainFunction = true)
 
             solution.result.evaluations.forEachIndexed { run, res ->
                 println("Run ${run + 1} (best fitness = ${res.best.fitness})")
-                println(simplifier.simplify(res.best as BaseProgram<Double>))
+                println(simplifier.simplify(res.best as BaseProgram<Double, Outputs.Multiple<Double>>))
                 println("\nStats (last run only):\n")
 
                 for ((k, v) in res.statistics.last().data) {

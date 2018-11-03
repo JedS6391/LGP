@@ -7,26 +7,20 @@ import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
-import lgp.core.evolution.fitness.FitnessFunction
-import lgp.core.evolution.fitness.FitnessFunctions
-import lgp.core.evolution.fitness.Output
-import lgp.core.evolution.fitness.SingleOutputFitnessContext
+import lgp.core.evolution.fitness.*
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
 import lgp.core.evolution.training.DistributedTrainer
 import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
-import lgp.lib.BaseInstructionGenerator
-import lgp.lib.BaseProgram
-import lgp.lib.BaseProgramGenerator
-import lgp.lib.BaseProgramSimplifier
+import lgp.lib.*
 
 data class SinPolySolution(
         override val problem: String,
-        val result: TrainingResult<Double>
+        val result: TrainingResult<Double, Outputs.Single<Double>>
 ) : Solution<Double>
 
-class SinPolyProblem : Problem<Double>() {
+class SinPolyProblem : Problem<Double, Outputs.Single<Double>>() {
     override val name = "SinPoly."
 
     override val description = Description("f(x) = sin(x) * x + 5\n\trange = Uniform[-5:5]")
@@ -104,19 +98,20 @@ class SinPolyProblem : Problem<Double>() {
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
     override val fitnessFunctionProvider = {
-        FitnessFunctions.SSE as FitnessFunction<Double, Output<Double>>
+        FitnessFunctions.SSE
     }
 
-    override val registeredModules = ModuleContainer<Double>(
+    override val registeredModules = ModuleContainer<Double, Outputs.Single<Double>>(
             modules = mutableMapOf(
                     CoreModuleType.InstructionGenerator to { environment ->
                         BaseInstructionGenerator(environment)
                     },
                     CoreModuleType.ProgramGenerator to { environment ->
                         BaseProgramGenerator(
-                                environment,
-                                sentinelTrueValue = 1.0,
-                                outputRegisterIndices = listOf(0)
+                            environment,
+                            sentinelTrueValue = 1.0,
+                            outputRegisterIndices = listOf(0),
+                            outputResolver = BaseProgramOutputResolvers.singleOutput()
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->
@@ -142,7 +137,9 @@ class SinPolyProblem : Problem<Double>() {
                                 environment,
                                 registerMutationRate = 0.3,
                                 operatorMutationRate = 0.4,
-                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(environment)
+                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(
+                                    environment.randomState
+                                )
                         )
                     },
                     CoreModuleType.FitnessContext to { environment ->
@@ -190,13 +187,13 @@ class SinPoly {
             problem.initialiseEnvironment()
             problem.initialiseModel()
             val solution = problem.solve()
-            val simplifier = BaseProgramSimplifier<Double>()
+            val simplifier = BaseProgramSimplifier<Double, Outputs.Single<Double>>()
 
             println("Results:")
 
             solution.result.evaluations.forEachIndexed { run, res ->
                 println("Run ${run + 1} (best fitness = ${res.best.fitness})")
-                println(simplifier.simplify(res.best as BaseProgram<Double>))
+                println(simplifier.simplify(res.best as BaseProgram<Double, Outputs.Single<Double>>))
 
                 println("\nStats (last run only):\n")
 
