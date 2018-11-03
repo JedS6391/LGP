@@ -176,6 +176,7 @@ class Configuration {
         sb.appendln("\tconstants = $constants")
         sb.appendln("\tnumCalculationRegisters = $numCalculationRegisters")
         sb.appendln("\tpopulationSize = $populationSize")
+        sb.appendln("\tnumFeatures = $numFeatures")
         sb.appendln("\tcrossoverRate = $crossoverRate")
         sb.appendln("\tmicroMutationRate = $microMutationRate")
         sb.appendln("\tmacroMutationRate = $macroMutationRate")
