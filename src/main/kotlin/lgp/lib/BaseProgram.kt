@@ -12,7 +12,16 @@ import lgp.core.modules.ModuleInformation
 import lgp.core.program.Output
 import lgp.core.program.Outputs
 
+/**
+ * A collection of built-in functions that can be used to resolve the output of a [BaseProgram] instance.
+ */
 object BaseProgramOutputResolvers {
+
+    /**
+     * Resolves a single output value from a [BaseProgram].
+     *
+     * The resolver will use the first register index defined in [Program.outputRegisterIndices].
+     */
     fun <TProgram> singleOutput(): (BaseProgram<TProgram, Outputs.Single<TProgram>>) -> Outputs.Single<TProgram> {
         return { program ->
             // We always take the first register. If multiple are given, they are simply ignored
@@ -25,6 +34,11 @@ object BaseProgramOutputResolvers {
         }
     }
 
+    /**
+     * Resolves a collection of output values from a [BaseProgram].
+     *
+     * The resolver will use each register index defined in [Program.outputRegisterIndices].
+     */
     fun <TProgram> multipleOutput(): (BaseProgram<TProgram, Outputs.Multiple<TProgram>>) -> Outputs.Multiple<TProgram> {
         return { program ->
             Outputs.Multiple(
