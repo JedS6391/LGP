@@ -10,6 +10,7 @@ import java.util.Map;
 /**
  * A re-implementation of {@link lgp.examples.SimpleFunction} to showcase Java interoperability.
  */
+/*
 public class SimpleFunction {
 
     public static void main(String[] args) {
@@ -51,3 +52,5 @@ public class SimpleFunction {
         System.out.println("Average best fitness: " + averageBestFitness);
     }
 }
+
+*/
