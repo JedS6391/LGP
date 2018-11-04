@@ -13,10 +13,28 @@
 <tbody>
 <tr>
 <td>
+<p><a href="-output.html">Output</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">Output</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
+<p>Represents the output of a <a href="-program/index.html">Program</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-outputs/index.html">Outputs</a></p>
+</td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">Outputs</span></code>
+<p>A collection of built-in <a href="-output.html">Output</a> implementations.</p>
+</td>
+</tr>
+<tr>
+<td>
 <p><a href="-program/index.html">Program</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Program</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Program</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-program/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
 <p>An LGP program that is composed of instructions that operate on registers.</p>
 </td>
 </tr>
@@ -25,7 +43,7 @@
 <p><a href="-program-generator/index.html">ProgramGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
 <p>Generates <a href="-program/index.html">Program</a> instances to be used in an LGP population.</p>
 </td>
 </tr>
@@ -34,7 +52,7 @@
 <p><a href="-program-translator/index.html">ProgramTranslator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramTranslator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramTranslator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-program-translator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
 <p>Module that can be used to translate programs to external representations.</p>
 </td>
 </tr>
