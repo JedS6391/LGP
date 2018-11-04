@@ -1,6 +1,7 @@
 package lgp.examples.java;
 
 import lgp.core.evolution.Problem;
+import lgp.core.program.Outputs;
 import lgp.core.evolution.model.EvolutionResult;
 import lgp.lib.BaseProgram;
 import lgp.lib.BaseProgramSimplifier;
@@ -13,21 +14,20 @@ import java.util.Map;
 public class SimpleFunction {
 
     public static void main(String[] args) {
-        Problem<Double> problem = new SimpleFunctionProblem();
+        Problem<Double, Outputs.Single<Double>> problem = new SimpleFunctionProblem();
 
         problem.initialiseEnvironment();
         problem.initialiseModel();
 
         SimpleFunctionSolution solution = (SimpleFunctionSolution) problem.solve();
-        BaseProgramSimplifier<Double> simplifier = new BaseProgramSimplifier<>();
+        BaseProgramSimplifier<Double, Outputs.Single<Double>> simplifier = new BaseProgramSimplifier<>();
 
         System.out.println("Results:");
         int run = 0;
-
-        for (EvolutionResult<Double> res : solution.getResult().getEvaluations()) {
+        for (EvolutionResult<Double, Outputs.Single<Double>> res : solution.getResult().getEvaluations()) {
 
             System.out.println("Run " + (run++ + 1) + " (best fitness = " + res.getBest().getFitness() + ")");
-            System.out.println(simplifier.simplify((BaseProgram<Double>) res.getBest()));
+            System.out.println(simplifier.simplify((BaseProgram<Double, Outputs.Single<Double>>) res.getBest()));
 
             System.out.println("\nStats (last run only):\n");
 
@@ -42,7 +42,7 @@ public class SimpleFunction {
 
         double sum = 0.0;
 
-        for (EvolutionResult<Double> res : solution.getResult().getEvaluations()) {
+        for (EvolutionResult<Double, Outputs.Single<Double>> res : solution.getResult().getEvaluations()) {
             sum += res.getBest().getFitness();
         }
 

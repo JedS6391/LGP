@@ -3,6 +3,7 @@ package lgp.core.evolution.fitness
 import lgp.core.environment.CoreModuleType
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
+import lgp.core.program.Output
 import lgp.core.program.Program
 
 /**
@@ -10,7 +11,10 @@ import lgp.core.program.Program
  *
  * @param fitness The fitness of the program as determined by the fitness function on the cases given by a fitness context.
  */
-data class Evaluation<T>(val fitness: Double, val individual: Program<T>)
+data class Evaluation<TProgram, TOutput : Output<TProgram>>(
+    val fitness: Double,
+    val individual: Program<TProgram, TOutput>
+)
 
 /**
  * Provides a way to evaluate the fitness of a program.
@@ -19,7 +23,7 @@ data class Evaluation<T>(val fitness: Double, val individual: Program<T>)
  *
  * @param TData The type of the program being evaluated.
  */
-class FitnessEvaluator<TData> {
+class FitnessEvaluator<TData, TOutput : Output<TData>> {
 
     /**
      * Performs an evaluation on [program] with the specified [environment] through a fitness context.
@@ -31,13 +35,13 @@ class FitnessEvaluator<TData> {
      * @returns An evaluation of the program.
      */
     fun evaluate(
-        program: Program<TData>,
+        program: Program<TData, TOutput>,
         dataset: Dataset<TData>,
-        environment: Environment<TData>
-    ): Evaluation<TData> {
+        environment: Environment<TData, TOutput>
+    ): Evaluation<TData, TOutput> {
 
         // Request access to a fitness context implementation.
-        val context: FitnessContext<TData> = environment.registeredModule(CoreModuleType.FitnessContext)
+        val context: FitnessContext<TData, TOutput> = environment.registeredModule(CoreModuleType.FitnessContext)
 
         // Use the context to evaluate this programs fitness
         val fitness = context.fitness(

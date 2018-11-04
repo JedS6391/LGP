@@ -44,7 +44,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../lgp.core.evolution.model/-evolution-model/index.html">EvolutionModel</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.model/-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A model that can be used to perform evolution within in a specific environment.</p>
 </td>
 </tr>
@@ -53,7 +53,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../lgp.core.evolution.fitness/-fitness-context/index.html">FitnessContext</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">FitnessContext</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">FitnessContext</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.fitness/-fitness-context/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>Provides a way to map a program to fitness cases using a given fitness function.</p>
 </td>
 </tr>
@@ -71,7 +71,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../lgp.core.program.instructions/-instruction-generator/index.html">InstructionGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">InstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">InstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program.instructions/-instruction-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A generator of instructions in an LGP system.</p>
 </td>
 </tr>
@@ -80,7 +80,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../lgp.core.evolution.operators/-mutation-operator/index.html">MutationOperator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">MutationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">MutationOperator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.operators/-mutation-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A search operator used during evolution to mutate an individual from a population.</p>
 </td>
 </tr>
@@ -98,7 +98,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../lgp.core.program/-program/index.html">Program</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Program</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Program</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program/-program/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>An LGP program that is composed of instructions that operate on registers.</p>
 </td>
 </tr>
@@ -107,7 +107,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../lgp.core.program/-program-generator/index.html">ProgramGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program/-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>Generates <a href="../../lgp.core.program/-program/index.html">Program</a> instances to be used in an LGP population.</p>
 </td>
 </tr>
@@ -116,7 +116,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../lgp.core.program/-program-translator/index.html">ProgramTranslator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramTranslator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramTranslator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program/-program-translator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>Module that can be used to translate programs to external representations.</p>
 </td>
 </tr>
@@ -125,7 +125,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../lgp.core.evolution.operators/-recombination-operator/index.html">RecombinationOperator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">RecombinationOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">RecombinationOperator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.operators/-recombination-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A search operator used during evolution to combine two individuals from a population.</p>
 </td>
 </tr>
@@ -143,7 +143,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../lgp.core.evolution.operators/-selection-operator/index.html">SelectionOperator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SelectionOperator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SelectionOperator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution.operators/-selection-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A search operator used during evolution to select a subset of individuals from a population.</p>
 </td>
 </tr>

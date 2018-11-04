@@ -8,7 +8,7 @@
 <a href="../../index.html">lgp.core.evolution.training</a>&nbsp;/&nbsp;<a href="../index.html">TrainingMessages</a>&nbsp;/&nbsp;<a href="./index.html">ProgressUpdate</a><br/>
 <br/>
 <h1>ProgressUpdate</h1>
-<code><span class="keyword">class </span><span class="identifier">ProgressUpdate</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../-training-update-message.html"><span class="identifier">TrainingUpdateMessage</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">ProgressUpdate</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../-training-update-message.html"><span class="identifier">TrainingUpdateMessage</span></a></code>
 <p>Represents a training progress update.</p>
 <h3>Constructors</h3>
 <table>
@@ -18,7 +18,7 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">ProgressUpdate</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.training.TrainingMessages.ProgressUpdate$<init>(kotlin.Double, lgp.core.evolution.model.EvolutionResult((lgp.core.evolution.training.TrainingMessages.ProgressUpdate.TProgram)))/progress">progress</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.training.TrainingMessages.ProgressUpdate$<init>(kotlin.Double, lgp.core.evolution.model.EvolutionResult((lgp.core.evolution.training.TrainingMessages.ProgressUpdate.TProgram)))/result">result</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.evolution.model/-evolution-result/index.html"><span class="identifier">EvolutionResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">?</span><span class="symbol">)</span></code>
+<code><span class="identifier">ProgressUpdate</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.training.TrainingMessages.ProgressUpdate$<init>(kotlin.Double, lgp.core.evolution.model.EvolutionResult((lgp.core.evolution.training.TrainingMessages.ProgressUpdate.TProgram, lgp.core.evolution.training.TrainingMessages.ProgressUpdate.TOutput)))/progress">progress</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">, </span><span class="identifier" id="lgp.core.evolution.training.TrainingMessages.ProgressUpdate$<init>(kotlin.Double, lgp.core.evolution.model.EvolutionResult((lgp.core.evolution.training.TrainingMessages.ProgressUpdate.TProgram, lgp.core.evolution.training.TrainingMessages.ProgressUpdate.TOutput)))/result">result</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.evolution.model/-evolution-result/index.html"><span class="identifier">EvolutionResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">?</span><span class="symbol">)</span></code>
 <p>Represents a training progress update.</p>
 </td>
 </tr>
@@ -41,7 +41,7 @@
 <p><a href="result.html">result</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">result</span><span class="symbol">: </span><a href="../../../lgp.core.evolution.model/-evolution-result/index.html"><span class="identifier">EvolutionResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">?</span></code>
+<code><span class="keyword">val </span><span class="identifier">result</span><span class="symbol">: </span><a href="../../../lgp.core.evolution.model/-evolution-result/index.html"><span class="identifier">EvolutionResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">?</span></code>
 <p>The most recent <a href="../../../lgp.core.evolution.model/-evolution-result/index.html">EvolutionResult</a> created by the training process.</p>
 </td>
 </tr>

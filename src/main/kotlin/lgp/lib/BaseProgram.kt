@@ -9,23 +9,71 @@ import lgp.core.program.ProgramTranslator
 import lgp.core.program.registers.RegisterSet
 import lgp.core.program.registers.RegisterType
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Output
+import lgp.core.program.Outputs
+
+/**
+ * A collection of built-in functions that can be used to resolve the output of a [BaseProgram] instance.
+ */
+object BaseProgramOutputResolvers {
+
+    /**
+     * Resolves a single output value from a [BaseProgram].
+     *
+     * The resolver will use the first register index defined in [Program.outputRegisterIndices].
+     */
+    fun <TProgram> singleOutput(): (BaseProgram<TProgram, Outputs.Single<TProgram>>) -> Outputs.Single<TProgram> {
+        return { program ->
+            // We always take the first register. If multiple are given, they are simply ignored
+            // because we can only return one value as output.
+            val output = program.outputRegisterIndices.first()
+
+            Outputs.Single(
+                program.registers[output]
+            )
+        }
+    }
+
+    /**
+     * Resolves a collection of output values from a [BaseProgram].
+     *
+     * The resolver will use each register index defined in [Program.outputRegisterIndices].
+     */
+    fun <TProgram> multipleOutput(): (BaseProgram<TProgram, Outputs.Multiple<TProgram>>) -> Outputs.Multiple<TProgram> {
+        return { program ->
+            Outputs.Multiple(
+                program.outputRegisterIndices.map { output ->
+                    program.registers[output]
+                }
+            )
+        }
+    }
+}
 
 /**
  * A built-in offering of the ``Program`` interface.
  *
  * Instructions of this program are executed in sequence and can be gathered
  * from a single output register.
+ *
+ * @property sentinelTrueValue A value that should be considered as boolean "true".
+ * @property outputResolver A function that can be used to resolve the programs register contents to an [Output].
  */
-class BaseProgram<T>(
-    instructions: List<Instruction<T>>,
-    registerSet: RegisterSet<T>,
-    outputRegisterIndex: RegisterIndex,
-    val sentinelTrueValue: T
-) : Program<T>(
-        instructions.toMutableList(),
-        registerSet,
-        outputRegisterIndex = outputRegisterIndex
+class BaseProgram<TProgram, TOutput : Output<TProgram>>(
+        instructions: List<Instruction<TProgram>>,
+        registerSet: RegisterSet<TProgram>,
+        outputRegisterIndices: List<RegisterIndex>,
+        val sentinelTrueValue: TProgram,
+        val outputResolver: (BaseProgram<TProgram, TOutput>) -> TOutput
+) : Program<TProgram, TOutput>(
+    instructions.toMutableList(),
+    registerSet,
+    outputRegisterIndices
 ) {
+
+    override fun output(): TOutput {
+        return this.outputResolver(this)
+    }
 
     override fun execute() {
         var branchResult = true
@@ -39,23 +87,24 @@ class BaseProgram<T>(
 
                     val output = this.registers[instruction.destination]
 
-                    ((instruction.operation !is BranchOperation<T>) ||
-                            (instruction.operation is BranchOperation<T>
+                    ((instruction.operation !is BranchOperation<TProgram>) ||
+                            (instruction.operation is BranchOperation<TProgram>
                                     && output == this.sentinelTrueValue))
                 }
                 else -> {
-                    (instruction.operation !is BranchOperation<T>)
+                    (instruction.operation !is BranchOperation<TProgram>)
                 }
             }
         }
     }
 
-    override fun copy(): BaseProgram<T> {
+    override fun copy(): BaseProgram<TProgram, TOutput> {
         val copy = BaseProgram(
-                instructions = this.instructions.map(Instruction<T>::copy),
-                registerSet = this.registers.copy(),
-                outputRegisterIndex = this.outputRegisterIndex,
-                sentinelTrueValue = this.sentinelTrueValue
+            instructions = this.instructions.map(Instruction<TProgram>::copy),
+            registerSet = this.registers.copy(),
+            outputRegisterIndices = this.outputRegisterIndices,
+            sentinelTrueValue = this.sentinelTrueValue,
+            outputResolver = this.outputResolver
         )
 
         // Make sure to copy fitness information over
@@ -65,11 +114,11 @@ class BaseProgram<T>(
     }
 
     override fun findEffectiveProgram() {
-        val effectiveRegisters = mutableSetOf(this.outputRegisterIndex)
-        val effectiveInstructions = mutableListOf<Instruction<T>>()
+        val effectiveRegisters = this.outputRegisterIndices.toMutableSet()
+        val effectiveInstructions = mutableListOf<Instruction<TProgram>>()
 
         for ((i, instruction) in instructions.reversed().withIndex()) {
-            if (instruction.operation is BranchOperation<T>) {
+            if (instruction.operation is BranchOperation<TProgram>) {
                 if (instruction in effectiveInstructions) {
                     instruction.operands.filter { operand ->
                         operand !in effectiveRegisters &&
@@ -87,7 +136,7 @@ class BaseProgram<T>(
                 var j = i - 1
                 var branchesMarked = false
 
-                while (j >= 0 && (this.instructions[j].operation is BranchOperation<T>)) {
+                while (j >= 0 && (this.instructions[j].operation is BranchOperation<TProgram>)) {
                     effectiveInstructions.add(0, this.instructions[j])
                     branchesMarked = true
                     j--
@@ -134,16 +183,16 @@ class BaseProgram<T>(
 /**
  * Utility class that can be used to create a simplified representation of a ``BaseProgram``.
  */
-class BaseProgramSimplifier<T> {
+class BaseProgramSimplifier<TProgram, TOutput : Output<TProgram>> {
 
     /**
      * Simplifies [program] and gives it as a string output.
      */
-    fun simplify(program: BaseProgram<T>): String {
+    fun simplify(program: BaseProgram<TProgram, TOutput>): String {
         val sb = StringBuilder()
 
         program.effectiveInstructions.map { instruction ->
-            if (instruction.operation is BranchOperation<T>) {
+            if (instruction.operation is BranchOperation<TProgram>) {
                 sb.append("if (")
             } else {
                 sb.append("r[")
@@ -152,18 +201,22 @@ class BaseProgramSimplifier<T> {
             }
 
             // TODO: Sanity check length of registers
-            if (instruction.operation.arity === BaseArity.Unary) {
-                sb.append(instruction.operation.representation)
-                sb.append("(")
-                sb.append(this.simplifyOperand(program, instruction.operands[0]))
-                sb.append(")")
-            } else if (instruction.operation.arity === BaseArity.Binary) {
-                sb.append(this.simplifyOperand(program, instruction.operands[0]))
-                sb.append(instruction.operation.representation)
-                sb.append(this.simplifyOperand(program, instruction.operands[1]))
+            when {
+                instruction.operation.arity === BaseArity.Unary -> {
+                    sb.append(instruction.operation.representation)
+                    sb.append("(")
+                    sb.append(this.simplifyOperand(program, instruction.operands[0]))
+                    sb.append(")")
+                }
+                instruction.operation.arity === BaseArity.Binary -> {
+                    sb.append(this.simplifyOperand(program, instruction.operands[0]))
+                    sb.append(instruction.operation.representation)
+                    sb.append(this.simplifyOperand(program, instruction.operands[1]))
+                }
+                // TODO: Handle more arity if defined in BaseArity.
             }
 
-            if (instruction.operation is BranchOperation<T>)
+            if (instruction.operation is BranchOperation<TProgram>)
                 sb.append(")")
 
             sb.append("\n")
@@ -172,7 +225,7 @@ class BaseProgramSimplifier<T> {
         return sb.toString()
     }
 
-    private fun simplifyOperand(program: BaseProgram<T>, register: RegisterIndex): String {
+    private fun simplifyOperand(program: BaseProgram<TProgram, TOutput>, register: RegisterIndex): String {
 
         return when (program.registers.registerType(register)) {
             RegisterType.Input -> {
@@ -198,13 +251,15 @@ class BaseProgramSimplifier<T> {
  *     2. `includeMainFunction == false` will NOT include a main function, and is more suited for
  *        contexts where the model will be integrated into existing code bases.
  */
-class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : ProgramTranslator<T>() {
+class BaseProgramTranslator<TProgram, TOutput : Output<TProgram>>(
+    private val includeMainFunction: Boolean
+) : ProgramTranslator<TProgram, TOutput>() {
     override val information = ModuleInformation(
         description = "A Program Translator that can translate BaseProgram instances to their equivalent" +
-                      " representation in the C programming language."
+                " representation in the C programming language."
     )
 
-    override fun translate(program: Program<T>): String {
+    override fun translate(program: Program<TProgram, TOutput>): String {
         val sb = StringBuilder()
 
         // Make sure that the registers are set to their initial values.
@@ -260,41 +315,36 @@ class BaseProgramTranslator<T>(private val includeMainFunction: Boolean) : Progr
                 // be executed from the command-line.
                 append("\n")
 
+                var outputRegisters = ""
+
+                program.outputRegisterIndices.map { register ->
+                    outputRegisters += "printf(\"%f\\n\", r[$register]);\n"
+                }
+
                 append("""
 int main(int argc, char *argv[]) {
-
     if (argc != NUM_INPUTS + 1) {
         printf("Please specify %d input value(s)...\n", NUM_INPUTS);
-
         exit(1);
     }
-
     double r[$numRegisters] = {
 ${ inputPlaceholders.trim().prependIndent("        ") }
 ${ calculationRegisters.trim().prependIndent("        ") }
 ${ constantRegisters.trim().prependIndent("        ") }
     };
-
     if (NUM_INPUTS == 1) {
         double input = strtod(argv[1], NULL);
-
         r[0] = input;
     } else if (NUM_INPUTS > 1) {
-
         for (int i = 0; i < NUM_INPUTS; i++) {
             r[i] = strtod(argv[i + 1], NULL);
         }
-
     } else {
       printf("Unexpected number of inputs...\n");
-
       exit(1);
     }
-
     gp(r);
-
-    printf("%f\n", r[${program.outputRegisterIndex}]);
-
+${ outputRegisters.trim().prependIndent("    ")}
     return 0;
 }
                 """.trimIndent())

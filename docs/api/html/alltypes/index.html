@@ -115,6 +115,13 @@ but in the context of an <a href="#">lgp.core.evolution.instructions.Operation</
 </tr>
 <tr>
 <td>
+<a href="../lgp.lib/-base-program-output-resolvers/index.html">lgp.lib.BaseProgramOutputResolvers</a></td>
+<td>
+<p>A collection of built-in functions that can be used to resolve the output of a <a href="../lgp.lib/-base-program/index.html">BaseProgram</a> instance.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.lib/-base-program-simplifier/index.html">lgp.lib.BaseProgramSimplifier</a></td>
 <td>
 <p>Utility class that can be used to create a simplified representation of a <code>BaseProgram</code>.</p>
@@ -226,7 +233,7 @@ but in the context of an <a href="#">lgp.core.evolution.instructions.Operation</
 <td>
 <a href="../lgp.core.environment.dataset/-dataset/index.html">lgp.core.environment.dataset.Dataset</a></td>
 <td>
-<p>A basic data set composed of a vector of input <a href="../lgp.core.environment.dataset/-sample/index.html">Sample</a>s and a collection of outputs.</p>
+<p>A basic data set composed of a vector of input <a href="../lgp.core.environment.dataset/-sample/index.html">Sample</a>s and a collection of output <a href="../lgp.core.environment.dataset/-target/index.html">Target</a>s.</p>
 </td>
 </tr>
 <tr>
@@ -335,6 +342,12 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.lib.operations/-exclusive-or/index.html">lgp.lib.operations.ExclusiveOr</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.lib.operations/-exponent/index.html">lgp.lib.operations.Exponent</a></td>
 <td>
 <p>Performs exponentiation on two Double arguments.</p>
@@ -384,9 +397,36 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.evolution.fitness/-fitness-function-provider.html">lgp.core.evolution.fitness.FitnessFunctionProvider</a></td>
+<td>
+<p>A function that provides a <a href="../lgp.core.evolution.fitness/-fitness-function/index.html">FitnessFunction</a> implementation on request.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.core.evolution.fitness/-fitness-functions/index.html">lgp.core.evolution.fitness.FitnessFunctions</a></td>
 <td>
 <p>A collection of standard fitness functions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.examples/-full-adder/index.html">lgp.examples.FullAdder</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.examples/-full-adder-experiment/index.html">lgp.examples.FullAdderExperiment</a></td>
+<td>
+<p>Defines the problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.examples/-full-adder-experiment-solution/index.html">lgp.examples.FullAdderExperimentSolution</a></td>
+<td>
+<p>Defines what a solution for this problem looks like.</p>
 </td>
 </tr>
 <tr>
@@ -407,6 +447,13 @@ specified by the name of the package + class it can be found in.</p>
 <td>
 <a href="../lgp.core.environment.dataset/-header.html">lgp.core.environment.dataset.Header</a></td>
 <td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.lib.operations/-identity/index.html">lgp.lib.operations.Identity</a></td>
+<td>
+<p>Performs the identity function on a single Double argument.</p>
 </td>
 </tr>
 <tr>
@@ -573,6 +620,20 @@ does/what it is for.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.evolution.fitness/-multiple-output-fitness-context/index.html">lgp.core.evolution.fitness.MultipleOutputFitnessContext</a></td>
+<td>
+<p>Facilitates fitness evaluation for programs which have multiple outputs.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.fitness/-multiple-output-fitness-function.html">lgp.core.evolution.fitness.MultipleOutputFitnessFunction</a></td>
+<td>
+<p>A <a href="../lgp.core.evolution.fitness/-fitness-function/index.html">FitnessFunction</a> for <a href="../lgp.core.program/-program/index.html">lgp.core.program.Program</a>s with multiple outputs.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.lib.operations/-multiplication/index.html">lgp.lib.operations.Multiplication</a></td>
 <td>
 <p>Performs multiplication on two Double arguments.</p>
@@ -622,6 +683,20 @@ does/what it is for.</p>
 <td>
 <a href="../lgp.lib.operations/-or/index.html">lgp.lib.operations.Or</a></td>
 <td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.program/-output.html">lgp.core.program.Output</a></td>
+<td>
+<p>Represents the output of a <a href="../lgp.core.program/-program/index.html">Program</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.program/-outputs/index.html">lgp.core.program.Outputs</a></td>
+<td>
+<p>A collection of built-in <a href="../lgp.core.program/-output.html">Output</a> implementations.</p>
 </td>
 </tr>
 <tr>
@@ -880,7 +955,14 @@ does not match the size of the range.</p>
 <td>
 <a href="../lgp.core.evolution.fitness/-single-output-fitness-context/index.html">lgp.core.evolution.fitness.SingleOutputFitnessContext</a></td>
 <td>
-<p>A default mapping of program to fitness cases using a given fitness function.</p>
+<p>Facilitates fitness evaluation for programs which have a single output.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.evolution.fitness/-single-output-fitness-function.html">lgp.core.evolution.fitness.SingleOutputFitnessFunction</a></td>
+<td>
+<p>A <a href="../lgp.core.evolution.fitness/-fitness-function/index.html">FitnessFunction</a> for <a href="../lgp.core.program/-program/index.html">lgp.core.program.Program</a>s with a single output.</p>
 </td>
 </tr>
 <tr>
@@ -899,8 +981,23 @@ does not match the size of the range.</p>
 </tr>
 <tr>
 <td>
+<a href="../lgp.core.environment.dataset/-target/index.html">lgp.core.environment.dataset.Target</a></td>
+<td>
+<p>A target output in a <a href="../lgp.core.environment.dataset/-dataset/index.html">Dataset</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../lgp.core.environment.dataset/-targets/index.html">lgp.core.environment.dataset.Targets</a></td>
+<td>
+<p>A collection of built-in <a href="../lgp.core.environment.dataset/-target/index.html">Target</a> implementations</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../lgp.core.evolution.model/-test-result/index.html">lgp.core.evolution.model.TestResult</a></td>
 <td>
+<p>A result given when calling <a href="../lgp.core.evolution.model/-evolution-model/test.html">EvolutionModel.test</a>.</p>
 </td>
 </tr>
 <tr>

@@ -8,7 +8,7 @@
 <a href="../index.html">lgp.examples.java</a>&nbsp;/&nbsp;<a href="./index.html">SimpleFunctionProblem</a><br/>
 <br/>
 <h1>SimpleFunctionProblem</h1>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">SimpleFunctionProblem</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution/-problem/index.html"><span class="identifier">Problem</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">SimpleFunctionProblem</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.evolution/-problem/index.html"><span class="identifier">Problem</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">,</span>&nbsp;<a href="../../lgp.core.program/-outputs/-single/index.html"><span class="identifier">Single</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>A re-implementation of lgp.examples.SimpleFunctionProblem to showcase Java interoperability.</p>
 <h3>Constructors</h3>
 <table>
@@ -57,10 +57,10 @@
 </tr>
 <tr>
 <td>
-<p><a href="fitness-function.html">fitnessFunction</a></p>
+<p><a href="fitness-function-provider.html">fitnessFunctionProvider</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">fitnessFunction</span><span class="symbol">: </span><a href="../../lgp.core.evolution.fitness/-fitness-function/index.html"><span class="identifier">FitnessFunction</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">fitnessFunctionProvider</span><span class="symbol">: </span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../../lgp.core.evolution.fitness/-fitness-function/index.html"><span class="identifier">FitnessFunction</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">,</span>&nbsp;<a href="../../lgp.core.program/-outputs/-single/index.html"><span class="identifier">Single</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
@@ -81,7 +81,7 @@
 <p><a href="registered-modules.html">registeredModules</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">registeredModules</span><span class="symbol">: </span><a href="../../lgp.core.environment/-module-container/index.html"><span class="identifier">ModuleContainer</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">registeredModules</span><span class="symbol">: </span><a href="../../lgp.core.environment/-module-container/index.html"><span class="identifier">ModuleContainer</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">,</span>&nbsp;<a href="../../lgp.core.program/-outputs/-single/index.html"><span class="identifier">Single</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -93,7 +93,7 @@
 <p><a href="../../lgp.core.evolution/-problem/environment.html">environment</a></p>
 </td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution/-problem/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution/-problem/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="../../lgp.core.evolution/-problem/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>An environment built up of the components this problem uses.</p>
 </td>
 </tr>
@@ -102,7 +102,7 @@
 <p><a href="../../lgp.core.evolution/-problem/model.html">model</a></p>
 </td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">model</span><span class="symbol">: </span><a href="../../lgp.core.evolution.model/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution/-problem/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">model</span><span class="symbol">: </span><a href="../../lgp.core.evolution.model/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.evolution/-problem/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="../../lgp.core.evolution/-problem/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>An evolutionary model that should be used to solve this problem.</p>
 </td>
 </tr>

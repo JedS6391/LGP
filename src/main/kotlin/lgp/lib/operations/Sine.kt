@@ -1,6 +1,6 @@
 package lgp.lib.operations
 
-import lgp.core.program.instructions.UnaryOperation
+import lgp.core.program.instructions.*
 import lgp.core.program.registers.Arguments
 import lgp.core.modules.ModuleInformation
 
@@ -16,4 +16,8 @@ class Sine : UnaryOperation<Double>(
     override val information = ModuleInformation (
         description = "An operation for performing the sine function on a single Double argument."
     )
+
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
+        return "r[$destination] = sin(r[${ operands[0] }])"
+    }
 }
