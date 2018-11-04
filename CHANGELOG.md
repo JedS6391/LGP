@@ -1,6 +1,30 @@
 # Change Log
 
-## [v-2.0](https://github.com/JedS6391/LGP/tree/v-2.0) (2018-10-11)
+## [v-3.0](https://github.com/JedS6391/LGP/tree/3.0) (2018-11-04)
+
+**Breaking changes:**
+
+- Most of the core components in the system now require an extra type parameter: `TOutput`. This is used to determine what type of output the programs have, enabling programs with single and multiple outputs
+- Addition of classes/helpers to aid in handling programs with different numbers of outputs
+
+*The version has been bumped to 3.0 to reflect these breaking changes.*
+
+**Enhancements/Additions:**
+
+- New `ExclusiveOr` bitwise operation
+- Allow operations to be serialised with a `toString` method for easier program translation
+- New example problem `FullAdder` to demonstrate the use of multiple-output programs
+
+**Bug fixes:**
+
+- Fix an issue where the `Or` operation was incorrectly performing a logical and
+- Address a logic error in the Island Migration implementation that could cause problems with certain configurations
+
+**Acknowledgements:**
+
+- [Hongyu Wang](https://github.com/HongyuJerryWang) -- contributions to the implementation of multiple program outputs, full adder example, new operations, and bug fixes.
+
+## [v-2.0](https://github.com/JedS6391/LGP/tree/2.0) (2018-10-11)
 
 **Breaking changes:**
 
