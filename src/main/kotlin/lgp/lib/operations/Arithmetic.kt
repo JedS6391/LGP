@@ -1,6 +1,6 @@
 package lgp.lib.operations
 
-import lgp.core.program.instructions.BinaryOperation
+import lgp.core.program.instructions.*
 import lgp.core.program.registers.Arguments
 import lgp.core.modules.ModuleInformation
 
@@ -22,6 +22,10 @@ class Addition : BinaryOperation<Double>(Addition.Companion::add) {
     override val information = ModuleInformation(
             description = "An operation for performing the addition function on two Double arguments."
     )
+
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
+        return "r[$destination] = r[${ operands[0] }] + r[${ operands[1] }]"
+    }
 }
 
 /**
@@ -37,6 +41,10 @@ class Subtraction : BinaryOperation<Double>(
     override val information = ModuleInformation(
             description = "An operation for performing the subtraction function on two Double arguments."
     )
+
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
+        return "r[$destination] = r[${ operands[0] }] - r[${ operands[1] }]"
+    }
 }
 
 /**
@@ -52,6 +60,10 @@ class Multiplication : BinaryOperation<Double>(
     override val information = ModuleInformation(
             description = "An operation for performing the multiplication function on two Double arguments."
     )
+
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
+        return "r[$destination] = r[${ operands[0] }] * r[${ operands[1] }]"
+    }
 }
 
 /**
@@ -72,6 +84,10 @@ class Division : BinaryOperation<Double>(
     override val information = ModuleInformation(
             description = "An operation for performing the division function on two Double arguments."
     )
+
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
+        return "r[$destination] = r[${ operands[1] }] == 0.0 ? 1000000.0 : r[${ operands[0] }] / r[${ operands[1] }]"
+    }
 }
 
 /**
@@ -92,4 +108,8 @@ class Exponent : BinaryOperation<Double>(
     override val information = ModuleInformation(
             description = "An operation for performing the exponent function on two Double arguments."
     )
+
+    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
+        return "r[$destination] = pow(r[${ operands[0] }], r[${ operands[1] }])"
+    }
 }

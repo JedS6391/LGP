@@ -8,7 +8,7 @@
 <a href="../../index.html">lgp.core.evolution.model</a>&nbsp;/&nbsp;<a href="../index.html">Models</a>&nbsp;/&nbsp;<a href="./index.html">MasterSlave</a><br/>
 <br/>
 <h1>MasterSlave</h1>
-<code><span class="keyword">class </span><span class="identifier">MasterSlave</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">MasterSlave</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>A model for evolution using a steady-state algorithm. The evaluation and mutation processes are
 parallelised in a master-slave based technique.</p>
 <h3>Constructors</h3>
@@ -19,7 +19,7 @@ parallelised in a master-slave based technique.</p>
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">MasterSlave</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.model.Models.MasterSlave$<init>(lgp.core.environment.Environment((lgp.core.evolution.model.Models.MasterSlave.TProgram)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">MasterSlave</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.model.Models.MasterSlave$<init>(lgp.core.environment.Environment((lgp.core.evolution.model.Models.MasterSlave.TProgram, lgp.core.evolution.model.Models.MasterSlave.TOutput)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
 <p>A model for evolution using a steady-state algorithm. The evaluation and mutation processes are
 parallelised in a master-slave based technique.</p>
 </td>
@@ -34,14 +34,14 @@ parallelised in a master-slave based technique.</p>
 <p><a href="best-program.html">bestProgram</a></p>
 </td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">bestProgram</span><span class="symbol">: </span><a href="../../../lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">bestProgram</span><span class="symbol">: </span><a href="../../../lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="individuals.html">individuals</a></p>
 </td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">individuals</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../../lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">individuals</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../../lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
@@ -62,7 +62,7 @@ parallelised in a master-slave based technique.</p>
 <p><a href="../../-evolution-model/environment.html">environment</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="../../-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../../lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="../../-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="../../-evolution-model/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>The environment evolution takes place within.</p>
 </td>
 </tr>
@@ -76,21 +76,21 @@ parallelised in a master-slave based technique.</p>
 <p><a href="copy.html">copy</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">copy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">MasterSlave</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">copy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">MasterSlave</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="deep-copy.html">deepCopy</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">deepCopy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">deepCopy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="test.html">test</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">test</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.model.Models.MasterSlave$test(lgp.core.environment.dataset.Dataset((lgp.core.evolution.model.Models.MasterSlave.TProgram)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-test-result/index.html"><span class="identifier">TestResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">test</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.model.Models.MasterSlave$test(lgp.core.environment.dataset.Dataset((lgp.core.evolution.model.Models.MasterSlave.TProgram)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-test-result/index.html"><span class="identifier">TestResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>Tests the model on a given data set and returns the program outputs.</p>
 </td>
 </tr>
@@ -99,7 +99,7 @@ parallelised in a master-slave based technique.</p>
 <p><a href="train.html">train</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">train</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.model.Models.MasterSlave$train(lgp.core.environment.dataset.Dataset((lgp.core.evolution.model.Models.MasterSlave.TProgram)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-evolution-result/index.html"><span class="identifier">EvolutionResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">train</span><span class="symbol">(</span><span class="identifier" id="lgp.core.evolution.model.Models.MasterSlave$train(lgp.core.environment.dataset.Dataset((lgp.core.evolution.model.Models.MasterSlave.TProgram)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../../lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-evolution-result/index.html"><span class="identifier">EvolutionResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>Train the model on the given data set.</p>
 </td>
 </tr>

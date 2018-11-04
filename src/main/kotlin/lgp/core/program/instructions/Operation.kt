@@ -39,4 +39,12 @@ abstract class Operation<T>(val arity: Arity, val func: Function<T>) : Module {
      * @return A value of type T mapped from the arguments.
      */
     abstract fun execute(arguments: Arguments<T> ): T
+
+    /**
+     * Provides a string representation of this operation.
+     *
+     * @param operands The registers used by the [Instruction] that this [Operation] belongs to.
+     * @param destination The destination register of the [Instruction] this [Operation] belongs to.
+     */
+    abstract fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String
 }

@@ -16,7 +16,7 @@
 <p><a href="-evolution-model/index.html">EvolutionModel</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
 <p>A model that can be used to perform evolution within in a specific environment.</p>
 </td>
 </tr>
@@ -25,7 +25,7 @@
 <p><a href="-evolution-result/index.html">EvolutionResult</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">EvolutionResult</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">EvolutionResult</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-evolution-result/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>The best individual and final population from the result of evolution.</p>
 </td>
 </tr>
@@ -61,7 +61,9 @@
 <p><a href="-test-result/index.html">TestResult</a></p>
 </td>
 <td>
-<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">TestResult</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">TestResult</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-test-result/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>A result given when calling <a href="-evolution-model/test.html">EvolutionModel.test</a>.</p>
+</td>
 </tr>
 </tbody>
 </table>

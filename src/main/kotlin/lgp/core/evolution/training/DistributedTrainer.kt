@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import lgp.core.environment.Environment
 import lgp.core.environment.dataset.Dataset
 import lgp.core.evolution.ResultAggregator
+import lgp.core.program.Output
 import lgp.core.evolution.model.EvolutionModel
 import lgp.core.evolution.model.EvolutionResult
 import lgp.core.evolution.model.RunBasedExportableResult
@@ -30,12 +31,12 @@ import java.util.concurrent.Executors
  * @param models The set of models that are being trained, used in the final result.
  * @param aggregator The [ResultAggregator] used by the [DistributedTrainer].
  */
-class DistributedTrainingJob<TProgram> internal constructor(
-    private val trainingUpdateChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram>>,
-    private val trainers: List<Deferred<EvolutionResult<TProgram>>>,
-    private val models: List<EvolutionModel<TProgram>>,
+class DistributedTrainingJob<TProgram, TOutput : Output<TProgram>> internal constructor(
+    private val trainingUpdateChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>,
+    private val trainers: List<Deferred<EvolutionResult<TProgram, TOutput>>>,
+    private val models: List<EvolutionModel<TProgram, TOutput>>,
     private val aggregator: ResultAggregator<TProgram>
-) : TrainingJob<TProgram, ProgressUpdate<TProgram>>() {
+) : TrainingJob<TProgram, TOutput, ProgressUpdate<TProgram, TOutput>>() {
 
     private var trainingCompleted: Boolean = false
 
@@ -47,7 +48,7 @@ class DistributedTrainingJob<TProgram> internal constructor(
      *
      * @returns The result of the training phase(s).
      */
-    override suspend fun result(): TrainingResult<TProgram> {
+    override suspend fun result(): TrainingResult<TProgram, TOutput> {
         if (trainingCompleted) {
             val results = trainers.map { trainer -> trainer.getCompleted() }
 
@@ -72,7 +73,7 @@ class DistributedTrainingJob<TProgram> internal constructor(
      *
      * @param callback The function to execute when a [TrainingUpdateMessage] is received.
      */
-    override fun subscribeToUpdates(callback: (ProgressUpdate<TProgram>) -> Unit) {
+    override fun subscribeToUpdates(callback: (ProgressUpdate<TProgram, TOutput>) -> Unit) {
         val subscription = trainingUpdateChannel.openSubscription()
 
         GlobalScope.launch {
@@ -100,11 +101,11 @@ class DistributedTrainingJob<TProgram> internal constructor(
  *
  *  @property runs The number of times to train the given model.
  */
-class DistributedTrainer<TProgram>(
-    environment: Environment<TProgram>,
-    model: EvolutionModel<TProgram>,
+class DistributedTrainer<TProgram, TOutput : Output<TProgram>>(
+    environment: Environment<TProgram, TOutput>,
+    model: EvolutionModel<TProgram, TOutput>,
     val runs: Int
-) : Trainer<TProgram, ProgressUpdate<TProgram>>(environment, model) {
+) : Trainer<TProgram, TOutput, ProgressUpdate<TProgram, TOutput>>(environment, model) {
 
     // Construct `runs` deep copies of the models. We need deep copies so that
     // each model can have its own environment. This is necessary for providing
@@ -127,17 +128,17 @@ class DistributedTrainer<TProgram>(
      *
      * @suppress
      */
-    class ModelTrainerTask<TProgram>(
+    class ModelTrainerTask<TProgram, TOutput : Output<TProgram>>(
         private val run: Int,
-        private val model: EvolutionModel<TProgram>,
+        private val model: EvolutionModel<TProgram, TOutput>,
         private val dataset: Dataset<TProgram>,
         private val aggregator: ResultAggregator<TProgram>
-    ) : Callable<EvolutionResult<TProgram>> {
+    ) : Callable<EvolutionResult<TProgram, TOutput>> {
 
         /**
          * Trains the model and returns the result of the evolutionary process.
          */
-        override fun call(): EvolutionResult<TProgram> {
+        override fun call(): EvolutionResult<TProgram, TOutput> {
             // Give this trainer a unique name
             Thread.currentThread().name = "trainer-$run"
 
@@ -157,7 +158,7 @@ class DistributedTrainer<TProgram>(
     /**
      * Builds [runs] different models on the training set, training them in parallel.
      */
-    override fun train(dataset: Dataset<TProgram>): TrainingResult<TProgram> {
+    override fun train(dataset: Dataset<TProgram>): TrainingResult<TProgram, TOutput> {
         // Submit all tasks to the executor. Each model will have a task created for it
         // that the executor is responsible for executing.
         val futures = this.models.mapIndexed { run, model ->
@@ -187,9 +188,9 @@ class DistributedTrainer<TProgram>(
     /**
      * Asynchronously builds [runs] different models on the training set, training them in parallel.
      */
-    override suspend fun trainAsync(dataset: Dataset<TProgram>): DistributedTrainingJob<TProgram> {
+    override suspend fun trainAsync(dataset: Dataset<TProgram>): DistributedTrainingJob<TProgram, TOutput> {
         // This channel will be used to communicate updates to any training progress subscribers.
-        val progressChannel = ConflatedBroadcastChannel<ProgressUpdate<TProgram>>()
+        val progressChannel = ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>()
 
         // Here be dragons...
         // Once you understand how co-routines in Kotlin work this code isn't too bad to understand and actually
@@ -222,8 +223,8 @@ class DistributedTrainer<TProgram>(
      * @param progressChannel A channel for the actor to communicate with subscribers.
      */
     private fun initialiseProgressUpdateActor(
-        progressChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram>>
-    ) = GlobalScope.actor<ProgressUpdate<TProgram>> {
+        progressChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>
+    ) = GlobalScope.actor<ProgressUpdate<TProgram, TOutput>> {
         with (TrainingProgressUpdateActor(this@DistributedTrainer.runs, progressChannel)) {
             consumeEach { message ->
                 onReceive(message)
@@ -241,9 +242,9 @@ class DistributedTrainer<TProgram>(
      */
     private fun initialiseTrainingJob(
         run: Int,
-        model: EvolutionModel<TProgram>,
+        model: EvolutionModel<TProgram, TOutput>,
         dataset: Dataset<TProgram>,
-        progressActor: SendChannel<ProgressUpdate<TProgram>>
+        progressActor: SendChannel<ProgressUpdate<TProgram, TOutput>>
     ) = GlobalScope.async {
         val task = ModelTrainerTask(run, model, dataset, this@DistributedTrainer.aggregator)
 
@@ -271,9 +272,9 @@ class DistributedTrainer<TProgram>(
  * @param totalRuns The total number of training runs (i.e. trainers).
  * @param progressChannel A channel to communicate training progress updates to subscribers on.
  */
-private class TrainingProgressUpdateActor<TProgram>(
+private class TrainingProgressUpdateActor<TProgram, TOutput : Output<TProgram>>(
     private val totalRuns: Int,
-    private val progressChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram>>
+    private val progressChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>
 ) {
     private var completedTrainers = 0
     // The progress that all trainers share. Any updates should be broadcast on the progress channel.
@@ -284,7 +285,7 @@ private class TrainingProgressUpdateActor<TProgram>(
      *
      * @param message A message indicating a progress update.
      */
-    suspend fun onReceive(message: ProgressUpdate<TProgram>) {
+    suspend fun onReceive(message: ProgressUpdate<TProgram, TOutput>) {
         // Basically, we ignore the progress value in the message for any legitimate updates
         // and let the actor control the progress.
         this.completedTrainers = if (message.result != null) {

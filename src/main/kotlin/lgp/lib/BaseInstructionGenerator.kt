@@ -8,6 +8,7 @@ import lgp.core.program.instructions.RegisterIndex
 import lgp.core.evolution.operators.choice
 import lgp.core.program.registers.*
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Output
 
 /**
  * Built-in offering of the ``InstructionGenerator`` interface.
@@ -15,14 +16,14 @@ import lgp.core.modules.ModuleInformation
  * The generator provides an endless stream of randomly generated instructions
  * that are constructed from the pool of available operations and registers.
  */
-class BaseInstructionGenerator<T> : InstructionGenerator<T> {
+class BaseInstructionGenerator<TProgram, TOutput : Output<TProgram>> : InstructionGenerator<TProgram, TOutput> {
 
     private val random = this.environment.randomState
-    private val operationPool: List<Operation<T>>
-    private val registers: RegisterSet<T>
-    private val registerGenerator: RandomRegisterGenerator<T>
+    private val operationPool: List<Operation<TProgram>>
+    private val registers: RegisterSet<TProgram>
+    private val registerGenerator: RandomRegisterGenerator<TProgram>
 
-    constructor(environment: Environment<T>) : super(environment) {
+    constructor(environment: Environment<TProgram, TOutput>) : super(environment) {
         this.operationPool = environment.operations
         this.registers = this.environment.registerSet.copy()
         this.registerGenerator = RandomRegisterGenerator(this.environment.randomState, this.registers)
@@ -34,7 +35,7 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
      * The instruction will be a [BaseInstruction] instance, and the [InstructionGenerator.next] method can be called
      * to use this function as a generator.
      */
-    override fun generateInstruction(): Instruction<T> {
+    override fun generateInstruction(): Instruction<TProgram> {
         // Choose a random output register
         val output = this.getRandomInputAndCalculationRegisters(1).first()
 
@@ -83,7 +84,7 @@ class BaseInstructionGenerator<T> : InstructionGenerator<T> {
                 b = RegisterType.Input,
                 // 50% probability of an input or calculation register
                 predicate = { this.random.nextDouble() < 0.5 }
-        ).take(count).map(Register<T>::index)
+        ).take(count).map(Register<TProgram>::index)
 
         return inputs.toMutableList()
     }

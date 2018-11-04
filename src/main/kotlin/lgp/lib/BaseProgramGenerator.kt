@@ -11,33 +11,39 @@ import lgp.core.evolution.operators.choice
 import lgp.core.evolution.operators.randInt
 import lgp.core.program.registers.RegisterType
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Output
 
 /**
  * A ``ProgramGenerator`` implementation that provides effective ``BaseProgram`` instances.
  *
  * This generator only creates programs which are "effective".
+ *
+ * @property sentinelTrueValue A value that should be considered as boolean "true".
+ * @property outputRegisterIndices A collection of indices that should be considered as the program output registers.
+ * @property outputResolver A function that can be used to resolve the programs register contents to an [Output].
  */
-class BaseProgramGenerator<T>(
-        environment: Environment<T>,
-        val sentinelTrueValue: T,
-        val outputRegisterIndex: RegisterIndex
-) : ProgramGenerator<T>(
+class BaseProgramGenerator<TProgram, TOutput : Output<TProgram>>(
+        environment: Environment<TProgram, TOutput>,
+        val sentinelTrueValue: TProgram,
+        val outputRegisterIndices: List<RegisterIndex>,
+        val outputResolver: (BaseProgram<TProgram, TOutput>) -> TOutput
+) : ProgramGenerator<TProgram, TOutput>(
         environment,
         instructionGenerator = environment.registeredModule(CoreModuleType.InstructionGenerator)
 ) {
 
     private val random = this.environment.randomState
 
-    override fun generateProgram(): Program<T> {
+    override fun generateProgram(): Program<TProgram, TOutput> {
         val length = this.random.randInt(
                 this.environment.configuration.initialMinimumProgramLength,
                 this.environment.configuration.initialMaximumProgramLength
         )
 
-        val branchesUsed = this.environment.operations.any { op -> op is BranchOperation<T> }
+        val branchesUsed = this.environment.operations.any { op -> op is BranchOperation<TProgram> }
         val output = this.environment.registerSet.calculationRegisters.start
 
-        val instructions = mutableListOf<Instruction<T>>()
+        val instructions = mutableListOf<Instruction<TProgram>>()
         // TODO: Use set instead of list.
         val effectiveRegisters = mutableListOf<RegisterIndex>()
 
@@ -46,7 +52,7 @@ class BaseProgramGenerator<T>(
 
         // Construct effective instructions
         for (i in 2..length) {
-            if (instructions.first().operation !is BranchOperation<T>) {
+            if (instructions.first().operation !is BranchOperation<TProgram>) {
                 effectiveRegisters.remove(instructions.first().destination)
             }
 
@@ -63,10 +69,10 @@ class BaseProgramGenerator<T>(
 
             if (branchesUsed && random.nextDouble() < this.environment.configuration.branchInitialisationRate) {
                 val instr = this.instructionGenerator.next().first { instruction ->
-                    instruction.operation is BranchOperation<T>
+                    instruction.operation is BranchOperation<TProgram>
                 }
 
-                assert(instr.operation is BranchOperation<T>)
+                assert(instr.operation is BranchOperation<TProgram>)
 
                 instructions.add(0, instr)
             } else {
@@ -83,10 +89,11 @@ class BaseProgramGenerator<T>(
 
         // Each program gets its own copy of the register set
         return BaseProgram(
-                instructions = instructions.toList(),
-                registerSet = this.environment.registerSet.copy(),
-                outputRegisterIndex = this.outputRegisterIndex,
-                sentinelTrueValue = this.sentinelTrueValue
+            instructions = instructions.toList(),
+            registerSet = this.environment.registerSet.copy(),
+            outputRegisterIndices = this.outputRegisterIndices,
+            sentinelTrueValue = this.sentinelTrueValue,
+            outputResolver = this.outputResolver
         )
     }
 

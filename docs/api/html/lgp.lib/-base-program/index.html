@@ -8,7 +8,7 @@
 <a href="../index.html">lgp.lib</a>&nbsp;/&nbsp;<a href="./index.html">BaseProgram</a><br/>
 <br/>
 <h1>BaseProgram</h1>
-<code><span class="keyword">class </span><span class="identifier">BaseProgram</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BaseProgram</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>A built-in offering of the <code>Program</code> interface.</p>
 <p>Instructions of this program are executed in sequence and can be gathered
 from a single output register.</p>
@@ -20,7 +20,7 @@ from a single output register.</p>
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">BaseProgram</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseProgram$<init>(kotlin.collections.List((lgp.core.program.instructions.Instruction((lgp.lib.BaseProgram.T)))), lgp.core.program.registers.RegisterSet((lgp.lib.BaseProgram.T)), kotlin.Int, lgp.lib.BaseProgram.T)/instructions">instructions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgram$<init>(kotlin.collections.List((lgp.core.program.instructions.Instruction((lgp.lib.BaseProgram.T)))), lgp.core.program.registers.RegisterSet((lgp.lib.BaseProgram.T)), kotlin.Int, lgp.lib.BaseProgram.T)/registerSet">registerSet</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgram$<init>(kotlin.collections.List((lgp.core.program.instructions.Instruction((lgp.lib.BaseProgram.T)))), lgp.core.program.registers.RegisterSet((lgp.lib.BaseProgram.T)), kotlin.Int, lgp.lib.BaseProgram.T)/outputRegisterIndex">outputRegisterIndex</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program.instructions/-register-index.html"><span class="identifier">RegisterIndex</span></a><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgram$<init>(kotlin.collections.List((lgp.core.program.instructions.Instruction((lgp.lib.BaseProgram.T)))), lgp.core.program.registers.RegisterSet((lgp.lib.BaseProgram.T)), kotlin.Int, lgp.lib.BaseProgram.T)/sentinelTrueValue">sentinelTrueValue</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span></code>
+<code><span class="identifier">BaseProgram</span><span class="symbol">(</span><span class="identifier" id="lgp.lib.BaseProgram$<init>(kotlin.collections.List((lgp.core.program.instructions.Instruction((lgp.lib.BaseProgram.TProgram)))), lgp.core.program.registers.RegisterSet((lgp.lib.BaseProgram.TProgram)), kotlin.collections.List((kotlin.Int)), lgp.lib.BaseProgram.TProgram, kotlin.Function1((lgp.lib.BaseProgram((lgp.lib.BaseProgram.TProgram, lgp.lib.BaseProgram.TOutput)), )))/instructions">instructions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgram$<init>(kotlin.collections.List((lgp.core.program.instructions.Instruction((lgp.lib.BaseProgram.TProgram)))), lgp.core.program.registers.RegisterSet((lgp.lib.BaseProgram.TProgram)), kotlin.collections.List((kotlin.Int)), lgp.lib.BaseProgram.TProgram, kotlin.Function1((lgp.lib.BaseProgram((lgp.lib.BaseProgram.TProgram, lgp.lib.BaseProgram.TOutput)), )))/registerSet">registerSet</span><span class="symbol">:</span>&nbsp;<a href="../../lgp.core.program.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgram$<init>(kotlin.collections.List((lgp.core.program.instructions.Instruction((lgp.lib.BaseProgram.TProgram)))), lgp.core.program.registers.RegisterSet((lgp.lib.BaseProgram.TProgram)), kotlin.collections.List((kotlin.Int)), lgp.lib.BaseProgram.TProgram, kotlin.Function1((lgp.lib.BaseProgram((lgp.lib.BaseProgram.TProgram, lgp.lib.BaseProgram.TOutput)), )))/outputRegisterIndices">outputRegisterIndices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program.instructions/-register-index.html"><span class="identifier">RegisterIndex</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgram$<init>(kotlin.collections.List((lgp.core.program.instructions.Instruction((lgp.lib.BaseProgram.TProgram)))), lgp.core.program.registers.RegisterSet((lgp.lib.BaseProgram.TProgram)), kotlin.collections.List((kotlin.Int)), lgp.lib.BaseProgram.TProgram, kotlin.Function1((lgp.lib.BaseProgram((lgp.lib.BaseProgram.TProgram, lgp.lib.BaseProgram.TOutput)), )))/sentinelTrueValue">sentinelTrueValue</span><span class="symbol">:</span>&nbsp;<a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">, </span><span class="identifier" id="lgp.lib.BaseProgram$<init>(kotlin.collections.List((lgp.core.program.instructions.Instruction((lgp.lib.BaseProgram.TProgram)))), lgp.core.program.registers.RegisterSet((lgp.lib.BaseProgram.TProgram)), kotlin.collections.List((kotlin.Int)), lgp.lib.BaseProgram.TProgram, kotlin.Function1((lgp.lib.BaseProgram((lgp.lib.BaseProgram.TProgram, lgp.lib.BaseProgram.TOutput)), )))/outputResolver">outputResolver</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="./index.html"><span class="identifier">BaseProgram</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">)</span></code>
 <p>A built-in offering of the <code>Program</code> interface.</p>
 </td>
 </tr>
@@ -40,10 +40,21 @@ from a single output register.</p>
 </tr>
 <tr>
 <td>
+<p><a href="output-resolver.html">outputResolver</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">outputResolver</span><span class="symbol">: </span><span class="symbol">(</span><a href="./index.html"><span class="identifier">BaseProgram</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a></code>
+<p>A function that can be used to resolve the programs register contents to an <a href="../../lgp.core.program/-output.html">Output</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
 <p><a href="sentinel-true-value.html">sentinelTrueValue</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">sentinelTrueValue</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code></td>
+<code><span class="keyword">val </span><span class="identifier">sentinelTrueValue</span><span class="symbol">: </span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a></code>
+<p>A value that should be considered as boolean "true".</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -55,7 +66,7 @@ from a single output register.</p>
 <p><a href="../../lgp.core.program/-program/effective-instructions.html">effectiveInstructions</a></p>
 </td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">effectiveInstructions</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program/-program/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">var </span><span class="identifier">effectiveInstructions</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program/-program/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>The instructions of this program that are effective.</p>
 </td>
 </tr>
@@ -73,17 +84,17 @@ from a single output register.</p>
 <p><a href="../../lgp.core.program/-program/instructions.html">instructions</a></p>
 </td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">instructions</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program/-program/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">var </span><span class="identifier">instructions</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program/-program/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>A collection of instructions that can be modified.</p>
 </td>
 </tr>
 <tr>
 <td>
-<p><a href="../../lgp.core.program/-program/output-register-index.html">outputRegisterIndex</a></p>
+<p><a href="../../lgp.core.program/-program/output-register-indices.html">outputRegisterIndices</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">outputRegisterIndex</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
-<p>An index of a register that the program uses as output.</p>
+<code><span class="keyword">val </span><span class="identifier">outputRegisterIndices</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program.instructions/-register-index.html"><span class="identifier">RegisterIndex</span></a><span class="symbol">&gt;</span></code>
+<p>The indices of register(s) that the program uses as output.</p>
 </td>
 </tr>
 <tr>
@@ -91,7 +102,7 @@ from a single output register.</p>
 <p><a href="../../lgp.core.program/-program/registers.html">registers</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">registers</span><span class="symbol">: </span><a href="../../lgp.core.program.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program/-program/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">val </span><span class="identifier">registers</span><span class="symbol">: </span><a href="../../lgp.core.program.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><a href="../../lgp.core.program/-program/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span></code>
 <p>A set of registers.</p>
 </td>
 </tr>
@@ -105,7 +116,7 @@ from a single output register.</p>
 <p><a href="copy.html">copy</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">copy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">BaseProgram</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">fun </span><span class="identifier">copy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">BaseProgram</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>Creates a clone of the given program.</p>
 </td>
 </tr>
@@ -125,6 +136,15 @@ from a single output register.</p>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">findEffectiveProgram</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Provides a way to find an LGP programs effective set of instructions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="output.html">output</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">output</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="index.html#TOutput"><span class="identifier">TOutput</span></a></code>
+<p>Retrieves the program output.</p>
 </td>
 </tr>
 <tr>

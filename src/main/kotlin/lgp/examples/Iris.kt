@@ -7,18 +7,14 @@ import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
-import lgp.core.evolution.fitness.FitnessFunction
-import lgp.core.evolution.fitness.FitnessFunctions
-import lgp.core.evolution.fitness.SingleOutputFitnessContext
+import lgp.core.evolution.fitness.*
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
 import lgp.core.evolution.training.DistributedTrainer
 import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
-import lgp.lib.BaseInstructionGenerator
-import lgp.lib.BaseProgram
-import lgp.lib.BaseProgramGenerator
-import lgp.lib.BaseProgramSimplifier
+import lgp.core.program.Outputs
+import lgp.lib.*
 
 import java.io.BufferedReader
 import java.io.InputStream
@@ -26,10 +22,10 @@ import java.io.InputStreamReader
 
 data class IrisSolution(
         override val problem: String,
-        val result: TrainingResult<Double>
+        val result: TrainingResult<Double, Outputs.Single<Double>>
 ) : Solution<Double>
 
-class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
+class IrisProblem(val datasetStream: InputStream) : Problem<Double, Outputs.Single<Double>>() {
     override val name = "Iris Classification."
 
     override val description = Description(
@@ -105,7 +101,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
             targetParseFunction = { _: Header, row: Row ->
                 val target = row[targetIndex]
 
-                targetLabels.indexOf(target).toDouble()
+                Targets.Single(targetLabels.indexOf(target).toDouble())
             }
     )
 
@@ -115,18 +111,21 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
-    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.thresholdCE(0.5)
+    override val fitnessFunctionProvider = {
+        FitnessFunctions.thresholdCE(0.5)
+    }
 
-    override val registeredModules = ModuleContainer<Double>(
+    override val registeredModules = ModuleContainer<Double, Outputs.Single<Double>>(
             modules = mutableMapOf(
                     CoreModuleType.InstructionGenerator to { environment ->
                         BaseInstructionGenerator(environment)
                     },
                     CoreModuleType.ProgramGenerator to { environment ->
                         BaseProgramGenerator(
-                                environment,
-                                sentinelTrueValue = 1.0,
-                                outputRegisterIndex = 0
+                            environment,
+                            sentinelTrueValue = 1.0,
+                            outputRegisterIndices = listOf(0),
+                            outputResolver = BaseProgramOutputResolvers.singleOutput()
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->
@@ -134,25 +133,27 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
                     },
                     CoreModuleType.RecombinationOperator to { environment ->
                         LinearCrossover(
-                                environment,
-                                maximumSegmentLength = 6,
-                                maximumCrossoverDistance = 5,
-                                maximumSegmentLengthDifference = 3
+                            environment,
+                            maximumSegmentLength = 6,
+                            maximumCrossoverDistance = 5,
+                            maximumSegmentLengthDifference = 3
                         )
                     },
                     CoreModuleType.MacroMutationOperator to { environment ->
                         MacroMutationOperator(
-                                environment,
-                                insertionRate = 0.67,
-                                deletionRate = 0.33
+                            environment,
+                            insertionRate = 0.67,
+                            deletionRate = 0.33
                         )
                     },
                     CoreModuleType.MicroMutationOperator to { environment ->
                         MicroMutationOperator(
-                                environment,
-                                registerMutationRate = 0.5,
-                                operatorMutationRate = 0.0,
-                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(environment)
+                            environment,
+                            registerMutationRate = 0.5,
+                            operatorMutationRate = 0.0,
+                            constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(
+                                environment.randomState
+                            )
                         )
                     },
                     CoreModuleType.FitnessContext to { environment ->
@@ -167,7 +168,7 @@ class IrisProblem(val datasetStream: InputStream) : Problem<Double>() {
                 this.constantLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
-                this.fitnessFunction
+                this.fitnessFunctionProvider
         )
 
         this.environment.registerModules(this.registeredModules)
@@ -202,11 +203,11 @@ class Iris {
             problem.initialiseEnvironment()
             problem.initialiseModel()
             val solution = problem.solve()
-            val simplifier = BaseProgramSimplifier<Double>()
+            val simplifier = BaseProgramSimplifier<Double, Outputs.Single<Double>>()
 
             solution.result.evaluations.forEachIndexed { run, res ->
                 println("Run ${run + 1} (best fitness = ${res.best.fitness})")
-                println(simplifier.simplify(res.best as BaseProgram<Double>))
+                println(simplifier.simplify(res.best as BaseProgram<Double, Outputs.Single<Double>>))
                 println("\nStats (last run only):\n")
 
                 for ((k, v) in res.statistics.last().data) {

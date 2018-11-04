@@ -2,6 +2,7 @@ package lgp.examples.java;
 
 import lgp.core.evolution.Solution;
 import lgp.core.evolution.training.TrainingResult;
+import lgp.core.program.Outputs;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -10,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
 public class SimpleFunctionSolution implements Solution<Double> {
 
     private String problem;
-    private TrainingResult<Double> result;
+    private TrainingResult<Double, Outputs.Single<Double>> result;
 
-    SimpleFunctionSolution(String problem, TrainingResult<Double> result) {
+    SimpleFunctionSolution(String problem, TrainingResult<Double, Outputs.Single<Double>> result) {
         this.problem = problem;
         this.result = result;
     }
@@ -23,7 +24,7 @@ public class SimpleFunctionSolution implements Solution<Double> {
         return this.problem;
     }
 
-    public TrainingResult<Double> getResult() {
+    public TrainingResult<Double, Outputs.Single<Double>> getResult() {
         return this.result;
     }
 }

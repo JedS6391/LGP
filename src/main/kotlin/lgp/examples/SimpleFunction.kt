@@ -8,9 +8,7 @@ import lgp.core.environment.constants.GenericConstantLoader
 import lgp.core.environment.dataset.*
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
-import lgp.core.evolution.fitness.FitnessFunction
-import lgp.core.evolution.fitness.FitnessFunctions
-import lgp.core.evolution.fitness.SingleOutputFitnessContext
+import lgp.core.evolution.fitness.*
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.operators.*
 import lgp.core.evolution.training.DistributedTrainer
@@ -18,10 +16,8 @@ import lgp.core.evolution.training.DistributedTrainingJob
 import lgp.core.evolution.training.SequentialTrainer
 import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
-import lgp.lib.BaseInstructionGenerator
-import lgp.lib.BaseProgram
-import lgp.lib.BaseProgramGenerator
-import lgp.lib.BaseProgramSimplifier
+import lgp.core.program.Outputs
+import lgp.lib.*
 
 /*
  * An example of setting up an environment to use LGP to find programs for the function `x^2 + 2x + 2`.
@@ -34,11 +30,11 @@ import lgp.lib.BaseProgramSimplifier
 // running the problem with a `Trainer` impl.
 data class SimpleFunctionSolution(
         override val problem: String,
-        val result: TrainingResult<Double>
+        val result: TrainingResult<Double, Outputs.Single<Double>>
 ) : Solution<Double>
 
 // Define the problem and the necessary components to solve it.
-class SimpleFunctionProblem : Problem<Double>() {
+class SimpleFunctionProblem : Problem<Double, Outputs.Single<Double>>() {
     override val name = "Simple Quadratic."
 
     override val description = Description("f(x) = x^2 + 2x + 2\n\trange = [-10:10:0.5]")
@@ -94,7 +90,7 @@ class SimpleFunctionProblem : Problem<Double>() {
             }
 
             val ys = xs.map { x ->
-                this.func(x.features[0].value)
+                Targets.Single(this.func(x.features[0].value))
             }
 
             return Dataset(
@@ -110,18 +106,21 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
 
-    override val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.MSE
+    override val fitnessFunctionProvider = {
+        FitnessFunctions.MSE
+    }
 
-    override val registeredModules = ModuleContainer<Double>(
+    override val registeredModules = ModuleContainer<Double, Outputs.Single<Double>>(
             modules = mutableMapOf(
                     CoreModuleType.InstructionGenerator to { environment ->
                         BaseInstructionGenerator(environment)
                     },
                     CoreModuleType.ProgramGenerator to { environment ->
                         BaseProgramGenerator(
-                                environment,
-                                sentinelTrueValue = 1.0,
-                                outputRegisterIndex = 0
+                            environment,
+                            sentinelTrueValue = 1.0,
+                            outputRegisterIndices = listOf(0),
+                            outputResolver = BaseProgramOutputResolvers.singleOutput()
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->
@@ -150,7 +149,7 @@ class SimpleFunctionProblem : Problem<Double>() {
                                 // Use identity func. since the probabilities
                                 // of other micro mutations mean that we aren't
                                 // modifying constants.
-                                constantMutationFunc = ConstantMutationFunctions.identity()
+                                constantMutationFunc = ConstantMutationFunctions.identity<Double>()
                         )
                     },
                     CoreModuleType.FitnessContext to { environment ->
@@ -161,14 +160,14 @@ class SimpleFunctionProblem : Problem<Double>() {
 
     override fun initialiseEnvironment() {
         this.environment = Environment(
-                this.configLoader,
-                this.constantLoader,
-                this.operationLoader,
-                this.defaultValueProvider,
-                this.fitnessFunction,
-                ResultAggregators.BufferedResultAggregator(
-                        ResultOutputProviders.CsvResultOutputProvider("results.csv")
-                )
+            this.configLoader,
+            this.constantLoader,
+            this.operationLoader,
+            this.defaultValueProvider,
+            this.fitnessFunctionProvider,
+            ResultAggregators.BufferedResultAggregator(
+                ResultOutputProviders.CsvResultOutputProvider("results.csv")
+            )
         )
 
         this.environment.registerModules(this.registeredModules)
@@ -228,13 +227,13 @@ class SimpleFunction {
             problem.initialiseEnvironment()
             problem.initialiseModel()
             val solution = problem.solve()
-            val simplifier = BaseProgramSimplifier<Double>()
+            val simplifier = BaseProgramSimplifier<Double, Outputs.Single<Double>>()
 
             println("Results:")
 
             solution.result.evaluations.forEachIndexed { run, res ->
                 println("Run ${run + 1} (best fitness = ${res.best.fitness})")
-                println(simplifier.simplify(res.best as BaseProgram<Double>))
+                println(simplifier.simplify(res.best as BaseProgram<Double, Outputs.Single<Double>>))
 
                 println("\nStats (last run only):\n")
 

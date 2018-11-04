@@ -8,9 +8,7 @@ import lgp.core.environment.constants.ConstantLoader
 import lgp.core.environment.dataset.Dataset
 import lgp.core.environment.operations.DefaultOperationLoader
 import lgp.core.evolution.*
-import lgp.core.evolution.fitness.FitnessCase
-import lgp.core.evolution.fitness.FitnessFunction
-import lgp.core.evolution.fitness.FitnessFunctions
+import lgp.core.evolution.fitness.*
 import lgp.core.evolution.model.EvolutionModel
 import lgp.core.evolution.model.Models
 import lgp.core.evolution.model.TestResult
@@ -18,6 +16,7 @@ import lgp.core.evolution.operators.*
 import lgp.core.evolution.training.DistributedTrainer
 import lgp.core.evolution.training.TrainingResult
 import lgp.core.modules.ModuleInformation
+import lgp.core.program.Outputs
 
 /**
  * Parameters that can be given to configure a ``BaseProblem``.
@@ -35,7 +34,7 @@ data class BaseProblemParameters(
                 "lgp.lib.operations.Division"
         ),
         val defaultRegisterValue: Double = 1.0,
-        val fitnessFunction: FitnessFunction<Double> = FitnessFunctions.MSE,
+        val fitnessFunction: SingleOutputFitnessFunction<Double> = FitnessFunctions.MSE,
         val tournamentSize: Int = 20,
         val maximumSegmentLength: Int = 6,
         val maximumCrossoverDistance: Int = 5,
@@ -56,7 +55,7 @@ class BaseProblemException(message: String) : Exception(message)
 /**
  * Encapsulates the information given from a call to [BaseProblem.test].
  */
-data class BaseProblemTestResult(val testResult: TestResult<Double>, val testFitness: Double)
+data class BaseProblemTestResult(val testResult: TestResult<Double, Outputs.Single<Double>>, val testFitness: Double)
 
 /**
  * A basic skeleton for a problem setup with commonly used components and modules.
@@ -64,7 +63,7 @@ data class BaseProblemTestResult(val testResult: TestResult<Double>, val testFit
  * This class is supposed to streamline the process of setting up a problem by providing
  * a set of reasonable defaults and a base set of parameters that can be tweaked.
  */
-class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
+class BaseProblem(val params: BaseProblemParameters) : Problem<Double, Outputs.Single<Double>>() {
     // Unpack values from parameters.
     override val name = params.name
 
@@ -106,18 +105,19 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
 
     override val defaultValueProvider = DefaultValueProviders.constantValueProvider(params.defaultRegisterValue)
 
-    override val fitnessFunction = params.fitnessFunction
+    override val fitnessFunctionProvider = { params.fitnessFunction }
 
-    override val registeredModules = ModuleContainer<Double>(
+    override val registeredModules = ModuleContainer<Double, Outputs.Single<Double>>(
             modules = mutableMapOf(
                     CoreModuleType.InstructionGenerator to { environment ->
                         BaseInstructionGenerator(environment)
                     },
                     CoreModuleType.ProgramGenerator to { environment ->
                         BaseProgramGenerator(
-                                environment,
-                                sentinelTrueValue = 1.0,
-                                outputRegisterIndex = 0
+                            environment,
+                            sentinelTrueValue = 1.0,
+                            outputRegisterIndices = listOf(0),
+                            outputResolver = BaseProgramOutputResolvers.singleOutput()
                         )
                     },
                     CoreModuleType.SelectionOperator to { environment ->
@@ -143,22 +143,24 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
                                 environment,
                                 registerMutationRate = params.microRegisterMutationRate,
                                 operatorMutationRate = params.microOperationMutationRate,
-                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(environment)
+                                constantMutationFunc = ConstantMutationFunctions.randomGaussianNoise(
+                                    environment.randomState
+                                )
                         )
                     }
             )
     )
 
-    private var bestTrainingModel: EvolutionModel<Double>? = null
+    private var bestTrainingModel: EvolutionModel<Double, Outputs.Single<Double>>? = null
 
     override fun initialiseEnvironment() {
         this.environment = Environment(
-                this.configLoader,
-                this.constantLoader,
-                this.operationLoader,
-                this.defaultValueProvider,
-                this.fitnessFunction,
-                randomStateSeed = this.params.randomStateSeed
+            this.configLoader,
+            this.constantLoader,
+            this.operationLoader,
+            this.defaultValueProvider,
+            this.fitnessFunctionProvider,
+            randomStateSeed = this.params.randomStateSeed
         )
 
         this.environment.registerModules(this.registeredModules)
@@ -175,7 +177,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
         )
     }
 
-    fun train(dataset: Dataset<Double>): TrainingResult<Double> {
+    fun train(dataset: Dataset<Double>): TrainingResult<Double, Outputs.Single<Double>> {
         try {
             val trainer = DistributedTrainer(environment, model, runs = this.params.runs)
             val trainingResult = trainer.train(dataset)
@@ -206,7 +208,7 @@ class BaseProblem(val params: BaseProblemParameters) : Problem<Double>() {
 
         val testResult = this.bestTrainingModel!!.test(dataset)
 
-        val testFitness = this.fitnessFunction(
+        val testFitness = this.fitnessFunctionProvider()(
                 testResult.predicted,
                 dataset.inputs.zip(dataset.outputs).map { (features, target) ->
                     FitnessCase(features, target)

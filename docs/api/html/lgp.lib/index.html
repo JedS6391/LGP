@@ -25,7 +25,7 @@
 <p><a href="-base-instruction-generator/index.html">BaseInstructionGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">BaseInstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><a href="-base-instruction-generator/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BaseInstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-base-instruction-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program.instructions/-instruction-generator/index.html"><span class="identifier">InstructionGenerator</span></a><span class="symbol">&lt;</span><a href="-base-instruction-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-base-instruction-generator/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>Built-in offering of the <code>InstructionGenerator</code> interface.</p>
 </td>
 </tr>
@@ -34,7 +34,7 @@
 <p><a href="-base-problem/index.html">BaseProblem</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">BaseProblem</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.evolution/-problem/index.html"><span class="identifier">Problem</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BaseProblem</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.evolution/-problem/index.html"><span class="identifier">Problem</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">,</span>&nbsp;<a href="../lgp.core.program/-outputs/-single/index.html"><span class="identifier">Single</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>A basic skeleton for a problem setup with commonly used components and modules.</p>
 </td>
 </tr>
@@ -61,7 +61,7 @@
 <p><a href="-base-program/index.html">BaseProgram</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">BaseProgram</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="-base-program/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BaseProgram</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-base-program/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="-base-program/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-base-program/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>A built-in offering of the <code>Program</code> interface.</p>
 </td>
 </tr>
@@ -70,8 +70,17 @@
 <p><a href="-base-program-generator/index.html">BaseProgramGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">BaseProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-program-generator/index.html"><span class="identifier">ProgramGenerator</span></a><span class="symbol">&lt;</span><a href="-base-program-generator/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BaseProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-base-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-program-generator/index.html"><span class="identifier">ProgramGenerator</span></a><span class="symbol">&lt;</span><a href="-base-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-base-program-generator/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>A <code>ProgramGenerator</code> implementation that provides effective <code>BaseProgram</code> instances.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-base-program-output-resolvers/index.html">BaseProgramOutputResolvers</a></p>
+</td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">BaseProgramOutputResolvers</span></code>
+<p>A collection of built-in functions that can be used to resolve the output of a <a href="-base-program/index.html">BaseProgram</a> instance.</p>
 </td>
 </tr>
 <tr>
@@ -79,7 +88,7 @@
 <p><a href="-base-program-simplifier/index.html">BaseProgramSimplifier</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">BaseProgramSimplifier</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BaseProgramSimplifier</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-base-program-simplifier/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Utility class that can be used to create a simplified representation of a <code>BaseProgram</code>.</p>
 </td>
 </tr>
@@ -88,7 +97,7 @@
 <p><a href="-base-program-translator/index.html">BaseProgramTranslator</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">BaseProgramTranslator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-program-translator/index.html"><span class="identifier">ProgramTranslator</span></a><span class="symbol">&lt;</span><a href="-base-program-translator/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">BaseProgramTranslator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-base-program-translator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../lgp.core.program/-program-translator/index.html"><span class="identifier">ProgramTranslator</span></a><span class="symbol">&lt;</span><a href="-base-program-translator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-base-program-translator/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
 <p>A <a href="../lgp.core.program/-program-translator/index.html">ProgramTranslator</a> implementation that converts <a href="-base-program/index.html">BaseProgram</a> instances to a C-based representation.</p>
 </td>
 </tr>
