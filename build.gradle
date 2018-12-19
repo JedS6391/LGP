@@ -2,9 +2,9 @@ group 'LGP'
 version '3.0'
 
 buildscript {
-    ext.kotlin_version = '1.3.0-rc-146'
-    ext.dokka_version = '0.9.16'
-    ext.kotlinx_coroutines_version = '0.30.0-eap13'
+    ext.kotlin_version = '1.3.11'
+    ext.dokka_version = '0.9.17'
+    ext.kotlinx_coroutines_version = '1.0.1'
 
     repositories {
         mavenCentral()

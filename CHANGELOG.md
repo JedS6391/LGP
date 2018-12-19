@@ -1,5 +1,18 @@
 # Change Log
 
+## [v-3.1](https://github.com/JedS6391/LGP/tree/3.1) (2018-12-19)
+
+**Changes:**
+
+- Kotlin 1.3.11
+- kotlinx-coroutines 1.0.1
+- dokka 0.9.17
+- Removes IntelliJ project files
+
+**Acknowledgements:**
+
+- [Ulrik Günther](https://github.com/skalarproduktraum) -- updated Kotlin, kotlinx-coroutines, dokka, and tidied up IntelliJ files.
+
 ## [v-3.0](https://github.com/JedS6391/LGP/tree/3.0) (2018-11-04)
 
 **Breaking changes:**
