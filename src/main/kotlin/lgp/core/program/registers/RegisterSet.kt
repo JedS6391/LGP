@@ -133,7 +133,7 @@ class RegisterSet<T> {
     val count: Int get() = this.registers.size
 
     // Register set backing store
-    private val registers: MutableList<Register<T>>
+    private val registers: Array<Register<T>>
     private val totalRegisters: Int
 
     // Keep a track of the original constants the register set is initialised with.
@@ -166,10 +166,9 @@ class RegisterSet<T> {
 
         this.constants = constants
         this.defaultValueProvider = defaultValueProvider
-        this.registers = mutableListOf()
 
         // Make sure every register slot has a default value.
-        this.initialise()
+        this.registers = this.initialise()
 
         // Initialise the constant registers
         this.writeConstants()
@@ -192,7 +191,7 @@ class RegisterSet<T> {
         this.constants = source.constants
         // We have to make sure we map to new Register instances because otherwise
         // the modifying the register set copy will effect the original.
-        this.registers = source.registers.map { r -> Register(r) }.toMutableList()
+        this.registers = source.registers.map { r -> Register(r) }.toTypedArray()
     }
 
     /**
@@ -307,9 +306,9 @@ class RegisterSet<T> {
     /**
      * Initialises all registers with a default value using [defaultValueProvider].
      */
-    private fun initialise() {
-        (0 until this.totalRegisters).forEach { r ->
-            this.registers.add(r, Register(this.defaultValueProvider.value, r))
+    private fun initialise(): Array<Register<T>> {
+        return Array(this.totalRegisters) { index ->
+            Register(this.defaultValueProvider.value, index)
         }
     }
 
