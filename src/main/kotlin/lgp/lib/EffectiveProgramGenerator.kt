@@ -70,7 +70,7 @@ class EffectiveProgramGenerator<TProgram, TOutput : Output<TProgram>>(
             } else {
                 // Get a random instruction and make it effective by
                 // using one of the registers marked as effective.
-                val instr = this.instructionGenerator.generateInstruction()
+                val instr = this.instructionGenerator.generateInstruction(effectiveRegisters)
 
                 instr.destination = random.choice(effectiveRegisters)
 
