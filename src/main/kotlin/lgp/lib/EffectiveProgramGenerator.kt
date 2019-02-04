@@ -80,13 +80,17 @@ class EffectiveProgramGenerator<TProgram, TOutput : Output<TProgram>>(
         }
 
         // Each program gets its own copy of the register set
-        return BaseProgram(
+        val program = BaseProgram(
                 instructions = instructions.toList(),
                 registerSet = this.environment.registerSet.copy(),
                 outputRegisterIndices = this.outputRegisterIndices,
                 sentinelTrueValue = this.sentinelTrueValue,
                 outputResolver = this.outputResolver
         )
+
+        program.effectiveInstructions = instructions.toMutableList()
+
+        return program
     }
 
     override val information = ModuleInformation(
