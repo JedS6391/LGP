@@ -32,7 +32,7 @@ class EffectiveProgramGenerator<TProgram, TOutput : Output<TProgram>>(
         )
 
         val branchesUsed = this.environment.operations.any { op -> op is BranchOperation<TProgram> }
-        val output = this.environment.registerSet.calculationRegisters.start
+        val output = this.outputRegisterIndices.first()
 
         val instructions = mutableListOf<Instruction<TProgram>>()
         val effectiveRegisters = mutableListOf(output)
