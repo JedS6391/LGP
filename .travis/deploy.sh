@@ -10,10 +10,6 @@ feature_branch_regex="^feature.*$"
 echo "$branch_name"
 echo "$tag_name"
 
-ls -la
-cd ../
-ls -la
-
 if [[ "$branch_name" =~ $feature_branch_regex ]]; then
     echo "Renaming build files for feature branch..."
     rm build/libs/LGP-"$version".jar
