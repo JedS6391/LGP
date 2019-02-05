@@ -133,6 +133,9 @@ artifacts {
     archives sourcesJar, javadocJar
 }
 
+def user = hasProperty('ossrhUsername') ? ossrhUsername : System.getenv('ossrhUsername')
+def password = hasProperty('ossrhPassword') ? ossrhPassword : System.getenv('ossrhPassword')
+
 // Build, sign, and upload
 uploadArchives {
     repositories {
@@ -143,10 +146,10 @@ uploadArchives {
 
             // Destination
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+                authentication(userName: user, password: password)
             }
             snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+                authentication(userName: user, password: password)
             }
 
             // Add required metadata to POM
