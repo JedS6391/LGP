@@ -32,4 +32,3 @@ then
 	echo "Signing POM, upload archives to staging repository"
 	./gradlew uploadArchives
 fi
-

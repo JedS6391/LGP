@@ -37,7 +37,7 @@ before_install:
 script:
   - chmod -R ug+x .travis
   - .travis/build.sh
-before_deploy: bash deploy.sh $REAL_BRANCH $TRAVIS_TAG
+before_deploy: bash .travis/deploy.sh $REAL_BRANCH $TRAVIS_TAG
 deploy:
   # Deployment of master branch:
   #   - Uses binary names from buildscript (will need to update whenever version of master is bumped after release).
