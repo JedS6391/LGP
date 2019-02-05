@@ -12,4 +12,4 @@ import nz.co.jedsimson.lgp.core.environment.ComponentLoader
  * @param TData Type of features in the data set.
  * @see [Dataset]
  */
-interface DatasetLoader<out TData> : nz.co.jedsimson.lgp.core.environment.ComponentLoader<Dataset<TData>>
+interface DatasetLoader<out TData> : ComponentLoader<Dataset<TData>>
