@@ -14,9 +14,16 @@ env:
     # Because release builds work with tagged commits (which in our case will always be related to a branch),
     # we need to attempt to fetch the real branch name for a tagged commit.
     - REAL_BRANCH=$(git ls-remote origin | sed -n "\|$TRAVIS_COMMIT\s\+refs/heads/|{s///p}")
-script:
-  - ./gradlew coreJar --no-daemon --stacktrace --console=plain
-  - ./gradlew examplesJar --no-daemon --stacktrace --console=plain
+    # SONATYPE_USERNAME
+    secure: "wo6FpQDN37XLaset5v5rLp/kas+6NIvEtGzxyHwjQ+wWDy7pp5r7CBwzb/F7z4X5YWD5LKzKqXOdWpJrDvnBhuDoHihucepUFHkphqPcnUM/D8W+ceWe+PvwjmEBpnAYE5xdR++Iv0vofLymSAdZwLocX6OLLxtU9dMghrImOf1srBzn8PXoX2M4rt4B1mkVaWdgOXoZaVdkT/t1Tp/UVUyM1vJESoUGSfRhWEchyoWHJ+GIOFp6G5xdMVxDHt2WxqXeiwlX3vKb4CjPYqYcxs61ohNDadW5ot7LyzpJuCJxWwrjUlD7YNMiUflAANBr75ieHK33F9L4GLdzmOJ2kArFr4jW1L9x5I5CzST5YQ4tSUlkMn6lY8M3buS9j4BoljUA/BOP/dBB5/btozgLI9c0b8UVq0t1luCyHo2diQF0+f8GkBi9w2hTEL4ak5QckYTV0hVfwcFOX8Z5d3rjXhPBjd/18TnDd/UeIP5eUf6RlAVfBJdiatw7F8gGSjdIRByXBGJNV8SAloMFdIJgxdZNvQ2BBZ4y80VJM+KwnTiSS+zVJtmoXxnVAlRZE03yKUFVKCwrYHs2ZiHFfY97n+VQ6ytdAavSkiP5vKyRS4rjLdEAZzqwzIrPouD4cCNv1aYckEKyK7go2+Wt4UUihdDuKPJCzuPpBZ5qJ2e3paI="
+    # SONATYPE_PASSWORD
+    secure: "FIUuNV1vpd7pfusvc4dMHfgNKZRZYQG9BLuCy3uSpKJqi6a3jhVKUUNXthC7FYKyo5qpJv3DNl4jlhaAZNKs8upVwX9XURDgGbS8MiPC/pxFK4Z3J/4GOjOC37cTq1ncYL9vd8tOtxr4+QAzob8E+KdqIBKSdPVDbOlM5+kdQez3uq+ZmEAq0T2VCj2j8rYHtCXrdpstdf94pU4k8Xyp68K/6hNE6+JxcvZhppL61QnN4u5Fti3tWo3HDkijtszyE49VgoKY8Qjcfv7j6RKQCFw7BW75Md3DOjEO7sAMq2Q9/c4fzJeJ956tmvMRHNQ5k15Zl2SeKzgbEI/AUKjVFJ+tWiRBOdk2SSidmD7EvQjUg85bIPOVT+aKjmbdXMT5+FUujY6lJkEi6MrjniJEgulDnn+xjeCQMT3G+Z3jobZrJNBPUrgqfttk6mc7MTGKEIHJxDkBn5H1sTSpEOypV22N/SS9M/j1o0kAE0w7I+KJcMgxxH/9igyHGsOrWju0DfEED+3xqVGs+HR2Mv5q54WPkSvwLASDj1380+GQSo//1n59IwllJDL7mdE6i6jzN7WnWcdppY/XwoXye31Vo2vqH/SH3+AMxIZFDZMwZkpLWm7WaH+wsBwKYuy9xUxXDj44uGEFg4eE4kJFgxg2KztQwFiXNGI1oOAstDHp+gY="
+    # GPG_KEY_ID
+    secure: "tdPFz9ZWE7vus2qjJSNmKGCyRSP9ZEeMSuVMg9hniWPHSLo8fys4hiTADvoIc/9/UKUW10OMKwNUzpwalBV08uusxsvM5DiHYWs3tBadQp8cp5uSTkFtSmfod4JQbdue6F0DMOfxlT7dcg3Jg254lSFZCujxKr5VvCky1MF4vPQpvwo1jAwKQtXNdDRneF3M3PlME+//ynjKFQWYPFpm/8Fp4ON5iAJQLKByoVni4hSdcD5ha7yet6BLbnQsnEiUxsNsEnNO0rtpPfe981Z4K6J/Cz60qq3nSdJDmH0EP49ugJVSFkZ1iECFM/De/j9hnsn92QnDagPI6E8bwyTKxkoYzMOHXPtsmA1SoLlbtqiDrFa8fksXzXXN1bvhUpgE3vEJ1KNWZygQL72a+EnRqnRNivoqhc2M7JMhaU8U9Hb3WIKeJXZa4/T3cIRWdsMJlNtaMseNPmzzsRjgrKZMPNT/ZKYLc01bSQk2ng6oY4DoQq9N+f0xQixSN7pMLghKz+W3QfaqELqnQBugJWQiZsCxcxfVIZbl307LJQGGXCKdVNnqxc8LrhruhVXSZY25qKXgGRIL9ZVaLPvML0036r5GdjQ2TT7FISWNb1sXCAvMSvlfv/8LybShV2PgtGQqUxhEWdS2YCfx9FJKTF0VPPlZluhNEyT8bvx0SSM77Eg="
+    # GPG_PASSPHRASE
+    secure: "EtaQF4URSwZE9nkZ4elohz5/JrEqtwa4mtYUaPUhbe7FVctrDUqHssqC/gx7A4bBZaReo6BjvAIrdRqMbR9teBfBXFaytjwBgxzzVTvOaA7CA4BZESJrwLN5EcRu98LCnUy/zzb1/SRhPyqPieWqfnarhnP5YVpkr0mLEVWtsqEIoedDwj3jJp5PUUdiCAGCCI1MugjeQ6wnlxIBjhVmwE6HyQmQvxUG5a5mM7oj5X19t5t6Ne/RpN/fZ44V/FP/M1dPCMlDRgJslS2ySnBVRmH9lo4VBJySJGUaAF15Xq6+yL1a0GY8qTJrhFUvxZDwYgbxhRN/fKqxbQR+YCk665EhNKJB4GkyNOHcoou/dTAuiwWG8wpGdgVwnWUxpnyfP5Z23d+Sg7b4uo/S9F+weefHRh/5Mi9aYChVV1jZvjjHB1u08g/r67Klfiq9Xz4ZeSvwEVY2+RGatIb+eSxisO6yHICSREeNLWh8p4pCeW2h5Lv62fRwd1svtfHYhRlZL2OcMz+pfZciiDA6gB7aVItGqvgi8aFmx8iO+t136GYrpielf5CzcOmNQrSCf/dXrK05BdPEWmz6Ht4h5/Gj4XqZqsfvVymCIlirU6ha1iRknyRHl34iwuIXiDtvAdNMJsa/7qHcOrrZsfuGEyc+qpVJqCPQeate4umTiWYepwQ="
+    - GPG_KEY_LOCATION=".travis/secret.gpg"
+    - ENCRYPTED_GPG_KEY_LOCATION="./travis/secret.gpg.enc"
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -24,6 +31,12 @@ cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
+before_install:
+  - chmod -R ug+x .travis
+  - .travis/install.sh
+script:
+  - chmod -R ug+x .travis
+  - .travis/build.sh
 before_deploy: bash deploy.sh $REAL_BRANCH $TRAVIS_TAG
 deploy:
   # Deployment of master branch:
