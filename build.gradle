@@ -1,5 +1,5 @@
-group 'nz.co.jedsimson.lgp'
-version '3.0'
+group 'LGP'
+version '4.0'
 
 buildscript {
     ext.kotlin_version = '1.3.11'
@@ -82,6 +82,11 @@ task javadocJar(type: Jar) {
     from javadoc
 }
 
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
 task examplesJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LGP',
@@ -99,8 +104,6 @@ task examplesJar(type: Jar) {
 }
 
 task coreJar(type: Jar) {
-    classifier = 'sources'
-
     manifest {
         attributes 'Implementation-Title': 'LGP',
                 'Implementation-Version': version
@@ -122,12 +125,27 @@ task printVersion {
 apply plugin: 'maven'
 apply plugin: 'signing'
 
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.allTasks.any { it instanceof Sign }) {
+        allprojects { ext."signing.keyId" = System.getenv('GPG_KEY_ID') }
+        allprojects { ext."signing.secretKeyRingFile" = System.getenv('GPG_KEY_LOCATION') }
+        allprojects { ext."signing.password" = System.getenv('GPG_PASSPHRASE') }
+    }
+    // Do not sign archives by default (a local build without gpg keyring should succeed)
+    if (taskGraph.allTasks.any { it.name == 'build' || it.name == 'assemble' }) {
+        tasks.findAll { it.name == 'signArchives' || it.name == 'signDocsJar' || it.name == 'signTestJar' }.each { task ->
+            task.enabled = false
+        }
+    }
+}
 signing {
     sign configurations.archives
 }
 
+build.dependsOn.remove(signArchives)
+
 artifacts {
-    archives coreJar, javadocJar
+    archives sourcesJar, javadocJar
 }
 
 // Build, sign, and upload
@@ -136,14 +154,16 @@ uploadArchives {
         mavenDeployer {
 
             // Sign POM
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            beforeDeployment {
+                MavenDeployment deployment -> signing.signPom(deployment)
+            }
 
             // Destination
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+                authentication(userName: System.getenv('SONATYPE_USERNAME'), password: System.getenv('SONATYPE_PASSWORD'))
             }
             snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+                authentication(userName: System.getenv('SONATYPE_USERNAME'), password: System.getenv('SONATYPE_PASSWORD'))
             }
 
             // Add required metadata to POM
@@ -155,8 +175,8 @@ uploadArchives {
 
                 scm {
                     connection 'scm:git:git://github.com/JedS6391/LGP.git'
-                        developerConnection 'scm:git:ssh://github.com/JedS6391/LGP.git'
-                        url 'http://github.com/JedS6391/LGP/tree/master'
+                    developerConnection 'scm:git:ssh://github.com/JedS6391/LGP.git'
+                    url 'http://github.com/JedS6391/LGP/tree/master'
                 }
 
                 licenses {
