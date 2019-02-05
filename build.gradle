@@ -77,6 +77,16 @@ task dokkaApiJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputDirectory = "$buildDir/../docs/api/javadoc"
 }
 
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
 task examplesJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LGP',
@@ -109,5 +119,66 @@ task coreJar(type: Jar) {
 task printVersion {
     doLast {
         println project.version
+    }
+}
+
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+signing {
+    sign configurations.archives
+}
+
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
+// Build, sign, and upload
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            // Sign POM
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            // Destination
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            // Add required metadata to POM
+            pom.project {
+                name 'LGP'
+                packaging 'jar'
+                description 'A robust Linear Genetic Programming implementation on the JVM using Kotlin. '
+                url 'https://github.com/JedS6391/LGP'
+
+                scm {
+                    connection 'scm:git:git://github.com/JedS6391/LGP.git'
+                        developerConnection 'scm:git:ssh://github.com/JedS6391/LGP.git'
+                        url 'http://github.com/JedS6391/LGP/tree/master'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT License'
+                        url 'https://github.com/JedS6391/LGP/blob/master/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'jedsimson'
+                        name 'Jed Simson'
+                        email 'jed.simson@gmail.com'
+                        organization 'jedsimson'
+                        organizationUrl 'https://jedsimson.co.nz'
+                    }
+                }
+            }
+        }
     }
 }
