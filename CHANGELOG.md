@@ -1,5 +1,18 @@
 # Change Log
 
+## [v-4.0](https://github.com/JedS6391/LGP/tree/4.0) (2019-02-06)
+
+**Breaking changes:**
+
+- Rename top-level package from `lgp` to `nz.co.jedsimson.lgp` to match Maven deployment.
+
+**Enhancements/Additions:**
+
+- Facilitate the deployment of the LGP artefact to Maven central.
+- RegisterSet performance improvements (`Array` vs `MutableList`)
+
+*The version has been bumped to 4.0 to reflect these breaking changes.*
+
 ## [v-3.1](https://github.com/JedS6391/LGP/tree/3.1) (2018-12-19)
 
 **Changes:**
