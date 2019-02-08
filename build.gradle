@@ -1,5 +1,5 @@
-group 'LGP'
-version '3.0'
+group 'nz.co.jedsimson.lgp'
+version '4.0'
 
 buildscript {
     ext.kotlin_version = '1.3.11'
@@ -52,12 +52,6 @@ dependencies {
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.2'
 }
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
-
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint:unchecked"      \
                          << "-Xlint:all"            \
@@ -66,6 +60,7 @@ tasks.withType(JavaCompile) {
                          << "-Werror"
 }
 
+// Dokka tasks
 task dokkaApiHtml(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = 'html'
     outputDirectory = "$buildDir/../docs/api/html"
@@ -77,6 +72,19 @@ task dokkaApiJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputDirectory = "$buildDir/../docs/api/javadoc"
 }
 
+// Javadoc
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+// All source files
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+// JAR for just examples package
 task examplesJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LGP',
@@ -93,6 +101,7 @@ task examplesJar(type: Jar) {
     with jar
 }
 
+// JAR for just core and lib packages (excluding examples)
 task coreJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LGP',
@@ -106,8 +115,80 @@ task coreJar(type: Jar) {
     with jar
 }
 
+// Prints the current project version
 task printVersion {
     doLast {
         println project.version
+    }
+}
+
+// Signing and deployment
+apply plugin: 'maven'
+
+// We don't want local builds to have to depend on the signing process, so we disable
+// signing if the signing GPG key ID is not present.
+if (System.getenv('GPG_KEY_ID')) {
+    apply plugin: 'signing'
+
+    signing {
+        required { gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+        setRequired { required true }
+    }
+}
+
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
+// Build, sign, and upload
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            // Sign POM
+            beforeDeployment {
+                MavenDeployment deployment -> signing.signPom(deployment)
+            }
+
+            // Destination
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: System.getenv('SONATYPE_USERNAME'), password: System.getenv('SONATYPE_PASSWORD'))
+            }
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: System.getenv('SONATYPE_USERNAME'), password: System.getenv('SONATYPE_PASSWORD'))
+            }
+
+            // Add required metadata to POM
+            pom.project {
+                name 'LGP'
+                packaging 'jar'
+                description 'A robust Linear Genetic Programming implementation on the JVM using Kotlin. '
+                url 'https://github.com/JedS6391/LGP'
+
+                scm {
+                    connection 'scm:git:git://github.com/JedS6391/LGP.git'
+                    developerConnection 'scm:git:ssh://github.com/JedS6391/LGP.git'
+                    url 'http://github.com/JedS6391/LGP/tree/master'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT License'
+                        url 'https://github.com/JedS6391/LGP/blob/master/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'jedsimson'
+                        name 'Jed Simson'
+                        email 'jed.simson@gmail.com'
+                        organization 'jedsimson'
+                        organizationUrl 'https://jedsimson.co.nz'
+                    }
+                }
+            }
+        }
     }
 }
