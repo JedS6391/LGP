@@ -134,3 +134,5 @@ gradle-app.setting
 
 docs/build
 docs/guide
+
+.env
