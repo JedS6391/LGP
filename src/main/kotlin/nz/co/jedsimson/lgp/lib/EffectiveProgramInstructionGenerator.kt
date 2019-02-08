@@ -1,22 +1,13 @@
 package nz.co.jedsimson.lgp.lib
 
 import nz.co.jedsimson.lgp.core.environment.Environment
-import nz.co.jedsimson.lgp.core.program.instructions.Instruction
-import nz.co.jedsimson.lgp.core.program.instructions.InstructionGenerator
-import nz.co.jedsimson.lgp.core.program.instructions.Operation
-import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
 import nz.co.jedsimson.lgp.core.evolution.operators.choice
 import nz.co.jedsimson.lgp.core.program.registers.*
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Output
+import nz.co.jedsimson.lgp.core.program.instructions.*
 
-/**
- * Built-in offering of the ``InstructionGenerator`` interface.
- *
- * The generator provides an endless stream of randomly generated instructions
- * that are constructed from the pool of available operations and registers.
- */
-class BaseInstructionGenerator<TProgram, TOutput : Output<TProgram>> : InstructionGenerator<TProgram, TOutput> {
+internal class EffectiveProgramInstructionGenerator<TProgram, TOutput : Output<TProgram>> : InstructionGenerator<TProgram, TOutput> {
 
     private val random = this.environment.randomState
     private val operationPool: List<Operation<TProgram>>
@@ -30,48 +21,62 @@ class BaseInstructionGenerator<TProgram, TOutput : Output<TProgram>> : Instructi
     }
 
     /**
-     * Generates a new, completely random instruction.
-     *
-     * The instruction will be a [BaseInstruction] instance, and the [InstructionGenerator.next] method can be called
-     * to use this function as a generator.
+     * Not implemented -- this implementation should only be used internally by [EffectiveProgramGenerator].
      */
     override fun generateInstruction(): Instruction<TProgram> {
-        // Choose a random output register
-        val output = this.registerGenerator.getRandomInputAndCalculationRegisters(1).first()
+        throw NotImplementedError()
+    }
 
-        // Choose a random operator
-        val operation = random.choice(this.operationPool)
+    /**
+     * Generates an effective instruction.
+     *
+     * @param effectiveRegisters The current set of effective registers.
+     * @param branch Determines whether the generated instruction should be a branch instruction.
+     */
+    fun generateInstruction(effectiveRegisters: List<RegisterIndex>, branch: Boolean = false): Instruction<TProgram> {
+        // If there are no effective registers, then default to the first calculation register.
+        val outputs = when {
+            effectiveRegisters.isEmpty() -> listOf(this.registers.calculationRegisters.first)
+            else -> effectiveRegisters
+        }
 
-        // Determine whether to use a constant register
+        // Pick a random operation for this instruction.
+        val operation = when {
+            branch -> {
+                this.random.choice(this.operationPool.filter { operation ->
+                    operation is BranchOperation<TProgram>
+                })
+            }
+            else -> {
+                this.random.choice(this.operationPool)
+            }
+        }
+
         val shouldUseConstant = random.nextFloat().toDouble() < this.environment.configuration.constantsRate
+        // Pick a random (but effective) register.
+        val output = this.random.choice(outputs)
 
         if (shouldUseConstant) {
             // This instruction should use a constant register, first get the constant register
             val constRegister = this.registerGenerator.next(RegisterType.Constant).first().index
 
             // Then choose either a calculation or input register. We use arity - 1 because whatever the arity of
-            // the operation, we've already chosen one of the arguments registers as a constant register.
-            val nonConstRegister = this.registerGenerator.getRandomInputAndCalculationRegisters(
+            // the operation, we've already chosen delegated one of the arguments registers as a constant register.
+            val nonConstRegisters = this.registerGenerator.getRandomInputAndCalculationRegisters(
                 operation.arity.number - 1
             )
 
-            val inputs = mutableListOf<RegisterIndex>()
-
             // We don't always want the constant register to be in the same position in an instruction.
-            val prob = this.random.nextFloat()
-
-            when {
-                prob < 0.5 -> {
-                    inputs.add(constRegister)
-                    inputs.addAll(nonConstRegister)
+            val inputs = when {
+                this.random.nextFloat() < 0.5 -> {
+                    listOf(constRegister) + nonConstRegisters
                 }
                 else -> {
-                    inputs.addAll(nonConstRegister)
-                    inputs.add(constRegister)
+                    nonConstRegisters + listOf(constRegister)
                 }
             }
 
-            return BaseInstruction(operation, output, inputs)
+            return BaseInstruction(operation, output, inputs.toMutableList())
         } else {
             // Choose some random input registers depending on the arity of the operation
             val inputs = this.registerGenerator.getRandomInputAndCalculationRegisters(operation.arity.number)
