@@ -25,10 +25,3 @@ elif [[ "$branch_name" =~ $release_branch_regex ]]; then
 else
     echo "Invalid deployment type"
 fi
-
-
-if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ $TRAVIS_TEST_RESULT -eq 0 ]
-then
-	echo "Signing POM, upload archives to staging repository"
-	./gradlew uploadArchives
-fi

@@ -1,4 +1,4 @@
-group 'LGP'
+group 'nz.co.jedsimson.lgp'
 version '4.0'
 
 buildscript {
@@ -52,12 +52,6 @@ dependencies {
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.2'
 }
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
-
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint:unchecked"      \
                          << "-Xlint:all"            \
@@ -66,6 +60,7 @@ tasks.withType(JavaCompile) {
                          << "-Werror"
 }
 
+// Dokka tasks
 task dokkaApiHtml(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = 'html'
     outputDirectory = "$buildDir/../docs/api/html"
@@ -77,16 +72,19 @@ task dokkaApiJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputDirectory = "$buildDir/../docs/api/javadoc"
 }
 
+// Javadoc
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
     from javadoc
 }
 
+// All source files
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
 
+// JAR for just examples package
 task examplesJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LGP',
@@ -103,6 +101,7 @@ task examplesJar(type: Jar) {
     with jar
 }
 
+// JAR for just core and lib packages (excluding examples)
 task coreJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LGP',
@@ -116,33 +115,27 @@ task coreJar(type: Jar) {
     with jar
 }
 
+// Prints the current project version
 task printVersion {
     doLast {
         println project.version
     }
 }
 
+// Signing and deployment
 apply plugin: 'maven'
-apply plugin: 'signing'
 
-gradle.taskGraph.whenReady { taskGraph ->
-    if (taskGraph.allTasks.any { it instanceof Sign }) {
-        allprojects { ext."signing.keyId" = System.getenv('GPG_KEY_ID') }
-        allprojects { ext."signing.secretKeyRingFile" = System.getenv('GPG_KEY_LOCATION') }
-        allprojects { ext."signing.password" = System.getenv('GPG_PASSPHRASE') }
-    }
-    // Do not sign archives by default (a local build without gpg keyring should succeed)
-    if (taskGraph.allTasks.any { it.name == 'build' || it.name == 'assemble' }) {
-        tasks.findAll { it.name == 'signArchives' || it.name == 'signDocsJar' || it.name == 'signTestJar' }.each { task ->
-            task.enabled = false
-        }
+// We don't want local builds to have to depend on the signing process, so we disable
+// signing if the signing GPG key ID is not present.
+if (System.getenv('GPG_KEY_ID')) {
+    apply plugin: 'signing'
+
+    signing {
+        required { gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+        setRequired { required true }
     }
 }
-signing {
-    sign configurations.archives
-}
-
-build.dependsOn.remove(signArchives)
 
 artifacts {
     archives sourcesJar, javadocJar

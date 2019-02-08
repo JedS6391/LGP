@@ -14,49 +14,20 @@ env:
     # Because release builds work with tagged commits (which in our case will always be related to a branch),
     # we need to attempt to fetch the real branch name for a tagged commit.
     - REAL_BRANCH=$(git ls-remote origin | sed -n "\|$TRAVIS_COMMIT\s\+refs/heads/|{s///p}")
-    - GPG_KEY_LOCATION=".travis/secret.gpg"
-    - ENCRYPTED_GPG_KEY_LOCATION="./travis/secret.gpg.enc"
-    # SONATYPE_USERNAME
-    - secure: "wo6FpQDN37XLaset5v5rLp/kas+6NIvEtGzxyHwjQ+wWDy7pp5r7CBwzb/F7z4X5YWD5LKzKqXOdWpJrDvnBhuDoHihucepUFHkphqPcnUM/D8W+ceWe+PvwjmEBpnAYE5xdR++Iv0vofLymSAdZwLocX6OLLxtU9dMghrImOf1srBzn8PXoX2M4rt4B1mkVaWdgOXoZaVdkT/t1Tp/UVUyM1vJESoUGSfRhWEchyoWHJ+GIOFp6G5xdMVxDHt2WxqXeiwlX3vKb4CjPYqYcxs61ohNDadW5ot7LyzpJuCJxWwrjUlD7YNMiUflAANBr75ieHK33F9L4GLdzmOJ2kArFr4jW1L9x5I5CzST5YQ4tSUlkMn6lY8M3buS9j4BoljUA/BOP/dBB5/btozgLI9c0b8UVq0t1luCyHo2diQF0+f8GkBi9w2hTEL4ak5QckYTV0hVfwcFOX8Z5d3rjXhPBjd/18TnDd/UeIP5eUf6RlAVfBJdiatw7F8gGSjdIRByXBGJNV8SAloMFdIJgxdZNvQ2BBZ4y80VJM+KwnTiSS+zVJtmoXxnVAlRZE03yKUFVKCwrYHs2ZiHFfY97n+VQ6ytdAavSkiP5vKyRS4rjLdEAZzqwzIrPouD4cCNv1aYckEKyK7go2+Wt4UUihdDuKPJCzuPpBZ5qJ2e3paI="
-    # SONATYPE_PASSWORD
-    - secure: "FIUuNV1vpd7pfusvc4dMHfgNKZRZYQG9BLuCy3uSpKJqi6a3jhVKUUNXthC7FYKyo5qpJv3DNl4jlhaAZNKs8upVwX9XURDgGbS8MiPC/pxFK4Z3J/4GOjOC37cTq1ncYL9vd8tOtxr4+QAzob8E+KdqIBKSdPVDbOlM5+kdQez3uq+ZmEAq0T2VCj2j8rYHtCXrdpstdf94pU4k8Xyp68K/6hNE6+JxcvZhppL61QnN4u5Fti3tWo3HDkijtszyE49VgoKY8Qjcfv7j6RKQCFw7BW75Md3DOjEO7sAMq2Q9/c4fzJeJ956tmvMRHNQ5k15Zl2SeKzgbEI/AUKjVFJ+tWiRBOdk2SSidmD7EvQjUg85bIPOVT+aKjmbdXMT5+FUujY6lJkEi6MrjniJEgulDnn+xjeCQMT3G+Z3jobZrJNBPUrgqfttk6mc7MTGKEIHJxDkBn5H1sTSpEOypV22N/SS9M/j1o0kAE0w7I+KJcMgxxH/9igyHGsOrWju0DfEED+3xqVGs+HR2Mv5q54WPkSvwLASDj1380+GQSo//1n59IwllJDL7mdE6i6jzN7WnWcdppY/XwoXye31Vo2vqH/SH3+AMxIZFDZMwZkpLWm7WaH+wsBwKYuy9xUxXDj44uGEFg4eE4kJFgxg2KztQwFiXNGI1oOAstDHp+gY="
-    # GPG_KEY_ID
-    - secure: "tdPFz9ZWE7vus2qjJSNmKGCyRSP9ZEeMSuVMg9hniWPHSLo8fys4hiTADvoIc/9/UKUW10OMKwNUzpwalBV08uusxsvM5DiHYWs3tBadQp8cp5uSTkFtSmfod4JQbdue6F0DMOfxlT7dcg3Jg254lSFZCujxKr5VvCky1MF4vPQpvwo1jAwKQtXNdDRneF3M3PlME+//ynjKFQWYPFpm/8Fp4ON5iAJQLKByoVni4hSdcD5ha7yet6BLbnQsnEiUxsNsEnNO0rtpPfe981Z4K6J/Cz60qq3nSdJDmH0EP49ugJVSFkZ1iECFM/De/j9hnsn92QnDagPI6E8bwyTKxkoYzMOHXPtsmA1SoLlbtqiDrFa8fksXzXXN1bvhUpgE3vEJ1KNWZygQL72a+EnRqnRNivoqhc2M7JMhaU8U9Hb3WIKeJXZa4/T3cIRWdsMJlNtaMseNPmzzsRjgrKZMPNT/ZKYLc01bSQk2ng6oY4DoQq9N+f0xQixSN7pMLghKz+W3QfaqELqnQBugJWQiZsCxcxfVIZbl307LJQGGXCKdVNnqxc8LrhruhVXSZY25qKXgGRIL9ZVaLPvML0036r5GdjQ2TT7FISWNb1sXCAvMSvlfv/8LybShV2PgtGQqUxhEWdS2YCfx9FJKTF0VPPlZluhNEyT8bvx0SSM77Eg="
-    # GPG_PASSPHRASE
-    - secure: "EtaQF4URSwZE9nkZ4elohz5/JrEqtwa4mtYUaPUhbe7FVctrDUqHssqC/gx7A4bBZaReo6BjvAIrdRqMbR9teBfBXFaytjwBgxzzVTvOaA7CA4BZESJrwLN5EcRu98LCnUy/zzb1/SRhPyqPieWqfnarhnP5YVpkr0mLEVWtsqEIoedDwj3jJp5PUUdiCAGCCI1MugjeQ6wnlxIBjhVmwE6HyQmQvxUG5a5mM7oj5X19t5t6Ne/RpN/fZ44V/FP/M1dPCMlDRgJslS2ySnBVRmH9lo4VBJySJGUaAF15Xq6+yL1a0GY8qTJrhFUvxZDwYgbxhRN/fKqxbQR+YCk665EhNKJB4GkyNOHcoou/dTAuiwWG8wpGdgVwnWUxpnyfP5Z23d+Sg7b4uo/S9F+weefHRh/5Mi9aYChVV1jZvjjHB1u08g/r67Klfiq9Xz4ZeSvwEVY2+RGatIb+eSxisO6yHICSREeNLWh8p4pCeW2h5Lv62fRwd1svtfHYhRlZL2OcMz+pfZciiDA6gB7aVItGqvgi8aFmx8iO+t136GYrpielf5CzcOmNQrSCf/dXrK05BdPEWmz6Ht4h5/Gj4XqZqsfvVymCIlirU6ha1iRknyRHl34iwuIXiDtvAdNMJsa/7qHcOrrZsfuGEyc+qpVJqCPQeate4umTiWYepwQ="
 before_cache:
-- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 before_install:
   - chmod -R ug+x .travis
-  - .travis/install.sh
 script:
   - chmod -R ug+x .travis
   - .travis/build.sh
 before_deploy: bash .travis/deploy.sh $REAL_BRANCH $TRAVIS_TAG
 deploy:
-  # Deployment of master branch:
-  #   - Uses binary names from buildscript (will need to update whenever version of master is bumped after release).
-  #   - Deploys files to GitHub releases.
-  #   - Only deploys when a tag is pushed to the master branch.
-  #
-  # Note: This deployment should only happen when the release branch is merged into master and a new release branch is created.
-  - provider: releases
-    api_key:
-      secure: kODcZ0qyds33TRQVio0ZpDhxCh04/wXbSDnaYxYGTg+PRZ52PHuUO1cGpasGTWlMW2mxpmtY2zCfvlt8+YNf7qwTFsqSPbeMsaXkmybOunaib4eRsfdHSE5HzMK//WqCN9KDrxvItN/LqLwtxrSMbYdWnOpdmaUzgGusNwoMB7nY2xcZgTDCpO1o1zq2h95XGi0s/JqMNStziTegtVKQ1YshlNFwd9z5ytXNcfgxksuwSPl4smIX2sLZVQEWtupcNmQHfehJurBksYex1GvJfhii6DLi36m8gke1elnJDMXhppUKn1qUMmI/Hva6aHPqSX4q6yfMKP+qBN73fVhMVztv5uCAvH+r9Bl81W85gpN1aYPDfqjyqSgCy6UaOq0XdvBsZVqsQZpRX7/+U/Fz30B4+S16NCg/5eK6mSia4au8gqqmXFt3V5m7aT44vKNZXM+y6Fl5Nb/dI4MKV5Uv+2K1wS4db9fXNEgt3zYy8i+x5l2ig7jNPiJk/+rUwgIkt8g7RlHSDM/X1vGI2xgSdH/piGLARTWf6sw3r8zqMm3k8R77ajGy8bGyEvF4tsVflKQwLj/2x5rTHK8/l6arWfjcp5EpNuxkOgCpu135S8vQ7kEVmlMLqbjsRtwTvKSxDrZwFwhYUTphh3hDNtzXW9GAHv9GhJCbNghZS+gpAXM=
-    file:
-      - build/libs/LGP-core-$(gradle -q printVersion).jar
-      - build/libs/LGP-examples-$(gradle -q printVersion).jar
-    skip_cleanup: true
-    overwrite: true
-    on:
-      repo: JedS6391/LGP
-      condition: "$REAL_BRANCH = master"
-      tags: true
   # Deployment of next release branch:
   #   - Renames binaries to include release version.
   #   - Deploys files to GitHub releases.
@@ -76,22 +47,3 @@ deploy:
       all_branches: true
       condition: "$REAL_BRANCH =~ ^release.*$"
       tags: true
-  # Deployment of feature branches:
-  #   - Renames binaries to include feature branch name and date/time.
-  #   - Deploys files to public S3 bucket.
-  #   - Will create build for all actions on branch.
-  #   - Branch name must contain the word "feature".
-  #- provider: s3
-  #  access_key_id: "AKIAJANAJVHKT2QOGQUA"
-  #  secret_access_key:
-  #    secure: ri56TrWIVAdBYpfInma5weyfzB9boCqBOggrt0hXusNpcN+zyoNUzglQR3sDicLaC/OMulOLg0GnEIjIS2yjFyvVajN65XEg/zZ6QraW4jfAbAeArabgtnu53ap4F0HC0LXehG2GDT5TnbOAvu/Ec7mtiloEZrqnTjiVcVMhAogsqfuYTWaaiAtMDjP/QmHTOO3TR71B6NvONvnN8Pr5gQAGHnQA98au2E9kyZA0e/0YOutwPM9KAKz8Y0T6fpcbP5vNquFdJn3x0CqSBOnnlcF4jUybZeBa5+v4F6Bofswdo9L9GAUeZ4ISX8iZ+wIFd2SRaHeoVEhpRKnEe9h0gcRrmpGbcEwn246hHx2bvvfH3tiv9GJxFUNNMOmdQC1a9fu1yeKpMgJzjqX99JyBUK4wDsknTuQ9im922eD3cjW9r+qVq8ZhVhFGg5hx06mDxeZBgvKBF2zfviFijULk44uaMoWoBWQyQx0BqWs+oy1Y6YB716fUd4S0vdzV2e4JnuyMQL6FjVcIO7O9fgcSRA49R2iP6oinKTUtMyRr0LlQ2LUFkwx0JdSaQZoSwg2QSFHt6aOrREOCqNVe4McDIjThDV/JdpkJyEFpiKzSJqUvnTi7kTgDhNkJPsBdcvk4UsmYWnRZMtSu9FnZ0whK17yIXOMOCzRPoWsoWTNqjCE=
-  #  bucket: "lgp-feature-builds"
-  #  acl: public_read
-  #  api_key:
-  #    secure: kODcZ0qyds33TRQVio0ZpDhxCh04/wXbSDnaYxYGTg+PRZ52PHuUO1cGpasGTWlMW2mxpmtY2zCfvlt8+YNf7qwTFsqSPbeMsaXkmybOunaib4eRsfdHSE5HzMK//WqCN9KDrxvItN/LqLwtxrSMbYdWnOpdmaUzgGusNwoMB7nY2xcZgTDCpO1o1zq2h95XGi0s/JqMNStziTegtVKQ1YshlNFwd9z5ytXNcfgxksuwSPl4smIX2sLZVQEWtupcNmQHfehJurBksYex1GvJfhii6DLi36m8gke1elnJDMXhppUKn1qUMmI/Hva6aHPqSX4q6yfMKP+qBN73fVhMVztv5uCAvH+r9Bl81W85gpN1aYPDfqjyqSgCy6UaOq0XdvBsZVqsQZpRX7/+U/Fz30B4+S16NCg/5eK6mSia4au8gqqmXFt3V5m7aT44vKNZXM+y6Fl5Nb/dI4MKV5Uv+2K1wS4db9fXNEgt3zYy8i+x5l2ig7jNPiJk/+rUwgIkt8g7RlHSDM/X1vGI2xgSdH/piGLARTWf6sw3r8zqMm3k8R77ajGy8bGyEvF4tsVflKQwLj/2x5rTHK8/l6arWfjcp5EpNuxkOgCpu135S8vQ7kEVmlMLqbjsRtwTvKSxDrZwFwhYUTphh3hDNtzXW9GAHv9GhJCbNghZS+gpAXM=
-  #  local_dir: build/libs
-  #  skip_cleanup: true
-  #  on:
-  #    repo: JedS6391/LGP
-  #    all_branches: true
-  #    condition: "$TRAVIS_BRANCH =~ ^feature.*$"
