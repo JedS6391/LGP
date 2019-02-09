@@ -43,13 +43,6 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.opencsv/opencsv
     compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
-
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-
-    // For YAML parsing
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0'
-    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2'
-    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.2'
 }
 
 tasks.withType(JavaCompile) {
@@ -84,31 +77,12 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-// JAR for just examples package
-task examplesJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'LGP',
-                'Implementation-Version': version
-    }
-
-    include('lgp/examples/*')
-    include('lgp/examples/java/*')
-    exclude('lgp/core')
-    exclude('lgp/lib')
-
-    baseName = project.name + '-examples'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-
 // JAR for just core and lib packages (excluding examples)
 task coreJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LGP',
                 'Implementation-Version': version
     }
-
-    exclude('lgp/examples')
 
     baseName = project.name + '-core'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
