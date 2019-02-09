@@ -30,6 +30,9 @@ A JAR containing the core API can be downloaded from the [releases](https://gith
 curl -L https://github.com/JedS6391/LGP/releases/download/v-1.1/LGP-core-1.1.jar > LGP.jar
 ```
 
+Alternatively, you can reference the package as a dependency using the format appropriate for your package manager
+(see [here](https://search.maven.org/artifact/nz.co.jedsimson.lgp/LGP) for a full list).
+
 ## Usage
 
 The system is built using Kotlin and the easiest way to use it is through the Kotlin API. Instructions for installation and usage of the Kotlin compiler, `kotlinc`, can be found for the [Command Line](https://kotlinlang.org/docs/tutorials/command-line.html) or [IntelliJ IDEA](https://kotlinlang.org/docs/tutorials/getting-started.html). 
