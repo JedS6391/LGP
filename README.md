@@ -61,7 +61,7 @@ Assuming that `kotlinc` is installed and available at the command line, the firs
 
 Next, create a blank Kotlin file that will contain the problem definition --- typically this would have a filename matching that of the problem:
 
-```
+```bash
 touch MyProblem.kt
 ```
 
@@ -69,7 +69,7 @@ We're not going to fully define the problem as that would be a needlessly extens
 
 In `MyProblem.kt`, enter the following content:
 
-```
+```kotlin
 import nz.co.jedsimson.lgp.core.environment.config.Configuration
 import nz.co.jedsimson.lgp.core.evolution.Description
 import nz.co.jedsimson.lgp.lib.base.BaseProblem
@@ -93,19 +93,19 @@ Here, we use the `BaseProblem` implementation to use a default set of parameters
 
 To compile, we use `kotlinc`:
 
-```
+```bash
 kotlinc -cp LGP-core.jar:LGP-lib.jar -no-jdk -no-stdlib MyProblem.kt
 ```
 
 This will generate a class file in the directory called `MyProblemKt.class`. To interpret the class file using the Kotlin interpreter is simple:
 
-```
+```bash
 kotlin -cp LGP.jar:LGP-lib.jar:. MyProblemKt
 ```
 
 You should see the following output:
 
-```
+```text
 My Problem
 Description(description=A simple example problem definition)
 ```
