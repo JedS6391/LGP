@@ -70,17 +70,16 @@ We're not going to fully define the problem as that would be a needlessly extens
 In `MyProblem.kt`, enter the following content:
 
 ```
-import lgp.core.environment.config.Configuration
-import lgp.core.evolution.Description
-import lgp.lib.BaseProblem
-import lgp.lib.BaseProblemParameters
+import nz.co.jedsimson.lgp.core.environment.config.Configuration
+import nz.co.jedsimson.lgp.core.evolution.Description
+import nz.co.jedsimson.lgp.lib.base.BaseProblem
+import nz.co.jedsimson.lgp.lib.base.BaseProblemParameters
 
 fun main(args: Array<String>) {
     val parameters = BaseProblemParameters(
-            name = "My Problem",
-            description = Description("A simple example problem definition"),
-            // A problem will generally need custom configuration
-            config = Config()
+        name = "My Problem",
+        description = Description("A simple example problem definition"),
+        config = Configuration()
     )
 
     val problem = BaseProblem(parameters)
