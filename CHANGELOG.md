@@ -1,5 +1,16 @@
 # Change Log
 
+## [v-4.2](https://github.com/JedS6391/LGP/tree/4.2) (2019-02-09)
+
+**Breaking changes:**
+
+- The `nz.co.jedsimson.lgp.lib` and `nz.co.jedsimson.lgp.examples` packages have been removed and split into their own modules:
+    - [`nz.co.jedsimson.lgp.lib`](https://github.com/JedS6391/LGP-lib)
+    - [`nz.co.jedsimson.lgp.examples`](https://github.com/JedS6391/LGP-examples)
+    
+If you are relying on these then please reference LGP core as well as the modules you require and change the package 
+names as required. This should be a relatively minor breaking change (as far as breaking changes go).
+
 ## [v-4.1](https://github.com/JedS6391/LGP/tree/4.1) (2019-02-09)
 
 **Changes:**

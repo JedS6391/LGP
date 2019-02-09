@@ -39,7 +39,6 @@ deploy:
       secure: kODcZ0qyds33TRQVio0ZpDhxCh04/wXbSDnaYxYGTg+PRZ52PHuUO1cGpasGTWlMW2mxpmtY2zCfvlt8+YNf7qwTFsqSPbeMsaXkmybOunaib4eRsfdHSE5HzMK//WqCN9KDrxvItN/LqLwtxrSMbYdWnOpdmaUzgGusNwoMB7nY2xcZgTDCpO1o1zq2h95XGi0s/JqMNStziTegtVKQ1YshlNFwd9z5ytXNcfgxksuwSPl4smIX2sLZVQEWtupcNmQHfehJurBksYex1GvJfhii6DLi36m8gke1elnJDMXhppUKn1qUMmI/Hva6aHPqSX4q6yfMKP+qBN73fVhMVztv5uCAvH+r9Bl81W85gpN1aYPDfqjyqSgCy6UaOq0XdvBsZVqsQZpRX7/+U/Fz30B4+S16NCg/5eK6mSia4au8gqqmXFt3V5m7aT44vKNZXM+y6Fl5Nb/dI4MKV5Uv+2K1wS4db9fXNEgt3zYy8i+x5l2ig7jNPiJk/+rUwgIkt8g7RlHSDM/X1vGI2xgSdH/piGLARTWf6sw3r8zqMm3k8R77ajGy8bGyEvF4tsVflKQwLj/2x5rTHK8/l6arWfjcp5EpNuxkOgCpu135S8vQ7kEVmlMLqbjsRtwTvKSxDrZwFwhYUTphh3hDNtzXW9GAHv9GhJCbNghZS+gpAXM=
     file:
       - build/libs/LGP-core-$TRAVIS_TAG-$(date +%Y-%m-%d).jar
-      - build/libs/LGP-examples-$TRAVIS_TAG-$(date +%Y-%m-%d).jar
     skip_cleanup: true
     overwrite: true
     on:

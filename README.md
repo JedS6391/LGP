@@ -7,7 +7,6 @@
 [![build][travis-image]][travis-url]
 [![maven][maven-image]][maven-url]
 
-
 ## About
 
 An implementation of [Linear Genetic Programming](https://en.wikipedia.org/wiki/Linear_genetic_programming) that follows that outlined by *Linear Genetic Programming* (Brameier, M. F. and Banzhaf, W. 2007).
@@ -29,6 +28,9 @@ A JAR containing the core API can be downloaded from the [releases](https://gith
 ```
 curl -L https://github.com/JedS6391/LGP/releases/download/v-1.1/LGP-core-1.1.jar > LGP.jar
 ```
+
+Alternatively, you can reference the package as a dependency using the format appropriate for your package manager
+(see [here](https://search.maven.org/artifact/nz.co.jedsimson.lgp/LGP) for a full list).
 
 ## Usage
 
