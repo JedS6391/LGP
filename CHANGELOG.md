@@ -1,5 +1,21 @@
 # Change Log
 
+## [v-4.1](https://github.com/JedS6391/LGP/tree/4.1) (2019-02-09)
+
+**Changes:**
+
+- `BaseProgramGenerator` now only generates random program instances
+- `EffectiveProgramGenerator` can be used to generate effective program instances
+
+**Fixes:**
+
+- The algorithm used for generating effective program instances would previously not always generate effective programs.
+
+**Additions:**
+
+- Added `RandomRegisterGenerator<T>.getRandomInputAndCalculationRegisters()` helper method for getting a given number
+  of input and calculation registers (with a random distribution).
+
 ## [v-4.0](https://github.com/JedS6391/LGP/tree/4.0) (2019-02-06)
 
 **Breaking changes:**

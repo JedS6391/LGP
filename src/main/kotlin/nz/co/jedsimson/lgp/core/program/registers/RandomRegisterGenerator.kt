@@ -1,5 +1,6 @@
 package nz.co.jedsimson.lgp.core.program.registers
 
+import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
 import java.util.Random
 
 /**
@@ -53,4 +54,24 @@ class RandomRegisterGenerator<T>(val randomState: Random, val registerSet: Regis
             this.registerSet.registerType(r.index) == (if (predicate()) a else b)
         }
     }
+}
+
+/**
+ * Gets [count] registers with a random distribution of [RegisterType.Input] and [RegisterType.Calculation].
+ *
+ * @param count The number of registers to generate.
+ */
+fun <TRegister> RandomRegisterGenerator<TRegister>.getRandomInputAndCalculationRegisters(
+    count: Int
+): MutableList<RegisterIndex> {
+    val registers = this.next(
+        a = RegisterType.Calculation,
+        b = RegisterType.Input,
+        // 50% probability of an input or calculation register
+        predicate = { this.randomState.nextDouble() < 0.5 }
+    )
+    .take(count)
+    .map(Register<TRegister>::index)
+
+    return registers.toMutableList()
 }
