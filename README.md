@@ -7,7 +7,6 @@
 [![build][travis-image]][travis-url]
 [![maven][maven-image]][maven-url]
 
-
 ## About
 
 An implementation of [Linear Genetic Programming](https://en.wikipedia.org/wiki/Linear_genetic_programming) that follows that outlined by *Linear Genetic Programming* (Brameier, M. F. and Banzhaf, W. 2007).
