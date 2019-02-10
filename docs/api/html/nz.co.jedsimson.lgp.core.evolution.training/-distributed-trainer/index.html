@@ -1,0 +1,99 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>DistributedTrainer - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.evolution.training</a>&nbsp;/&nbsp;<a href="./index.html">DistributedTrainer</a><br/>
+<br/>
+<h1>DistributedTrainer</h1>
+<code><span class="keyword">class </span><span class="identifier">DistributedTrainer</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-trainer/index.html"><span class="identifier">Trainer</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="../-training-messages/-progress-update/index.html"><span class="identifier">ProgressUpdate</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Trains the model for a given number of runs, in a parallel manner.</p>
+<p>The model will be copied <a href="runs.html">runs</a> time and each copy will be trained in
+its own thread. The results of each model evaluation will be gathered
+once all the threads complete.</p>
+<p>This runner has significant overhead compared to the <a href="../-sequential-trainer/index.html">SequentialTrainer</a>, due
+to the extra memory needed for evaluating multiple models at once, as well as
+the overhead of the threads used.</p>
+<p>It should be noted that this trainer will create <a href="runs.html">runs</a> copies of the environment --
+one for each model. This allows each model to have its own environment which can be
+isolated within the thread it is executed. This is mainly done to facilitate deterministic
+multi-threaded training, where it is necessary to make 100% sure that any state shared between
+threads does not affect the outcome of the training.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">DistributedTrainer</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer$<init>(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), kotlin.Int)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer$<init>(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), kotlin.Int)/model">model</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer$<init>(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), kotlin.Int)/runs">runs</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span></code>
+<p>Trains the model for a given number of runs, in a parallel manner.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="runs.html">runs</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">runs</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>The number of times to train the given model.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-trainer/environment.html">environment</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../nz.co.jedsimson.lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="../-trainer/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="../-trainer/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
+<p>The environment evolution is performed within.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-trainer/model.html">model</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">model</span><span class="symbol">: </span><a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="../-trainer/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="../-trainer/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
+<p>The model of evolution to use.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="train.html">train</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">train</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer$train(nz.co.jedsimson.lgp.core.environment.dataset.Dataset((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-training-result/index.html"><span class="identifier">TrainingResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
+<p>Builds <a href="runs.html">runs</a> different models on the training set, training them in parallel.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="train-async.html">trainAsync</a></p>
+</td>
+<td>
+<code><span class="keyword">suspend</span> <span class="keyword">fun </span><span class="identifier">trainAsync</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer$trainAsync(nz.co.jedsimson.lgp.core.environment.dataset.Dataset((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram)))/dataset">dataset</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-distributed-training-job/index.html"><span class="identifier">DistributedTrainingJob</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
+<p>Asynchronously builds <a href="runs.html">runs</a> different models on the training set, training them in parallel.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

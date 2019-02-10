@@ -1,0 +1,26 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>DistributedTrainer.<init> - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.evolution.training</a>&nbsp;/&nbsp;<a href="index.html">DistributedTrainer</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer$&lt;init&gt;(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), kotlin.Int)"></a>
+<code><span class="identifier">DistributedTrainer</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer$<init>(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), kotlin.Int)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer$<init>(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), kotlin.Int)/model">model</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer$<init>(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel((nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TProgram, nz.co.jedsimson.lgp.core.evolution.training.DistributedTrainer.TOutput)), kotlin.Int)/runs">runs</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span></code>
+<p>Trains the model for a given number of runs, in a parallel manner.</p>
+<p>The model will be copied <a href="runs.html">runs</a> time and each copy will be trained in
+its own thread. The results of each model evaluation will be gathered
+once all the threads complete.</p>
+<p>This runner has significant overhead compared to the <a href="../-sequential-trainer/index.html">SequentialTrainer</a>, due
+to the extra memory needed for evaluating multiple models at once, as well as
+the overhead of the threads used.</p>
+<p>It should be noted that this trainer will create <a href="runs.html">runs</a> copies of the environment --
+one for each model. This allows each model to have its own environment which can be
+isolated within the thread it is executed. This is mainly done to facilitate deterministic
+multi-threaded training, where it is necessary to make 100% sure that any state shared between
+threads does not affect the outcome of the training.</p>
+</BODY>
+</HTML>

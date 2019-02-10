@@ -1,30 +1,23 @@
 $dokka.format:html
 $dokka.linkExtension:html
-$dokka.location:lgp.core.evolution.model$pairwise(kotlin.collections.List((lgp.core.evolution.model.pairwise.T)))lgp.core.evolution.model/kotlin.collections.-list/pairwise.html
-$dokka.location:lgp.core.evolution.model$pmap(kotlin.collections.List((lgp.core.evolution.model.pmap.T)), kotlin.Function1((lgp.core.evolution.model.pmap.T, lgp.core.evolution.model.pmap.R)))lgp.core.evolution.model/kotlin.collections.-list/pmap.html
-$dokka.location:lgp.core.evolution.model$standardDeviation(kotlin.collections.List((kotlin.Double)), kotlin.Double)lgp.core.evolution.model/kotlin.collections.-list/standard-deviation.html
-$dokka.location:lgp.core.evolution.operators$choice(java.util.Random, kotlin.collections.List((lgp.core.evolution.operators.choice.T)))lgp.core.evolution.operators/java.util.-random/choice.html
-$dokka.location:lgp.core.evolution.operators$randInt(java.util.Random, kotlin.Int, kotlin.Int)lgp.core.evolution.operators/java.util.-random/rand-int.html
-$dokka.location:lgp.core.evolution.operators$sample(java.util.Random, kotlin.collections.List((lgp.core.evolution.operators.sample.T)), kotlin.Int)lgp.core.evolution.operators/java.util.-random/sample.html
-$dokka.location:lgp.core.evolution.operators$slice(kotlin.collections.MutableList((lgp.core.evolution.operators.slice.T)), kotlin.ranges.IntRange)lgp.core.evolution.operators/kotlin.collections.-mutable-list/slice.html
-$dokka.location:lgp.lib.operations$toBoolean(kotlin.Double)lgp.lib.operations/kotlin.-double/to-boolean.html
-$dokka.location:lgp.lib.operations$toDouble(kotlin.Boolean)lgp.lib.operations/kotlin.-boolean/to-double.html
-lgp.core.environment
-lgp.core.environment.config
-lgp.core.environment.constants
-lgp.core.environment.dataset
-lgp.core.environment.operations
-lgp.core.evolution
-lgp.core.evolution.fitness
-lgp.core.evolution.model
-lgp.core.evolution.operators
-lgp.core.evolution.training
-lgp.core.modules
-lgp.core.program
-lgp.core.program.instructions
-lgp.core.program.registers
-lgp.examples
-lgp.examples.java
-lgp.lib
-lgp.lib.misc
-lgp.lib.operations
+$dokka.location:nz.co.jedsimson.lgp.core.evolution.model$pairwise(kotlin.collections.List((nz.co.jedsimson.lgp.core.evolution.model.pairwise.T)))nz.co.jedsimson.lgp.core.evolution.model/kotlin.collections.-list/pairwise.html
+$dokka.location:nz.co.jedsimson.lgp.core.evolution.model$pmap(kotlin.collections.List((nz.co.jedsimson.lgp.core.evolution.model.pmap.T)), kotlin.Function1((nz.co.jedsimson.lgp.core.evolution.model.pmap.T, nz.co.jedsimson.lgp.core.evolution.model.pmap.R)))nz.co.jedsimson.lgp.core.evolution.model/kotlin.collections.-list/pmap.html
+$dokka.location:nz.co.jedsimson.lgp.core.evolution.model$standardDeviation(kotlin.collections.List((kotlin.Double)), kotlin.Double)nz.co.jedsimson.lgp.core.evolution.model/kotlin.collections.-list/standard-deviation.html
+$dokka.location:nz.co.jedsimson.lgp.core.evolution.operators$choice(java.util.Random, kotlin.collections.List((nz.co.jedsimson.lgp.core.evolution.operators.choice.T)))nz.co.jedsimson.lgp.core.evolution.operators/java.util.-random/choice.html
+$dokka.location:nz.co.jedsimson.lgp.core.evolution.operators$randInt(java.util.Random, kotlin.Int, kotlin.Int)nz.co.jedsimson.lgp.core.evolution.operators/java.util.-random/rand-int.html
+$dokka.location:nz.co.jedsimson.lgp.core.evolution.operators$sample(java.util.Random, kotlin.collections.List((nz.co.jedsimson.lgp.core.evolution.operators.sample.T)), kotlin.Int)nz.co.jedsimson.lgp.core.evolution.operators/java.util.-random/sample.html
+$dokka.location:nz.co.jedsimson.lgp.core.evolution.operators$slice(kotlin.collections.MutableList((nz.co.jedsimson.lgp.core.evolution.operators.slice.T)), kotlin.ranges.IntRange)nz.co.jedsimson.lgp.core.evolution.operators/kotlin.collections.-mutable-list/slice.html
+nz.co.jedsimson.lgp.core.environment
+nz.co.jedsimson.lgp.core.environment.config
+nz.co.jedsimson.lgp.core.environment.constants
+nz.co.jedsimson.lgp.core.environment.dataset
+nz.co.jedsimson.lgp.core.environment.operations
+nz.co.jedsimson.lgp.core.evolution
+nz.co.jedsimson.lgp.core.evolution.fitness
+nz.co.jedsimson.lgp.core.evolution.model
+nz.co.jedsimson.lgp.core.evolution.operators
+nz.co.jedsimson.lgp.core.evolution.training
+nz.co.jedsimson.lgp.core.modules
+nz.co.jedsimson.lgp.core.program
+nz.co.jedsimson.lgp.core.program.instructions
+nz.co.jedsimson.lgp.core.program.registers

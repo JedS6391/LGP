@@ -1,0 +1,93 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GenericConstantLoader - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.environment.constants</a>&nbsp;/&nbsp;<a href="./index.html">GenericConstantLoader</a><br/>
+<br/>
+<h1>GenericConstantLoader</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GenericConstantLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-constant-loader.html"><span class="identifier">ConstantLoader</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>An implementation of <a href="../-constant-loader.html">ConstantLoader</a> that can load raw constants into a specified type.</p>
+<p>The type parameter controls what type the raw constants should be converted into, using a
+suitable parsing function. This function will be used to map raw constant values to a value
+in the domain of the type parameter.</p>
+<p><strong>NOTE:</strong> This implementation caches the results of loading constants, because the loader
+is immutable - that is, once it is created it can not be altered to load a different set of
+constants. This is to ensure that the set of constants does not change within an LGP run.</p>
+<h3>Parameters</h3>
+<p><a name="T"></a>
+<code>T</code> - The type to load constants as.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-builder/index.html">Builder</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Builder</span><span class="symbol">&lt;</span><span class="identifier">U</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment/-component-loader-builder/index.html"><span class="identifier">ComponentLoaderBuilder</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">GenericConstantLoader</span></a><span class="symbol">&lt;</span><a href="-builder/index.html#U"><span class="identifier">U</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>A custom <a href="../../nz.co.jedsimson.lgp.core.environment/-component-loader-builder/index.html">ComponentLoaderBuilder</a> implementation for building a <a href="./index.html">GenericConstantLoader</a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">GenericConstantLoader</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.environment.constants.GenericConstantLoader$<init>(kotlin.collections.List((kotlin.String)), kotlin.Function1((kotlin.String, nz.co.jedsimson.lgp.core.environment.constants.GenericConstantLoader.T)))/constants">constants</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.environment.constants.GenericConstantLoader$<init>(kotlin.collections.List((kotlin.String)), kotlin.Function1((kotlin.String, nz.co.jedsimson.lgp.core.environment.constants.GenericConstantLoader.T)))/parseFunction">parseFunction</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span></code>
+<p>An implementation of <a href="../-constant-loader.html">ConstantLoader</a> that can load raw constants into a specified type.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="information.html">information</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../nz.co.jedsimson.lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
+<p>Provides information about the module.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="load.html">load</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">load</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Loads a collection of constants.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-double-constant-loader/index.html">DoubleConstantLoader</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DoubleConstantLoader</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">GenericConstantLoader</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a><span class="symbol">&gt;</span></code>
+<p>An implementation of <a href="../-constant-loader.html">ConstantLoader</a> that loads constants as a collection of <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a>s.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

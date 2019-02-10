@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SequentialTrainingJob - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.evolution.training</a>&nbsp;/&nbsp;<a href="./index.html">SequentialTrainingJob</a><br/>
+<br/>
+<h1>SequentialTrainingJob</h1>
+<code><span class="keyword">class </span><span class="identifier">SequentialTrainingJob</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-training-job/index.html"><span class="identifier">TrainingJob</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="../-training-messages/-progress-update/index.html"><span class="identifier">ProgressUpdate</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Represents an asynchronous sequential training operation.</p>
+<p>When using the built-in <a href="../-sequential-trainer/index.html">SequentialTrainer</a> implementations in an asynchronous manner, a <a href="./index.html">SequentialTrainingJob</a>
+will be returned which provides mechanisms to retrieve the <a href="../-training-result/index.html">TrainingResult</a> and subscribe to <a href="../-training-update-message.html">TrainingUpdateMessage</a>s
+sent from the <a href="../-sequential-trainer/index.html">SequentialTrainer</a>.</p>
+<h3>Parameters</h3>
+<p><a name="trainingUpdateChannel"></a>
+<code>trainingUpdateChannel</code> - A channel that can be used to communicate from the trainer to subscribers.</p>
+<p><a name="training"></a>
+<code>training</code> - A deferred training result.</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="result.html">result</a></p>
+</td>
+<td>
+<code><span class="keyword">suspend</span> <span class="keyword">fun </span><span class="identifier">result</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-training-result/index.html"><span class="identifier">TrainingResult</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span></code>
+<p>Retrieves the result of training.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="subscribe-to-updates.html">subscribeToUpdates</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">subscribeToUpdates</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.training.SequentialTrainingJob$subscribeToUpdates(kotlin.Function1((nz.co.jedsimson.lgp.core.evolution.training.TrainingMessages.ProgressUpdate((nz.co.jedsimson.lgp.core.evolution.training.SequentialTrainingJob.TProgram, nz.co.jedsimson.lgp.core.evolution.training.SequentialTrainingJob.TOutput)), kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-training-messages/-progress-update/index.html"><span class="identifier">ProgressUpdate</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Subscribes a <a href="subscribe-to-updates.html#nz.co.jedsimson.lgp.core.evolution.training.SequentialTrainingJob$subscribeToUpdates(kotlin.Function1((nz.co.jedsimson.lgp.core.evolution.training.TrainingMessages.ProgressUpdate((nz.co.jedsimson.lgp.core.evolution.training.SequentialTrainingJob.TProgram, nz.co.jedsimson.lgp.core.evolution.training.SequentialTrainingJob.TOutput)), kotlin.Unit)))/callback">callback</a> function that will be executed each time a <a href="../-training-update-message.html">TrainingUpdateMessage</a> is received.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
