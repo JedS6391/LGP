@@ -1,0 +1,22 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>BinaryTournamentSelection.<init> - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.evolution.operators</a>&nbsp;/&nbsp;<a href="index.html">BinaryTournamentSelection</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection$&lt;init&gt;(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection.TProgram, nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection.TOutput)), kotlin.Int)"></a>
+<code><span class="identifier">BinaryTournamentSelection</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection$<init>(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection.TProgram, nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection.TOutput)), kotlin.Int)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment/-environment/index.html"><span class="identifier">Environment</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection$<init>(nz.co.jedsimson.lgp.core.environment.Environment((nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection.TProgram, nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection.TOutput)), kotlin.Int)/tournamentSize">tournamentSize</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span></code>
+<p>Performs Binary Tournament Selection as described in Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).</p>
+<p>The steps involved are:</p>
+<ol><li>Randomly select 2 * N_ts individuals from the population without replacement.</li>
+<li>Perform two fitness tournaments of size N_ts.</li>
+</ol>
+<p>The algorithm removes each tournament winner from the population, meaning that the original
+population given will have it's size decreased by 2 (due to two fitness tournaments),
+and 2 winners will be produced.</p>
+</BODY>
+</HTML>

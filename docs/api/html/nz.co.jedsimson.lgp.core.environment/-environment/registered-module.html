@@ -1,0 +1,31 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Environment.registeredModule - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.environment</a>&nbsp;/&nbsp;<a href="index.html">Environment</a>&nbsp;/&nbsp;<a href="./registered-module.html">registeredModule</a><br/>
+<br/>
+<h1>registeredModule</h1>
+<a name="nz.co.jedsimson.lgp.core.environment.Environment$registeredModule(nz.co.jedsimson.lgp.core.environment.RegisteredModuleType)"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="keyword">reified</span>&nbsp;<span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">registeredModule</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.environment.Environment$registeredModule(nz.co.jedsimson.lgp.core.environment.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="registered-module.html#TModule"><span class="identifier">TModule</span></a></code>
+<p>Fetches an instance of the module registered for a particular module type.</p>
+<p>The environment assumes that a module type will have a builder registered to
+if it is being requested. If this fails, then a <a href="../-missing-module-exception/index.html">MissingModuleException</a> will
+be thrown, indicating that an instance of a particular module type was requested
+but could not fulfilled.</p>
+<p>Usually, the type parameter needn't be explicitly given, as it can be inferred
+from the type of value the result is being assigned to.</p>
+<h3>Parameters</h3>
+<p><a name="type"></a>
+<code>type</code> - The type of registered module to fetch.</p>
+<p><a name="TModule"></a>
+<code>TModule</code> - The type the module will be cast as.</p>
+<h3>Exceptions</h3>
+<p><a name="MissingModuleException"></a>
+<code>MissingModuleException</code> - When no builder has been registered for the type of module requested.</p>
+<p><strong>Return</strong><br/>
+An instance of the module registered for the given module type.</p>
+</BODY>
+</HTML>

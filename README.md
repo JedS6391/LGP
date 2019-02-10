@@ -23,26 +23,45 @@ If you find the system useful or have any queries, please feel free to:
 
 ## Installation
 
-A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/download/v-1.1/LGP-core-1.1.jar) page. The command below can be used to download the JAR from a terminal so that development against the API can begin:
+A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/) page. Each version will have it's artefact uploaded here.
 
-```
-curl -L https://github.com/JedS6391/LGP/releases/download/v-1.1/LGP-core-1.1.jar > LGP.jar
-```
+Alternatively, the package is available on Maven central, so you can reference the package as a dependency using the format appropriate for your package manager (see [here](https://search.maven.org/artifact/nz.co.jedsimson.lgp/LGP) for a full list). For example, to add to an existing Gradle build script:
 
-Alternatively, you can reference the package as a dependency using the format appropriate for your package manager
-(see [here](https://search.maven.org/artifact/nz.co.jedsimson.lgp/LGP) for a full list).
+```gradle
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "nz.co.jedsimson.lgp:LGP:<VERSION>"
+    // To get the full source, include the sources package
+    compile "nz.co.jedsimson.lgp:LGP:<VERSION>:sources"
+}
+```
 
 ## Usage
 
+### Examples
+
+A set of example usages can be found in the [LGP-examples](https://github.com/JedS6391/LGP-examples) repository. The examples cover a few different problem configurations, including:
+
+- Programs with a single or multiple outputs
+- Reading dataset from a file
+- Generating a dataset
+- Custom fitness functions
+- Usage from Java
+
+### Getting started
+
 The system is built using Kotlin and the easiest way to use it is through the Kotlin API. Instructions for installation and usage of the Kotlin compiler, `kotlinc`, can be found for the [Command Line](https://kotlinlang.org/docs/tutorials/command-line.html) or [IntelliJ IDEA](https://kotlinlang.org/docs/tutorials/getting-started.html). 
 
-Here, we'll focus on how to use the system through Kotlin (particularly from the command line) but documentation is provided for using the API through Java.
+Here, we'll focus on how to use the system through Kotlin (particularly from the command line) but documentation is provided for using the API through Java. This guide assumes you want to directly use the JAR file and not through another build system.
 
-Assuming that `kotlinc` is installed and available at the command line, the first step is to download the core API JAR file as described in the *Installation* section.
+Assuming that `kotlinc` is installed and available at the command line, the first step is to download the core API JAR file as described in the *Installation* section. You will also want to download the [LGP-lib](https://github.com/JedS6391/LGP-lib/releases) package which provides implementations of core components, particularly `BaseProblem` which we will use in this example.
 
 Next, create a blank Kotlin file that will contain the problem definition --- typically this would have a filename matching that of the problem:
 
-```
+```bash
 touch MyProblem.kt
 ```
 
@@ -50,18 +69,17 @@ We're not going to fully define the problem as that would be a needlessly extens
 
 In `MyProblem.kt`, enter the following content:
 
-```
-import lgp.core.environment.config.Configuration
-import lgp.core.evolution.Description
-import lgp.lib.BaseProblem
-import lgp.lib.BaseProblemParameters
+```kotlin
+import nz.co.jedsimson.lgp.core.environment.config.Configuration
+import nz.co.jedsimson.lgp.core.evolution.Description
+import nz.co.jedsimson.lgp.lib.base.BaseProblem
+import nz.co.jedsimson.lgp.lib.base.BaseProblemParameters
 
 fun main(args: Array<String>) {
     val parameters = BaseProblemParameters(
-            name = "My Problem",
-            description = Description("A simple example problem definition"),
-            // A problem will generally need custom configuration
-            config = Config()
+        name = "My Problem",
+        description = Description("A simple example problem definition"),
+        config = Configuration()
     )
 
     val problem = BaseProblem(parameters)
@@ -75,31 +93,21 @@ Here, we use the `BaseProblem` implementation to use a default set of parameters
 
 To compile, we use `kotlinc`:
 
-```
-kotlinc -cp LGP.jar -no-jdk -no-stdlib MyProblem.kt
+```bash
+kotlinc -cp LGP-core.jar:LGP-lib.jar -no-jdk -no-stdlib MyProblem.kt
 ```
 
 This will generate a class file in the directory called `MyProblemKt.class`. To interpret the class file using the Kotlin interpreter is simple:
 
-```
-kotlin -cp LGP.jar:. MyProblemKt
+```bash
+kotlin -cp LGP.jar:LGP-lib.jar:. MyProblemKt
 ```
 
 You should see the following output:
 
-```
+```text
 My Problem
 Description(description=A simple example problem definition)
-```
-
-Alternatively, the same result can be achieved by setting the destination to another JAR file and executing using the Java interpreter:
-
-```
-# Compile to a JAR using kotlinc 
-kotlinc -cp LGP.jar -no-jdk -no-stdlib -d MyProblem.jar MyProblem.kt
-
-# Use the Java interpreter to execute the main function
-java -cp LGP.jar:MyProblem.jar MyProblemKt
 ```
 
 Please refer to the [usage guide](http://lgp.readthedocs.io/en/latest/guide/usage.html#with-java) for instructions on using the API from the context of a Java program.
