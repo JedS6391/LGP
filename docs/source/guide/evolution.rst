@@ -93,4 +93,4 @@ An environment provides a context for evolution, and we can build a model within
 API
 ===
 
-See `lgp.core.evolution.population/EvolutionModel. <https://jeds6391.github.io/LGP/api/html/lgp.core.evolution.population/-evolution-model/index.html>`_
+See `nz.co.jedsimson.lgp.core.evolution.model. <https://lgp.jedsimson.co.nz/api/html/nz.co.jedsimson.lgp.core.evolution.model/index.html>`_
