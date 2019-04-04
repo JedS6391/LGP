@@ -23,7 +23,9 @@ If you find the system useful or have any queries, please feel free to:
 
 ## Installation
 
-A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/) page. Each version will have it's artefact uploaded here.
+<small>*Note: The LGP framework requires JDK 8 (Java 1.8).*</small>
+
+A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/) page. Each version will have its artefact uploaded here.
 
 Alternatively, the package is available on Maven central, so you can reference the package as a dependency using the format appropriate for your package manager (see [here](https://search.maven.org/artifact/nz.co.jedsimson.lgp/LGP) for a full list). For example, to add to an existing Gradle build script:
 

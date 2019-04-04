@@ -6,13 +6,21 @@ The system is built using Kotlin and the easiest way to use it is through the Ko
 Installation
 ============
 
-A JAR containing the core API can be downloaded from the GitHub `releases <https://github.com/JedS6391/LGP/releases/download/v-1.1/LGP-core-1.1.jar>`_ page. The command below can be used to download the JAR from a terminal so that development against the API can begin:
+.. warning:: The LGP framework requires JDK 8 (Java 1.8).
+
+A JAR containing the core API can be downloaded from the GitHub `releases <https://github.com/JedS6391/LGP/releases/tag/4.2>`_ page. The command below can be used to download the JAR from a terminal so that development against the API can begin:
 
 .. code-block:: bash
 
-    curl -L https://github.com/JedS6391/LGP/releases/download/v-1.1/LGP-core-1.1.jar > LGP.jar
+    curl -L https://github.com/JedS6391/LGP/releases/download/4.2/LGP-core-4.2-2019-02-09.jar > LGP-core.jar
 
-.. note:: This command will download the most up-to-date release. For other releases, please see the `GitHub releases page <https://github.com/JedS6391/LGP/releases>`_.
+We also need the latest copy of the base LGP implementations, provided in the `LGP-lib repository <https://github.com/JedS6391/LGP-lib/releases/tag/1.1>`_. The command below can be used to download the JAR from a terminal:
+
+.. code-block:: bash
+
+    curl -L https://github.com/JedS6391/LGP-lib/releases/download/1.1/LGP-lib-1.1-2019-02-09.jar > LGP-lib.jar
+
+.. note:: These command will download the most up-to-date releases as of publishing this guide. For other releases, please see the GitHub releases pages (`LGP-core <https://github.com/JedS6391/LGP/releases>`_ and `LGP-lib <https://github.com/JedS6391/LGP-lib/releases>`_).
 
 With Kotlin
 ===========
@@ -33,10 +41,10 @@ In ``MyProblem.kt``, enter the following content:
 
 .. code-block:: kotlin
 
-    import lgp.core.environment.config.Config
-    import lgp.core.evolution.Description
-    import lgp.lib.BaseProblem
-    import lgp.lib.BaseProblemParameters
+    import nz.co.jedsimson.lgp.core.environment.config.Configuration
+    import nz.co.jedsimson.lgp.core.evolution.Description
+    import nz.co.jedsimson.lgp.lib.base.BaseProblem
+    import nz.co.jedsimson.lgp.lib.base.BaseProblemParameters
 
     fun main(args: Array<String>) {
         val parameters = BaseProblemParameters(
@@ -45,7 +53,7 @@ In ``MyProblem.kt``, enter the following content:
                 "A simple example problem definition"
             ),
             // A problem will generally need custom configuration
-            config = Config()
+            config = Configuration()
         )
 
         val problem = BaseProblem(parameters)
@@ -80,10 +88,10 @@ Alternatively, the same result can be achieved by setting the destination to ano
 .. code-block:: bash
 
     # Compile to a JAR using kotlinc
-    kotlinc -cp LGP.jar -no-jdk -no-stdlib -d MyProblem.jar MyProblem.kt
+    kotlinc -cp LGP-core.jar:LGP-lib.jar -no-jdk -no-stdlib -d MyProblem.jar MyProblem.kt
 
-    # Use the Java interpreter to execute the main function
-    java -cp LGP.jar:MyProblem.jar MyProblemKt
+    # Use the Kotlin interpreter to execute the main function
+    kotlin -cp LGP-core.jar:LGP-lib.jar:MyProblem.jar:. MyProblemKt
 
 With Java
 =========
@@ -101,13 +109,14 @@ Next, the file can be filled with the following:
 .. code-block:: java
 
     import kotlin.jvm.functions.Function2;
-    import lgp.core.environment.config.Config;
-    import lgp.core.evolution.Description;
-    import lgp.core.evolution.fitness.FitnessCase;
-    import lgp.core.evolution.fitness.FitnessFunctions;
-    import lgp.core.evolution.fitness.FitnessFunction;
-    import lgp.lib.BaseProblem;
-    import lgp.lib.BaseProblemParameters;
+    import nz.co.jedsimson.lgp.core.environment.config.Configuration;
+    import nz.co.jedsimson.lgp.core.evolution.Description;
+    import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessCase;
+    import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessFunctions;
+    import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessFunction;
+    import nz.co.jedsimson.lgp.core.program.Outputs;
+    import nz.co.jedsimson.lgp.lib.base.BaseProblem;
+    import nz.co.jedsimson.lgp.lib.base.BaseProblemParameters;
 
     import java.util.Arrays;
     import java.util.List;
@@ -119,7 +128,7 @@ Next, the file can be filled with the following:
             "A simple example problem definition"
         );
         static String configFilename = null;
-        static Config config = new Config();
+        static Configuration config = new Configuration();
         static Double[] constants = { -1.0, 0.0, 1.0 };
         static String[] operationClassNames = {
             "lgp.lib.operations.Addition",
@@ -128,7 +137,7 @@ Next, the file can be filled with the following:
             "lgp.lib.operations.Division"
         };
         static double defaultRegisterValue = 1.0;
-        static FitnessFunction<Double> mse = FitnessFunctions.getMSE();
+        static FitnessFunction<Double, Outputs.Single<Double>> mse = FitnessFunctions.getMSE();
         static int tournamentSize = 20;
         static int maximumSegmentLength = 6;
         static int maximumCrossoverDistance = 5;
@@ -177,10 +186,10 @@ To compile and run however, is still fairly straight-forward:
 .. code-block:: bash
 
     # First, compile the code against the LGP API
-    javac -cp LGP.jar MyProblem.java
+    javac -cp LGP-core.jar:LGP-lib.jar MyProblem.java
 
     # Secondly, run the resulting class on the JVM
-    java -cp LGP.jar:. MyProblem
+    java -cp LGP-core.jar:LGP-lib.jar:. MyProblem
 
 If everything went as expected, then the same output should be produced as for the Kotlin example:
 

@@ -36,6 +36,6 @@ The ``MicroMutationOperator`` and ``MacroMutationOperator`` classes provide a im
 API
 ===
 
-See `lgp.core.evolution.population. <https://jeds6391.github.io/LGP/api/html/lgp.core.evolution.population/index.html>`_
+See `nz.co.jedsimson.lgp.core.evolution.operators. <https://lgp.jedsimson.co.nz/api/html/nz.co.jedsimson.lgp.core.evolution.operators/index.html>`_
 
 .. [#f1] Brameier, M. F., & Banzhaf, W. (2007). Linear Genetic Programming. Springer Science & Business Media. https://doi.org/10.1007/978-0-387-31030-5
