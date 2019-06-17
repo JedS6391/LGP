@@ -1,9 +1,11 @@
 package nz.co.jedsimson.lgp.core.environment.config
 
 import com.google.gson.Gson
+import nz.co.jedsimson.lgp.core.environment.ComponentLoadException
 import java.io.FileReader
 import java.io.IOException
 import nz.co.jedsimson.lgp.core.environment.ComponentLoaderBuilder
+import nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 
 /**
@@ -36,7 +38,7 @@ class JsonConfigurationLoader constructor(private val filename: String) : Config
 
     // We cache the result of loading configuration so that on the first access we load
     // the configuration from disk, but subsequent loads return the cached copy.
-    private val memoizedConfig by lazy {
+    private val configurationProvider = MemoizedComponentProvider("Configuration") {
         this.gson.fromJson(FileReader(this.filename), Configuration().javaClass)
     }
 
@@ -85,7 +87,7 @@ class JsonConfigurationLoader constructor(private val filename: String) : Config
      * @return A [Configuration] object that represents the contents of the JSON file.
      */
     override fun load(): Configuration {
-        return this.memoizedConfig
+        return this.configurationProvider.component
     }
 
     override val information = ModuleInformation(

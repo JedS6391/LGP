@@ -12,6 +12,9 @@ buildscript {
         maven {
             url "http://dl.bintray.com/kotlin/kotlin-eap"
         }
+        maven {
+            url "https://dl.bintray.com/spekframework/spek-dev"
+        }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -31,6 +34,9 @@ repositories {
     maven {
         url "http://dl.bintray.com/kotlin/kotlin-eap"
     }
+    maven {
+        url "https://dl.bintray.com/spekframework/spek-dev"
+    }
 }
 
 dependencies {
@@ -43,6 +49,21 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.opencsv/opencsv
     compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
+
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.3.1')
+    testCompile('org.junit.jupiter:junit-jupiter-params:5.3.1')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.3.1')
+
+    testImplementation ('org.spekframework.spek2:spek-dsl-jvm:2.0.0-alpha.1')  {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testRuntimeOnly ('org.spekframework.spek2:spek-runner-junit5:2.0.0-alpha.1') {
+        exclude group: 'org.junit.platform'
+        exclude group: 'org.jetbrains.kotlin'
+    }
+
+    // spek requires kotlin-reflect, can be omitted if already in the classpath
+    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
 tasks.withType(JavaCompile) {
@@ -93,6 +114,16 @@ task coreJar(type: Jar) {
 task printVersion {
     doLast {
         println project.version
+    }
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'spek2'
+    }
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams true
     }
 }
 

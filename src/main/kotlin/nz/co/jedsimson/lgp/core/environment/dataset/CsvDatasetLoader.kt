@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.environment.dataset
 
 import com.opencsv.CSVReader
 import nz.co.jedsimson.lgp.core.environment.ComponentLoaderBuilder
+import nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider
 import java.io.FileReader
 import java.io.Reader
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
@@ -33,9 +34,7 @@ class CsvDatasetLoader<out TData> constructor(
     private constructor(builder: Builder<TData>)
             : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
 
-    private val memoizedDataset by lazy {
-        this.initialiseDataset()
-    }
+    private val datasetProvider = MemoizedComponentProvider("Dataset") { this.initialiseDataset() }
 
     /**
      * Builds an instance of [CsvDatasetLoader].
@@ -101,7 +100,7 @@ class CsvDatasetLoader<out TData> constructor(
      * @returns a data set containing values parsed appropriately.
      */
     override fun load(): Dataset<TData> {
-        return this.memoizedDataset
+        return this.datasetProvider.component
     }
 
     private fun initialiseDataset(): Dataset<TData> {
