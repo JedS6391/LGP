@@ -1,6 +1,5 @@
 package nz.co.jedsimson.lgp.core.evolution.model
 
-import nz.co.jedsimson.lgp.core.environment.CoreModuleType
 import nz.co.jedsimson.lgp.core.environment.Environment
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.evolution.ExportableResult
@@ -9,6 +8,7 @@ import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessEvaluator
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Outputs
 import nz.co.jedsimson.lgp.core.evolution.operators.*
+import nz.co.jedsimson.lgp.core.modules.CoreModuleType
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Program
 import nz.co.jedsimson.lgp.core.program.ProgramGenerator

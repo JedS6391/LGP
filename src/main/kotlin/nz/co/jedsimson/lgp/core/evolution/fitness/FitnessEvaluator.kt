@@ -1,8 +1,8 @@
 package nz.co.jedsimson.lgp.core.evolution.fitness
 
-import nz.co.jedsimson.lgp.core.environment.CoreModuleType
 import nz.co.jedsimson.lgp.core.environment.Environment
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
+import nz.co.jedsimson.lgp.core.modules.CoreModuleType
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
 
