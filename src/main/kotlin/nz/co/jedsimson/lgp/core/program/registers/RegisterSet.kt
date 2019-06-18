@@ -67,21 +67,6 @@ class Register<T>(var value: T, val index: Int) {
 }
 
 /**
- * Thrown when a write operation is attempted on a [RegisterType.Constant] register.
- *
- * @param message A message accompanying the exception.
- */
-class RegisterAccessException(message: String) : Exception(message)
-
-/**
- * Thrown when the number of values being written to a particular register range,
- * does not match the size of the range.
- *
- * @param message A message accompanying the exception.
- */
-class RegisterWriteRangeException(message: String) : Exception(message)
-
-/**
  * Represents a collection of [Register]s.
  *
  * The collection is broken into three separate ranges, for the three different
@@ -156,6 +141,10 @@ class RegisterSet<T> {
         constants: List<T>,
         defaultValueProvider: DefaultValueProvider<T>
     ) {
+        if (inputRegisters < 0 || calculationRegisters < 0) {
+            throw RegisterSetInitialisationException("inputRegisters and calculationRegisters must be positive.")
+        }
+
         val constantRegisters = constants.size
 
         this.totalRegisters = inputRegisters + calculationRegisters + constantRegisters

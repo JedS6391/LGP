@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.training
 
-import nz.co.jedsimson.lgp.core.environment.Environment
+import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel
@@ -85,7 +85,7 @@ abstract class TrainingJob<TProgram, TOutput : Output<TProgram>, TMessage : Trai
  * @property model The model of evolution to use.
  */
 abstract class Trainer<TProgram, TOutput : Output<TProgram>, TMessage : TrainingUpdateMessage>(
-    val environment: Environment<TProgram, TOutput>,
+    val environment: EnvironmentDefinition<TProgram, TOutput>,
     val model: EvolutionModel<TProgram, TOutput>
 ) {
 

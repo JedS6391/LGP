@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.program
 
-import nz.co.jedsimson.lgp.core.environment.Environment
+import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.program.instructions.InstructionGenerator
 
@@ -11,7 +11,7 @@ import nz.co.jedsimson.lgp.core.program.instructions.InstructionGenerator
  * to be defined. The only requirement is that calls to the [next] method returns a sequence
  * of program samples.
  *
- * An implementation is expected to provide an [Environment], in order to provide access to any
+ * An implementation is expected to provide an [EnvironmentDefinition], in order to provide access to any
  * component loaded into the the LGP environment, as well as an [InstructionGenerator]. Instruction
  * generators themselves are modules, so each can be defined as a module.
  *
@@ -19,8 +19,8 @@ import nz.co.jedsimson.lgp.core.program.instructions.InstructionGenerator
  * @property instructionGenerator A reference to an instruction generator.
  */
 abstract class ProgramGenerator<TProgram, TOutput : Output<TProgram>>(
-    val environment: Environment<TProgram, TOutput>,
-    val instructionGenerator: InstructionGenerator<TProgram, TOutput>
+    val environment: EnvironmentDefinition<TProgram, TOutput>,
+    private val instructionGenerator: InstructionGenerator<TProgram, TOutput>
 ) : Module {
 
     /**

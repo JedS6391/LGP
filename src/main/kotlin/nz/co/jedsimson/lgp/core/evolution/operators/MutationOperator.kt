@@ -65,7 +65,8 @@ class MacroMutationOperator<TProgram, TOutput : Output<TProgram>>(
     private val minimumProgramLength = this.environment.configuration.minimumProgramLength
     private val maximumProgramLength = this.environment.configuration.maximumProgramLength
     private val random = this.environment.randomState
-    private val instructionGenerator = this.environment.registeredModule<InstructionGenerator<TProgram, TOutput>>(
+    private val moduleFactory = this.environment.moduleFactory
+    private val instructionGenerator = this.moduleFactory.instance<InstructionGenerator<TProgram, TOutput>>(
         CoreModuleType.InstructionGenerator
     )
 
