@@ -20,7 +20,7 @@ import nz.co.jedsimson.lgp.core.program.instructions.InstructionGenerator
  */
 abstract class ProgramGenerator<TProgram, TOutput : Output<TProgram>>(
     val environment: EnvironmentDefinition<TProgram, TOutput>,
-    private val instructionGenerator: InstructionGenerator<TProgram, TOutput>
+    val instructionGenerator: InstructionGenerator<TProgram, TOutput>
 ) : Module {
 
     /**
@@ -28,10 +28,8 @@ abstract class ProgramGenerator<TProgram, TOutput : Output<TProgram>>(
      *
      * @returns A sequence of programs.
      */
-    fun next(): Sequence<Program<TProgram, TOutput>> = sequence {
-        while (true) {
-            yield(this@ProgramGenerator.generateProgram())
-        }
+    fun next(): Sequence<Program<TProgram, TOutput>> = generateSequence {
+        this@ProgramGenerator.generateProgram()
     }
 
     /**

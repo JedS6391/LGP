@@ -33,10 +33,8 @@ abstract class InstructionGenerator<TProgram, TOutput : Output<TProgram>>(
      *
      * @returns A sequence of programs.
      */
-    fun next(): Sequence<Instruction<TProgram>> = sequence {
-        while (true) {
-            yield(this@InstructionGenerator.generateInstruction())
-        }
+    fun next(): Sequence<Instruction<TProgram>> = generateSequence {
+        this@InstructionGenerator.generateInstruction()
     }
 
     /**

@@ -15,6 +15,11 @@ import nz.co.jedsimson.lgp.core.modules.RegisteredModuleType
 import nz.co.jedsimson.lgp.core.program.Output
 import java.util.Random
 
+/**
+ * Acts as a facade for simplifying access to details of an [Environment].
+ *
+ * This contract also helps to mock out the [Environment] as it is a relatively costly object to build.
+ */
 interface EnvironmentDefinition<TProgram, TOutput : Output<TProgram>>  {
 
     /**
