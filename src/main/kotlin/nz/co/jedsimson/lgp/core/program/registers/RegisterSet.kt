@@ -188,9 +188,28 @@ class RegisterSet<T> {
      *
      * @param index The index of the desired register.
      * @returns The [Register] instance that has the index specified.
+     * @throws RegisterReadException When [index] is out-of-bounds of the register set.
      */
     fun register(index: Int): Register<T> {
-        return this.registers[index]
+        try {
+            return this.registers[index]
+        }
+        catch (outOfBounds: ArrayIndexOutOfBoundsException) {
+            throw RegisterReadException("No register exists with the index $index in the register set.")
+        }
+    }
+
+    /**
+     * Applies the given [modifier] to the value of the [Register] at [index].
+     *
+     * @param index The register to modify the value of.
+     * @param modifier A function that modifies the value in the register.
+     * @throws RegisterReadException When [index] is out-of-bounds of the register set.
+     */
+    fun apply(index: Int, modifier: (T) -> T) {
+        val current = this[index]
+
+        this.overwrite(index, modifier(current))
     }
 
     /**
@@ -198,9 +217,15 @@ class RegisterSet<T> {
      *
      * @param index The register to read from.
      * @returns The value of the register at the given index.
+     * @throws RegisterReadException When [index] is out-of-bounds of the register set.
      */
     operator fun get(index: Int): T {
-        return this.registers[index].value
+        try {
+            return this.registers[index].value
+        }
+        catch (outOfBounds: ArrayIndexOutOfBoundsException) {
+            throw RegisterReadException("No register exists with the index $index in the register set.")
+        }
     }
 
     /**

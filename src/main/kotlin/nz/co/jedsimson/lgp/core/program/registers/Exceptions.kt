@@ -23,3 +23,10 @@ class RegisterWriteRangeException(message: String) : Exception(message)
  * @param message A message accompanying the exception.
  */
 class RegisterSetInitialisationException(message: String) : Exception(message)
+
+/**
+ * Thrown when the read of a [Register] from a [RegisterSet] fails.
+ *
+ * This is mainly when an index is requested that is outside of the bounds of the register set.
+ */
+class RegisterReadException(message: String) : Exception(message)

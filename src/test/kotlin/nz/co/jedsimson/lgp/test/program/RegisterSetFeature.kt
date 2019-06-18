@@ -96,6 +96,75 @@ object RegisterSetFeatureFactoryFeature : Spek({
             }
         }
 
+        Scenario("Reading registers") {
+            var registerSet: RegisterSet<Double>? = null
+            var registerValue: Double? = null
+            var register: Register<Double>? = null
+            var exception: Exception? = null
+            var registerType: RegisterType? = null
+
+            Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
+                registerSet = RegisterSet(
+                    inputRegisters = 2,
+                    calculationRegisters = 2,
+                    constants = listOf(1.0, 2.0),
+                    defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
+                )
+            }
+
+            When("The register at index zero is read") {
+                registerValue = registerSet!![0]
+            }
+
+            Then("The value at index zero is read successfully") {
+                assert(registerValue != null) { "Register read failed" }
+                assert(registerValue == 1.0) { "Register read has unexpected value" }
+            }
+
+            When("The register value at an out-of-bounds index is read") {
+                registerValue = null
+
+                try {
+                    registerValue = registerSet!![registerSet!!.count]
+                }
+                catch (ex: Exception) {
+                    exception = ex
+                }
+            }
+
+            Then("The register value is not read and an exception is given") {
+                assert(registerValue == null) { "Register read an unexpected value" }
+                assert(exception != null) { "Exception was null" }
+                assert(exception is RegisterReadException) { "Exception is not the correct type" }
+            }
+
+            When("The register at an out-of-bounds index is read") {
+                register = null
+
+                try {
+                    register = registerSet!!.register(registerSet!!.count)
+                }
+                catch (ex: Exception) {
+                    exception = ex
+                }
+            }
+
+            Then("The register value is not read and an exception is given") {
+                assert(register == null) { "Register read an unexpected value" }
+                assert(exception != null) { "Exception was null" }
+                assert(exception is RegisterReadException) { "Exception is not the correct type" }
+            }
+
+            When("The type is read for a register outside the bounds of the register set") {
+                registerType = registerSet!!.registerType(registerSet!!.count)
+            }
+
+            Then("The type is unknown") {
+                assert(registerType != null) { "Register type was null" }
+                assert(registerType == RegisterType.Unknown) { "Register type was not expected" }
+            }
+        }
+
         Scenario("Writing to registers") {
             var registerSet: RegisterSet<Double>? = null
             var oldValue: Double? = null
@@ -198,6 +267,85 @@ object RegisterSetFeatureFactoryFeature : Spek({
 
                 assert(exception != null) { "Exception was null" }
                 assert(exception is RegisterWriteRangeException) { "Exception was not the correct type" }
+            }
+        }
+
+        Scenario("Cloning a register set") {
+            var registerSetOriginal: RegisterSet<Double>? = null
+            var registerSetClone: RegisterSet<Double>? = null
+
+            Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
+                registerSetOriginal = RegisterSet(
+                        inputRegisters = 2,
+                        calculationRegisters = 2,
+                        constants = listOf(1.0, 2.0),
+                        defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
+                )
+            }
+
+            When("The register set is cloned") {
+                registerSetClone = registerSetOriginal!!.copy()
+            }
+
+            Then("The clones values match the original") {
+                assert(registerSetClone != null) { "Clone register set was null" }
+                assert(registerSetClone!!.count == registerSetOriginal!!.count) { "Number of register does not match" }
+                assert(registerSetClone!!.inputRegisters.count() == registerSetOriginal!!.inputRegisters.count()) { "Input register count does not match" }
+                assert(registerSetClone!!.calculationRegisters.count() == registerSetOriginal!!.calculationRegisters.count()) { "Calculation register count does not match" }
+                assert(registerSetClone!!.constantRegisters.count() == registerSetOriginal!!.constantRegisters.count()) { "Constant register count does not match" }
+
+                assert((0 until registerSetClone!!.count).all { r -> registerSetOriginal!![r] == registerSetClone!![r] }) { "Original values do not match cloned values" }
+            }
+
+            Then("Modifying the clone does not modify the original") {
+                registerSetClone!![1] = 3.0
+
+                assert(registerSetClone!![1] == 3.0 && registerSetOriginal!![1] == 1.0) { "Modifying clone modified original" }
+            }
+
+            Then("Modifying the original does not modify the clone") {
+                registerSetOriginal!![2] = 4.0
+
+                assert(registerSetOriginal!![2] == 4.0 && registerSetClone!![2] == 1.0) { "Modifying original modified clone" }
+            }
+        }
+
+        Scenario("Resetting the registers") {
+            var registerSet: RegisterSet<Double>? = null
+
+            Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
+                registerSet = RegisterSet(
+                    inputRegisters = 2,
+                    calculationRegisters = 2,
+                    constants = listOf(1.0, 2.0),
+                    defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
+                )
+            }
+
+            And("All the registers in the set are modified") {
+                (0 until registerSet!!.count).forEach { r ->
+                    registerSet!!.apply(r) { v -> v * 5.0 }
+                }
+            }
+
+            When("The register set is reset") {
+                registerSet!!.reset()
+            }
+
+            Then("The input and calculation have their default values") {
+                val inputRegisters = registerSet!!.getAllRegistersOfType(RegisterType.Input)
+                val calculationRegisters = registerSet!!.getAllRegistersOfType(RegisterType.Calculation)
+
+                assert(inputRegisters.all { r -> r.value == 1.0 }) { "Input registers not reset correctly" }
+                assert(calculationRegisters.all { r -> r.value == 1.0 }) { "Calculation registers not reset correctly" }
+
+            }
+
+            And("The constant registers are not reset") {
+                val constantRegisters = registerSet!!.getAllRegistersOfType(RegisterType.Constant)
+
+                assert(constantRegisters[0].value == 5.0) { "Constant register does not have expected value" }
+                assert(constantRegisters[1].value == 10.0) { "Constant register does not have expected value" }
             }
         }
     }
