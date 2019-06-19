@@ -3,38 +3,11 @@ package nz.co.jedsimson.lgp.test.mocks
 import nz.co.jedsimson.lgp.core.environment.DefaultValueProviders
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
-import nz.co.jedsimson.lgp.core.program.Output
-import nz.co.jedsimson.lgp.core.program.Outputs
-import nz.co.jedsimson.lgp.core.program.Program
-import nz.co.jedsimson.lgp.core.program.ProgramGenerator
+import nz.co.jedsimson.lgp.core.program.*
 import nz.co.jedsimson.lgp.core.program.instructions.*
 import nz.co.jedsimson.lgp.core.program.registers.Arguments
 import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
 import java.util.*
-
-class Identity : UnaryOperation<Double>({ arguments -> arguments.get(0) }) {
-    override val representation: String
-        get() = TODO("not implemented")
-
-    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
-        TODO("not implemented")
-    }
-
-    override val information: ModuleInformation
-        get() = TODO("not implemented")
-}
-
-class Zero : BinaryOperation<Double>({ arguments -> 0.0 }) {
-    override val representation: String
-        get() = TODO("not implemented")
-
-    override fun toString(operands: List<RegisterIndex>, destination: RegisterIndex): String {
-        TODO("not implemented")
-    }
-
-    override val information: ModuleInformation
-        get() = TODO("not implemented")
-}
 
 class MockInstruction(
     override var destination: RegisterIndex,
@@ -188,13 +161,24 @@ class MockMultipleOutputProgramGenerator(
     override fun generateProgram(): Program<Double, Outputs.Multiple<Double>> {
         val instructions = this.instructionGenerator.next().take(2).toList()
         val registers = RegisterSet(
-                inputRegisters = 2,
-                calculationRegisters = 0,
-                constants = listOf(),
-                defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
+            inputRegisters = 2,
+            calculationRegisters = 0,
+            constants = listOf(),
+            defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
         )
 
         return MockMultipleOutputProgram(instructions, registers, listOf(0, 1))
+    }
+
+    override val information: ModuleInformation
+        get() = TODO("not implemented")
+
+}
+
+class MockSingleOutputProgramTranslator : ProgramTranslator<Double, Outputs.Single<Double>>() {
+
+    override fun translate(program: Program<Double, Outputs.Single<Double>>): String {
+        return "MockSingleOutputProgram"
     }
 
     override val information: ModuleInformation

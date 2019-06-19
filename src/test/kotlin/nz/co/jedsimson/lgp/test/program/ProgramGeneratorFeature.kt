@@ -3,6 +3,7 @@ package nz.co.jedsimson.lgp.test.program
 import nz.co.jedsimson.lgp.core.program.Outputs
 import nz.co.jedsimson.lgp.core.program.Program
 import nz.co.jedsimson.lgp.core.program.ProgramGenerator
+import nz.co.jedsimson.lgp.core.program.ProgramTranslator
 import nz.co.jedsimson.lgp.test.mocks.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
@@ -76,6 +77,34 @@ object ProgramAndInstructionGeneratorFeature : Spek({
 
                     val outputs = program.output()
                 }
+            }
+        }
+
+        Scenario("Generated programs can be translated") {
+            var programGenerator: ProgramGenerator<Double, Outputs.Single<Double>>? = null
+            var programTranslator: ProgramTranslator<Double, Outputs.Single<Double>>? = null
+            var program: Program<Double, Outputs.Single<Double>>? = null
+            var translatedProgram: String? = null
+
+            Given("A program generator") {
+                programGenerator = MockSingleOutputProgramGenerator(MockEnvironment())
+            }
+
+            And("A program translator") {
+                programTranslator = MockSingleOutputProgramTranslator()
+            }
+
+            And("A program is generated") {
+                program = programGenerator!!.next().first()
+            }
+
+            When("The program is translated") {
+                translatedProgram = programTranslator!!.translate(program!!)
+            }
+
+            Then("The program is translated correctly") {
+                assert(translatedProgram != null) { "Translated program was null" }
+                assert(translatedProgram == "MockSingleOutputProgram") { "Translated program was not correct" }
             }
         }
     }
