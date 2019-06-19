@@ -3,6 +3,7 @@ package nz.co.jedsimson.lgp.test.mocks
 import nz.co.jedsimson.lgp.core.environment.DefaultValueProviders
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
+import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Outputs
 import nz.co.jedsimson.lgp.core.program.Program
 import nz.co.jedsimson.lgp.core.program.ProgramGenerator
@@ -58,9 +59,9 @@ class MockInstruction(
 
 }
 
-class MockInstructionGenerator(
-    environment: EnvironmentDefinition<Double, Outputs.Single<Double>>
-) : InstructionGenerator<Double, Outputs.Single<Double>>(environment)
+class MockInstructionGenerator<TOutput : Output<Double>>(
+    environment: EnvironmentDefinition<Double, TOutput>
+) : InstructionGenerator<Double, TOutput>(environment)
 {
     private val random = Random()
 
@@ -85,7 +86,7 @@ class MockInstructionGenerator(
 
 }
 
-class MockProgram(
+class MockSingleOutputProgram(
     instructions: List<Instruction<Double>>,
     registers: RegisterSet<Double>,
     outputRegisterIndices: List<RegisterIndex>
@@ -119,7 +120,7 @@ class MockProgram(
         get() = TODO("not implemented")
 }
 
-class MockProgramGenerator(
+class MockSingleOutputProgramGenerator(
     environment: EnvironmentDefinition<Double, Outputs.Single<Double>>
 ) : ProgramGenerator<Double, Outputs.Single<Double>>(
     environment,
@@ -135,7 +136,65 @@ class MockProgramGenerator(
                 defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
         )
 
-        return MockProgram(instructions, registers, listOf(0))
+        return MockSingleOutputProgram(instructions, registers, listOf(0))
+    }
+
+    override val information: ModuleInformation
+        get() = TODO("not implemented")
+
+}
+
+class MockMultipleOutputProgram(
+        instructions: List<Instruction<Double>>,
+        registers: RegisterSet<Double>,
+        outputRegisterIndices: List<RegisterIndex>
+) : Program<Double, Outputs.Multiple<Double>>(
+        instructions.toMutableList(),
+        registers,
+        outputRegisterIndices
+)
+{
+    override fun output(): Outputs.Multiple<Double> {
+        val outputs = this.outputRegisterIndices.map { idx -> this.registers[idx] }
+
+        return Outputs.Multiple(outputs)
+    }
+
+    override fun execute() {
+        for (instruction in this.instructions) {
+            instruction.execute(this.registers)
+        }
+    }
+
+    override fun copy(): Program<Double, Outputs.Multiple<Double>> {
+        TODO("not implemented")
+    }
+
+    override fun findEffectiveProgram() {
+        TODO("not implemented")
+    }
+
+    override val information: ModuleInformation
+        get() = TODO("not implemented")
+}
+
+class MockMultipleOutputProgramGenerator(
+        environment: EnvironmentDefinition<Double, Outputs.Multiple<Double>>
+) : ProgramGenerator<Double, Outputs.Multiple<Double>>(
+        environment,
+        MockInstructionGenerator(environment)
+)
+{
+    override fun generateProgram(): Program<Double, Outputs.Multiple<Double>> {
+        val instructions = this.instructionGenerator.next().take(2).toList()
+        val registers = RegisterSet(
+                inputRegisters = 2,
+                calculationRegisters = 0,
+                constants = listOf(),
+                defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
+        )
+
+        return MockMultipleOutputProgram(instructions, registers, listOf(0, 1))
     }
 
     override val information: ModuleInformation
