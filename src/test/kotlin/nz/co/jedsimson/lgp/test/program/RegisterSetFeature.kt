@@ -6,6 +6,7 @@ import nz.co.jedsimson.lgp.core.environment.dataset.Sample
 import nz.co.jedsimson.lgp.core.program.registers.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
+import java.util.*
 
 object RegisterSetFeatureFactoryFeature : Spek({
 
@@ -346,6 +347,72 @@ object RegisterSetFeatureFactoryFeature : Spek({
 
                 assert(constantRegisters[0].value == 5.0) { "Constant register does not have expected value" }
                 assert(constantRegisters[1].value == 10.0) { "Constant register does not have expected value" }
+            }
+        }
+
+        Scenario("Registers are output correctly") {
+            var register: Register<Double>? = null
+            var output: String? = null
+
+            Given("A register") {
+                register = Register(1.0, 0)
+            }
+
+            When("The register output is requested") {
+                output = register.toString()
+            }
+
+            Then("The register output is correct") {
+                assert(output != null) { "Output was null" }
+                assert(output == "r[0] = 1.0" ) { "Output was not correct" }
+            }
+        }
+
+        Scenario("Random registers can be retrieved from a register set") {
+            var registerSet: RegisterSet<Double>? = null
+            var randomRegisterGenerator: RandomRegisterGenerator<Double>? = null
+            var registers: List<Register<Double>>? = null
+
+            Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
+                registerSet = RegisterSet(
+                        inputRegisters = 2,
+                        calculationRegisters = 2,
+                        constants = listOf(1.0, 2.0),
+                        defaultValueProvider = DefaultValueProviders.constantValueProvider(1.0)
+                )
+            }
+
+            And("A random register generator") {
+                randomRegisterGenerator = RandomRegisterGenerator(Random(), registerSet!!)
+            }
+
+            When("When 2 random registers are requested") {
+                registers = randomRegisterGenerator!!.next().take(2).toList()
+            }
+
+            Then("2 random registers are given") {
+                assert(registers != null) { "Registers was null" }
+                assert(registers!!.size == 2) { "Incorrect number of registers generated" }
+            }
+
+            When("When 2 random input registers are requested") {
+                registers = randomRegisterGenerator!!.next(RegisterType.Input).take(2).toList()
+            }
+
+            Then("2 random input registers are given") {
+                assert(registers != null) { "Registers was null" }
+                assert(registers!!.size == 2) { "Incorrect number of registers generated" }
+                assert(registers!!.all { r -> registerSet!!.registerType(r.index) == RegisterType.Input })
+            }
+
+            When("When 2 random calculation registers are requested") {
+                registers = randomRegisterGenerator!!.next(RegisterType.Calculation).take(2).toList()
+            }
+
+            Then("2 random calculation registers are given") {
+                assert(registers != null) { "Registers was null" }
+                assert(registers!!.size == 2) { "Incorrect number of registers generated" }
+                assert(registers!!.all { r -> registerSet!!.registerType(r.index) == RegisterType.Calculation })
             }
         }
     }

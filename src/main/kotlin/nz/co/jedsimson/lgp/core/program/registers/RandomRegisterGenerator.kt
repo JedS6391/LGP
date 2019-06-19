@@ -9,23 +9,20 @@ import java.util.Random
  * @param T The type of value the registers contain.
  * @property registerSet A set of registers to choose random registers from.
  */
-class RandomRegisterGenerator<T>(val randomState: Random, val registerSet: RegisterSet<T>) {
+class RandomRegisterGenerator<T>(internal val randomState: Random, private val registerSet: RegisterSet<T>) {
 
     /**
      * Provides an infinite, random sequence of registers.
      *
      * @returns A sequence of registers.
      */
-    fun next(): Sequence<Register<T>> = sequence {
+    fun next(): Sequence<Register<T>> = generateSequence {
+        val idx = randomState.nextInt(registerSet.count)
 
-        while (true) {
-            val idx = randomState.nextInt(registerSet.count)
+        // Let's just be extra cautious
+        assert(0 <= idx && idx <= registerSet.count)
 
-            // Let's just be extra cautious
-            assert(0 <= idx && idx <= registerSet.count)
-
-            yield(registerSet.register(idx))
-        }
+        registerSet.register(idx)
     }
 
     /**
