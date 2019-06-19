@@ -348,6 +348,24 @@ object RegisterSetFeatureFactoryFeature : Spek({
                 assert(constantRegisters[1].value == 10.0) { "Constant register does not have expected value" }
             }
         }
+
+        Scenario("Registers are output correctly") {
+            var register: Register<Double>? = null
+            var output: String? = null
+
+            Given("A register") {
+                register = Register(1.0, 0)
+            }
+
+            When("The register output is requested") {
+                output = register.toString()
+            }
+
+            Then("The register output is correct") {
+                assert(output != null) { "Output was null" }
+                assert(output == "r[0] = 1.0" ) { "Output was not correct" }
+            }
+        }
     }
 })
 

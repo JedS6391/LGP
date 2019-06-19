@@ -11,7 +11,7 @@ class Valid : ConfigurationValidity() {
 }
 
 class Invalid(val reason: String) : ConfigurationValidity() {
-    override val isValid = true
+    override val isValid = false
 }
 
 class InvalidConfigurationException(message: String) : Exception(message)
@@ -133,7 +133,7 @@ class Configuration {
     fun isValid(): ConfigurationValidity {
         return when {
             // Need at least one feature in the data set.
-            numFeatures == 0 -> Invalid("numFeatures: At least one feature variable should be specified.")
+            numFeatures <= 0 -> Invalid("numFeatures: At least one feature variable should be specified.")
             // If no constants are provided then a rate of constants can't be specified.
             constants.isEmpty() && constantsRate > 0.0 -> Invalid(
                 "constants/constantsRate: No constants were provided but a constant rate greater than 0 was given."
