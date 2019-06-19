@@ -26,17 +26,15 @@ class SequenceGenerator {
             end: Double,
             step: Double,
             inclusive: Boolean = false
-    ): Sequence<Double> = sequence {
-        var x = start
-
-        while (x <= end) {
-            yield(x)
-
-            x += step
+    ): Sequence<Double> = generateSequence(start) { v ->
+        v + step
+    }.takeWhile { v ->
+        if (inclusive) {
+            v <= end
         }
-
-        if (x - step < end && inclusive)
-            yield(end)
+        else {
+            v < end
+        }
     }
 }
 
@@ -56,7 +54,7 @@ class UniformlyDistributedGenerator(val randomState: Random = Random()) {
      * @param end Upper bound on the range of values.
      */
     fun generate(n: Int, start: Double, end: Double): Sequence<Double> = sequence {
-        (0..n).map {
+        (0 until n).map {
             val r = this@UniformlyDistributedGenerator.randomState.nextDouble()
 
             // Scaled to range

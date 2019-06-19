@@ -10,7 +10,7 @@ An ``EvolutionModel`` describes the way that the modules provided to the environ
 
 All this really means is that an evolution model is an implementation of some evolutionary algorithm (EA) that produces solutions --- such as a steady-state or generational algorithm.
 
-The system allows custom models to be created so that the evolution process can be adapted and tuned to the problem being solved. In general, the models provided by the ``lgp.core.evolution.population.Models`` module will provide good performance, as the parameters offer a high degree of adjustment through the environment being used.
+The system allows custom models to be created so that the evolution process can be adapted and tuned to the problem being solved. In general, the models provided by the ``Models`` module will provide good performance, as the parameters offer a high degree of adjustment through the environment being used.
 
 To use an EA is as simple as providing the model with an environment and training on a data set for the particular problem being solved. Once the EA has been trained, it can be tested on an arbitrary data set in order to form a prediction.
 
@@ -23,7 +23,7 @@ It is possible to use a model directly to solve a problem, but in general it is 
 Provided Models
 ===============
 
-The system offers three built-in EAs which can be used to solve problems without the need to define custom logic. The three models --- ``SteadyState``, ``MasterSlave``, and ``IslandMigration`` --- are contained in the ``lgp.core.evolution.population.Models`` module.
+The system offers three built-in EAs which can be used to solve problems without the need to define custom logic. The three models --- ``SteadyState``, ``MasterSlave``, and ``IslandMigration`` --- are contained in the ``Models`` module.
 
 The ``SteadyState`` model is the most basic algorithm and offers fairly conservative performance.
 
@@ -44,12 +44,12 @@ An environment provides a context for evolution, and we can build a model within
 
     // The environment from the previous section
     // without any of the registered dependencies.
-    val env = Environment<Double>(
-            configLoader,
-            constantLoader,
-            operationLoader,
-            defaultValueProvider,
-            fitnessFunction = ce
+    val env = Environment<Double, Outputs.Single<Double>>(
+        configLoader,
+        constantLoader,
+        operationLoader,
+        defaultValueProvider,
+        fitnessFunctionProvider = { ce }
     )
 
     // Register the modules that are needed to use
@@ -93,4 +93,4 @@ An environment provides a context for evolution, and we can build a model within
 API
 ===
 
-See `lgp.core.evolution.population/EvolutionModel. <https://jeds6391.github.io/LGP/api/html/lgp.core.evolution.population/-evolution-model/index.html>`_
+See `nz.co.jedsimson.lgp.core.evolution.model. <https://lgp.jedsimson.co.nz/api/html/nz.co.jedsimson.lgp.core.evolution.model/index.html>`_

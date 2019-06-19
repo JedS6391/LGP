@@ -3,12 +3,12 @@ matrix:
   include:
   - os: linux
     sudo: false
-    jdk: oraclejdk8
+    jdk: oraclejdk9
     addons:
       apt:
         packages:
-        - oracle-java8-installer
-        - oracle-java8-set-default
+        - oracle-java9-installer
+        - oracle-java9-set-default
 env:
   global:
     # Because release builds work with tagged commits (which in our case will always be related to a branch),

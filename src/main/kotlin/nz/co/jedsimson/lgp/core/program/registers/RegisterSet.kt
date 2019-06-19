@@ -67,21 +67,6 @@ class Register<T>(var value: T, val index: Int) {
 }
 
 /**
- * Thrown when a write operation is attempted on a [RegisterType.Constant] register.
- *
- * @param message A message accompanying the exception.
- */
-class RegisterAccessException(message: String) : Exception(message)
-
-/**
- * Thrown when the number of values being written to a particular register range,
- * does not match the size of the range.
- *
- * @param message A message accompanying the exception.
- */
-class RegisterWriteRangeException(message: String) : Exception(message)
-
-/**
  * Represents a collection of [Register]s.
  *
  * The collection is broken into three separate ranges, for the three different
@@ -156,6 +141,10 @@ class RegisterSet<T> {
         constants: List<T>,
         defaultValueProvider: DefaultValueProvider<T>
     ) {
+        if (inputRegisters < 0 || calculationRegisters < 0) {
+            throw RegisterSetInitialisationException("inputRegisters and calculationRegisters must be positive.")
+        }
+
         val constantRegisters = constants.size
 
         this.totalRegisters = inputRegisters + calculationRegisters + constantRegisters
@@ -199,9 +188,28 @@ class RegisterSet<T> {
      *
      * @param index The index of the desired register.
      * @returns The [Register] instance that has the index specified.
+     * @throws RegisterReadException When [index] is out-of-bounds of the register set.
      */
     fun register(index: Int): Register<T> {
-        return this.registers[index]
+        try {
+            return this.registers[index]
+        }
+        catch (outOfBounds: ArrayIndexOutOfBoundsException) {
+            throw RegisterReadException("No register exists with the index $index in the register set.")
+        }
+    }
+
+    /**
+     * Applies the given [modifier] to the value of the [Register] at [index].
+     *
+     * @param index The register to modify the value of.
+     * @param modifier A function that modifies the value in the register.
+     * @throws RegisterReadException When [index] is out-of-bounds of the register set.
+     */
+    fun apply(index: Int, modifier: (T) -> T) {
+        val current = this[index]
+
+        this.overwrite(index, modifier(current))
     }
 
     /**
@@ -209,9 +217,15 @@ class RegisterSet<T> {
      *
      * @param index The register to read from.
      * @returns The value of the register at the given index.
+     * @throws RegisterReadException When [index] is out-of-bounds of the register set.
      */
     operator fun get(index: Int): T {
-        return this.registers[index].value
+        try {
+            return this.registers[index].value
+        }
+        catch (outOfBounds: ArrayIndexOutOfBoundsException) {
+            throw RegisterReadException("No register exists with the index $index in the register set.")
+        }
     }
 
     /**

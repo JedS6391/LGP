@@ -1,7 +1,7 @@
 package nz.co.jedsimson.lgp.core.evolution.operators
 
-import nz.co.jedsimson.lgp.core.environment.CoreModuleType
 import nz.co.jedsimson.lgp.core.environment.Environment
+import nz.co.jedsimson.lgp.core.modules.CoreModuleType
 import nz.co.jedsimson.lgp.core.program.instructions.InstructionGenerator
 import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
 import nz.co.jedsimson.lgp.core.program.registers.RandomRegisterGenerator
@@ -65,8 +65,9 @@ class MacroMutationOperator<TProgram, TOutput : Output<TProgram>>(
     private val minimumProgramLength = this.environment.configuration.minimumProgramLength
     private val maximumProgramLength = this.environment.configuration.maximumProgramLength
     private val random = this.environment.randomState
-    private val instructionGenerator = this.environment.registeredModule<InstructionGenerator<TProgram, TOutput>>(
-            CoreModuleType.InstructionGenerator
+    private val moduleFactory = this.environment.moduleFactory
+    private val instructionGenerator = this.moduleFactory.instance<InstructionGenerator<TProgram, TOutput>>(
+        CoreModuleType.InstructionGenerator
     )
 
     /**

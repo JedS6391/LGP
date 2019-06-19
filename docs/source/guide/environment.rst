@@ -25,13 +25,13 @@ These components are required when building an ``Environment`` instance and shou
 
 To build an environment, the following construction components are required:
 
-* ``ConfigLoader``
+* ``ConfigurationLoader``
 * ``ConstantLoader``
 * ``OperationLoader``
 * ``DefaultValueProvider``
 * ``FitnessFunction``
 
-.. note:: To find further information about these components, see `the API documentation. <https://jeds6391.github.io/LGP/api/html/lgp.core.environment/index.html>`_
+.. note:: To find further information about these components, see `the API documentation. <https://lgp.jedsimson.co.nz/api/html/nz.co.jedsimson.lgp.core.environment/index.html>`_
 
 These components are primarily those related to loading information into the environment (at initialisation time), or functionality that is used throughout the system but is customisable.
 
@@ -46,7 +46,7 @@ Building up an ``Environment`` instance with the correct construction components
 
     // Configuration.
     // Here, we load configuration information from a JSON file.
-    val configLoader = JsonConfigLoader(
+    val configLoader = JsonConfigurationLoader(
         filename = "/path/to/some/configuration/file.json"
     )
 
@@ -77,19 +77,20 @@ Building up an ``Environment`` instance with the correct construction components
     // implementation from the fitness functions module.
     val ce = FitnessFunctions.CE({ o ->
         // Map output to class by rounding down to nearest value
-       Math.floor(o)
+       kotlin.math.floor(o)
     })
 
 
     // We've declared all our dependencies, so we can build an LGP
     // environment. When constructing an environment, any
     // initialisation components will be resolved.
-    val env = Environment<Double>(
-            configLoader,
-            constantLoader,
-            operationLoader,
-            defaultValueProvider,
-            fitnessFunction = ce
+    val env = Environment<Double, Outputs.Single<Double>>(
+        configLoader,
+        constantLoader,
+        operationLoader,
+        defaultValueProvider,
+        // We must pass a function that can provide the FitnessFunction.
+        fitnessFunctionProvider = { ce }
     )
 
 This will create an environment with the construction components given and begin the process of loading any initialisation components.
@@ -192,6 +193,6 @@ With all components resolved, the environment is ready to be used for the main p
 API
 ===
 
-See `lgp.core.environment. <https://jeds6391.github.io/LGP/api/html/lgp.core.environment/index.html>`_
+See `nz.co.jedsimson.lgp.core.environment. <https://jeds6391.github.io/LGP/api/html/lgp.core.environment/index.html>`_
 
 

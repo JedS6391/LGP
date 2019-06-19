@@ -1,14 +1,13 @@
 package nz.co.jedsimson.lgp.core.evolution.model
 
-import nz.co.jedsimson.lgp.core.environment.CoreModuleType
-import nz.co.jedsimson.lgp.core.environment.Environment
+import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.evolution.ExportableResult
 import nz.co.jedsimson.lgp.core.evolution.fitness.Evaluation
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessEvaluator
 import nz.co.jedsimson.lgp.core.program.Output
-import nz.co.jedsimson.lgp.core.program.Outputs
 import nz.co.jedsimson.lgp.core.evolution.operators.*
+import nz.co.jedsimson.lgp.core.modules.CoreModuleType
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Program
 import nz.co.jedsimson.lgp.core.program.ProgramGenerator
@@ -59,22 +58,24 @@ object Models {
      * (Brameier, M., Banzhaf, W. 2001).
      */
     class SteadyState<TProgram, TOutput : Output<TProgram>>(
-        environment: Environment<TProgram, TOutput>
+        environment: EnvironmentDefinition<TProgram, TOutput>
     ) : EvolutionModel<TProgram, TOutput>(environment) {
 
-        private val select: SelectionOperator<TProgram, TOutput> = this.environment.registeredModule(
+        private val moduleFactory = this.environment.moduleFactory
+
+        private val select: SelectionOperator<TProgram, TOutput> = this.moduleFactory.instance(
                 CoreModuleType.SelectionOperator
         )
 
-        private val combine: RecombinationOperator<TProgram, TOutput> = this.environment.registeredModule(
+        private val combine: RecombinationOperator<TProgram, TOutput> = this.moduleFactory.instance(
                 CoreModuleType.RecombinationOperator
         )
 
-        private val microMutate: MutationOperator<TProgram, TOutput> = this.environment.registeredModule(
+        private val microMutate: MutationOperator<TProgram, TOutput> = this.moduleFactory.instance(
                 CoreModuleType.MicroMutationOperator
         )
 
-        private val macroMutate: MutationOperator<TProgram, TOutput> = this.environment.registeredModule(
+        private val macroMutate: MutationOperator<TProgram, TOutput> = this.moduleFactory.instance(
                 CoreModuleType.MacroMutationOperator
         )
 
@@ -85,7 +86,7 @@ object Models {
         lateinit var bestProgram: Program<TProgram, TOutput>
 
         private fun initialise() {
-            val programGenerator: ProgramGenerator<TProgram, TOutput> = this.environment.registeredModule(CoreModuleType.ProgramGenerator)
+            val programGenerator: ProgramGenerator<TProgram, TOutput> = this.moduleFactory.instance(CoreModuleType.ProgramGenerator)
 
             this.individuals = programGenerator.next()
                     .take(this.environment.configuration.populationSize)
@@ -234,22 +235,24 @@ object Models {
      * parallelised in a master-slave based technique.
      */
     class MasterSlave<TProgram, TOutput : Output<TProgram>>(
-        environment: Environment<TProgram, TOutput>
+        environment: EnvironmentDefinition<TProgram, TOutput>
     ) : EvolutionModel<TProgram, TOutput>(environment) {
 
-        private val select: SelectionOperator<TProgram, TOutput> = this.environment.registeredModule(
+        private val moduleFactory = this.environment.moduleFactory
+
+        private val select: SelectionOperator<TProgram, TOutput> = this.moduleFactory.instance(
                 CoreModuleType.SelectionOperator
         )
 
-        private val combine: RecombinationOperator<TProgram, TOutput> = this.environment.registeredModule(
+        private val combine: RecombinationOperator<TProgram, TOutput> = this.moduleFactory.instance(
                 CoreModuleType.RecombinationOperator
         )
 
-        private val microMutate: MutationOperator<TProgram, TOutput> = this.environment.registeredModule(
+        private val microMutate: MutationOperator<TProgram, TOutput> = this.moduleFactory.instance(
                 CoreModuleType.MicroMutationOperator
         )
 
-        private val macroMutate: MutationOperator<TProgram, TOutput> = this.environment.registeredModule(
+        private val macroMutate: MutationOperator<TProgram, TOutput> = this.moduleFactory.instance(
                 CoreModuleType.MacroMutationOperator
         )
 
@@ -260,7 +263,7 @@ object Models {
         lateinit var bestProgram: Program<TProgram, TOutput>
 
         private fun initialise() {
-            val programGenerator: ProgramGenerator<TProgram, TOutput> = this.environment.registeredModule(
+            val programGenerator: ProgramGenerator<TProgram, TOutput> = this.moduleFactory.instance(
                 CoreModuleType.ProgramGenerator
             )
 
@@ -421,7 +424,7 @@ object Models {
      * @param options Determines the configuration for the algorithm. See [IslandMigrationOptions] for more.
      */
     class IslandMigration<TProgram, TOutput : Output<TProgram>>(
-            environment: Environment<TProgram, TOutput>,
+            environment: EnvironmentDefinition<TProgram, TOutput>,
             private val options: IslandMigrationOptions
     ) : EvolutionModel<TProgram, TOutput>(environment) {
 
@@ -464,7 +467,7 @@ object Models {
             val islands: Array<Array<Island<TProgram, TOutput>>?>
             val numIslands: Int
 
-            constructor(numIslands: Int, environment: Environment<TProgram, TOutput>, dataset: Dataset<TProgram>) {
+            constructor(numIslands: Int, environment: EnvironmentDefinition<TProgram, TOutput>, dataset: Dataset<TProgram>) {
                 this.numIslands = numIslands
 
                 // Compute grid dimensions and construct the grid of islands.
@@ -519,22 +522,22 @@ object Models {
          */
         class Island<TProgram, TOutput : Output<TProgram>> {
 
-            val environment: Environment<TProgram, TOutput>
+            val environment: EnvironmentDefinition<TProgram, TOutput>
             val dataset: Dataset<TProgram>
 
-            constructor(environment: Environment<TProgram, TOutput>, dataset: Dataset<TProgram>) {
+            constructor(environment: EnvironmentDefinition<TProgram, TOutput>, dataset: Dataset<TProgram>) {
                 this.environment = environment
                 this.dataset = dataset
-                this.select = this.environment.registeredModule(
+                this.select = this.environment.moduleFactory.instance(
                         CoreModuleType.SelectionOperator
                 )
-                this.combine = this.environment.registeredModule(
+                this.combine = this.environment.moduleFactory.instance(
                         CoreModuleType.RecombinationOperator
                 )
-                this.microMutate = this.environment.registeredModule(
+                this.microMutate = this.environment.moduleFactory.instance(
                         CoreModuleType.MicroMutationOperator
                 )
-                this.macroMutate = this.environment.registeredModule(
+                this.macroMutate = this.environment.moduleFactory.instance(
                         CoreModuleType.MacroMutationOperator
                 )
                 this.fitnessEvaluator = FitnessEvaluator()
@@ -560,7 +563,7 @@ object Models {
             val random: Random
 
             private fun initialise() {
-                val programGenerator: ProgramGenerator<TProgram, TOutput> = this.environment.registeredModule(
+                val programGenerator: ProgramGenerator<TProgram, TOutput> = this.environment.moduleFactory.instance(
                     CoreModuleType.ProgramGenerator
                 )
 

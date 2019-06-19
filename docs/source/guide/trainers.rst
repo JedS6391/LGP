@@ -10,7 +10,7 @@ The concept of trainers provides a common interface for creating ways to evaluat
 
 Generally this will involve training a number of instances of a model and evaluating each model. This way we can gather statistics about how models are performing on average.
 
-The ``lgp.core.evolution.Trainer`` module provides the base concept as well as trainers for various situations. Generally, a trainers main task is to train a set of models and gather results for each model evaluation so that consumers can get information about the different evaluations.
+The ``nz.co.jedsimson.lgp.core.evolution.training`` module provides the base concept as well as trainers for various situations. Generally, a trainers main task is to train a set of models and gather results for each model evaluation so that consumers can get information about the different evaluations.
 
 Example
 -------
@@ -47,10 +47,45 @@ To train 10 instances of the model from the previous section in a parallel manne
 
 As output, we will be given the effective programs of 10 individuals which were the best as trained by each model. From this we could compute the average fitness of the best individuals trained by the model to gain a metric of how good the models solutions are on average.
 
+Alternatively, the trainers offer an asynchronous interface which can be used to prevent blocking the main thread while the training process is completed.
+
+.. code-block:: kotlin
+
+    // Build a trainer that will evaluate 10 parallel instances of the model.
+    val trainer = Trainers.DistributedTrainer(
+        environment,
+        model,
+        runs = 10
+    )
+
+    // Gather the results asynchronously.
+    // Assuming we have a data set loader as in previous sections.
+    val job = trainer.trainAsync(trainingDatasetLoader.load())
+
+    // Training asynchronously allows us to subscribe to progress updates,
+    // allowing communication between the initiator and executing thread(s).
+    job.subscribeToUpdates { update ->
+        println("training progress = ${update.progress}")
+    }
+
+    // Wait for the execution to complete
+    val result = job.result()
+
+    // Output the best (effective) program for each run.
+    result.evaluations.forEachIndexed { run, evaluation ->
+        println("Run ${run + 1}")
+
+        evaluation.best.effectiveInstructions.forEach(::println)
+
+        println("\n(fitness = ${evaluation.best.fitness})")
+    }
+
+The trainer will use the current co-routine context to spawn new co-routines.
+
 .. note:: Both built-in trainers have guarantees in place to ensure that they can provide determinism. In the case of the ``DistributedTrainer``, each thread has its own RNG instance, and thus the multi-threaded nature does not compromise the determinism guarantee.
 
 API
 ===
 
-See `lgp.core.evolution/Trainer. <https://jeds6391.github.io/LGP/api/html/lgp.core.evolution/-trainer/index.html>`_
+See `nz.co.jedsimson.lgp.core.evolution.training. <https://lgp.jedsimson.co.nz/api/html/nz.co.jedsimson.lgp.core.evolution.training/index.html>`_
 

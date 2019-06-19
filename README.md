@@ -5,6 +5,7 @@
 [![license][license-image]][license-url]
 [![docs][docs-image]][docs-url]
 [![build][travis-image]][travis-url]
+[![code-coverage][code-coverage-image]][code-coverage-url]
 [![maven][maven-image]][maven-url]
 
 ## About
@@ -23,7 +24,9 @@ If you find the system useful or have any queries, please feel free to:
 
 ## Installation
 
-A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/) page. Each version will have it's artefact uploaded here.
+<small>*Note: The LGP framework requires JDK 8 (Java 1.8).*</small>
+
+A JAR containing the core API can be downloaded from the [releases](https://github.com/JedS6391/LGP/releases/) page. Each version will have its artefact uploaded here.
 
 Alternatively, the package is available on Maven central, so you can reference the package as a dependency using the format appropriate for your package manager (see [here](https://search.maven.org/artifact/nz.co.jedsimson.lgp/LGP) for a full list). For example, to add to an existing Gradle build script:
 
@@ -100,7 +103,7 @@ kotlinc -cp LGP-core.jar:LGP-lib.jar -no-jdk -no-stdlib MyProblem.kt
 This will generate a class file in the directory called `MyProblemKt.class`. To interpret the class file using the Kotlin interpreter is simple:
 
 ```bash
-kotlin -cp LGP.jar:LGP-lib.jar:. MyProblemKt
+kotlin -cp LGP-core.jar:LGP-lib.jar:. MyProblemKt
 ```
 
 You should see the following output:
@@ -120,3 +123,6 @@ Please refer to the [usage guide](http://lgp.readthedocs.io/en/latest/guide/usag
 [travis-url]: https://travis-ci.org/JedS6391/LGP
 [maven-image]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP.svg?label=Maven%20Central&style=flat
 [maven-url]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP%22
+[code-coverage-image]:https://img.shields.io/codecov/c/github/JedS6391/LGP.svg
+[code-coverage-url]:https://codecov.io/gh/JedS6391/LGP/branch/develop/graph/badge.svg
+

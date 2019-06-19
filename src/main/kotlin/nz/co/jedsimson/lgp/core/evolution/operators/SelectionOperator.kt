@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.operators
 
-import nz.co.jedsimson.lgp.core.environment.Environment
+import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
@@ -23,7 +23,7 @@ import java.util.Random
  * @property environment The environment evolution is being performed within.
  */
 abstract class SelectionOperator<TProgram, TOutput : Output<TProgram>>(
-    val environment: Environment<TProgram, TOutput>
+    val environment: EnvironmentDefinition<TProgram, TOutput>
 ) : Module {
     /**
      * Selects a subset of programs from the population given using some method of selection.
@@ -48,7 +48,7 @@ abstract class SelectionOperator<TProgram, TOutput : Output<TProgram>>(
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  */
 class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>>(
-    environment: Environment<TProgram, TOutput>,
+    environment: EnvironmentDefinition<TProgram, TOutput>,
     val tournamentSize: Int
 ) : SelectionOperator<TProgram, TOutput>(environment) {
 
@@ -91,7 +91,7 @@ class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>>(
  * @see <a href="https://en.wikipedia.org/wiki/Tournament_selection"></a>
  */
 class TournamentSelection<TProgram, TOutput : Output<TProgram>>(
-    environment: Environment<TProgram, TOutput>,
+    environment: EnvironmentDefinition<TProgram, TOutput>,
     val tournamentSize: Int
 ) : SelectionOperator<TProgram, TOutput>(environment) {
 

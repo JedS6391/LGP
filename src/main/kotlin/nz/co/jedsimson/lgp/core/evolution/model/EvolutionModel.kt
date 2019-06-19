@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.model
 
-import nz.co.jedsimson.lgp.core.environment.Environment
+import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.program.Output
@@ -47,7 +47,7 @@ data class TestResult<TProgram, TOutput : Output<TProgram>>(
  * @property environment The environment evolution takes place within.
  */
 abstract class EvolutionModel<TProgram, TOutput : Output<TProgram>>(
-    val environment: Environment<TProgram, TOutput>
+    val environment: EnvironmentDefinition<TProgram, TOutput>
 ) : Module {
 
     /**

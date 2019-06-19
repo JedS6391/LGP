@@ -163,6 +163,33 @@ class Configuration {
                 && minimumProgramLength > 0 && maximumProgramLength > 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is Configuration) {
+            return false
+        }
+
+        return (
+            this.initialMinimumProgramLength == other.initialMinimumProgramLength &&
+            this.initialMaximumProgramLength == other.initialMaximumProgramLength &&
+            this.minimumProgramLength == other.minimumProgramLength &&
+            this.maximumProgramLength == other.maximumProgramLength &&
+            this.operations == other.operations &&
+            this.constantsRate == other.constantsRate &&
+            this.constants == other.constants &&
+            this.numCalculationRegisters == other.numCalculationRegisters &&
+            this.populationSize == other.populationSize &&
+            this.numFeatures == other.numFeatures &&
+            this.crossoverRate == other.crossoverRate &&
+            this.microMutationRate == other.microMutationRate &&
+            this.macroMutationRate == other.macroMutationRate &&
+            this.generations == other.generations &&
+            this.numOffspring == other.numOffspring &&
+            this.branchInitialisationRate == other.branchInitialisationRate &&
+            this.stoppingCriterion == other.stoppingCriterion &&
+            this.numberOfRuns == other.numberOfRuns
+        )
+    }
+
     override fun toString(): String {
         val sb = StringBuilder()
 

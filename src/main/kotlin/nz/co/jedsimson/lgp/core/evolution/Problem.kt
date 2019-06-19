@@ -2,13 +2,13 @@ package nz.co.jedsimson.lgp.core.evolution
 
 import nz.co.jedsimson.lgp.core.environment.DefaultValueProvider
 import nz.co.jedsimson.lgp.core.environment.Environment
-import nz.co.jedsimson.lgp.core.environment.ModuleContainer
 import nz.co.jedsimson.lgp.core.environment.config.ConfigurationLoader
 import nz.co.jedsimson.lgp.core.environment.constants.ConstantLoader
 import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessFunctionProvider
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel
+import nz.co.jedsimson.lgp.core.modules.ModuleContainer
 
 data class Description(val description: String)
 

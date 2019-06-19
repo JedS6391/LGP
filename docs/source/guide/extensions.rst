@@ -69,12 +69,12 @@ Finally, when building an ``Environment``, we can simply register an implementat
     ...
 
     // Our environment - initialisation details are omitted.
-    val env = Environment<Double>(
+    val env = Environment<Double, Outputs.Single>(
         configLoader,
         constantLoader,
         operationLoader,
         defaultValueProvider,
-        fitnessFunction = mse
+        fitnessFunction = { mse }
     )
 
     val logger = Logger(
@@ -106,6 +106,6 @@ Now the logger instance can be accessed from anywhere the environment is visible
 API
 ===
 
-There are a few relevant APIs for creating custom modules. Firstly, the `lgp.core.modules <https://jeds6391.github.io/LGP/api/html/lgp.core.modules/index.html>`_ package provides the definition of the ``Module`` interface which must be implemented in order to create custom modules.
+There are a few relevant APIs for creating custom modules. Firstly, the `nz.co.jedsimson.lgp.core.modules <https://lgp.jedsimson.co.nz/api/html/nz.co.jedsimson.lgp.core.modules/index.html>`_ package provides the definition of the ``Module`` interface which must be implemented in order to create custom modules.
 
-Furthermore, to create a custom module type to allow for a custom module to be registered, the `lgp.core.environment <https://jeds6391.github.io/LGP/api/html/lgp.core.environment/index.html>`_ package defines the ``RegisteredModuleType`` interface which must be implemented to create a new module type that is able to be registered within the environment.
+Furthermore, to create a custom module type to allow for a custom module to be registered, the `nz.co.jedsimson.lgp.core.environment <https://lgp.jedsimson.co.nz/api/html/nz.co.jedsimson.lgp.core.environment/index.html>`_ package defines the ``RegisteredModuleType`` interface which must be implemented to create a new module type that is able to be registered within the environment.

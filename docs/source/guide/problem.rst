@@ -47,4 +47,4 @@ The ``lgp.examples`` package provides examples of how to define a problem and ho
 API
 ===
 
-See `lgp.core.evolution <https://jeds6391.github.io/LGP/api/html/lgp.core.evolution/index.html>`_
+See `nz.co.jedsimson.lgp.core.evolution <https://lgp.jedsimson.co.nz/api/html/nz.co.jedsimson.lgp.core.evolution/index.html>`_
