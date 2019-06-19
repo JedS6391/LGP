@@ -5,6 +5,7 @@
 [![license][license-image]][license-url]
 [![docs][docs-image]][docs-url]
 [![build][travis-image]][travis-url]
+[![code-coverage][code-coverage-image]][code-coverage-url]
 [![maven][maven-image]][maven-url]
 
 ## About
@@ -122,3 +123,6 @@ Please refer to the [usage guide](http://lgp.readthedocs.io/en/latest/guide/usag
 [travis-url]: https://travis-ci.org/JedS6391/LGP
 [maven-image]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP.svg?label=Maven%20Central&style=flat
 [maven-url]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP%22
+[code-coverage-image]:https://img.shields.io/codecov/c/github/JedS6391/LGP.svg
+[code-coverage-url]:https://codecov.io/gh/JedS6391/LGP/branch/develop/graph/badge.svg
+
