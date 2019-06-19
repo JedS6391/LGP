@@ -10,5 +10,11 @@ echo "Running tests..."
 
 ./gradlew test --no-daemon --info --console=plain
 
+echo "Generating coverage report..."
+
+./gradlew jacocoTestReport
+
+bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+
 echo "real branch:"
 echo $REAL_BRANCH
