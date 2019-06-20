@@ -8,8 +8,9 @@ import nz.co.jedsimson.lgp.core.evolution.ExportableResult
 import nz.co.jedsimson.lgp.core.evolution.fitness.Evaluation
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessEvaluator
 import nz.co.jedsimson.lgp.core.program.Output
-import nz.co.jedsimson.lgp.core.evolution.operators.*
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
+import nz.co.jedsimson.lgp.core.evolution.operators.recombination.RecombinationOperator
+import nz.co.jedsimson.lgp.core.evolution.operators.selection.SelectionOperator
 import nz.co.jedsimson.lgp.core.modules.CoreModuleType
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Program

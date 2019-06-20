@@ -19,3 +19,58 @@ fun <T> Random.choice(list: List<T>): T {
 fun Random.randInt(min: Int, max: Int): Int {
     return this.nextInt(max - min + 1) + min
 }
+
+/**
+ * Chooses k unique random elements from the population given.
+ *
+ * @see <a href="https://hg.python.org/cpython/file/2.7/Lib/random.py#l295">Python random.sample reference</a>
+ */
+fun <T> Random.sample(population: List<T>, k: Int): List<T> {
+
+    val n = population.size
+    val log = { a: Double, b: Double -> (Math.log(a) / Math.log(b)) }
+
+    if (k < 0 || k > n)
+        throw IllegalArgumentException("Negative sample or sample larger than population given.")
+
+    val result = mutableListOf<T>()
+
+    (0..(k - 1)).map { idx ->
+        // Just fill the list with the first element of the population as a placeholder.
+        result.add(idx, population[0])
+    }
+
+    var setSize = 21
+
+    if (k > 5) {
+        val power = Math.ceil(log((k * 3).toDouble(), 4.0))
+
+        setSize += Math.pow(4.0, power).toInt()
+    }
+
+    if (n <= setSize) {
+        val pool = population.toMutableList()
+
+        for (i in (0 until k)) {
+            val j = (this.nextDouble() * (n - i)).toInt()
+
+            result[i] = pool[j]
+            pool[j] = pool[n - i - 1]
+        }
+    } else {
+        val selected = mutableSetOf<Int>()
+
+        for (i in (0 until k)) {
+            var j = (this.nextDouble() * n).toInt()
+
+            while (j in selected) {
+                j = (this.nextDouble() * n).toInt()
+            }
+
+            selected.add(j)
+            result[i] = population[j]
+        }
+    }
+
+    return result
+}
