@@ -3,10 +3,11 @@ package nz.co.jedsimson.lgp.test.program
 import nz.co.jedsimson.lgp.core.environment.DefaultValueProviders
 import nz.co.jedsimson.lgp.core.environment.dataset.Feature
 import nz.co.jedsimson.lgp.core.environment.dataset.Sample
+import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
 import nz.co.jedsimson.lgp.core.program.registers.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
-import java.util.*
+import kotlin.random.Random
 
 object RegisterSetFeatureFactoryFeature : Spek({
 
@@ -372,6 +373,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
             var registerSet: RegisterSet<Double>? = null
             var randomRegisterGenerator: RandomRegisterGenerator<Double>? = null
             var registers: List<Register<Double>>? = null
+            var registerIndices: List<RegisterIndex>? = null
 
             Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
                 registerSet = RegisterSet(
@@ -383,10 +385,10 @@ object RegisterSetFeatureFactoryFeature : Spek({
             }
 
             And("A random register generator") {
-                randomRegisterGenerator = RandomRegisterGenerator(Random(), registerSet!!)
+                randomRegisterGenerator = RandomRegisterGenerator(Random.Default, registerSet!!)
             }
 
-            When("When 2 random registers are requested") {
+            When("2 random registers are requested") {
                 registers = randomRegisterGenerator!!.next().take(2).toList()
             }
 
@@ -395,7 +397,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
                 assert(registers!!.size == 2) { "Incorrect number of registers generated" }
             }
 
-            When("When 2 random input registers are requested") {
+            When("2 random input registers are requested") {
                 registers = randomRegisterGenerator!!.next(RegisterType.Input).take(2).toList()
             }
 
@@ -405,7 +407,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
                 assert(registers!!.all { r -> registerSet!!.registerType(r.index) == RegisterType.Input })
             }
 
-            When("When 2 random calculation registers are requested") {
+            When("2 random calculation registers are requested") {
                 registers = randomRegisterGenerator!!.next(RegisterType.Calculation).take(2).toList()
             }
 
@@ -413,6 +415,45 @@ object RegisterSetFeatureFactoryFeature : Spek({
                 assert(registers != null) { "Registers was null" }
                 assert(registers!!.size == 2) { "Incorrect number of registers generated" }
                 assert(registers!!.all { r -> registerSet!!.registerType(r.index) == RegisterType.Calculation })
+            }
+
+            When("2 random input or calculation registers are requested based on a predicate") {
+                var invocation = 0
+                val predicate = {
+                    if (invocation == 0) {
+                        invocation += 1
+                        true
+                    } else {
+                        false
+                    }
+                }
+
+                registers = randomRegisterGenerator!!.next(RegisterType.Input, RegisterType.Calculation, predicate).take(2).toList()
+            }
+
+            Then("The 2 random registers are based on the predicate") {
+                assert(registers != null) { "Registers was null" }
+                assert(registers!!.size == 2) { "Incorrect number of registers generated" }
+
+                val firstRegister = registers!![0]
+                val firstRegisterType = registerSet!!.registerType(firstRegister.index)
+                val secondRegister = registers!![1]
+                val secondRegisterType = registerSet!!.registerType(secondRegister.index)
+
+                assert(firstRegisterType == RegisterType.Input) { "First register was not the correct type ($firstRegisterType)" }
+                assert(secondRegisterType == RegisterType.Calculation) { "Second register was not the correct type ($secondRegisterType)"}
+            }
+
+            When("10 random input and calculation registers are requested with a 50% chance of either") {
+                registerIndices = randomRegisterGenerator!!.getRandomInputAndCalculationRegisters(10).toList()
+            }
+
+            Then("The random registers have a 50% distribution of input and calculation") {
+                assert(registerIndices != null) { "Register indices was null" }
+
+                val registerTypes = registerIndices!!.map { idx -> registerSet!!.registerType(idx) }
+
+                assert(registerTypes.all { t -> t == RegisterType.Input || t == RegisterType.Calculation }) { "Unexpected register type" }
             }
         }
     }

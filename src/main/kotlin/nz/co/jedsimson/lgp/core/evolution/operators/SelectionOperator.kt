@@ -1,11 +1,12 @@
 package nz.co.jedsimson.lgp.core.evolution.operators
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.choice
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Program
-import java.util.Random
+import kotlin.random.Random
 
 /**
  * A search operator used during evolution to select a subset of individuals from a population.
@@ -129,10 +130,10 @@ internal data class TournamentResult<TProgram, TOutput : Output<TProgram>>(
  * @property replacement Determines whether winning individuals remain in the population.
  */
 internal fun <TProgram, TOutput : Output<TProgram>> tournament(
-    individuals: MutableList<Program<TProgram, TOutput>>,
-    random: Random,
-    tournamentSize: Int,
-    replacement: Boolean = false
+        individuals: MutableList<Program<TProgram, TOutput>>,
+        random: Random,
+        tournamentSize: Int,
+        replacement: Boolean = false
 ): TournamentResult<TProgram, TOutput> {
 
     var winner = random.choice(individuals)
@@ -205,11 +206,4 @@ fun <T> Random.sample(population: List<T>, k: Int): List<T> {
     }
 
     return result
-}
-
-/**
- * Return a random element from the given list.
- */
-fun <T> Random.choice(list: List<T>): T {
-    return list[(this.nextDouble() * list.size).toInt()]
 }

@@ -1,19 +1,22 @@
 package nz.co.jedsimson.lgp.core.evolution.model
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.choice
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
+import nz.co.jedsimson.lgp.core.environment.randInt
 import nz.co.jedsimson.lgp.core.evolution.ExportableResult
 import nz.co.jedsimson.lgp.core.evolution.fitness.Evaluation
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessEvaluator
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.evolution.operators.*
+import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
 import nz.co.jedsimson.lgp.core.modules.CoreModuleType
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Program
 import nz.co.jedsimson.lgp.core.program.ProgramGenerator
 
-import java.util.Random
 import kotlin.concurrent.thread
+import kotlin.random.Random
 import kotlin.streams.toList
 
 /**

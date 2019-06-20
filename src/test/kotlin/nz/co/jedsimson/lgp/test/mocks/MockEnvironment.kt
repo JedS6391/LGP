@@ -10,15 +10,18 @@ import nz.co.jedsimson.lgp.core.modules.ModuleFactory
 import nz.co.jedsimson.lgp.core.modules.RegisteredModuleType
 import nz.co.jedsimson.lgp.core.program.Outputs
 import nz.co.jedsimson.lgp.core.program.instructions.Operation
-import java.util.*
+import kotlin.random.Random
 
-class MockEnvironment : EnvironmentDefinition<Double, Outputs.Single<Double>> {
+class MockEnvironment(
+    private val mockConfiguration: Configuration? = null,
+    private val mockRandomState: Random? = null
+) : EnvironmentDefinition<Double, Outputs.Single<Double>> {
     override val randomState: Random
-        get() = TODO("not implemented")
+        get() = mockRandomState ?: TODO("not implemented")
     override val fitnessFunctionProvider: FitnessFunctionProvider<Double, Outputs.Single<Double>>
         get() = TODO("not implemented")
     override val configuration: Configuration
-        get() = TODO("not implemented")
+        get() = mockConfiguration ?: TODO("not implemented")
     override val constants: List<Double>
         get() = TODO("not implemented")
     override val operations: List<Operation<Double>>

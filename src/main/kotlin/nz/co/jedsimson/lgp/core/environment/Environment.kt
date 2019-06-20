@@ -13,7 +13,7 @@ import nz.co.jedsimson.lgp.core.modules.ModuleContainer
 import nz.co.jedsimson.lgp.core.modules.ModuleFactory
 import nz.co.jedsimson.lgp.core.modules.RegisteredModuleType
 import nz.co.jedsimson.lgp.core.program.Output
-import java.util.Random
+import kotlin.random.Random
 
 /**
  * Acts as a facade for simplifying access to details of an [Environment].
@@ -170,7 +170,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
         // Determine whether we need to seed the RNG or not.
         when (this.randomStateSeed) {
             is Long -> this.randomState = Random(this.randomStateSeed)
-            else    -> this.randomState = Random()
+            else    -> this.randomState = Random.Default
         }
 
         // Empty module container to begin

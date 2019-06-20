@@ -1,6 +1,7 @@
 package nz.co.jedsimson.lgp.core.evolution.operators
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.randInt
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
@@ -160,17 +161,6 @@ class LinearCrossover<TProgram, TOutput : Output<TProgram>>(
     }
 
     override val information = ModuleInformation("Linear Crossover operator")
-}
-
-/**
- * Chooses a random integer in the range [min, max] (i.e. min <= x <= max).
- *
- * @param min The lower, inclusive bound of the random integer.
- * @param max The upper, inclusive bound of the random integer.
- * @return A random integer between min and max inclusive.
- */
-fun Random.randInt(min: Int, max: Int): Int {
-    return this.nextInt(max - min + 1) + min
 }
 
 /**
