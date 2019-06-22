@@ -3,7 +3,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.environment.choice
 import nz.co.jedsimson.lgp.core.environment.randInt
-import nz.co.jedsimson.lgp.core.evolution.operators.mutation.findEffectiveCalculationRegisters
+import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolver
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.modules.CoreModuleType
 import nz.co.jedsimson.lgp.core.program.Output
@@ -21,7 +21,8 @@ internal object MacroMutationStrategies {
      * @param environment An environment that the mutation is occurring in.
      */
     internal class MacroMutationInsertionStrategy<TProgram, TOutput : Output<TProgram>>(
-        val environment: EnvironmentDefinition<TProgram, TOutput>
+        private val environment: EnvironmentDefinition<TProgram, TOutput>,
+        private val effectiveCalculationRegisterResolver: EffectiveCalculationRegisterResolver<TProgram, TOutput>
     ) : MutationStrategy<TProgram, TOutput>() {
 
         private val random = this.environment.randomState
@@ -38,12 +39,14 @@ internal object MacroMutationStrategies {
             // We can avoid running algorithm 3.1 like in the literature by
             // just searching for effective calculation registers and making
             // sure we choose an effective register for our mutation
-            val effectiveRegisters = individual.findEffectiveCalculationRegisters(mutationPoint)
-            val instruction = this.instructionGenerator.generateInstruction()
+            val effectiveRegisters = this.effectiveCalculationRegisterResolver(individual, mutationPoint)
 
             // Can only perform a mutation if there is an effective register to choose from.
             if (effectiveRegisters.isNotEmpty()) {
-                instruction.destination = random.choice(effectiveRegisters)
+                val instruction = this.instructionGenerator.generateInstruction()
+                val destinationRegister = random.choice(effectiveRegisters)
+
+                instruction.destination = destinationRegister
 
                 individual.instructions.add(mutationPoint, instruction)
             }
@@ -56,7 +59,7 @@ internal object MacroMutationStrategies {
      * @param environment An environment that the mutation is occurring in.
      */
     internal class MacroMutationDeletionStrategy<TProgram, TOutput : Output<TProgram>>(
-        val environment: EnvironmentDefinition<TProgram, TOutput>
+        private val environment: EnvironmentDefinition<TProgram, TOutput>
     ) : MutationStrategy<TProgram, TOutput>() {
 
         private val random = this.environment.randomState

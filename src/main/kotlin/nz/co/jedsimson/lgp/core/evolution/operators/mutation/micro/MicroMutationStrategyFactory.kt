@@ -1,6 +1,7 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolvers
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
 import nz.co.jedsimson.lgp.core.program.Output
@@ -57,7 +58,8 @@ internal class MicroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>
         return when (mutationType) {
             MicroMutationType.Register -> MicroMutationStrategies.RegisterMicroMutationStrategy(
                 environment,
-                registerGenerator
+                registerGenerator,
+                EffectiveCalculationRegisterResolvers::baseResolver
             )
 
             MicroMutationType.Operator -> MicroMutationStrategies.OperatorMicroMutationStrategy(

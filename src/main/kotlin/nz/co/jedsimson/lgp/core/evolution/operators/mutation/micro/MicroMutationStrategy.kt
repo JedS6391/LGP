@@ -2,7 +2,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.environment.choice
-import nz.co.jedsimson.lgp.core.evolution.operators.mutation.findEffectiveCalculationRegisters
+import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolver
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.evolution.operators.slice
 import nz.co.jedsimson.lgp.core.program.Output
@@ -27,7 +27,8 @@ internal object MicroMutationStrategies {
      */
     internal class RegisterMicroMutationStrategy<TProgram, TOutput : Output<TProgram>>(
         private val environment: EnvironmentDefinition<TProgram, TOutput>,
-        private val registerGenerator: RandomRegisterGenerator<TProgram>
+        private val registerGenerator: RandomRegisterGenerator<TProgram>,
+        private val effectiveCalculationRegisterResolver: EffectiveCalculationRegisterResolver<TProgram, TOutput>
     ) : MutationStrategy<TProgram, TOutput>() {
 
         private val constantsRate = this.environment.configuration.constantsRate
@@ -47,7 +48,7 @@ internal object MicroMutationStrategies {
                 val instructionPosition = individual.instructions.indexOf(instruction)
 
                 // Use our shortcut version of Algorithm 3.1.
-                val effectiveRegisters = individual.findEffectiveCalculationRegisters(instructionPosition)
+                val effectiveRegisters = effectiveCalculationRegisterResolver(individual, instructionPosition)
 
                 instruction.destination = if (effectiveRegisters.isNotEmpty()) {
                     random.choice(effectiveRegisters)

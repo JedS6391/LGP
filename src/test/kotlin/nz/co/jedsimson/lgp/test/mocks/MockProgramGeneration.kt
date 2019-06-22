@@ -60,14 +60,10 @@ class MockInstructionGenerator<TOutput : Output<Double>>(
 }
 
 class MockSingleOutputProgram(
-    instructions: List<Instruction<Double>>,
-    registers: RegisterSet<Double>,
-    outputRegisterIndices: List<RegisterIndex>
-) : Program<Double, Outputs.Single<Double>>(
-    instructions.toMutableList(),
-    registers,
-    outputRegisterIndices
-)
+    override var instructions: MutableList<Instruction<Double>>,
+    override val registers: RegisterSet<Double>,
+    override val outputRegisterIndices: List<RegisterIndex>
+) : Program<Double, Outputs.Single<Double>>()
 {
     override fun output(): Outputs.Single<Double> {
         val output = this.registers[outputRegisterIndices.first()]
@@ -101,7 +97,7 @@ class MockSingleOutputProgramGenerator(
 )
 {
     override fun generateProgram(): Program<Double, Outputs.Single<Double>> {
-        val instructions = this.instructionGenerator.next().take(2).toList()
+        val instructions = this.instructionGenerator.next().take(2).toMutableList()
         val registers = RegisterSet(
                 inputRegisters = 2,
                 calculationRegisters = 0,
@@ -118,14 +114,10 @@ class MockSingleOutputProgramGenerator(
 }
 
 class MockMultipleOutputProgram(
-        instructions: List<Instruction<Double>>,
-        registers: RegisterSet<Double>,
-        outputRegisterIndices: List<RegisterIndex>
-) : Program<Double, Outputs.Multiple<Double>>(
-        instructions.toMutableList(),
-        registers,
-        outputRegisterIndices
-)
+    override var instructions: MutableList<Instruction<Double>>,
+    override val registers: RegisterSet<Double>,
+    override val outputRegisterIndices: List<RegisterIndex>
+) : Program<Double, Outputs.Multiple<Double>>()
 {
     override fun output(): Outputs.Multiple<Double> {
         val outputs = this.outputRegisterIndices.map { idx -> this.registers[idx] }
@@ -159,7 +151,7 @@ class MockMultipleOutputProgramGenerator(
 )
 {
     override fun generateProgram(): Program<Double, Outputs.Multiple<Double>> {
-        val instructions = this.instructionGenerator.next().take(2).toList()
+        val instructions = this.instructionGenerator.next().take(2).toMutableList()
         val registers = RegisterSet(
             inputRegisters = 2,
             calculationRegisters = 0,

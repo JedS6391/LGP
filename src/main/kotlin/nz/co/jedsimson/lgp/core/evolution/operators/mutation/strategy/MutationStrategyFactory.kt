@@ -6,7 +6,7 @@ import nz.co.jedsimson.lgp.core.program.Program
 /**
  * Responsible for creating [MutationStrategy] instances to be used to perform macro-mutations.*
  */
-internal abstract class MutationStrategyFactory<TProgram, TOutput : Output<TProgram>> {
+abstract class MutationStrategyFactory<TProgram, TOutput : Output<TProgram>> {
 
     /**
      * Gets the [MutationStrategy] that should be applied to the given [Program].

@@ -6,12 +6,9 @@ import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregators
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessFunctionProvider
+import nz.co.jedsimson.lgp.core.modules.*
 import nz.co.jedsimson.lgp.core.program.instructions.Operation
 import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
-import nz.co.jedsimson.lgp.core.modules.Module
-import nz.co.jedsimson.lgp.core.modules.ModuleContainer
-import nz.co.jedsimson.lgp.core.modules.ModuleFactory
-import nz.co.jedsimson.lgp.core.modules.RegisteredModuleType
 import nz.co.jedsimson.lgp.core.program.Output
 import kotlin.random.Random
 
@@ -175,7 +172,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
 
         // Empty module container to begin
         this.container = ModuleContainer(modules = mutableMapOf())
-        this.moduleFactory = ModuleFactory(this.container)
+        this.moduleFactory = CachingModuleFactory(this.container)
 
         // Kick off initialisation
         this.initialise()
@@ -217,7 +214,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
 
     override fun registerModules(container: ModuleContainer<TProgram, TOutput>) {
         this.container = container
-        this.moduleFactory = ModuleFactory(this.container)
+        this.moduleFactory = CachingModuleFactory(this.container)
 
         // Update the containers environment dependency.
         this.container.environment = this
@@ -230,13 +227,13 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
     override fun copy(): Environment<TProgram, TOutput> {
         // Construct a copy with the correct construction/initialised components.
         val copy = Environment(
-                this.configurationLoader,
-                this.constantLoader,
-                this.operationLoader,
-                this.defaultValueProvider,
-                this.fitnessFunctionProvider,
-                this.resultAggregator,
-                this.randomState.nextLong()
+            this.configurationLoader,
+            this.constantLoader,
+            this.operationLoader,
+            this.defaultValueProvider,
+            this.fitnessFunctionProvider,
+            this.resultAggregator,
+            this.randomState.nextLong()
         )
 
         // Now, the tricky part. We have to ensure that the containers modules
@@ -249,7 +246,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
         // We also need to clear any cached modules, just in case there are any references
         // to the previous environment laying around. Generally, any environment instances
         // would be copied before modules are accessed -- but it doesn't hurt to be cautious!
-        copy.moduleFactory.instanceCache.clear()
+        copy.moduleFactory = CachingModuleFactory(container)
 
         return copy
     }

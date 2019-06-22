@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 
 import nz.co.jedsimson.lgp.core.environment.Environment
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolvers
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
 import nz.co.jedsimson.lgp.core.program.Output
@@ -45,7 +46,7 @@ internal class MacroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>
                 (mutationType == MacroMutationType.Insertion || programLength == minimumProgramLength)) {
             // We only insert instructions when we haven't hit the maximum AND we need to insert (either
             // because that is the selected mutation type or we have a minimum length program.
-            return MacroMutationStrategies.MacroMutationInsertionStrategy(this.environment)
+            return MacroMutationStrategies.MacroMutationInsertionStrategy(this.environment, EffectiveCalculationRegisterResolvers::baseResolver)
         }
         else if (programLength > minimumProgramLength &&
                 (mutationType == MacroMutationType.Deletion || programLength == maximumProgramLength)) {
