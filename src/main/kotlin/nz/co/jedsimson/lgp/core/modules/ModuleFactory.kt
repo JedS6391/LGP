@@ -1,22 +1,23 @@
 package nz.co.jedsimson.lgp.core.modules
 
 import nz.co.jedsimson.lgp.core.program.Output
+import java.lang.ClassCastException
 
 /**
  * Facilitates access to modules that have been registered in a [ModuleContainer].
  *
  * The main goal is to separate the building of a module container (a public operation)
  * and retrieving instances of a module.
+ *
+ * @constructor Creates a new [ModuleFactory] with the given [ModuleContainer].
+ * @property container A [ModuleContainer] that this factory manages.
  */
-class ModuleFactory<TProgram, TOutput : Output<TProgram>> internal constructor(
-    val container: ModuleContainer<TProgram, TOutput>
+abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>>(
+    internal val container: ModuleContainer<TProgram, TOutput>
 ) {
 
-    // All instances are provided as singletons
-    val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
-
     /**
-     * Provides an instance of the module [type] given.
+     * Provides an instance of the [Module] registered for the given [type].
      *
      * The module will be loaded and cast to the type given if possible to cast to that type. This method is able to
      * perform safe casts due to Kotlin's reified generics. If the cast can't be done safely, a [ModuleCastException]
@@ -27,31 +28,17 @@ class ModuleFactory<TProgram, TOutput : Output<TProgram>> internal constructor(
      *
      * @param type The type of of module to get an instance of.
      * @param TModule The type to cast the module as.
-     * @return An instance of the module registered for the given module type.
+     * @return An instance of the module registered for the given module type cast safely as [TModule].
      * @throws MissingModuleException When no builder has been registered for the type of module requested.
      * @throws ModuleCastException When the requested module can't be cast to the type given.
      */
     inline fun <reified TModule : Module> instance(type: RegisteredModuleType): TModule {
-        if (type in instanceCache)
-            return instanceCache[type] as TModule
-
-        // If no module builder exists (i.e. it is null) then we can assume that
-        // no module builder has been registered for this module type, despite it
-        // being requested by from somewhere.
-        val moduleBuilder = this.container.modules[type]
-                ?: throw MissingModuleException("No module builder registered for $type.")
-
-        // At this stage, we at least know that the module builder is valid so we can go ahead and execute it.
-        // However, we need to check that the module can actually be cast as the type requested.
-        // Doing this means that we don't have to do unchecked casts anywhere and gives protection against
-        // invalid casts from calling code.
-        val module = moduleBuilder(this.container.environment) as? TModule
-                ?: throw ModuleCastException("Unable to cast $type module as ${TModule::class.java.simpleName}.")
-
-        // Cache this instance for later usages since it is valid when cast to the type given.
-        instanceCache[type] = module
-
-        return module
+        try {
+            return resolveModuleFromType(type) as TModule
+        }
+        catch (classCastException: ClassCastException) {
+            throw ModuleCastException("Unable to cast $type module as ${TModule::class.java.simpleName}.")
+        }
     }
 
     /**
@@ -70,25 +57,43 @@ class ModuleFactory<TProgram, TOutput : Output<TProgram>> internal constructor(
      * safe) [instance] function, the invalid cast can be caught before the function returns and dealt with appropriately.
      *
      * @param type The type of of module to get an instance of.
-     * @param TModule The type to cast the module as.
+     * @return An instance of the module registered for the given module type cast as [TModule].
+     * @throws MissingModuleException When no builder has been registered for the type of module requested.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun <TModule : Module> instanceUnsafe(type: RegisteredModuleType): TModule {
+        return resolveModuleFromType(type) as TModule
+    }
+
+    /**
+     * Resolves the raw [Module] registered for the given [type].
+     *
+     * @param type The type of of module to get an instance of.
      * @return An instance of the module registered for the given module type.
      * @throws MissingModuleException When no builder has been registered for the type of module requested.
-     * @throws ModuleCastException When the requested module can't be cast to the type given.
      */
-    fun <TModule : Module> instanceUnsafe(type: RegisteredModuleType): TModule {
-        @Suppress("UNCHECKED_CAST")
+    abstract fun resolveModuleFromType(type: RegisteredModuleType): Module
+}
+
+internal class CachingModuleFactory<TProgram, TOutput : Output<TProgram>>(
+    container: ModuleContainer<TProgram, TOutput>
+) : ModuleFactory<TProgram, TOutput>(container) {
+
+    // All instances are provided as singletons
+    private val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
+
+    override fun resolveModuleFromType(type: RegisteredModuleType): Module {
         if (type in instanceCache)
-            return instanceCache[type] as TModule
+            return instanceCache[type]!!
 
         val moduleBuilder = this.container.modules[type]
                 ?: throw MissingModuleException("No module builder registered for $type.")
 
-        @Suppress("UNCHECKED_CAST")
-        val module = moduleBuilder(this.container.environment) as? TModule
-                ?: throw ModuleCastException("Unable to cast $type module to given type.")
+        val module = moduleBuilder(this.container.environment)
 
         instanceCache[type] = module
 
         return module
     }
+
 }

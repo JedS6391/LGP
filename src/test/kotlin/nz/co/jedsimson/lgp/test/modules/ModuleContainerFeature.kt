@@ -22,7 +22,7 @@ object ModuleFactoryFeature : Spek({
 
             Given("A module container with no modules") {
                 moduleContainer = ModuleContainer(modules = mutableMapOf())
-                moduleFactory = ModuleFactory(moduleContainer)
+                moduleFactory = CachingModuleFactory(moduleContainer)
             }
 
             When("A module is loaded") {
@@ -56,7 +56,7 @@ object ModuleFactoryFeature : Spek({
                 )
                 moduleContainer.environment = MockEnvironment()
 
-                moduleFactory = ModuleFactory(moduleContainer)
+                moduleFactory = CachingModuleFactory(moduleContainer)
             }
 
             When("The module is loaded") {
@@ -92,7 +92,7 @@ object ModuleFactoryFeature : Spek({
                 )
                 moduleContainer.environment = MockEnvironment()
 
-                moduleFactory = ModuleFactory(moduleContainer)
+                moduleFactory = CachingModuleFactory(moduleContainer)
             }
 
             When("The module is loaded") {
@@ -107,7 +107,7 @@ object ModuleFactoryFeature : Spek({
             Then("The module should not be loaded") {
                 assert(programGenerator == null) { "Module was not null ($programGenerator)" }
                 assert(exception != null) { "Exception was null" }
-                assert(exception is ModuleCastException) { "Exception was not correct type" }
+                assert(exception is ModuleCastException) { "Exception was not correct type (was ${exception!!::class.java.simpleName})" }
             }
         }
     }

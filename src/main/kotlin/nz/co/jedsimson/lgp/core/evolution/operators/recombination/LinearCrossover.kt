@@ -1,34 +1,12 @@
-package nz.co.jedsimson.lgp.core.evolution.operators
+package nz.co.jedsimson.lgp.core.evolution.operators.recombination
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
-import nz.co.jedsimson.lgp.core.program.Output
-import nz.co.jedsimson.lgp.core.modules.Module
+import nz.co.jedsimson.lgp.core.environment.randInt
+import nz.co.jedsimson.lgp.core.evolution.operators.slice
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
+import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
-import java.util.Random
 
-/**
- * A search operator used during evolution to combine two individuals from a population.
- *
- * The individuals are mutated directly by the reference given, so calls to this function
- * directly modify the arguments.
- *
- * @param TProgram The type of programs being combined.
- * @param TOutput The type of the program output(s).
- * @property environment The environment evolution is being performed within.
- */
-abstract class RecombinationOperator<TProgram, TOutput : Output<TProgram>>(
-    val environment: EnvironmentDefinition<TProgram, TOutput>
-) : Module {
-
-    /**
-     * Combines the two programs given using some recombination technique.
-     *
-     * @param mother The first individual.
-     * @param father The second individual.
-     */
-    abstract fun combine(mother: Program<TProgram, TOutput>, father: Program<TProgram, TOutput>)
-}
 
 /**
  * A [RecombinationOperator] that implements Linear Crossover for two individuals.
@@ -42,9 +20,9 @@ abstract class RecombinationOperator<TProgram, TOutput : Output<TProgram>>(
  */
 class LinearCrossover<TProgram, TOutput : Output<TProgram>>(
     environment: EnvironmentDefinition<TProgram, TOutput>,
-     val maximumSegmentLength: Int,
-     val maximumCrossoverDistance: Int,
-     val maximumSegmentLengthDifference: Int
+    private val maximumSegmentLength: Int,
+    private val maximumCrossoverDistance: Int,
+    private val maximumSegmentLengthDifference: Int
 ) : RecombinationOperator<TProgram, TOutput>(environment) {
 
     private val random = this.environment.randomState
@@ -160,27 +138,4 @@ class LinearCrossover<TProgram, TOutput : Output<TProgram>>(
     }
 
     override val information = ModuleInformation("Linear Crossover operator")
-}
-
-/**
- * Chooses a random integer in the range [min, max] (i.e. min <= x <= max).
- *
- * @param min The lower, inclusive bound of the random integer.
- * @param max The upper, inclusive bound of the random integer.
- * @return A random integer between min and max inclusive.
- */
-fun Random.randInt(min: Int, max: Int): Int {
-    return this.nextInt(max - min + 1) + min
-}
-
-/**
- * Returns a view of a list between the range given.
- *
- * The range is mutable and will modify the underlying list.
- *
- * @param range A collection of indices that the slice should contain.
- * @return A list of elements whose indices fall between the range given.
- */
-fun <T> MutableList<T>.slice(range: IntRange): MutableList<T> {
-    return this.filterIndexed { idx, _ -> idx in range }.toMutableList()
 }

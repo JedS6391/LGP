@@ -1,7 +1,7 @@
 package nz.co.jedsimson.lgp.core.program.registers
 
 import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
-import java.util.Random
+import kotlin.random.Random
 
 /**
  * Generates an infinite random sequence of registers from the register set given.
@@ -46,10 +46,10 @@ class RandomRegisterGenerator<T>(internal val randomState: Random, private val r
      * @param b The second register type.
      * @param predicate A function that determines between register type a and b.
      */
-    fun next(a: RegisterType, b: RegisterType, predicate: () -> Boolean): Sequence<Register<T>> {
-        return this.next().filter { r ->
-            this.registerSet.registerType(r.index) == (if (predicate()) a else b)
-        }
+    fun next(a: RegisterType, b: RegisterType, predicate: () -> Boolean): Sequence<Register<T>> = generateSequence {
+        val typeToGive = if (predicate()) a else b
+
+        this.next(typeToGive).first()
     }
 }
 
