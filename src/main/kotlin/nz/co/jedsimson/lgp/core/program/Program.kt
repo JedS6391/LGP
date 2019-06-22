@@ -27,7 +27,7 @@ abstract class Program<TData, TOutput : Output<TData>> : Module {
      * By default, this list is empty. It is expected that a call to [Program.findEffectiveProgram]
      * would populate this list.
      */
-    var effectiveInstructions: MutableList<Instruction<TData>> = mutableListOf()
+    open var effectiveInstructions: MutableList<Instruction<TData>> = mutableListOf()
 
     /**
      * The instructions in this [Program].

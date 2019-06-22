@@ -249,7 +249,7 @@ object MutationOperatorFeature : Spek({
             }
         }
 
-        // Strategy implementations (insertion/deletion)
+        // Strategy implementation - insertion
         Scenario("Insertion macro mutation strategy does not insert an instruction if there are no effective registers") {
             val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
             val initialProgramLength = 10
@@ -377,6 +377,67 @@ object MutationOperatorFeature : Spek({
                 assert(mockProgram.instructions[mutationPoint] == newMockInstruction) { "Instruction at the mutation point was not expected" }
                 assert(mockProgram.instructions.filterIndexed { index, _ -> index != mutationPoint } == originalMockInstructions) { "Instruction list does not match original when excluding new instruction" }
                 verify(newMockInstruction).destination = expectedDestinationRegister
+            }
+        }
+
+        // Strategy implementation - deletion
+        Scenario("Deletion macro mutation strategy does not delete any instruction if there are no effective instructions") {
+            val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
+            val initialProgramLength = 10
+            val mockInstructions = (0 until initialProgramLength).map { mock<Instruction<Double>>() }.toMutableList()
+            val effectiveInstructions = mutableListOf<Instruction<Double>>()
+            val mockEnvironment = mock<EnvironmentDefinition<Double, Outputs.Single<Double>>>()
+            val mockRandom = mock<Random>()
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+
+            Given("A deletion macro mutation strategy") {
+                whenever(mockRandom.nextDouble()).thenReturn(0.5)
+                whenever(mockEnvironment.randomState).thenReturn(mockRandom)
+                whenever(mockProgram.instructions).thenReturn(mockInstructions)
+                whenever(mockProgram.effectiveInstructions).thenReturn(effectiveInstructions)
+
+                mutationStrategy = MacroMutationStrategies.MacroMutationDeletionStrategy(mockEnvironment)
+            }
+
+            When("The mutation strategy is executed") {
+                mutationStrategy!!.mutate(mockProgram)
+            }
+
+            Then("No mutation is performed") {
+                assert(mockProgram.instructions.size == initialProgramLength) { "Program length was modified but should have remained the same" }
+            }
+        }
+
+        Scenario("Deletion macro mutation strategy deletes a random instruction when there are effective instructions") {
+            val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
+            val initialProgramLength = 10
+            val mockInstructions = (0 until initialProgramLength).map { mock<Instruction<Double>>() }.toMutableList()
+            val originalMockInstructions = mockInstructions.toMutableList()
+            val effectiveInstructions = mockInstructions.filterIndexed { idx, _ -> idx % 2 == 0 }.toMutableList()
+            val expectedDeletedInstructionIndex = 2
+            val mockEnvironment = mock<EnvironmentDefinition<Double, Outputs.Single<Double>>>()
+            val mockRandom = mock<Random>()
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+
+            Given("A deletion macro mutation strategy") {
+                whenever(mockRandom.nextDouble()).thenReturn(0.5)
+                whenever(mockEnvironment.randomState).thenReturn(mockRandom)
+                whenever(mockProgram.instructions).thenReturn(mockInstructions)
+                whenever(mockProgram.effectiveInstructions).thenReturn(effectiveInstructions)
+
+                mutationStrategy = MacroMutationStrategies.MacroMutationDeletionStrategy(mockEnvironment)
+            }
+
+            When("The mutation strategy is executed") {
+                mutationStrategy!!.mutate(mockProgram)
+            }
+
+            Then("A random instruction is deleted") {
+                assert(mockProgram.instructions.size == initialProgramLength - 1) { "Program length was modified but should have remained the same" }
+
+                originalMockInstructions.remove(effectiveInstructions[expectedDeletedInstructionIndex])
+
+                assert(originalMockInstructions == mockProgram.instructions) { "Program instructions does not match expected" }
             }
         }
     }
