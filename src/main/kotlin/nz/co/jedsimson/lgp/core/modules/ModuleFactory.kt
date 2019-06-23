@@ -72,7 +72,8 @@ abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>>(
      * @return An instance of the module registered for the given module type.
      * @throws MissingModuleException When no builder has been registered for the type of module requested.
      */
-    abstract fun resolveModuleFromType(type: RegisteredModuleType): Module
+    @PublishedApi
+    internal abstract fun resolveModuleFromType(type: RegisteredModuleType): Module
 }
 
 internal class CachingModuleFactory<TProgram, TOutput : Output<TProgram>>(

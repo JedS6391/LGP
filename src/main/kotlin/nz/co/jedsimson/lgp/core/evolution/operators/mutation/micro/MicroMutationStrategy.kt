@@ -35,12 +35,11 @@ internal object MicroMutationStrategies {
         private val random = this.environment.randomState
 
         override fun mutate(individual: Program<TProgram, TOutput>) {
-            val instruction = random.choice(individual.effectiveInstructions)
-            val registerPositions = mutableListOf(instruction.destination)
-            registerPositions.addAll(instruction.operands)
+            val instruction = this.random.choice(individual.effectiveInstructions)
+            val registerPositions = mutableListOf(instruction.destination) + instruction.operands
 
             // (a) Randomly select a register position destination | operand
-            val register = random.choice(registerPositions)
+            val register = this.random.choice(registerPositions)
 
             if (register == instruction.destination) {
                 // (b) If destination register then select a different (effective)
@@ -48,10 +47,10 @@ internal object MicroMutationStrategies {
                 val instructionPosition = individual.instructions.indexOf(instruction)
 
                 // Use our shortcut version of Algorithm 3.1.
-                val effectiveRegisters = effectiveCalculationRegisterResolver(individual, instructionPosition)
+                val effectiveRegisters = this.effectiveCalculationRegisterResolver(individual, instructionPosition)
 
                 instruction.destination = if (effectiveRegisters.isNotEmpty()) {
-                    random.choice(effectiveRegisters)
+                    this.random.choice(effectiveRegisters)
                 } else {
                     instruction.destination
                 }
@@ -60,13 +59,13 @@ internal object MicroMutationStrategies {
                 // p_const | 1 - p_const
                 val operand = instruction.operands.indexOf(register)
 
-                val replacementRegister = if (random.nextDouble() < constantsRate) {
-                    registerGenerator.next(RegisterType.Constant).first()
+                val replacementRegister = if (this.random.nextDouble() < this.constantsRate) {
+                    this.registerGenerator.next(RegisterType.Constant).first()
                 } else {
-                    registerGenerator.next(
-                            a = RegisterType.Input,
-                            b = RegisterType.Calculation,
-                            predicate = { random.nextDouble() < 0.5 }
+                    this.registerGenerator.next(
+                        a = RegisterType.Input,
+                        b = RegisterType.Calculation,
+                        predicate = { this.random.nextDouble() < 0.5 }
                     ).first()
                 }
 
@@ -93,10 +92,10 @@ internal object MicroMutationStrategies {
         private val operations = this.environment.operations
 
         override fun mutate(individual: Program<TProgram, TOutput>) {
-            val instruction = random.choice(individual.effectiveInstructions)
+            val instruction = this.random.choice(individual.effectiveInstructions)
 
             // 4. If operator mutation then select a different instruction operation randomly
-            val operation = random.choice(this.operations)
+            val operation = this.random.choice(this.operations)
 
             // Assure that the arity of the new operation matches with the number of operands the instruction has.
             // If the arity of the operations is the same, then nothing needs to be done.
@@ -107,13 +106,13 @@ internal object MicroMutationStrategies {
                 // Otherwise, if we're increasing the arity, just add random input
                 // and calculation registers until the arity is met.
                 while (instruction.operands.size < operation.arity.number) {
-                    val register = if (random.nextDouble() < constantsRate) {
-                        registerGenerator.next(RegisterType.Constant).first()
+                    val register = if (this.random.nextDouble() < constantsRate) {
+                        this.registerGenerator.next(RegisterType.Constant).first()
                     } else {
-                        registerGenerator.next(
-                                a = RegisterType.Input,
-                                b = RegisterType.Calculation,
-                                predicate = { random.nextDouble() < 0.5 }
+                        this.registerGenerator.next(
+                            a = RegisterType.Input,
+                            b = RegisterType.Calculation,
+                            predicate = { this.random.nextDouble() < 0.5 }
                         ).first()
                     }
 
@@ -146,7 +145,7 @@ internal object MicroMutationStrategies {
             // (a) Randomly select an (effective) instruction with a constant c.
             // Unfortunately the way of searching for an instruction that uses a constant is not
             // particularly elegant, requiring a random search of the entire program.
-            var instr = random.choice(individual.effectiveInstructions)
+            var instr = this.random.choice(individual.effectiveInstructions)
 
             var constantRegisters = instr.operands.filter { operand ->
                 individual.registers.registerType(operand) == RegisterType.Constant
@@ -156,7 +155,7 @@ internal object MicroMutationStrategies {
             var limit = 0
 
             while (constantRegisters.isEmpty() && limit++ < individual.effectiveInstructions.size) {
-                instr = random.choice(individual.effectiveInstructions)
+                instr = this.random.choice(individual.effectiveInstructions)
 
                 constantRegisters = instr.operands.filter { operand ->
                     individual.registers.registerType(operand) == RegisterType.Constant

@@ -6,6 +6,7 @@ import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.*
 import nz.co.jedsimson.lgp.core.program.instructions.*
 import nz.co.jedsimson.lgp.core.program.registers.Arguments
+import nz.co.jedsimson.lgp.core.program.registers.ArrayRegisterSet
 import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
 import java.util.*
 
@@ -98,7 +99,7 @@ class MockSingleOutputProgramGenerator(
 {
     override fun generateProgram(): Program<Double, Outputs.Single<Double>> {
         val instructions = this.instructionGenerator.next().take(2).toMutableList()
-        val registers = RegisterSet(
+        val registers = ArrayRegisterSet(
                 inputRegisters = 2,
                 calculationRegisters = 0,
                 constants = listOf(),
@@ -152,7 +153,7 @@ class MockMultipleOutputProgramGenerator(
 {
     override fun generateProgram(): Program<Double, Outputs.Multiple<Double>> {
         val instructions = this.instructionGenerator.next().take(2).toMutableList()
-        val registers = RegisterSet(
+        val registers = ArrayRegisterSet(
             inputRegisters = 2,
             calculationRegisters = 0,
             constants = listOf(),

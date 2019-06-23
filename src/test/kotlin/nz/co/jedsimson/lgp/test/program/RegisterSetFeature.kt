@@ -9,14 +9,14 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import kotlin.random.Random
 
-object RegisterSetFeatureFactoryFeature : Spek({
+object RegisterSetFeature : Spek({
 
     Feature("Register set operations") {
         Scenario("Building a valid register set") {
             lateinit var registerSet: RegisterSet<Double>
 
             Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
-                registerSet = RegisterSet(
+                registerSet = ArrayRegisterSet(
                     inputRegisters = 2,
                     calculationRegisters = 2,
                     constants = listOf(1.0, 2.0),
@@ -59,7 +59,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
 
             Given("A register set with with -2 input registers") {
                 try {
-                    registerSet = RegisterSet(
+                    registerSet = ArrayRegisterSet(
                             inputRegisters = -2,
                             calculationRegisters = 0,
                             constants = listOf(),
@@ -79,7 +79,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
 
             Given("A register set with with -2 calculation registers") {
                 try {
-                    registerSet = RegisterSet(
+                    registerSet = ArrayRegisterSet(
                             inputRegisters = 0,
                             calculationRegisters = -2,
                             constants = listOf(),
@@ -106,7 +106,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
             var registerType: RegisterType? = null
 
             Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
-                registerSet = RegisterSet(
+                registerSet = ArrayRegisterSet(
                     inputRegisters = 2,
                     calculationRegisters = 2,
                     constants = listOf(1.0, 2.0),
@@ -183,7 +183,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
             var oldRegisters: List<Register<Double>>? = null
 
             Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
-                registerSet = RegisterSet(
+                registerSet = ArrayRegisterSet(
                     inputRegisters = 2,
                     calculationRegisters = 2,
                     constants = listOf(1.0, 2.0),
@@ -277,7 +277,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
             var registerSetClone: RegisterSet<Double>? = null
 
             Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
-                registerSetOriginal = RegisterSet(
+                registerSetOriginal = ArrayRegisterSet(
                         inputRegisters = 2,
                         calculationRegisters = 2,
                         constants = listOf(1.0, 2.0),
@@ -316,7 +316,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
             var registerSet: RegisterSet<Double>? = null
 
             Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
-                registerSet = RegisterSet(
+                registerSet = ArrayRegisterSet(
                     inputRegisters = 2,
                     calculationRegisters = 2,
                     constants = listOf(1.0, 2.0),
@@ -376,7 +376,7 @@ object RegisterSetFeatureFactoryFeature : Spek({
             var registerIndices: List<RegisterIndex>? = null
 
             Given("A register set with with 2 input registers, 2 calculation registers, and 2 constant registers and a default value of 1.0") {
-                registerSet = RegisterSet(
+                registerSet = ArrayRegisterSet(
                         inputRegisters = 2,
                         calculationRegisters = 2,
                         constants = listOf(1.0, 2.0),

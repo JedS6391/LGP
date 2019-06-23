@@ -6,7 +6,7 @@ import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
 import nz.co.jedsimson.lgp.core.program.registers.RegisterType
 
 /**
- * A function that can determine which calculation registers in the given [Program] are effective, up until the given stop point.
+ * A function that will search through a [Program] to determine which calculation registers are effective at the given stop point.
  */
 typealias EffectiveCalculationRegisterResolver<TProgram, TOutput> = (Program<TProgram, TOutput>, Int) -> List<RegisterIndex>
 
@@ -16,20 +16,27 @@ typealias EffectiveCalculationRegisterResolver<TProgram, TOutput> = (Program<TPr
 internal object EffectiveCalculationRegisterResolvers {
 
     /**
-     * Finds the effective calculation registers in a [Program], up until the given [stopPoint].
+     * Finds the effective calculation registers for the instruction that corresponds to the given [stopPoint].
      *
      * @param program A [Program] to search for effective calculation registers in.
      * @param stopPoint The point to stop the search at.
+     * @throws [IllegalArgumentException] when stop point is less than zero.
      */
     fun <TProgram, TOutput : Output<TProgram>> baseResolver(
-            program: Program<TProgram, TOutput>,
-            stopPoint: Int
+        program: Program<TProgram, TOutput>,
+        stopPoint: Int
     ): List<RegisterIndex> {
-        val effectiveRegisters = program.outputRegisterIndices.toMutableList()
-        // Only instructions up until to the stop point should be searched.
-        val instructions = program.instructions.reversed().filterIndexed { idx, _ -> idx < stopPoint }
 
-        instructions.forEach { instruction ->
+        if (stopPoint < 0) {
+            throw IllegalArgumentException("Stop point must be greater than or equal to zero.")
+        }
+
+        val effectiveRegisters = program.outputRegisterIndices.toMutableList()
+
+        // Only instructions up until to the stop point should be searched.
+        (program.instructions.lastIndex downTo stopPoint).forEach { i ->
+            val instruction = program.instructions[i]
+
             if (instruction.destination in effectiveRegisters) {
                 effectiveRegisters.remove(instruction.destination)
 
