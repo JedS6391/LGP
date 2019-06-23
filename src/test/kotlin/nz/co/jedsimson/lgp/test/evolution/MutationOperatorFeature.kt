@@ -18,9 +18,7 @@ import nz.co.jedsimson.lgp.core.modules.CoreModuleType
 import nz.co.jedsimson.lgp.core.modules.ModuleFactory
 import nz.co.jedsimson.lgp.core.program.Outputs
 import nz.co.jedsimson.lgp.core.program.Program
-import nz.co.jedsimson.lgp.core.program.instructions.Instruction
-import nz.co.jedsimson.lgp.core.program.instructions.InstructionGenerator
-import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
+import nz.co.jedsimson.lgp.core.program.instructions.*
 import nz.co.jedsimson.lgp.core.program.registers.RandomRegisterGenerator
 import nz.co.jedsimson.lgp.core.program.registers.Register
 import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
@@ -460,7 +458,7 @@ object MutationOperatorFeature : Spek({
             var microMutationOperator: MicroMutationOperator<Double, Outputs.Single<Double>>? = null
             var exception: Exception? = null
 
-            When("A micro mutation operator is initialised with an register mutation rate and operator mutation rate that is greater than 1.0") {
+            Given("A micro mutation operator is initialised with an register mutation rate and operator mutation rate that is greater than 1.0") {
                 whenever(mockEnvironment.randomState).thenReturn(Random.Default)
 
                 try {
@@ -801,7 +799,229 @@ object MutationOperatorFeature : Spek({
             }
         }
 
+        Scenario("Register micro mutation strategy replaces one of the operand registers of a random instruction with a calculation register when greater than the constant rate") {
+            val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
+            val mockInstructions = (0 until 10).map { mock<Instruction<Double>>() }.toMutableList()
+            val mockEnvironment = mock<EnvironmentDefinition<Double, Outputs.Single<Double>>>()
+            val mockRandom = mock<Random>()
+            val mockRegisterSet = mock<RegisterSet<Double>>()
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+            val originalDestinationRegister = 0
+
+            Given("A register micro mutation strategy") {
+                val configuration = Configuration().apply {
+                    constantsRate = 0.1
+                }
+
+                // This will cause the 7th instruction to be chosen for mutation and the 2st register (i.e. 1st operand) to be chosen for mutation
+                whenever(mockRandom.nextDouble()).thenReturn(0.6)
+                whenever(mockRandom.nextInt(any())).thenReturn(3)
+                whenever(mockInstructions[6].destination).thenReturn(originalDestinationRegister)
+                whenever(mockInstructions[6].operands).thenReturn(mutableListOf(1, 2))
+                whenever(mockEnvironment.randomState).thenReturn(mockRandom)
+                whenever(mockEnvironment.configuration).thenReturn(configuration)
+                whenever(mockProgram.instructions).thenReturn(mockInstructions)
+                whenever(mockProgram.effectiveInstructions).thenReturn(mockInstructions)
+                whenever(mockRegisterSet.count).thenReturn(4)
+                whenever(mockRegisterSet.register(3)).thenReturn(Register(1.0, 3))
+                whenever(mockRegisterSet.registerType(3)).thenReturn(RegisterType.Calculation)
+                val mockEffectiveCalculationRegisterResolver = { _: Program<Double, Outputs.Single<Double>>, _: Int ->
+                    listOf<RegisterIndex>()
+                }
+
+                mutationStrategy = MicroMutationStrategies.RegisterMicroMutationStrategy(
+                        mockEnvironment,
+                        // TODO: Mock the register generator
+                        RandomRegisterGenerator(mockRandom, mockRegisterSet),
+                        mockEffectiveCalculationRegisterResolver
+                )
+            }
+
+            When("The mutation strategy is executed") {
+                mutationStrategy!!.mutate(mockProgram)
+            }
+
+            Then("A mutation is performed") {
+                assert(mockInstructions[6].operands == listOf(3, 2)) { "Mutated instruction operands do not match expected" }
+            }
+        }
+
         // Strategy implementation - operator
+        Scenario("Operator micro mutation strategy modifies the operator of a random instruction (replace binary with unary)") {
+            val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
+            val mockInstructions = (0 until 10).map { mock<Instruction<Double>>() }.toMutableList()
+            val mockEnvironment = mock<EnvironmentDefinition<Double, Outputs.Single<Double>>>()
+            val mockRandom = mock<Random>()
+            val mockRegisterSet = mock<RegisterSet<Double>>()
+            val expectedMockOperation = mock<Operation<Double>>()
+            val notExpectedMockOperation1 = mock<Operation<Double>>()
+            val notExpectedMockOperation2 = mock<Operation<Double>>()
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+
+            Given("An operator micro mutation strategy") {
+                val configuration = Configuration().apply {
+                    constantsRate = 0.5
+                }
+
+                // This will cause the 2nd instruction to be chosen for mutation and the 1st operation to be chosen for replacement
+                whenever(mockRandom.nextDouble()).thenReturn(0.1)
+                whenever(mockInstructions[1].operands).thenReturn(mutableListOf(1, 2)) // Binary
+                whenever(mockEnvironment.randomState).thenReturn(mockRandom)
+                whenever(mockEnvironment.configuration).thenReturn(configuration)
+                whenever(expectedMockOperation.arity).thenReturn(BaseArity.Unary)
+                whenever(mockEnvironment.operations).thenReturn(listOf(expectedMockOperation, notExpectedMockOperation1, notExpectedMockOperation2))
+                whenever(mockProgram.instructions).thenReturn(mockInstructions)
+                whenever(mockProgram.effectiveInstructions).thenReturn(mockInstructions)
+
+                mutationStrategy = MicroMutationStrategies.OperatorMicroMutationStrategy(
+                    mockEnvironment,
+                    // TODO: Mock the register generator
+                    RandomRegisterGenerator(mockRandom, mockRegisterSet)
+                )
+            }
+
+            When("The mutation strategy is executed") {
+                mutationStrategy!!.mutate(mockProgram)
+            }
+
+            Then("A mutation is performed") {
+                verify(mockInstructions[1]).operands = mutableListOf(1)
+                verify(mockInstructions[1]).operation = expectedMockOperation
+            }
+        }
+
+        Scenario("Operator micro mutation strategy modifies the operator of a random instruction (replace unary with binary) - adding constant registers") {
+            val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
+            val mockInstructions = (0 until 10).map { mock<Instruction<Double>>() }.toMutableList()
+            val mockEnvironment = mock<EnvironmentDefinition<Double, Outputs.Single<Double>>>()
+            val mockRandom = mock<Random>()
+            val mockRegisterSet = mock<RegisterSet<Double>>()
+            val expectedMockOperation = mock<Operation<Double>>()
+            val notExpectedMockOperation1 = mock<Operation<Double>>()
+            val notExpectedMockOperation2 = mock<Operation<Double>>()
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+
+            Given("An operator micro mutation strategy") {
+                val configuration = Configuration().apply {
+                    constantsRate = 0.5
+                }
+
+                // This will cause the 2nd instruction to be chosen for mutation and the 1st operation to be chosen for replacement
+                whenever(mockRandom.nextDouble()).thenReturn(0.1)
+                whenever(mockRandom.nextInt(4)).thenReturn(3)
+                whenever(mockInstructions[1].operands).thenReturn(mutableListOf(1)) // Unary
+                whenever(mockEnvironment.randomState).thenReturn(mockRandom)
+                whenever(mockEnvironment.configuration).thenReturn(configuration)
+                whenever(expectedMockOperation.arity).thenReturn(BaseArity.Binary)
+                whenever(mockEnvironment.operations).thenReturn(listOf(expectedMockOperation, notExpectedMockOperation1, notExpectedMockOperation2))
+                whenever(mockProgram.instructions).thenReturn(mockInstructions)
+                whenever(mockProgram.effectiveInstructions).thenReturn(mockInstructions)
+                whenever(mockRegisterSet.count).thenReturn(4)
+                whenever(mockRegisterSet.register(3)).thenReturn(Register(1.0, 3))
+                whenever(mockRegisterSet.registerType(3)).thenReturn(RegisterType.Constant)
+
+                mutationStrategy = MicroMutationStrategies.OperatorMicroMutationStrategy(
+                    mockEnvironment,
+                    // TODO: Mock the register generator
+                    RandomRegisterGenerator(mockRandom, mockRegisterSet)
+                )
+            }
+
+            When("The mutation strategy is executed") {
+                mutationStrategy!!.mutate(mockProgram)
+            }
+
+            Then("A mutation is performed") {
+                assert(mockInstructions[1].operands.size == 2) { "Number of instructions is not expected" }
+                verify(mockInstructions[1]).operation = expectedMockOperation
+            }
+        }
+
+//        Scenario("Operator micro mutation strategy modifies the operator of a random instruction (replace unary with binary) - adding input registers") {
+//            val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
+//            val mockInstructions = (0 until 10).map { mock<Instruction<Double>>() }.toMutableList()
+//            val mockEnvironment = mock<EnvironmentDefinition<Double, Outputs.Single<Double>>>()
+//            val mockRandom = mock<Random>()
+//            val mockRegisterSet = mock<RegisterSet<Double>>()
+//            val expectedMockOperation = mock<Operation<Double>>()
+//            val notExpectedMockOperation1 = mock<Operation<Double>>()
+//            val notExpectedMockOperation2 = mock<Operation<Double>>()
+//            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+//
+//            Given("An operator micro mutation strategy") {
+//                val configuration = Configuration().apply {
+//                    constantsRate = 0.5
+//                }
+//
+//                // This will cause the 2nd instruction to be chosen for mutation and the 1st operation to be chosen for replacement
+//                whenever(mockRandom.nextDouble()).thenReturn(0.1)
+//                whenever(mockInstructions[1].operands).thenReturn(mutableListOf(1, 2)) // Binary
+//                whenever(mockEnvironment.randomState).thenReturn(mockRandom)
+//                whenever(mockEnvironment.configuration).thenReturn(configuration)
+//                whenever(expectedMockOperation.arity).thenReturn(BaseArity.Binary)
+//                whenever(mockEnvironment.operations).thenReturn(listOf(expectedMockOperation, notExpectedMockOperation1, notExpectedMockOperation2))
+//                whenever(mockProgram.instructions).thenReturn(mockInstructions)
+//                whenever(mockProgram.effectiveInstructions).thenReturn(mockInstructions)
+//
+//                mutationStrategy = MicroMutationStrategies.OperatorMicroMutationStrategy(
+//                        mockEnvironment,
+//                        // TODO: Mock the register generator
+//                        RandomRegisterGenerator(mockRandom, mockRegisterSet)
+//                )
+//            }
+//
+//            When("The mutation strategy is executed") {
+//                mutationStrategy!!.mutate(mockProgram)
+//            }
+//
+//            Then("A mutation is performed") {
+//                verify(mockInstructions[1]).operands = mutableListOf(1)
+//                verify(mockInstructions[1]).operation = expectedMockOperation
+//            }
+//        }
+
+//        Scenario("Operator micro mutation strategy modifies the operator of a random instruction (replace unary with binary) - adding calculation registers") {
+//            val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
+//            val mockInstructions = (0 until 10).map { mock<Instruction<Double>>() }.toMutableList()
+//            val mockEnvironment = mock<EnvironmentDefinition<Double, Outputs.Single<Double>>>()
+//            val mockRandom = mock<Random>()
+//            val mockRegisterSet = mock<RegisterSet<Double>>()
+//            val expectedMockOperation = mock<Operation<Double>>()
+//            val notExpectedMockOperation1 = mock<Operation<Double>>()
+//            val notExpectedMockOperation2 = mock<Operation<Double>>()
+//            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+//
+//            Given("An operator micro mutation strategy") {
+//                val configuration = Configuration().apply {
+//                    constantsRate = 0.5
+//                }
+//
+//                // This will cause the 2nd instruction to be chosen for mutation and the 1st operation to be chosen for replacement
+//                whenever(mockRandom.nextDouble()).thenReturn(0.1)
+//                whenever(mockInstructions[1].operands).thenReturn(mutableListOf(1, 2)) // Binary
+//                whenever(mockEnvironment.randomState).thenReturn(mockRandom)
+//                whenever(mockEnvironment.configuration).thenReturn(configuration)
+//                whenever(expectedMockOperation.arity).thenReturn(BaseArity.Binary)
+//                whenever(mockEnvironment.operations).thenReturn(listOf(expectedMockOperation, notExpectedMockOperation1, notExpectedMockOperation2))
+//                whenever(mockProgram.instructions).thenReturn(mockInstructions)
+//                whenever(mockProgram.effectiveInstructions).thenReturn(mockInstructions)
+//
+//                mutationStrategy = MicroMutationStrategies.OperatorMicroMutationStrategy(
+//                        mockEnvironment,
+//                        // TODO: Mock the register generator
+//                        RandomRegisterGenerator(mockRandom, mockRegisterSet)
+//                )
+//            }
+//
+//            When("The mutation strategy is executed") {
+//                mutationStrategy!!.mutate(mockProgram)
+//            }
+//
+//            Then("A mutation is performed") {
+//                verify(mockInstructions[1]).operands = mutableListOf(1)
+//                verify(mockInstructions[1]).operation = expectedMockOperation
+//            }
+//        }
 
         // Strategy implementation - constant
     }

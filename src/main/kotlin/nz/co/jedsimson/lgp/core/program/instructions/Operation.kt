@@ -22,10 +22,19 @@ typealias Function<T> = (arguments: Arguments<T>) -> T
  * be expressed in a textual form.
  *
  * @param T Type of arguments that the operation operates on.
- * @param arity How many arguments the operations function takes.
- * @param func A function mapping arguments to some value.
  */
-abstract class Operation<T>(val arity: Arity, val func: Function<T>) : Module {
+abstract class Operation<T> : Module {
+
+    /**
+     * Represents how many arguments this operations [function] takes.
+     */
+    abstract val arity: Arity
+
+    /**
+     * A function mapping arguments to some value (i.e. the behaviour of this operation).
+     */
+    abstract val function: Function<T>
+
     /**
      * A way to express an operation in a textual format.
      */

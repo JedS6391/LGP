@@ -2,14 +2,11 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
-import nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro.MacroMutationOperator
-import nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro.MacroMutationStrategyFactory
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
-import java.lang.IllegalStateException
 
 /**
  * A [MutationOperator] implementation that performs effective micro mutations.

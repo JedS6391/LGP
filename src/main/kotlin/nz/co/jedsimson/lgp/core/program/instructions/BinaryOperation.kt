@@ -5,7 +5,9 @@ import nz.co.jedsimson.lgp.core.program.registers.Arguments
 /**
  * An operation that has an arity of two (i.e. its function takes 2 arguments).
  */
-abstract class BinaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(BaseArity.Binary, func) {
+abstract class BinaryOperation<T>(override val function: (Arguments<T>) -> T) : Operation<T>() {
+
+    override val arity = BaseArity.Binary
 
     /**
      * Applies the operations function to the argument(s) given.
@@ -20,7 +22,7 @@ abstract class BinaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(Base
     override fun execute(arguments: Arguments<T>): T {
         return when {
             arguments.size() != this.arity.number -> throw ArityException("BinaryOperation takes 2 argument but was given ${arguments.size()}.")
-            else -> this.func(arguments)
+            else -> this.function(arguments)
         }
     }
 }
