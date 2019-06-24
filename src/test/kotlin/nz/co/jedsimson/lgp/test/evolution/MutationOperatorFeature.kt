@@ -1070,7 +1070,7 @@ object MutationOperatorFeature : Spek({
             }
         }
 
-        Scenario("Constant micro mutation strategy modifies the constant of a random instruction using the given constant mutation function (search)") {
+        Scenario("Constant micro mutation strategy modifies the constant of a random instruction using the given constant mutation function (search - register found)") {
             val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
             val mockInstructions = (0 until 10).map { mock<Instruction<Double>>() }.toMutableList()
             val mockEnvironment = mock<EnvironmentDefinition<Double, Outputs.Single<Double>>>()
@@ -1114,6 +1114,47 @@ object MutationOperatorFeature : Spek({
             Then("A mutation is performed") {
                 verify(mockConstantMutationFunction, times(1)).invoke(originalRegisterValue)
                 verify(mockRegisterSet, times(1)).overwrite(expectedModifiedConstantRegister, modifiedRegisterValue)
+            }
+        }
+
+        Scenario("Constant micro mutation strategy modifies the constant of a random instruction using the given constant mutation function (search - no register found)") {
+            val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
+            val mockInstructions = (0 until 10).map { mock<Instruction<Double>>() }.toMutableList()
+            val mockEnvironment = mock<EnvironmentDefinition<Double, Outputs.Single<Double>>>()
+            val mockRandom = mock<Random>()
+            val mockRegisterSet = mock<RegisterSet<Double>>()
+            val mockConstantMutationFunction = mock<ConstantMutationFunction<Double>>()
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+            val expectedModifiedConstantRegister = 3
+            val originalRegisterValue = 1.0
+            val modifiedRegisterValue = 5.0
+
+            Given("A constant micro mutation strategy") {
+                // This will cause the same instruction to be tried over and over, but it'll never return a constant register
+                whenever(mockRandom.nextDouble()).thenReturn(0.1)
+                whenever(mockEnvironment.randomState).thenReturn(mockRandom)
+                whenever(mockProgram.instructions).thenReturn(mockInstructions)
+                whenever(mockProgram.effectiveInstructions).thenReturn(mockInstructions)
+                whenever(mockProgram.registers).thenReturn(mockRegisterSet)
+                whenever(mockInstructions[1].operands).thenReturn(mutableListOf(1, 2))
+                whenever(mockRegisterSet.count).thenReturn(4)
+                whenever(mockRegisterSet[expectedModifiedConstantRegister]).thenReturn(originalRegisterValue)
+                whenever(mockRegisterSet.registerType(expectedModifiedConstantRegister)).thenReturn(RegisterType.Constant)
+                whenever(mockConstantMutationFunction.invoke(originalRegisterValue)).thenReturn(modifiedRegisterValue)
+
+                mutationStrategy = MicroMutationStrategies.ConstantMicroMutationStrategy(
+                    mockEnvironment,
+                    mockConstantMutationFunction
+                )
+            }
+
+            When("The mutation strategy is executed") {
+                mutationStrategy!!.mutate(mockProgram)
+            }
+
+            Then("A mutation is performed") {
+                verify(mockConstantMutationFunction, times(0)).invoke(originalRegisterValue)
+                verify(mockRegisterSet, times(0)).overwrite(expectedModifiedConstantRegister, modifiedRegisterValue)
             }
         }
     }
