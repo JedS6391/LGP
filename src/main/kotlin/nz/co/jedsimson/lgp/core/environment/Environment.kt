@@ -10,6 +10,7 @@ import nz.co.jedsimson.lgp.core.modules.*
 import nz.co.jedsimson.lgp.core.program.instructions.Operation
 import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
 import nz.co.jedsimson.lgp.core.program.Output
+import nz.co.jedsimson.lgp.core.program.registers.ArrayRegisterSet
 import kotlin.random.Random
 
 /**
@@ -57,6 +58,11 @@ interface EnvironmentDefinition<TProgram, TOutput : Output<TProgram>>  {
      * Provides access to modules that are registered in the environment.
      */
     val moduleFactory: ModuleFactory<TProgram, TOutput>
+
+    /**
+     * Provides access to the set of registers that programs in the environment will use.
+     */
+    val registerSet: RegisterSet<TProgram>
 
     /**
      * Registers the modules given by a container.
@@ -118,7 +124,6 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
     private val operationLoader: OperationLoader<TProgram>
     private val defaultValueProvider: DefaultValueProvider<TProgram>
     private val randomStateSeed: Long?
-    private lateinit var registerSet: RegisterSet<TProgram>
     private var container: ModuleContainer<TProgram, TOutput>
 
     // The public environment interface
@@ -128,6 +133,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
     override lateinit var configuration: Configuration
     override lateinit var constants: List<TProgram>
     override lateinit var operations: List<Operation<TProgram>>
+    override lateinit var registerSet: RegisterSet<TProgram>
     override val resultAggregator: ResultAggregator<TProgram>
     override var moduleFactory: ModuleFactory<TProgram, TOutput>
 
@@ -204,11 +210,11 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
         // This means that anything that can access the environment has access to a blank register set.
         // TODO: Pass environment to register set and make it a dependency that must be registered.
 
-        this.registerSet = RegisterSet(
-                inputRegisters = this.configuration.numFeatures,
-                calculationRegisters = this.configuration.numCalculationRegisters,
-                constants = this.constants,
-                defaultValueProvider = this.defaultValueProvider
+        this.registerSet = ArrayRegisterSet(
+            inputRegisters = this.configuration.numFeatures,
+            calculationRegisters = this.configuration.numCalculationRegisters,
+            constants = this.constants,
+            defaultValueProvider = this.defaultValueProvider
         )
     }
 

@@ -5,7 +5,9 @@ import nz.co.jedsimson.lgp.core.program.registers.Arguments
 /**
  * An operation that has an arity of one (i.e. its function takes 1 argument).
  */
-abstract class UnaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(BaseArity.Unary, func) {
+abstract class UnaryOperation<T>(override val function: (Arguments<T>) -> T) : Operation<T>() {
+
+    override val arity = BaseArity.Unary
 
     /**
      * Applies the operations function to the argument(s) given.
@@ -20,7 +22,7 @@ abstract class UnaryOperation<T>(func: (Arguments<T>) -> T) : Operation<T>(BaseA
     override fun execute(arguments: Arguments<T>): T {
         return when {
             arguments.size() != this.arity.number -> throw ArityException("UnaryOperation takes 1 argument but was given ${arguments.size()}.")
-            else -> this.func(arguments)
+            else -> this.function(arguments)
         }
     }
 }

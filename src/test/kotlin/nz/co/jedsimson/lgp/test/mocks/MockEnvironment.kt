@@ -10,6 +10,7 @@ import nz.co.jedsimson.lgp.core.modules.ModuleFactory
 import nz.co.jedsimson.lgp.core.modules.RegisteredModuleType
 import nz.co.jedsimson.lgp.core.program.Outputs
 import nz.co.jedsimson.lgp.core.program.instructions.Operation
+import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
 import kotlin.random.Random
 
 class MockEnvironment(
@@ -29,6 +30,8 @@ class MockEnvironment(
     override val resultAggregator: ResultAggregator<Double>
         get() = TODO("not implemented")
     override val moduleFactory: ModuleFactory<Double, Outputs.Single<Double>>
+        get() = TODO("not implemented")
+    override val registerSet: RegisterSet<Double>
         get() = TODO("not implemented")
 
     override fun registerModules(container: ModuleContainer<Double, Outputs.Single<Double>>) {
@@ -58,6 +61,8 @@ class MockEnvironmentMultipleOutputs : EnvironmentDefinition<Double, Outputs.Mul
     override val resultAggregator: ResultAggregator<Double>
         get() = TODO("not implemented")
     override val moduleFactory: ModuleFactory<Double, Outputs.Multiple<Double>>
+        get() = TODO("not implemented")
+    override val registerSet: RegisterSet<Double>
         get() = TODO("not implemented")
 
     override fun registerModules(container: ModuleContainer<Double, Outputs.Multiple<Double>>) {

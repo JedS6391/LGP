@@ -3,10 +3,11 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
+import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
-import java.lang.IllegalStateException
+import java.lang.IllegalArgumentException
 
 /**
  * A [MutationOperator] implementation that performs effective macro mutations.
@@ -18,7 +19,8 @@ import java.lang.IllegalStateException
  * @param environment An environment that the mutation is occurring in.
  * @property insertionRate The probability with which instructions should be inserted.
  * @property deletionRate The probability with which instructions should be deleted.
- * @constructor Creates a new [MacroMutationOperator] with the given [environment], [insertionRate], [deletionRate] and [mutationStrategyFactory].
+ * @property mutationStrategyFactory A factory that can be used to get a [MutationStrategy] to delegate the mutation to.
+ * @constructor Creates a new [MacroMutationOperator] with the given [environment], [insertionRate], [deletionRate], and [mutationStrategyFactory].
  */
 class MacroMutationOperator<TProgram, TOutput : Output<TProgram>>(
     environment: EnvironmentDefinition<TProgram, TOutput>,
@@ -29,14 +31,14 @@ class MacroMutationOperator<TProgram, TOutput : Output<TProgram>>(
 
     init {
         if ((insertionRate + deletionRate) != 1.0) {
-            throw IllegalStateException(
+            throw IllegalArgumentException(
                 "insertion rate + deletion rate must be equal to 1.0 (was ${insertionRate + deletionRate})"
             )
         }
     }
 
     /**
-     * Creates a new [MacroMutationOperator] with the given [environment], [insertionRate], [deletionRate].
+     * Creates a new [MacroMutationOperator] with the given [environment], [insertionRate], and [deletionRate].
      *
      * The [MacroMutationOperator] will use the default mutation strategy factory ([MacroMutationStrategyFactory]).
      */

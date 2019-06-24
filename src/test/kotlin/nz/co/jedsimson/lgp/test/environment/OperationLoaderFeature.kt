@@ -286,7 +286,7 @@ internal class Addition : BinaryOperation<Double>(Companion::add) {
 }
 
 internal class Subtraction : BinaryOperation<Double>(
-        func = { args: Arguments<Double> ->
+        function = { args: Arguments<Double> ->
             args.get(0) - args.get(1)
         }
 ) {

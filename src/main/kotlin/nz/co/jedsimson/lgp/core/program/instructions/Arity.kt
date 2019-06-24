@@ -13,7 +13,14 @@ interface Arity {
  * A base arity implementation that provides arity for instructions with one or two arguments.
  */
 enum class BaseArity(override val number: Int) : Arity {
+    /**
+     * Represents the arity of an instruction that has one argument.
+     */
     Unary(1),
+
+    /**
+     * Represents the arity of an instruction that has two arguments.
+     */
     Binary(2);
 }
 
