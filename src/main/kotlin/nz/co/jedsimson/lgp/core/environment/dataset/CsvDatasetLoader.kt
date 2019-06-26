@@ -52,37 +52,29 @@ class CsvDatasetLoader<out TData> constructor(
          *
          * A reader will be automatically created for the file with the name given.
          */
-        fun filename(name: String): Builder<U> {
+        fun filename(name: String) = apply {
             this.reader = FileReader(name)
-
-            return this
         }
 
         /**
          * Sets the reader that provides a CSV files contents.
          */
-        fun reader(reader: Reader): Builder<U> {
+        fun reader(reader: Reader) = apply {
             this.reader = reader
-
-            return this
         }
 
         /**
          * Sets the function to use when parsing features from the data set file.
          */
-        fun featureParseFunction(function: (Header, Row) -> Sample<U>): Builder<U> {
+        fun featureParseFunction(function: (Header, Row) -> Sample<U>) = apply {
             this.featureParseFunction = function
-
-            return this
         }
 
         /**
          * Sets the function to use when parsing target values from the data set file.
          */
-        fun targetParseFunction(function: (Header, Row) -> Target<U>): Builder<U> {
+        fun targetParseFunction(function: (Header, Row) -> Target<U>) = apply {
             this.targetParseFunction = function
-
-            return this
         }
 
         /**

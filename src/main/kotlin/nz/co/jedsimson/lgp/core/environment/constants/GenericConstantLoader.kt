@@ -55,10 +55,8 @@ open class GenericConstantLoader<out T>(
          * @param values The constant values as strings.
          * @return A builder with the updated information.
          */
-        fun constants(values: List<String>): Builder<U> {
+        fun constants(values: List<String>) = apply {
             this.constants = values
-
-            return this
         }
 
         /**
@@ -67,10 +65,8 @@ open class GenericConstantLoader<out T>(
          * @param func A function to parse raw constants.
          * @return A builder with the updated information.
          */
-        fun parseFunction(func: (String) -> U): Builder<U> {
+        fun parseFunction(func: (String) -> U) = apply {
             this.parseFunction = func
-
-            return this
         }
 
         /**

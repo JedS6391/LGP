@@ -24,6 +24,7 @@ interface ComponentLoaderBuilder<out TComponentLoader> {
  * @param TComponent The type of component that this loader is able to load.
  */
 interface ComponentLoader<out TComponent> : Module {
+
     /**
      * Loads a component.
      *

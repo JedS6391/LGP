@@ -104,10 +104,8 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentFacade<TPro
         this.operations = this.operationLoader.load()
 
         // Early exit if the configuration provided is invalid
-        val configValidity = this.configuration.isValid()
-
-        when (configValidity) {
-            is Invalid -> throw InvalidConfigurationException(configValidity.reason)
+        when (val configValidity = this.configuration.isValid()) {
+            is ConfigurationValidity.Invalid -> throw InvalidConfigurationException(configValidity.reason)
             else -> { /* No-op */ }
         }
 

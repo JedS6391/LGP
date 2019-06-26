@@ -61,10 +61,8 @@ class JsonConfigurationLoader constructor(private val filename: String) : Config
          * @param name The name of a JSON file.
          * @return A builder for the filename given.
          */
-        fun filename(name: String): Builder {
+        fun filename(name: String) = apply {
             this.filename = name
-
-            return this
         }
 
         /**
