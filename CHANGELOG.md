@@ -1,5 +1,90 @@
 # Change Log
 
+## [v-5.0](https://github.com/JedS6391/LGP/tree/5.0) (TBD)
+
+**Breaking changes:**
+
+*Modules*
+
+- `ModuleContainer` has been moved to the `nz.co.jedsimson.lgp.core.modules` package. 
+- The module resolution functions `instance` and `instanceUnsafe` are no longer the responsibility of `ModuleContainer` 
+  and have been relocated to the `ModuleFactory` class. 
+  The intended usage is that `ModuleContainer` defines a set of `ModuleBuilder`s, and
+  the `ModuleFactory` can be used to resolve instances from a given `ModuleContainer`.
+ 
+*Environment*  
+ 
+- Direct dependency on `Environment` has been removed from all core implementations and is recommended for any custom implementations.
+  The public contract is now defined in `EnvironmentFacade` and this should be the contract relied upon.
+- `Environment` can no longer be directly used to resolve dependencies as the `registeredModule` and `registerModuleUnsafe`
+  functions have been removed. Dependencies should be resolved using `EnvironmentFacade.moduleFactory`.
+  
+*Evolution operators*
+
+- The `nz.co.jedsimson.lgp.core.evolution` package was restructured significantly. It is now split up as below:
+
+```
+    nz.co.jedsimson.lgp.core.evolution.operators
+    ├── mutation 
+    │   ├── macro
+    │   ├── micro
+    │   └── strategy
+    ├── recombination
+    └── selection
+```
+- `MacroMutationOperator` now accepts an optional `MutationStrategyFactory` which can be used to customise the mutation behaviour.
+- `MicroMutationOperator` now accepts an optional `MutationStrategyFactory` which can be used to customise the mutation behaviour.
+- When no `MutationStrategyFactory` is given to either `MacroMutationOperator` or `MicroMutationOperator`, they will use the default
+  strategy factory which preserves the previous behaviour of these implementations. The main reason behind this change is internal,
+  but it can be used externally too.
+
+*Program*
+
+- The properties `instructions`, `registers`, and `outputRegisterIndices` are now abstract properties of `Program`.
+- The properties `arity` and `func` (now renamed to `function`) are now abstract properties of `Operation`.
+
+*Registers*
+
+- *RegisterSet* is now an interface and the implementation has been moved to *ArrayRegisterSet*.
+
+
+*Miscellaneous*
+
+- The built-in Kotlin `Random` is now used instead of `java.util.Random`. 
+- Moved `Random` extension functions `choice`, `randInt`, `sample` to the `nz.co.jedsimson.lgp.core.environment` package.
+- Move `MutableList` extension function `slice` into the `nz.co.jedsimson.lgp.core.evolution.operators` package.
+- Moved `Valid` and `Invalid` `ConfigurationValidity` implementations into the parent class (i.e. no longer access `Valid`, instead use `ConfigurationValidity.Valid`).
+
+**Changes:**
+
+- Introduce `EnvironmentFacade` which defines the public contract for the `Environment`. It is intended that `Environment`
+  no longer be used directly, and instead dependencies should rely on the `EnvironmentFacade`. All core implementations
+  that previously relied on `Environment` no rely on `EnvironmentFacade`.
+  
+- Introduce `ModuleFactory` which can be used to resolve `Module` instances. The implementation of module resolution has been
+  abstracted to allow `instance` and `instanceUnsafe` to share the same code.
+  
+- Introduce `ComponentProvider` to simplify the implementation of `ComponentLoader`s that share common component resolution logic.
+  A caching `ComponentProvider` is provided in the core package in `MemoizedComponentProvider`. The built-in `ComponentLoader`s
+  (`JsonConfigurationLoader`, `CsvDatasetLoader`, `GenericConstantLoader`, and `DefaultOperationLoader`) have been updated to use
+  `MemoizedComponentProvider`.
+
+- This release adds a large amount of unit tests for the core library to ensure the implementation is correct and
+  make changes going forward more robust. The tests are located in the `nz.co.jedsimson.lgp.test` package and can be
+  run with the command `./gradlew test`.
+  
+- Introduced the `RegisterSet.apply` function, which can be used to modify the value of a given register in the set.
+
+- Handle `RegisterSet` index-out-of-bounds more gracefully. Now a `RegisterReadException` will be given.
+  
+**Fixes:**
+
+- Fixed an issue where an `Invalid` `ConfigurationValidty` reported itself as valid.
+- Improve generation of sequences using both `SequenceGenerator` and `UniformlyDistributedGenerator`, particularly concerning edge cases.
+- Better handling of `ClassNotFoundException` when using the `DefaultOperationLoader`.
+- Resolved an issue that caused `RandomRegisterGenerator` to re-evaluate the given predicate on each sequence iteration, instead of 
+  evaluating once and waiting until that type is generated.
+
 ## [v-4.2](https://github.com/JedS6391/LGP/tree/4.2) (2019-02-09)
 
 **Breaking changes:**

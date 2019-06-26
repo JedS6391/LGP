@@ -1,10 +1,10 @@
 group 'nz.co.jedsimson.lgp'
-version '4.2'
+version '5.0'
 
 buildscript {
-    ext.kotlin_version = '1.3.11'
-    ext.dokka_version = '0.9.17'
-    ext.kotlinx_coroutines_version = '1.0.1'
+    ext.kotlin_version = '1.3.40'
+    ext.dokka_version = '0.9.18'
+    ext.kotlinx_coroutines_version = '1.2.2'
 
     repositories {
         mavenCentral()
@@ -69,13 +69,6 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
 }
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint:unchecked"      \
-                         << "-Xlint:all"            \
-                         << "-Xlint:-processing"    \
-                         << "-Xlint:-serial"        \
-                         << "-Werror"
-}
 
 // Dokka tasks
 task dokkaApiHtml(type: org.jetbrains.dokka.gradle.DokkaTask) {

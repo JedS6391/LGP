@@ -8,7 +8,7 @@ echo "Compiling core JAR..."
 
 echo "Running tests..."
 
-./gradlew test --no-daemon --info --console=plain
+./gradlew test --no-daemon --info --console=plain --rerun-tasks
 
 echo "Generating coverage report..."
 
