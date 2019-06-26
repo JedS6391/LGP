@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolvers
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
@@ -23,10 +23,10 @@ private enum class MicroMutationType {
  * @property constantMutationFunc A function that can mutate values in the domain of [TProgram].
  */
 internal class MicroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>>(
-    private val environment: EnvironmentDefinition<TProgram, TOutput>,
-    private val registerMutationRate: Double,
-    private val operatorMutationRate: Double,
-    private val constantMutationFunc: ConstantMutationFunction<TProgram>
+        private val environment: EnvironmentFacade<TProgram, TOutput>,
+        private val registerMutationRate: Double,
+        private val operatorMutationRate: Double,
+        private val constantMutationFunc: ConstantMutationFunction<TProgram>
 ) : MutationStrategyFactory<TProgram, TOutput>() {
 
     private val random = this.environment.randomState

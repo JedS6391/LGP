@@ -1,7 +1,6 @@
 package nz.co.jedsimson.lgp.core.environment
 
 import nz.co.jedsimson.lgp.core.modules.Module
-import java.lang.Exception
 
 /**
  * A builder that can build a [ComponentLoader].
@@ -31,38 +30,6 @@ interface ComponentLoader<out TComponent> : Module {
      * @returns A component of type [TComponent].
      */
     fun load(): TComponent
-}
-
-/**
- * Defines a provider of [TComponent] instances.
- */
-interface ComponentProvider<out TComponent> {
-
-    /**
-     * The component that this provider can provide.
-     */
-    val component: TComponent
-}
-
-/**
- * An implementation of [ComponentProvider] that will cache the component after initialisation.
- *
- * @property componentName The name of the component.
- * @property componentInitialisationFunction A function that will initialise the component.
- */
-class MemoizedComponentProvider<out TComponent>(
-    private val componentName: String,
-    private val componentInitialisationFunction: () -> TComponent
-) : ComponentProvider<TComponent> {
-
-    override val component by lazy {
-        try {
-            componentInitialisationFunction()
-        }
-        catch (cause: Exception) {
-            throw ComponentLoadException("Failed to load a $componentName component.", cause)
-        }
-    }
 }
 
 /**

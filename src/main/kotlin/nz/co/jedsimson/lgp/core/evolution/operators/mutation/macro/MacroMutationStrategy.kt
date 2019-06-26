@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.choice
 import nz.co.jedsimson.lgp.core.environment.randInt
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolver
@@ -21,8 +21,8 @@ internal object MacroMutationStrategies {
      * @param environment An environment that the mutation is occurring in.
      */
     internal class MacroMutationInsertionStrategy<TProgram, TOutput : Output<TProgram>>(
-        private val environment: EnvironmentDefinition<TProgram, TOutput>,
-        private val effectiveCalculationRegisterResolver: EffectiveCalculationRegisterResolver<TProgram, TOutput>
+            private val environment: EnvironmentFacade<TProgram, TOutput>,
+            private val effectiveCalculationRegisterResolver: EffectiveCalculationRegisterResolver<TProgram, TOutput>
     ) : MutationStrategy<TProgram, TOutput>() {
 
         private val random = this.environment.randomState
@@ -59,7 +59,7 @@ internal object MacroMutationStrategies {
      * @param environment An environment that the mutation is occurring in.
      */
     internal class MacroMutationDeletionStrategy<TProgram, TOutput : Output<TProgram>>(
-        private val environment: EnvironmentDefinition<TProgram, TOutput>
+        private val environment: EnvironmentFacade<TProgram, TOutput>
     ) : MutationStrategy<TProgram, TOutput>() {
 
         private val random = this.environment.randomState

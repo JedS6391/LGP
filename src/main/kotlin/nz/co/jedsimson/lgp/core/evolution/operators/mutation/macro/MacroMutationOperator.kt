@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
@@ -23,10 +23,10 @@ import java.lang.IllegalArgumentException
  * @constructor Creates a new [MacroMutationOperator] with the given [environment], [insertionRate], [deletionRate], and [mutationStrategyFactory].
  */
 class MacroMutationOperator<TProgram, TOutput : Output<TProgram>>(
-    environment: EnvironmentDefinition<TProgram, TOutput>,
-    private val insertionRate: Double,      // p_ins
-    private val deletionRate: Double,       // p_del
-    private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput>
+        environment: EnvironmentFacade<TProgram, TOutput>,
+        private val insertionRate: Double,      // p_ins
+        private val deletionRate: Double,       // p_del
+        private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput>
 ) : MutationOperator<TProgram, TOutput>(environment) {
 
     init {
@@ -43,9 +43,9 @@ class MacroMutationOperator<TProgram, TOutput : Output<TProgram>>(
      * The [MacroMutationOperator] will use the default mutation strategy factory ([MacroMutationStrategyFactory]).
      */
     constructor(
-        environment: EnvironmentDefinition<TProgram, TOutput>,
-        insertionRate: Double,
-        deletionRate: Double
+            environment: EnvironmentFacade<TProgram, TOutput>,
+            insertionRate: Double,
+            deletionRate: Double
     ) : this(
         environment,
         insertionRate,

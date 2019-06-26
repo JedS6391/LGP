@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.choice
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolver
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
@@ -26,9 +26,9 @@ internal object MicroMutationStrategies {
      * @param registerGenerator A generator that can be used to decide on random registers.
      */
     internal class RegisterMicroMutationStrategy<TProgram, TOutput : Output<TProgram>>(
-        private val environment: EnvironmentDefinition<TProgram, TOutput>,
-        private val registerGenerator: RandomRegisterGenerator<TProgram>,
-        private val effectiveCalculationRegisterResolver: EffectiveCalculationRegisterResolver<TProgram, TOutput>
+            private val environment: EnvironmentFacade<TProgram, TOutput>,
+            private val registerGenerator: RandomRegisterGenerator<TProgram>,
+            private val effectiveCalculationRegisterResolver: EffectiveCalculationRegisterResolver<TProgram, TOutput>
     ) : MutationStrategy<TProgram, TOutput>() {
 
         private val constantsRate = this.environment.configuration.constantsRate
@@ -83,8 +83,8 @@ internal object MicroMutationStrategies {
      * @param registerGenerator A generator that can be used to decide on random registers.
      */
     internal class OperatorMicroMutationStrategy<TProgram, TOutput : Output<TProgram>>(
-        private val environment: EnvironmentDefinition<TProgram, TOutput>,
-        private val registerGenerator: RandomRegisterGenerator<TProgram>
+            private val environment: EnvironmentFacade<TProgram, TOutput>,
+            private val registerGenerator: RandomRegisterGenerator<TProgram>
     ) : MutationStrategy<TProgram, TOutput>() {
 
         private val random = this.environment.randomState
@@ -134,8 +134,8 @@ internal object MicroMutationStrategies {
      * @param constantMutationFunction A function that can mutate values in the domain of [TProgram].
      */
     internal class ConstantMicroMutationStrategy<TProgram, TOutput : Output<TProgram>>(
-        private val environment: EnvironmentDefinition<TProgram, TOutput>,
-        private val constantMutationFunction: ConstantMutationFunction<TProgram>
+            private val environment: EnvironmentFacade<TProgram, TOutput>,
+            private val constantMutationFunction: ConstantMutationFunction<TProgram>
     ) : MutationStrategy<TProgram, TOutput>() {
 
         private val random = this.environment.randomState

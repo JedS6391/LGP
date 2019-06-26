@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.model
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.choice
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.environment.randInt
@@ -62,7 +62,7 @@ object Models {
      * (Brameier, M., Banzhaf, W. 2001).
      */
     class SteadyState<TProgram, TOutput : Output<TProgram>>(
-        environment: EnvironmentDefinition<TProgram, TOutput>
+        environment: EnvironmentFacade<TProgram, TOutput>
     ) : EvolutionModel<TProgram, TOutput>(environment) {
 
         private val moduleFactory = this.environment.moduleFactory
@@ -239,7 +239,7 @@ object Models {
      * parallelised in a master-slave based technique.
      */
     class MasterSlave<TProgram, TOutput : Output<TProgram>>(
-        environment: EnvironmentDefinition<TProgram, TOutput>
+        environment: EnvironmentFacade<TProgram, TOutput>
     ) : EvolutionModel<TProgram, TOutput>(environment) {
 
         private val moduleFactory = this.environment.moduleFactory
@@ -428,7 +428,7 @@ object Models {
      * @param options Determines the configuration for the algorithm. See [IslandMigrationOptions] for more.
      */
     class IslandMigration<TProgram, TOutput : Output<TProgram>>(
-            environment: EnvironmentDefinition<TProgram, TOutput>,
+            environment: EnvironmentFacade<TProgram, TOutput>,
             private val options: IslandMigrationOptions
     ) : EvolutionModel<TProgram, TOutput>(environment) {
 
@@ -471,7 +471,7 @@ object Models {
             val islands: Array<Array<Island<TProgram, TOutput>>?>
             val numIslands: Int
 
-            constructor(numIslands: Int, environment: EnvironmentDefinition<TProgram, TOutput>, dataset: Dataset<TProgram>) {
+            constructor(numIslands: Int, environment: EnvironmentFacade<TProgram, TOutput>, dataset: Dataset<TProgram>) {
                 this.numIslands = numIslands
 
                 // Compute grid dimensions and construct the grid of islands.
@@ -526,10 +526,10 @@ object Models {
          */
         class Island<TProgram, TOutput : Output<TProgram>> {
 
-            val environment: EnvironmentDefinition<TProgram, TOutput>
+            val environment: EnvironmentFacade<TProgram, TOutput>
             val dataset: Dataset<TProgram>
 
-            constructor(environment: EnvironmentDefinition<TProgram, TOutput>, dataset: Dataset<TProgram>) {
+            constructor(environment: EnvironmentFacade<TProgram, TOutput>, dataset: Dataset<TProgram>) {
                 this.environment = environment
                 this.dataset = dataset
                 this.select = this.environment.moduleFactory.instance(

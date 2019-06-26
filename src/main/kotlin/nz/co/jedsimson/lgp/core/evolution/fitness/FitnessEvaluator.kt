@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.fitness
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.modules.CoreModuleType
 import nz.co.jedsimson.lgp.core.program.Output
@@ -19,7 +19,7 @@ data class Evaluation<TProgram, TOutput : Output<TProgram>>(
 /**
  * Provides a way to evaluate the fitness of a program.
  *
- * This is done by using the [FitnessContext] that is register with the [EnvironmentDefinition].
+ * This is done by using the [FitnessContext] that is register with the [EnvironmentFacade].
  *
  * @param TData The type of the program being evaluated.
  */
@@ -37,7 +37,7 @@ class FitnessEvaluator<TData, TOutput : Output<TData>> {
     fun evaluate(
         program: Program<TData, TOutput>,
         dataset: Dataset<TData>,
-        environment: EnvironmentDefinition<TData, TOutput>
+        environment: EnvironmentFacade<TData, TOutput>
     ): Evaluation<TData, TOutput> {
 
         // Request access to a fitness context implementation.

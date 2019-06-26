@@ -6,8 +6,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
-import nz.co.jedsimson.lgp.core.environment.Environment
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.program.Output
@@ -70,9 +69,9 @@ class SequentialTrainingJob<TProgram, TOutput : Output<TProgram>> internal const
  * @property runs The number of times to train the given model.
  */
 class SequentialTrainer<TProgram, TOutput : Output<TProgram>>(
-    environment: EnvironmentDefinition<TProgram, TOutput>,
-    model: EvolutionModel<TProgram, TOutput>,
-    val runs: Int
+        environment: EnvironmentFacade<TProgram, TOutput>,
+        model: EvolutionModel<TProgram, TOutput>,
+        val runs: Int
 ) : Trainer<TProgram, TOutput, ProgressUpdate<TProgram, TOutput>>(environment, model) {
 
     private val models = (0 until runs).map {

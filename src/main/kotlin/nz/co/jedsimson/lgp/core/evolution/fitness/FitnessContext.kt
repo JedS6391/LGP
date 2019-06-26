@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.fitness
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.dataset.Sample
 import nz.co.jedsimson.lgp.core.program.Program
@@ -32,7 +32,7 @@ data class FitnessCase<out TData>(val features: Sample<TData>, val target: Targe
  * @property environment
  */
 abstract class FitnessContext<TData, TOutput : Output<TData>>(
-        val environment: EnvironmentDefinition<TData, TOutput>
+        val environment: EnvironmentFacade<TData, TOutput>
 ) : Module {
 
     /**
@@ -52,7 +52,7 @@ abstract class FitnessContext<TData, TOutput : Output<TData>>(
  * For programs with multiple outputs, [MultipleOutputFitnessContext] should be used.
  */
 class SingleOutputFitnessContext<TData>(
-    environment: EnvironmentDefinition<TData, Outputs.Single<TData>>
+    environment: EnvironmentFacade<TData, Outputs.Single<TData>>
 ) : FitnessContext<TData, Outputs.Single<TData>>(environment) {
 
     private val fitnessFunction by lazy {
@@ -99,7 +99,7 @@ class SingleOutputFitnessContext<TData>(
  * For programs with a single output, [SingleOutputFitnessContext] should be used.
  */
 class MultipleOutputFitnessContext<TData>(
-    environment: EnvironmentDefinition<TData, Outputs.Multiple<TData>>
+    environment: EnvironmentFacade<TData, Outputs.Multiple<TData>>
 ) : FitnessContext<TData, Outputs.Multiple<TData>>(environment) {
 
     private val fitnessFunction by lazy {

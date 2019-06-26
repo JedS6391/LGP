@@ -1,7 +1,7 @@
 package nz.co.jedsimson.lgp.test.mocks
 
 import nz.co.jedsimson.lgp.core.environment.DefaultValueProviders
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.*
 import nz.co.jedsimson.lgp.core.program.instructions.*
@@ -34,7 +34,7 @@ class MockInstruction(
 }
 
 class MockInstructionGenerator<TOutput : Output<Double>>(
-    environment: EnvironmentDefinition<Double, TOutput>
+    environment: EnvironmentFacade<Double, TOutput>
 ) : InstructionGenerator<Double, TOutput>(environment)
 {
     private val random = Random()
@@ -91,7 +91,7 @@ class MockSingleOutputProgram(
 }
 
 class MockSingleOutputProgramGenerator(
-    environment: EnvironmentDefinition<Double, Outputs.Single<Double>>
+    environment: EnvironmentFacade<Double, Outputs.Single<Double>>
 ) : ProgramGenerator<Double, Outputs.Single<Double>>(
     environment,
     MockInstructionGenerator(environment)
@@ -145,7 +145,7 @@ class MockMultipleOutputProgram(
 }
 
 class MockMultipleOutputProgramGenerator(
-        environment: EnvironmentDefinition<Double, Outputs.Multiple<Double>>
+        environment: EnvironmentFacade<Double, Outputs.Multiple<Double>>
 ) : ProgramGenerator<Double, Outputs.Multiple<Double>>(
         environment,
         MockInstructionGenerator(environment)

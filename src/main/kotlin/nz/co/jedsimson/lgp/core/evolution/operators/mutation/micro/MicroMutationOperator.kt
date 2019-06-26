@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
@@ -23,11 +23,11 @@ import nz.co.jedsimson.lgp.core.program.Program
  * @constructor Creates a new [MicroMutationOperator] with the given [environment], [registerMutationRate], [operatorMutationRate], [constantMutationFunc], and [mutationStrategyFactory].
  */
 class MicroMutationOperator<TProgram, TOutput : Output<TProgram>>(
-    environment: EnvironmentDefinition<TProgram, TOutput>,
-    private val registerMutationRate: Double,
-    private val operatorMutationRate: Double,
-    private val constantMutationFunc: ConstantMutationFunction<TProgram>,
-    private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput>
+        environment: EnvironmentFacade<TProgram, TOutput>,
+        private val registerMutationRate: Double,
+        private val operatorMutationRate: Double,
+        private val constantMutationFunc: ConstantMutationFunction<TProgram>,
+        private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput>
 ) : MutationOperator<TProgram, TOutput>(environment) {
 
     init {
@@ -44,7 +44,7 @@ class MicroMutationOperator<TProgram, TOutput : Output<TProgram>>(
      * The [MicroMutationOperator] will use the default mutation strategy factory ([MicroMutationStrategyFactory]).
      */
     constructor(
-            environment: EnvironmentDefinition<TProgram, TOutput>,
+            environment: EnvironmentFacade<TProgram, TOutput>,
             registerMutationRate: Double,
             operatorMutationRate: Double,
             constantMutationFunc: ConstantMutationFunction<TProgram>

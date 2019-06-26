@@ -14,93 +14,6 @@ import nz.co.jedsimson.lgp.core.program.registers.ArrayRegisterSet
 import kotlin.random.Random
 
 /**
- * Acts as a facade for simplifying access to details of an [Environment].
- *
- * This contract also helps to mock out the [Environment] as it is a relatively costly object to build.
- */
-interface EnvironmentDefinition<TProgram, TOutput : Output<TProgram>>  {
-
-    /**
-     * Provides access to the environments random state.
-     *
-     * This allows the entire framework to share the random state (as a singleton) to allow deterministic runs.
-     */
-    val randomState: Random
-
-    /**
-     * A provider for a function that can measure the fitness of a program.
-     *
-     * This property should be provided at construction time.
-     */
-    val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>
-
-    /**
-     * Contains the various configuration options available to the LGP system.
-     */
-    val configuration: Configuration
-
-    /**
-     * A set of constants loaded using the [ConstantLoader] given at construction time.
-     */
-    val constants: List<TProgram>
-
-    /**
-     * A set of operations loaded using the [OperationLoader] given at construction time.
-     */
-    val operations: List<Operation<TProgram>>
-
-    /**
-     * Provides mechanisms for collecting results during the lifetime of an environment.
-     */
-    val resultAggregator: ResultAggregator<TProgram>
-
-    /**
-     * Provides access to modules that are registered in the environment.
-     */
-    val moduleFactory: ModuleFactory<TProgram, TOutput>
-
-    /**
-     * Provides access to the set of registers that programs in the environment will use.
-     */
-    val registerSet: RegisterSet<TProgram>
-
-    /**
-     * Registers the modules given by a container.
-     *
-     * @param container A container that specifies modules to be registered.
-     */
-    fun registerModules(container: ModuleContainer<TProgram, TOutput>)
-
-    /**
-     * Register a module builder with a particular module type.
-     *
-     * @param type The type of module to associate this builder with.
-     * @param builder A function that can create the module.
-     */
-    fun registerModule(type: RegisteredModuleType, builder: (EnvironmentDefinition<TProgram, TOutput>) -> Module)
-
-    /**
-     * Produces a clone of the current environment.
-     *
-     * It should be noted that because an environment instance has its own RNG associated with it,
-     * when making a copy, it is required that the copied environment have its own RNG too.
-     * To fulfil this requirement, when an environment is copied, it will initialise a new RNG that is
-     * seeded with a seed given from the RNG of the environment instance performing the copy (confusing -- yes!).
-     *
-     * The main reason behind this complication is to ensure that there are no contention issues when multiple
-     * environment instances are operating in a multi-threaded context (e.g. through a [lgp.core.evolution.Trainers.DistributedTrainer]).
-     *
-     * Furthermore, any modules that are registered with the environment being copied, will be updated so
-     * that the reference the correct environment instance (i.e. the copy). This ensures that while the
-     * module registrations themselves are shared between copies, when a module is accessed, it gets initialised
-     * correctly.
-     *
-     * @return A new [Environment] instance that is a copy of that the method is called on.
-     */
-    fun copy(): EnvironmentDefinition<TProgram, TOutput>
-}
-
-/**
  * A central repository for core components made available to the LGP system.
  *
  * An environment should be built by providing the correct components. The environment will
@@ -115,10 +28,10 @@ interface EnvironmentDefinition<TProgram, TOutput : Output<TProgram>>  {
  * After an environment is built and all components are resolved, it can be used to initiate the core
  * evolution process of LGP.
  */
-class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<TProgram, TOutput> {
+class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentFacade<TProgram, TOutput> {
 
     // These dependencies are generally initialised when the environment is constructed.
-    // Access to these is moderated through the EnvironmentDefinition facade.
+    // Access to these are moderated through the EnvironmentFacade.
     private val configurationLoader: ConfigurationLoader
     private val constantLoader: ConstantLoader<TProgram>
     private val operationLoader: OperationLoader<TProgram>
@@ -226,10 +139,24 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
         this.container.environment = this
     }
 
-    override fun registerModule(type: RegisteredModuleType, builder: (EnvironmentDefinition<TProgram, TOutput>) -> Module) {
+    override fun registerModule(type: RegisteredModuleType, builder: (EnvironmentFacade<TProgram, TOutput>) -> Module) {
         this.container.modules[type] = builder
     }
 
+    /**
+     * It should be noted that because an environment instance has its own RNG associated with it,
+     * when making a copy, it is required that the copied environment have its own RNG too.
+     * To fulfil this requirement, when an environment is copied, it will initialise a new RNG that is
+     * seeded with a seed given from the RNG of the environment instance performing the copy (confusing -- yes!).
+     *
+     * The main reason behind this complication is to ensure that there are no contention issues when multiple
+     * environment instances are operating in a multi-threaded context (e.g. through a [DistributedTrainer]).
+     *
+     * Furthermore, any modules that are registered with the environment being copied, will be updated so
+     * that the reference the correct environment instance (i.e. the copy). This ensures that while the
+     * module registrations themselves are shared between copies, when a module is accessed, it gets initialised
+     * correctly.
+     */
     override fun copy(): Environment<TProgram, TOutput> {
         // Construct a copy with the correct construction/initialised components.
         val copy = Environment(

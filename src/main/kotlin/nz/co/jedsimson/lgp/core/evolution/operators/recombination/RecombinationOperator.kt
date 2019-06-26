@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.recombination
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.program.Program
@@ -16,7 +16,7 @@ import nz.co.jedsimson.lgp.core.program.Program
  * @property environment The environment evolution is being performed within.
  */
 abstract class RecombinationOperator<TProgram, TOutput : Output<TProgram>>(
-    val environment: EnvironmentDefinition<TProgram, TOutput>
+    val environment: EnvironmentFacade<TProgram, TOutput>
 ) : Module {
 
     /**

@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.recombination
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.randInt
 import nz.co.jedsimson.lgp.core.evolution.operators.slice
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
@@ -19,10 +19,10 @@ import nz.co.jedsimson.lgp.core.program.Program
  * @see <a href="http://www.springer.com/gp/book/9780387310299">http://www.springer.com/gp/book/9780387310299</a>
  */
 class LinearCrossover<TProgram, TOutput : Output<TProgram>>(
-    environment: EnvironmentDefinition<TProgram, TOutput>,
-    private val maximumSegmentLength: Int,
-    private val maximumCrossoverDistance: Int,
-    private val maximumSegmentLengthDifference: Int
+        environment: EnvironmentFacade<TProgram, TOutput>,
+        private val maximumSegmentLength: Int,
+        private val maximumCrossoverDistance: Int,
+        private val maximumSegmentLengthDifference: Int
 ) : RecombinationOperator<TProgram, TOutput>(environment) {
 
     private val random = this.environment.randomState

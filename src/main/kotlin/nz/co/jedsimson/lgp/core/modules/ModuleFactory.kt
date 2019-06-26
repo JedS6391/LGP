@@ -9,8 +9,8 @@ import java.lang.ClassCastException
  * The main goal is to separate the building of a module container (a public operation)
  * and retrieving instances of a module.
  *
- * @constructor Creates a new [ModuleFactory] with the given [ModuleContainer].
  * @property container A [ModuleContainer] that this factory manages.
+ * @constructor Creates a new [ModuleFactory] with the given [ModuleContainer].
  */
 abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>>(
     internal val container: ModuleContainer<TProgram, TOutput>
@@ -76,6 +76,9 @@ abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>>(
     internal abstract fun resolveModuleFromType(type: RegisteredModuleType): Module
 }
 
+/**
+ * An implementation of [ModuleFactory] that will cache [Module] instances after the first instantiation.
+ */
 internal class CachingModuleFactory<TProgram, TOutput : Output<TProgram>>(
     container: ModuleContainer<TProgram, TOutput>
 ) : ModuleFactory<TProgram, TOutput>(container) {
