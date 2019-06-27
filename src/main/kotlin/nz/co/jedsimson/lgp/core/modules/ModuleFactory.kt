@@ -1,5 +1,6 @@
 package nz.co.jedsimson.lgp.core.modules
 
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.program.Output
 import java.lang.ClassCastException
 
@@ -12,8 +13,8 @@ import java.lang.ClassCastException
  * @property container A [ModuleContainer] that this factory manages.
  * @constructor Creates a new [ModuleFactory] with the given [ModuleContainer].
  */
-abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>>(
-    internal val container: ModuleContainer<TProgram, TOutput>
+abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    internal val container: ModuleContainer<TProgram, TOutput, TTarget>
 ) {
 
     /**
@@ -79,9 +80,9 @@ abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>>(
 /**
  * An implementation of [ModuleFactory] that will cache [Module] instances after the first instantiation.
  */
-internal class CachingModuleFactory<TProgram, TOutput : Output<TProgram>>(
-    container: ModuleContainer<TProgram, TOutput>
-) : ModuleFactory<TProgram, TOutput>(container) {
+internal class CachingModuleFactory<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    container: ModuleContainer<TProgram, TOutput, TTarget>
+) : ModuleFactory<TProgram, TOutput, TTarget>(container) {
 
     // All instances are provided as singletons
     private val instanceCache = mutableMapOf<RegisteredModuleType, Module>()

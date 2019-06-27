@@ -1,6 +1,7 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
@@ -15,8 +16,8 @@ import nz.co.jedsimson.lgp.core.program.Program
  * @param TOutput The type of the program output(s).
  * @property environment The environment evolution is being performed within.
  */
-abstract class MutationOperator<TProgram, TOutput : Output<TProgram>>(
-    val environment: EnvironmentFacade<TProgram, TOutput>
+abstract class MutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    protected val environment: EnvironmentFacade<TProgram, TOutput, TTarget>
 ) : Module {
 
     /**

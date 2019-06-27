@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.environment
 
 import nz.co.jedsimson.lgp.core.environment.config.*
 import nz.co.jedsimson.lgp.core.environment.constants.ConstantLoader
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregators
@@ -28,7 +29,8 @@ import kotlin.random.Random
  * After an environment is built and all components are resolved, it can be used to initiate the core
  * evolution process of LGP.
  */
-class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentFacade<TProgram, TOutput> {
+class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>
+    : EnvironmentFacade<TProgram, TOutput, TTarget> {
 
     // These dependencies are generally initialised when the environment is constructed.
     // Access to these are moderated through the EnvironmentFacade.
@@ -37,18 +39,18 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentFacade<TPro
     private val operationLoader: OperationLoader<TProgram>
     private val defaultValueProvider: DefaultValueProvider<TProgram>
     private val randomStateSeed: Long?
-    private var container: ModuleContainer<TProgram, TOutput>
+    private var container: ModuleContainer<TProgram, TOutput, TTarget>
 
     // The public environment interface
     // Some dependencies are initialised late as they are created during the environment construction.
     override val randomState: Random
-    override val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>
+    override val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>
     override lateinit var configuration: Configuration
     override lateinit var constants: List<TProgram>
     override lateinit var operations: List<Operation<TProgram>>
     override lateinit var registerSet: RegisterSet<TProgram>
     override val resultAggregator: ResultAggregator<TProgram>
-    override var moduleFactory: ModuleFactory<TProgram, TOutput>
+    override var moduleFactory: ModuleFactory<TProgram, TOutput, TTarget>
 
     /**
      * Builds an environment with the specified construction components.
@@ -69,7 +71,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentFacade<TPro
         constantLoader: ConstantLoader<TProgram>,
         operationLoader: OperationLoader<TProgram>,
         defaultValueProvider: DefaultValueProvider<TProgram>,
-        fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>,
+        fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>,
         resultAggregator: ResultAggregator<TProgram>? = null,
         randomStateSeed: Long? = null
     ) {
@@ -129,7 +131,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentFacade<TPro
         )
     }
 
-    override fun registerModules(container: ModuleContainer<TProgram, TOutput>) {
+    override fun registerModules(container: ModuleContainer<TProgram, TOutput, TTarget>) {
         this.container = container
         this.moduleFactory = CachingModuleFactory(this.container)
 
@@ -137,7 +139,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentFacade<TPro
         this.container.environment = this
     }
 
-    override fun registerModule(type: RegisteredModuleType, builder: (EnvironmentFacade<TProgram, TOutput>) -> Module) {
+    override fun registerModule(type: RegisteredModuleType, builder: (EnvironmentFacade<TProgram, TOutput, TTarget>) -> Module) {
         this.container.modules[type] = builder
     }
 
@@ -155,7 +157,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentFacade<TPro
      * module registrations themselves are shared between copies, when a module is accessed, it gets initialised
      * correctly.
      */
-    override fun copy(): Environment<TProgram, TOutput> {
+    override fun copy(): Environment<TProgram, TOutput, TTarget> {
         // Construct a copy with the correct construction/initialised components.
         val copy = Environment(
             this.configurationLoader,

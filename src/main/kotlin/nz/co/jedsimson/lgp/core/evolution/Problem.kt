@@ -4,6 +4,7 @@ import nz.co.jedsimson.lgp.core.environment.DefaultValueProvider
 import nz.co.jedsimson.lgp.core.environment.Environment
 import nz.co.jedsimson.lgp.core.environment.config.ConfigurationLoader
 import nz.co.jedsimson.lgp.core.environment.constants.ConstantLoader
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessFunctionProvider
 import nz.co.jedsimson.lgp.core.program.Output
@@ -36,7 +37,7 @@ class ProblemNotInitialisedException(message: String) : Exception(message)
 /**
  * Defines a problem and the components that should be used to solve that problem.
  */
-abstract class Problem<TProgram, TOutput : Output<TProgram>> {
+abstract class Problem<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>> {
 
     /**
      * A name for this problem.
@@ -71,26 +72,26 @@ abstract class Problem<TProgram, TOutput : Output<TProgram>> {
     /**
      * A fitness metric to be used for this problem.
      */
-    abstract val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>
+    abstract val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>
 
     /**
      * A collection of modules that should be registered with the environment.
      */
-    abstract val registeredModules: ModuleContainer<TProgram, TOutput>
+    abstract val registeredModules: ModuleContainer<TProgram, TOutput, TTarget>
 
     /**
      * An environment built up of the components this problem uses.
      *
      * The environment should be initialised in the [initialiseEnvironment] method.
      */
-    lateinit var environment: Environment<TProgram, TOutput>
+    lateinit var environment: Environment<TProgram, TOutput, TTarget>
 
     /**
      * An evolutionary model that should be used to solve this problem.
      *
      * The model should be initialised in the [initialiseModel] method.
      */
-    lateinit var model: EvolutionModel<TProgram, TOutput>
+    lateinit var model: EvolutionModel<TProgram, TOutput, TTarget>
 
     // TODO: Figure out a way to call initialisation methods automatically.
 

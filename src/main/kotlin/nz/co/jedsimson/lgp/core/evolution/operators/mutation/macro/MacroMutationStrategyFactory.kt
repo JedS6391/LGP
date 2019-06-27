@@ -1,6 +1,7 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolvers
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
@@ -20,10 +21,10 @@ private enum class MacroMutationType {
  * @param insertionRate The rate with which instructions should be inserted.
  * @param deletionRate The rate with which instructions should be deleted.
  */
-internal class MacroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>>(
-        private val environment: EnvironmentFacade<TProgram, TOutput>,
-        private val insertionRate: Double,      // p_ins
-        private val deletionRate: Double        // p_del
+internal class MacroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    private val environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    private val insertionRate: Double,      // p_ins
+    private val deletionRate: Double        // p_del
 ) : MutationStrategyFactory<TProgram, TOutput>() {
 
     private val random = this.environment.randomState

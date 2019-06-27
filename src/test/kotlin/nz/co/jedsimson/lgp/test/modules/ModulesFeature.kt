@@ -1,7 +1,8 @@
 package nz.co.jedsimson.lgp.test.modules
 
+import nz.co.jedsimson.lgp.core.environment.dataset.Targets
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessContext
-import nz.co.jedsimson.lgp.core.evolution.fitness.SingleOutputFitnessContext
+import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessContexts.SingleOutputFitnessContext
 import nz.co.jedsimson.lgp.core.modules.*
 import nz.co.jedsimson.lgp.core.program.Outputs
 import nz.co.jedsimson.lgp.core.program.ProgramGenerator
@@ -10,15 +11,14 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import java.lang.Exception
 
-// These tests also cover module container
-object ModuleFactoryFeature : Spek({
+object ModulesFeature : Spek({
 
     Feature("Loading modules from the module container") {
         Scenario("Loading a module that is not in the container") {
-            lateinit var moduleContainer: ModuleContainer<Double, Outputs.Single<Double>>
-            lateinit var moduleFactory: ModuleFactory<Double, Outputs.Single<Double>>
+            lateinit var moduleContainer: ModuleContainer<Double, Outputs.Single<Double>, Targets.Single<Double>>
+            lateinit var moduleFactory: ModuleFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>
             var exception: Exception? = null
-            var fitnessContext: FitnessContext<Double, Outputs.Single<Double>>? = null
+            var fitnessContext: FitnessContext<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
 
             Given("A module container with no modules") {
                 moduleContainer = ModuleContainer(modules = mutableMapOf())
@@ -42,14 +42,14 @@ object ModuleFactoryFeature : Spek({
         }
 
         Scenario("Loading a module that is in the container") {
-            lateinit var moduleContainer: ModuleContainer<Double, Outputs.Single<Double>>
-            lateinit var moduleFactory: ModuleFactory<Double, Outputs.Single<Double>>
-            var fitnessContext: FitnessContext<Double, Outputs.Single<Double>>? = null
-            var fitnessContextFromCache: FitnessContext<Double, Outputs.Single<Double>>? = null
+            lateinit var moduleContainer: ModuleContainer<Double, Outputs.Single<Double>, Targets.Single<Double>>
+            lateinit var moduleFactory: ModuleFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>
+            var fitnessContext: FitnessContext<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
+            var fitnessContextFromCache: FitnessContext<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
 
             Given("A module container with a single module") {
                 // For some reason the compiler can't figure out this type inference, so an explicit type is needed...
-                moduleContainer = ModuleContainer<Double, Outputs.Single<Double>>(
+                moduleContainer = ModuleContainer(
                     modules = mutableMapOf(
                         CoreModuleType.FitnessContext to { environment -> SingleOutputFitnessContext(environment) }
                     )
@@ -78,14 +78,14 @@ object ModuleFactoryFeature : Spek({
         }
 
         Scenario("Loading module with an invalid cast type") {
-            lateinit var moduleContainer: ModuleContainer<Double, Outputs.Single<Double>>
-            lateinit var moduleFactory: ModuleFactory<Double, Outputs.Single<Double>>
+            lateinit var moduleContainer: ModuleContainer<Double, Outputs.Single<Double>, Targets.Single<Double>>
+            lateinit var moduleFactory: ModuleFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>
             var exception: Exception? = null
-            var programGenerator: ProgramGenerator<Int, Outputs.Single<Int>>? = null
+            var programGenerator: ProgramGenerator<Int, Outputs.Single<Int>, Targets.Single<Int>>? = null
 
             Given("A module container with a single module") {
                 // For some reason the compiler can't figure out this type inference, so an explicit type is needed...
-                moduleContainer = ModuleContainer<Double, Outputs.Single<Double>>(
+                moduleContainer = ModuleContainer(
                     modules = mutableMapOf(
                         CoreModuleType.FitnessContext to { environment -> SingleOutputFitnessContext(environment) }
                     )

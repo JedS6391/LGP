@@ -3,6 +3,7 @@ package nz.co.jedsimson.lgp.test.evolution
 import com.nhaarman.mockitokotlin2.*
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.config.Configuration
+import nz.co.jedsimson.lgp.core.environment.dataset.Targets
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolvers
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro.MacroMutationOperator
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro.MacroMutationStrategies
@@ -30,12 +31,12 @@ object MutationOperatorFeature : Spek({
 
         // Initialisation
         Scenario("Macro mutation operator with invalid insertion and deletion rate") {
-            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>>>()
+            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val mockConfiguration = Configuration().apply {
                 minimumProgramLength = 1
                 maximumProgramLength = 10
             }
-            var macroMutationOperator: MacroMutationOperator<Double, Outputs.Single<Double>>? = null
+            var macroMutationOperator: MacroMutationOperator<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             var exception: Exception? = null
 
             When("A macro mutation operator is initialised with an insertion and deletion rate that is less than 1.0") {
@@ -78,10 +79,10 @@ object MutationOperatorFeature : Spek({
 
         // High level operator execution (i.e. does it delegate to the strategy correctly)
         Scenario("Macro mutation operator delegates to a mutation strategy factory") {
-            var macroMutationOperator: MacroMutationOperator<Double, Outputs.Single<Double>>? = null
-            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>>>()
+            var macroMutationOperator: MacroMutationOperator<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
+            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val mockMutationStrategyFactory = mock<MutationStrategyFactory<Double, Outputs.Single<Double>>>()
-            val mockMutationStrategy = mock<MutationStrategy<Double, Outputs.Single<Double>>>()
+            val mockMutationStrategy = mock<MutationStrategy<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
 
             Given("A macro mutation operator") {
@@ -103,13 +104,13 @@ object MutationOperatorFeature : Spek({
 
         // Strategy factory (i.e. should return the appropriate strategy)
         Scenario("Macro mutation strategy factory provides the insertion strategy when program length is less than the maximum and the mutation type is insertion") {
-            var macroMutationStrategyFactory: MacroMutationStrategyFactory<Double, Outputs.Single<Double>>? = null
-            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+            var macroMutationStrategyFactory: MacroMutationStrategyFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
             val mockInstructions = (0 until 5).map { mock<Instruction<Double>>() }.toMutableList()
-            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>>>()
+            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val mockRandom = mock<Random>()
-            val mockModuleFactory = mock<ModuleFactory<Double, Outputs.Single<Double>>>()
+            val mockModuleFactory = mock<ModuleFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val insertionRate = 0.5
             val deletionRate = 0.5
 
@@ -120,7 +121,8 @@ object MutationOperatorFeature : Spek({
                 }
 
                 whenever(mockRandom.nextDouble()).thenReturn(insertionRate - 0.1)
-                whenever(mockModuleFactory.resolveModuleFromType(CoreModuleType.InstructionGenerator)).thenReturn(mock<InstructionGenerator<Double, Outputs.Single<Double>>>())
+                whenever(mockModuleFactory.resolveModuleFromType(CoreModuleType.InstructionGenerator))
+                        .thenReturn(mock<InstructionGenerator<Double, Outputs.Single<Double>, Targets.Single<Double>>>())
                 whenever(mockEnvironment.configuration).thenReturn(configuration)
                 whenever(mockEnvironment.randomState).thenReturn(mockRandom)
                 whenever(mockEnvironment.moduleFactory).thenReturn(mockModuleFactory)
@@ -135,18 +137,20 @@ object MutationOperatorFeature : Spek({
 
             Then("The mutation strategy is the macro mutation insertion strategy") {
                 assert(mutationStrategy != null) { "Mutation strategy was null" }
-                assert(mutationStrategy is MacroMutationStrategies.MacroMutationInsertionStrategy<Double, Outputs.Single<Double>>) { "Mutation strategy was not the correct type" }
+                assert(mutationStrategy is MacroMutationStrategies.MacroMutationInsertionStrategy<Double, Outputs.Single<Double>, Targets.Single<Double>>) {
+                    "Mutation strategy was not the correct type"
+                }
             }
         }
 
         Scenario("Macro mutation strategy factory provides the insertion strategy when program length is equal to the minimum and the mutation type is deletion") {
-            var macroMutationStrategyFactory: MacroMutationStrategyFactory<Double, Outputs.Single<Double>>? = null
-            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+            var macroMutationStrategyFactory: MacroMutationStrategyFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
             val mockInstructions = (0 until 1).map { mock<Instruction<Double>>() }.toMutableList()
-            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>>>()
+            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val mockRandom = mock<Random>()
-            val mockModuleFactory = mock<ModuleFactory<Double, Outputs.Single<Double>>>()
+            val mockModuleFactory = mock<ModuleFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val insertionRate = 0.5
             val deletionRate = 0.5
 
@@ -157,7 +161,8 @@ object MutationOperatorFeature : Spek({
                 }
 
                 whenever(mockRandom.nextDouble()).thenReturn(insertionRate + 0.1)
-                whenever(mockModuleFactory.resolveModuleFromType(CoreModuleType.InstructionGenerator)).thenReturn(mock<InstructionGenerator<Double, Outputs.Single<Double>>>())
+                whenever(mockModuleFactory.resolveModuleFromType(CoreModuleType.InstructionGenerator))
+                        .thenReturn(mock<InstructionGenerator<Double, Outputs.Single<Double>, Targets.Single<Double>>>())
                 whenever(mockEnvironment.configuration).thenReturn(configuration)
                 whenever(mockEnvironment.randomState).thenReturn(mockRandom)
                 whenever(mockEnvironment.moduleFactory).thenReturn(mockModuleFactory)
@@ -172,18 +177,18 @@ object MutationOperatorFeature : Spek({
 
             Then("The mutation strategy is the macro mutation insertion strategy") {
                 assert(mutationStrategy != null) { "Mutation strategy was null" }
-                assert(mutationStrategy is MacroMutationStrategies.MacroMutationInsertionStrategy<Double, Outputs.Single<Double>>) { "Mutation strategy was not the correct type" }
+                assert(mutationStrategy is MacroMutationStrategies.MacroMutationInsertionStrategy<Double, Outputs.Single<Double>, Targets.Single<Double>>) { "Mutation strategy was not the correct type" }
             }
         }
 
         Scenario("Macro mutation strategy factory provides the insertion strategy when program length is greater than the minimum and the mutation type is deletion") {
-            var macroMutationStrategyFactory: MacroMutationStrategyFactory<Double, Outputs.Single<Double>>? = null
-            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+            var macroMutationStrategyFactory: MacroMutationStrategyFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
             val mockInstructions = (0 until 5).map { mock<Instruction<Double>>() }.toMutableList()
-            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>>>()
+            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val mockRandom = mock<Random>()
-            val mockModuleFactory = mock<ModuleFactory<Double, Outputs.Single<Double>>>()
+            val mockModuleFactory = mock<ModuleFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val insertionRate = 0.5
             val deletionRate = 0.5
 
@@ -194,7 +199,8 @@ object MutationOperatorFeature : Spek({
                 }
 
                 whenever(mockRandom.nextDouble()).thenReturn(insertionRate + 0.1)
-                whenever(mockModuleFactory.resolveModuleFromType(CoreModuleType.InstructionGenerator)).thenReturn(mock<InstructionGenerator<Double, Outputs.Single<Double>>>())
+                whenever(mockModuleFactory.resolveModuleFromType(CoreModuleType.InstructionGenerator))
+                        .thenReturn(mock<InstructionGenerator<Double, Outputs.Single<Double>, Targets.Single<Double>>>())
                 whenever(mockEnvironment.configuration).thenReturn(configuration)
                 whenever(mockEnvironment.randomState).thenReturn(mockRandom)
                 whenever(mockEnvironment.moduleFactory).thenReturn(mockModuleFactory)
@@ -209,19 +215,19 @@ object MutationOperatorFeature : Spek({
 
             Then("The mutation strategy is the macro mutation deletion strategy") {
                 assert(mutationStrategy != null) { "Mutation strategy was null" }
-                assert(mutationStrategy is MacroMutationStrategies.MacroMutationDeletionStrategy<Double, Outputs.Single<Double>>) { "Mutation strategy was not the correct type" }
+                assert(mutationStrategy is MacroMutationStrategies.MacroMutationDeletionStrategy<Double, Outputs.Single<Double>, Targets.Single<Double>>) { "Mutation strategy was not the correct type" }
             }
         }
 
         Scenario("Macro mutation strategy factory provides the insertion strategy when program length is equal to the maximum and the mutation type is insertion") {
-            var macroMutationStrategyFactory: MacroMutationStrategyFactory<Double, Outputs.Single<Double>>? = null
-            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>>? = null
+            var macroMutationStrategyFactory: MacroMutationStrategyFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
+            var mutationStrategy: MutationStrategy<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             val mockProgram = mock<Program<Double, Outputs.Single<Double>>>()
             val mockInstructions = (0 until 10).map { mock<Instruction<Double>>() }.toMutableList()
-            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>>>()
+            val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val mockRandom = mock<Random>()
-            val mockModuleFactory = mock<ModuleFactory<Double, Outputs.Single<Double>>>()
-            val mockInstructionGenerator = mock<InstructionGenerator<Double, Outputs.Single<Double>>>()
+            val mockModuleFactory = mock<ModuleFactory<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
+            val mockInstructionGenerator = mock<InstructionGenerator<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             val insertionRate = 0.5
             val deletionRate = 0.5
 
@@ -247,7 +253,7 @@ object MutationOperatorFeature : Spek({
 
             Then("The mutation strategy is the macro mutation deletion strategy") {
                 assert(mutationStrategy != null) { "Mutation strategy was null" }
-                assert(mutationStrategy is MacroMutationStrategies.MacroMutationDeletionStrategy<Double, Outputs.Single<Double>>) { "Mutation strategy was not the correct type" }
+                assert(mutationStrategy is MacroMutationStrategies.MacroMutationDeletionStrategy<Double, Outputs.Single<Double>, Targets.Single<Double>>) { "Mutation strategy was not the correct type" }
             }
         }
 

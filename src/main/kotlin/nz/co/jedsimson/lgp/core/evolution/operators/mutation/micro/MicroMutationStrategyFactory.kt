@@ -1,6 +1,7 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolvers
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
@@ -22,8 +23,8 @@ private enum class MicroMutationType {
  * @property operatorMutationRate The rate with which operates should be mutated.
  * @property constantMutationFunc A function that can mutate values in the domain of [TProgram].
  */
-internal class MicroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>>(
-        private val environment: EnvironmentFacade<TProgram, TOutput>,
+internal class MicroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+        private val environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
         private val registerMutationRate: Double,
         private val operatorMutationRate: Double,
         private val constantMutationFunc: ConstantMutationFunction<TProgram>

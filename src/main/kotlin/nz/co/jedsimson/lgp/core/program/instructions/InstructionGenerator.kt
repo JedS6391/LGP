@@ -1,6 +1,7 @@
 package nz.co.jedsimson.lgp.core.program.instructions
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.modules.Module
 
@@ -24,8 +25,8 @@ import nz.co.jedsimson.lgp.core.modules.Module
  *
  * @param TProgram The type that the instructions generated operate on.
  */
-abstract class InstructionGenerator<TProgram, TOutput : Output<TProgram>>(
-    val environment: EnvironmentFacade<TProgram, TOutput>
+abstract class InstructionGenerator<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    val environment: EnvironmentFacade<TProgram, TOutput, TTarget>
 ) : Module {
 
     /**

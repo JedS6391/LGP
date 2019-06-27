@@ -44,10 +44,12 @@ data class TestResult<TProgram, TOutput : Output<TProgram>>(
  * A model that can be used to perform evolution within in a specific environment.
  *
  * @param TProgram The type of programs this models evolves.
+ * @param TOutput The type of the output for programs this models evolves.
+ * @param TProgram The type of the targets in the data set.
  * @property environment The environment evolution takes place within.
  */
-abstract class EvolutionModel<TProgram, TOutput : Output<TProgram>>(
-    val environment: EnvironmentFacade<TProgram, TOutput>
+abstract class EvolutionModel<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    val environment: EnvironmentFacade<TProgram, TOutput, TTarget>
 ) : Module {
 
     /**
@@ -58,7 +60,7 @@ abstract class EvolutionModel<TProgram, TOutput : Output<TProgram>>(
      * @param dataset A set of features and target values.
      * @returns A description of the evolution process during training.
      */
-    abstract fun train(dataset: Dataset<TProgram>): EvolutionResult<TProgram, TOutput>
+    abstract fun train(dataset: Dataset<TProgram, TTarget>): EvolutionResult<TProgram, TOutput>
 
     /**
      * Tests the model on a given data set and returns the program outputs.
@@ -66,9 +68,9 @@ abstract class EvolutionModel<TProgram, TOutput : Output<TProgram>>(
      * @param dataset A set of features and target values.
      * @returns The output of the program for each sample in the data set.
      */
-    abstract fun test(dataset: Dataset<TProgram>): TestResult<TProgram, TOutput>
+    abstract fun test(dataset: Dataset<TProgram, TTarget>): TestResult<TProgram, TOutput>
 
-    abstract fun copy(): EvolutionModel<TProgram, TOutput>
+    abstract fun copy(): EvolutionModel<TProgram, TOutput, TTarget>
 
-    abstract fun deepCopy(): EvolutionModel<TProgram, TOutput>
+    abstract fun deepCopy(): EvolutionModel<TProgram, TOutput, TTarget>
 }

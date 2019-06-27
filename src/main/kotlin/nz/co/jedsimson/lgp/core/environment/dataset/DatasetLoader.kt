@@ -10,6 +10,7 @@ import nz.co.jedsimson.lgp.core.environment.ComponentLoader
  * individual features in the data set.
  *
  * @param TData Type of features in the data set.
+ * @param TTarget Type of targets in the data set.
  * @see [Dataset]
  */
-interface DatasetLoader<out TData> : ComponentLoader<Dataset<TData>>
+interface DatasetLoader<out TData, out TTarget : Target<TData>> : ComponentLoader<Dataset<TData, TTarget>>

@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.environment
 
 import nz.co.jedsimson.lgp.core.environment.config.Configuration
 import nz.co.jedsimson.lgp.core.environment.constants.ConstantLoader
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessFunctionProvider
@@ -19,7 +20,7 @@ import kotlin.random.Random
  *
  * This facade provides the public definition for an [Environment] that consumers can rely on.
  */
-interface EnvironmentFacade<TProgram, TOutput : Output<TProgram>>  {
+interface EnvironmentFacade<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>  {
 
     /**
      * Provides access to the environments random state.
@@ -31,7 +32,7 @@ interface EnvironmentFacade<TProgram, TOutput : Output<TProgram>>  {
     /**
      * Provides a function that can measure the fitness of a program.
      */
-    val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>
+    val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>
 
     /**
      * Contains the various configuration options available to the LGP system.
@@ -58,7 +59,7 @@ interface EnvironmentFacade<TProgram, TOutput : Output<TProgram>>  {
      *
      * The [ModuleFactory] acts as a service locator within the system, allowing sub-systems to get the dependencies they need.
      */
-    val moduleFactory: ModuleFactory<TProgram, TOutput>
+    val moduleFactory: ModuleFactory<TProgram, TOutput, TTarget>
 
     /**
      * Provides access to the set of registers that programs in the environment will use.
@@ -72,7 +73,7 @@ interface EnvironmentFacade<TProgram, TOutput : Output<TProgram>>  {
      *
      * @param container A container that specifies modules to be registered.
      */
-    fun registerModules(container: ModuleContainer<TProgram, TOutput>)
+    fun registerModules(container: ModuleContainer<TProgram, TOutput, TTarget>)
 
     /**
      * Register a module builder with a particular module type.
@@ -80,12 +81,12 @@ interface EnvironmentFacade<TProgram, TOutput : Output<TProgram>>  {
      * @param type The type of module to associate this builder with.
      * @param builder A function that can create the module.
      */
-    fun registerModule(type: RegisteredModuleType, builder: ModuleBuilder<TProgram, TOutput>)
+    fun registerModule(type: RegisteredModuleType, builder: ModuleBuilder<TProgram, TOutput, TTarget>)
 
     /**
      * Produces a clone of the current environment.
      *
      * @return A new [EnvironmentFacade] instance that is a copy of the current one.
      */
-    fun copy(): EnvironmentFacade<TProgram, TOutput>
+    fun copy(): EnvironmentFacade<TProgram, TOutput, TTarget>
 }

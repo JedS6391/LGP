@@ -1,5 +1,6 @@
 package nz.co.jedsimson.lgp.test.program
 
+import nz.co.jedsimson.lgp.core.environment.dataset.Targets
 import nz.co.jedsimson.lgp.core.program.Outputs
 import nz.co.jedsimson.lgp.core.program.Program
 import nz.co.jedsimson.lgp.core.program.ProgramGenerator
@@ -13,7 +14,7 @@ object ProgramAndInstructionGeneratorFeature : Spek({
 
     Feature("Program and instruction generation") {
         Scenario("Generating a sequence of single-output programs") {
-            var programGenerator: ProgramGenerator<Double, Outputs.Single<Double>>? = null
+            var programGenerator: ProgramGenerator<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             var programs: Sequence<Program<Double, Outputs.Single<Double>>>? = null
             var programList: List<Program<Double, Outputs.Single<Double>>>? = null
 
@@ -47,7 +48,7 @@ object ProgramAndInstructionGeneratorFeature : Spek({
         }
 
         Scenario("Generating a sequence of multiple-output programs") {
-            var programGenerator: ProgramGenerator<Double, Outputs.Multiple<Double>>? = null
+            var programGenerator: ProgramGenerator<Double, Outputs.Multiple<Double>, Targets.Multiple<Double>>? = null
             var programs: Sequence<Program<Double, Outputs.Multiple<Double>>>? = null
             var programList: List<Program<Double, Outputs.Multiple<Double>>>? = null
 
@@ -81,7 +82,7 @@ object ProgramAndInstructionGeneratorFeature : Spek({
         }
 
         Scenario("Generated programs can be translated") {
-            var programGenerator: ProgramGenerator<Double, Outputs.Single<Double>>? = null
+            var programGenerator: ProgramGenerator<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             var programTranslator: ProgramTranslator<Double, Outputs.Single<Double>>? = null
             var program: Program<Double, Outputs.Single<Double>>? = null
             var translatedProgram: String? = null

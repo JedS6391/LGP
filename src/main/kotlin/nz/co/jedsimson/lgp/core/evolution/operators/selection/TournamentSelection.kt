@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.selection
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.choice
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.sample
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Output
@@ -21,10 +22,10 @@ import kotlin.random.Random
  *
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  */
-class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>>(
-        environment: EnvironmentFacade<TProgram, TOutput>,
+class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
         private val tournamentSize: Int
-) : SelectionOperator<TProgram, TOutput>(environment) {
+) : SelectionOperator<TProgram, TOutput, TTarget>(environment) {
 
     private val random = this.environment.randomState
 
@@ -62,10 +63,10 @@ class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>>(
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  * @see <a href="https://en.wikipedia.org/wiki/Tournament_selection"></a>
  */
-class TournamentSelection<TProgram, TOutput : Output<TProgram>>(
-        environment: EnvironmentFacade<TProgram, TOutput>,
+class TournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
         private val tournamentSize: Int
-) : SelectionOperator<TProgram, TOutput>(environment) {
+) : SelectionOperator<TProgram, TOutput, TTarget>(environment) {
 
     private val random = this.environment.randomState
 
