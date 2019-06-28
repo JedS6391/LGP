@@ -28,7 +28,7 @@ class MicroMutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Targ
         private val registerMutationRate: Double,
         private val operatorMutationRate: Double,
         private val constantMutationFunc: ConstantMutationFunction<TProgram>,
-        private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput>
+        private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput, TTarget>
 ) : MutationOperator<TProgram, TOutput, TTarget>(environment) {
 
     init {

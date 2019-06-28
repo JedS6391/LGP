@@ -28,13 +28,13 @@ internal class MicroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>
         private val registerMutationRate: Double,
         private val operatorMutationRate: Double,
         private val constantMutationFunc: ConstantMutationFunction<TProgram>
-) : MutationStrategyFactory<TProgram, TOutput>() {
+) : MutationStrategyFactory<TProgram, TOutput, TTarget>() {
 
     private val random = this.environment.randomState
 
     override fun getStrategyForIndividual(
         individual: Program<TProgram, TOutput>
-    ): MutationStrategy<TProgram, TOutput> {
+    ): MutationStrategy<TProgram, TOutput, TTarget> {
 
         // 2. Randomly select mutation type register | operator | constant with
         // probability p_regmut | p_opermut | p_constmut and with p_regmut +

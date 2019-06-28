@@ -27,7 +27,7 @@ class MacroMutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Targ
         environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
         private val insertionRate: Double,      // p_ins
         private val deletionRate: Double,       // p_del
-        private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput>
+        private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput, TTarget>
 ) : MutationOperator<TProgram, TOutput, TTarget>(environment) {
 
     init {

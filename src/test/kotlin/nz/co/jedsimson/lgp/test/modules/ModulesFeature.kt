@@ -49,7 +49,7 @@ object ModulesFeature : Spek({
 
             Given("A module container with a single module") {
                 // For some reason the compiler can't figure out this type inference, so an explicit type is needed...
-                moduleContainer = ModuleContainer(
+                moduleContainer = ModuleContainer<Double, Outputs.Single<Double>, Targets.Single<Double>>(
                     modules = mutableMapOf(
                         CoreModuleType.FitnessContext to { environment -> SingleOutputFitnessContext(environment) }
                     )
@@ -85,7 +85,7 @@ object ModulesFeature : Spek({
 
             Given("A module container with a single module") {
                 // For some reason the compiler can't figure out this type inference, so an explicit type is needed...
-                moduleContainer = ModuleContainer(
+                moduleContainer = ModuleContainer<Double, Outputs.Single<Double>, Targets.Single<Double>>(
                     modules = mutableMapOf(
                         CoreModuleType.FitnessContext to { environment -> SingleOutputFitnessContext(environment) }
                     )

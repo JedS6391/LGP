@@ -25,13 +25,15 @@ internal class MacroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>
     private val environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
     private val insertionRate: Double,      // p_ins
     private val deletionRate: Double        // p_del
-) : MutationStrategyFactory<TProgram, TOutput>() {
+) : MutationStrategyFactory<TProgram, TOutput, TTarget>() {
 
     private val random = this.environment.randomState
     private val minimumProgramLength = this.environment.configuration.minimumProgramLength
     private val maximumProgramLength = this.environment.configuration.maximumProgramLength
 
-    override fun getStrategyForIndividual(individual: Program<TProgram, TOutput>): MutationStrategy<TProgram, TOutput> {
+    override fun getStrategyForIndividual(
+        individual: Program<TProgram, TOutput>
+    ): MutationStrategy<TProgram, TOutput, TTarget> {
         val programLength = individual.instructions.size
 
         //  Randomly select macro mutation type (insertion or deletion)

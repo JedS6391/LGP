@@ -14,8 +14,8 @@ object DatasetLoaderFeature : Spek({
 
     Feature("Loading a dataset from a CSV file") {
         Scenario("Load a dataset of double values from a valid file") {
-            lateinit var datasetLoader: CsvDatasetLoader<Double>
-            var dataset: Dataset<Double>? = null
+            lateinit var datasetLoader: CsvDatasetLoader<Double, Targets.Single<Double>>
+            var dataset: Dataset<Double, Targets.Single<Double>>? = null
 
             Given("A CsvDatasetLoader for the file test-dataset.csv") {
                 val reader = BufferedReader(InputStreamReader(FileInputStream(testDatasetFilePath)))
@@ -35,8 +35,8 @@ object DatasetLoaderFeature : Spek({
 
             Then("The dataset should be loaded correctly") {
                 assert(dataset != null) { "Dataset was null" }
-                assert(dataset!!.numFeatures() == 2) { "Number of features did not match expected" }
-                assert(dataset!!.numSamples() == 3) { "Number of samples did not match expected" }
+                assert(dataset!!.features == 2) { "Number of features did not match expected" }
+                assert(dataset!!.samples == 3) { "Number of samples did not match expected" }
 
                 // The dataset starts at 1.0 and increments by 1.0
                 val expectedFeatures = listOf(
@@ -54,14 +54,14 @@ object DatasetLoaderFeature : Spek({
                 val expectedOutputs = listOf(1.0, 4.0, 27.0)
 
                 expectedOutputs.zip(dataset!!.outputs).forEach { (expected, output) ->
-                    assert((output as Targets.Single<Double>).value == expected) { "Output did not have the correct value" }
+                    assert(output.value == expected) { "Output did not have the correct value" }
                 }
             }
         }
 
         Scenario("Load a dataset of double values from an invalid file (i.e no data rows)") {
-            lateinit var datasetLoader: CsvDatasetLoader<Double>
-            var dataset: Dataset<Double>? = null
+            lateinit var datasetLoader: CsvDatasetLoader<Double, Targets.Single<Double>>
+            var dataset: Dataset<Double, Targets.Single<Double>>? = null
             var exception: Exception? = null
 
             Given("A CsvDatasetLoader for the file test-dataset-invalid1.csv") {
@@ -94,9 +94,9 @@ object DatasetLoaderFeature : Spek({
         }
 
         Scenario("Load a dataset of double values from a valid file using builder") {
-            lateinit var datasetLoaderBuilder: CsvDatasetLoader.Builder<Double>
-            lateinit var datasetLoader: CsvDatasetLoader<Double>
-            var dataset: Dataset<Double>? = null
+            lateinit var datasetLoaderBuilder: CsvDatasetLoader.Builder<Double, Targets.Single<Double>>
+            lateinit var datasetLoader: CsvDatasetLoader<Double, Targets.Single<Double>>
+            var dataset: Dataset<Double, Targets.Single<Double>>? = null
 
             Given("A CsvDatasetLoader.Builder for the file test-dataset.csv") {
                 val reader = BufferedReader(InputStreamReader(FileInputStream(testDatasetFilePath)))
@@ -104,7 +104,7 @@ object DatasetLoaderFeature : Spek({
                 val targetIndex = 2
 
                 datasetLoaderBuilder = CsvDatasetLoader
-                    .Builder<Double>()
+                    .Builder<Double, Targets.Single<Double>>()
                     .reader(reader)
                         .featureParseFunction(ParsingFunctions.indexedDoubleFeatureParsingFunction(featureIndices))
                         .targetParseFunction(ParsingFunctions.indexedDoubleSingleTargetParsingFunction(targetIndex))
@@ -120,8 +120,8 @@ object DatasetLoaderFeature : Spek({
 
             Then("The dataset should be loaded correctly") {
                 assert(dataset != null) { "Dataset was null" }
-                assert(dataset!!.numFeatures() == 2) { "Number of features did not match expected" }
-                assert(dataset!!.numSamples() == 3) { "Number of samples did not match expected" }
+                assert(dataset!!.features == 2) { "Number of features did not match expected" }
+                assert(dataset!!.samples == 3) { "Number of samples did not match expected" }
 
                 // The dataset starts at 1.0 and increments by 1.0
                 val expectedFeatures = listOf(
@@ -139,7 +139,7 @@ object DatasetLoaderFeature : Spek({
                 val expectedOutputs = listOf(1.0, 4.0, 27.0)
 
                 expectedOutputs.zip(dataset!!.outputs).forEach { (expected, output) ->
-                    assert((output as Targets.Single<Double>).value == expected) { "Output did not have the correct value" }
+                    assert(output.value == expected) { "Output did not have the correct value" }
                 }
             }
         }
