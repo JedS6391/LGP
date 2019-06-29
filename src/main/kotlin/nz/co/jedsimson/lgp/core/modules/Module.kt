@@ -1,13 +1,13 @@
 package nz.co.jedsimson.lgp.core.modules
 
 /**
- * A module in the LGP system.
+ * A module in the system.
  *
- * An implementation of [Module] can be used in the appropriate
- * place in the system, meaning that custom modules can be built
- * to provide custom functionality to the system.
+ * An implementation of [Module] can be used in different areas of the system, allowing custom modules to be
+ * built which can provide custom functionality to the system.
  */
 interface Module {
+
     /**
      * Provides information about the module.
      */

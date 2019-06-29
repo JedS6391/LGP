@@ -1,6 +1,5 @@
 package nz.co.jedsimson.lgp.core.evolution.fitness
 
-import nz.co.jedsimson.lgp.core.environment.Environment
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
@@ -59,9 +58,6 @@ class FitnessEvaluator<TData, TOutput : Output<TData>, TTarget : Target<TData>>(
             }
         )
 
-        return Evaluation(
-            fitness = fitness,
-            individual = program
-        )
+        return Evaluation(fitness, program)
     }
 }

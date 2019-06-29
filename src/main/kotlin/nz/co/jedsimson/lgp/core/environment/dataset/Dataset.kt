@@ -7,14 +7,14 @@ package nz.co.jedsimson.lgp.core.environment.dataset
  * @property name The name of the this feature in the data set.
  * @property value The value of this feature in the data set.
  */
-open class Feature<out TData>(val name: String, val value: TData) {
+open class Feature<TData>(val name: String, val value: TData) {
 
     override fun toString(): String {
         return "Feature(name = ${this.name}, value = ${this.value})"
     }
 }
 
-class NominalFeature<out TData>(name: String, value: TData, val labels: List<String>)
+class NominalFeature<TData>(name: String, value: TData, val labels: List<String>)
     : Feature<TData>(name, value) {
 
     override fun toString(): String {
@@ -25,11 +25,11 @@ class NominalFeature<out TData>(name: String, value: TData, val labels: List<Str
 /**
  * A sample in a [Dataset] made up of a collection of [Feature]s.
  *
- * @param TFeature The type of the [Feature]s that make up this sample.
+ * @param TData The type of the [Feature]s that make up this sample.
  * @property features A collection of [Feature]s that this sample represents.
  * @see [Dataset]
  */
-class Sample<out TData>(val features: List<Feature<TData>>) {
+class Sample<TData>(val features: List<Feature<TData>>) {
 
     fun feature(name: String): Feature<TData> {
         return this.features.first { feature ->
@@ -42,8 +42,6 @@ class Sample<out TData>(val features: List<Feature<TData>>) {
     }
 }
 
-class InvalidNumberOfSamplesException(message: String) : Exception(message)
-
 /**
  * A basic data set composed of a vector of input [Sample]s and a collection of output [Target]s.
  *
@@ -54,7 +52,7 @@ class InvalidNumberOfSamplesException(message: String) : Exception(message)
  * @property inputs Vector of inputs with the shape [[samples], [features]].
  * @property outputs Vector that describes target values for each sample in the input vector, with shape [[samples]].
  */
-class Dataset<out TData, out TTarget : Target<TData>>(
+class Dataset<TData, TTarget : Target<TData>>(
     val inputs: List<Sample<TData>>,
     val outputs: List<TTarget>
 ) {

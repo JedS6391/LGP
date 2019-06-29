@@ -45,11 +45,11 @@ data class TestResult<TProgram, TOutput : Output<TProgram>>(
  *
  * @param TProgram The type of programs this models evolves.
  * @param TOutput The type of the output for programs this models evolves.
- * @param TProgram The type of the targets in the data set.
+ * @param TTarget The type of the targets in the data set.
  * @property environment The environment evolution takes place within.
  */
 abstract class EvolutionModel<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
-    val environment: EnvironmentFacade<TProgram, TOutput, TTarget>
+    protected val environment: EnvironmentFacade<TProgram, TOutput, TTarget>
 ) : Module {
 
     /**
@@ -70,7 +70,17 @@ abstract class EvolutionModel<TProgram, TOutput : Output<TProgram>, TTarget : Ta
      */
     abstract fun test(dataset: Dataset<TProgram, TTarget>): TestResult<TProgram, TOutput>
 
+    /**
+     * Produces a copy of this [EvolutionModel].
+     *
+     * The copy will use the same [EnvironmentFacade] as this [EvolutionModel].
+     */
     abstract fun copy(): EvolutionModel<TProgram, TOutput, TTarget>
 
+    /**
+     * Produces a copy of this [EvolutionModel].
+     *
+     * The copy should also have its own copy of the [EnvironmentFacade].
+     */
     abstract fun deepCopy(): EvolutionModel<TProgram, TOutput, TTarget>
 }

@@ -3,7 +3,6 @@ package nz.co.jedsimson.lgp.test.program
 import nz.co.jedsimson.lgp.core.environment.DefaultValueProviders
 import nz.co.jedsimson.lgp.core.environment.dataset.Feature
 import nz.co.jedsimson.lgp.core.environment.dataset.Sample
-import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
 import nz.co.jedsimson.lgp.core.program.registers.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature

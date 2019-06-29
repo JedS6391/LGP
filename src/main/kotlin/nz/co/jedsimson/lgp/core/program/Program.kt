@@ -4,7 +4,7 @@ import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessFunctions
 import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
 import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.program.instructions.Instruction
-import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
+import nz.co.jedsimson.lgp.core.program.registers.RegisterIndex
 
 /**
  * An LGP program that is composed of instructions that operate on registers.

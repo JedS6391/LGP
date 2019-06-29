@@ -26,14 +26,14 @@ class InvalidCsvFileException(message: String) : Exception(message)
  * @property featureParseFunction A function to parse the features of each row in the CSV file.
  * @property targetParseFunction A function to parse the target of each row in the CSV file.
  */
-class CsvDatasetLoader<out TData, out TTarget : Target<TData>> constructor(
+class CsvDatasetLoader<TData, TTarget : Target<TData>> constructor(
     val reader: Reader,
     val featureParseFunction: (Header, Row) -> Sample<TData>,
     val targetParseFunction: (Header, Row) -> TTarget
 ) : DatasetLoader<TData, TTarget> {
 
     private constructor(builder: Builder<TData, TTarget>)
-            : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
+        : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
 
     private val datasetProvider = MemoizedComponentProvider("Dataset") { this.initialiseDataset() }
 

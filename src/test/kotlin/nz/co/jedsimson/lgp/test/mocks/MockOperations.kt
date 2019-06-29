@@ -2,8 +2,8 @@ package nz.co.jedsimson.lgp.test.mocks
 
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.instructions.BinaryOperation
-import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
 import nz.co.jedsimson.lgp.core.program.instructions.UnaryOperation
+import nz.co.jedsimson.lgp.core.program.registers.RegisterIndex
 
 class Identity : UnaryOperation<Double>({ arguments -> arguments.get(0) }) {
     override val representation: String

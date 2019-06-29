@@ -19,6 +19,10 @@ import kotlin.random.Random
  * rely on it for providing random state, configuration, module instances, and numerous other things.
  *
  * This facade provides the public definition for an [Environment] that consumers can rely on.
+ *
+ * @param TProgram The data type of programs.
+ * @param TOutput The output type of programs.
+ * @param TTarget The target type of the dataset.
  */
 interface EnvironmentFacade<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>  {
 

@@ -74,8 +74,12 @@ dependencies {
 task dokkaApiHtml(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = 'html'
     outputDirectory = "$buildDir/../docs/api/html"
-}
 
+    includes = [
+        'src/main/kotlin/nz/co/jedsimson/lgp/core/modules/README.md',
+        'src/main/kotlin/nz/co/jedsimson/lgp/core/program/README.md'
+    ]
+}
 
 task dokkaApiJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = 'javadoc'

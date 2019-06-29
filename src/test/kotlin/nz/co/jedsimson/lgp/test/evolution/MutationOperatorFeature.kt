@@ -20,6 +20,7 @@ import nz.co.jedsimson.lgp.core.program.registers.RandomRegisterGenerator
 import nz.co.jedsimson.lgp.core.program.registers.Register
 import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
 import nz.co.jedsimson.lgp.core.program.registers.RegisterType
+import nz.co.jedsimson.lgp.core.program.registers.RegisterIndex
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import java.lang.IllegalArgumentException

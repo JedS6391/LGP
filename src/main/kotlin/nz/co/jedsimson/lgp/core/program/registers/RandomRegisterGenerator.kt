@@ -1,6 +1,6 @@
 package nz.co.jedsimson.lgp.core.program.registers
 
-import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
+import nz.co.jedsimson.lgp.core.program.registers.RegisterIndex
 import kotlin.random.Random
 
 /**

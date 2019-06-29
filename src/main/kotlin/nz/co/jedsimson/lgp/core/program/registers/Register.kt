@@ -2,6 +2,8 @@ package nz.co.jedsimson.lgp.core.program.registers
 
 import nz.co.jedsimson.lgp.core.environment.DefaultValueProvider
 
+typealias RegisterIndex = Int
+
 /**
  * Represents the type of a register.
  */
@@ -41,7 +43,7 @@ enum class RegisterType {
  * @property value A value this register contains.
  * @property index The index of this register in a [RegisterSet].
  */
-class Register<T>(var value: T, val index: Int) {
+class Register<T>(var value: T, val index: RegisterIndex) {
 
     /**
      * Creates a new register that is a clone of [source].

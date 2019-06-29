@@ -13,4 +13,4 @@ import nz.co.jedsimson.lgp.core.environment.ComponentLoader
  * @param TTarget Type of targets in the data set.
  * @see [Dataset]
  */
-interface DatasetLoader<out TData, out TTarget : Target<TData>> : ComponentLoader<Dataset<TData, TTarget>>
+interface DatasetLoader<TData, TTarget : Target<TData>> : ComponentLoader<Dataset<TData, TTarget>>

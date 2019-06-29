@@ -15,6 +15,27 @@ import nz.co.jedsimson.lgp.core.program.registers.ArrayRegisterSet
 import kotlin.random.Random
 
 /**
+ * A specification for building an [Environment].
+ *
+ * @property configurationLoader A component that can load configuration information.
+ * @property constantLoader A component that can load constants.
+ * @property operationLoader A component that can load operations for the LGP system.
+ * @property defaultValueProvider A component that provides default values for the registers in the register set.
+ * @property fitnessFunctionProvider A function used to evaluate the fitness of LGP programs.
+ * @property randomStateSeed Sets the seed of the random number generator. If a value is given, the seed will
+ *           be set, and will produce deterministic runs. If null is given, a random seed will be chosen.
+ */
+data class EnvironmentSpecification<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    val configurationLoader: ConfigurationLoader,
+    val constantLoader: ConstantLoader<TProgram>,
+    val operationLoader: OperationLoader<TProgram>,
+    val defaultValueProvider: DefaultValueProvider<TProgram>,
+    val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>,
+    val resultAggregator: ResultAggregator<TProgram>? = null,
+    val randomStateSeed: Long? = null
+)
+
+/**
  * A central repository for core components made available to the LGP system.
  *
  * An environment should be built by providing the correct components. The environment will
@@ -53,6 +74,22 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
     override var moduleFactory: ModuleFactory<TProgram, TOutput, TTarget>
 
     /**
+     * Builds an [Environment] from the given [EnvironmentSpecification].
+     *
+     * @param specification A specification for an [Environment].
+     */
+    constructor(specification: EnvironmentSpecification<TProgram, TOutput, TTarget>)
+        : this(
+            specification.configurationLoader,
+            specification.constantLoader,
+            specification.operationLoader,
+            specification.defaultValueProvider,
+            specification.fitnessFunctionProvider,
+            specification.resultAggregator,
+            specification.randomStateSeed
+        )
+
+    /**
      * Builds an environment with the specified construction components.
      *
      * @param configurationLoader A component that can load configuration information.
@@ -63,9 +100,7 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
      * @param randomStateSeed Sets the seed of the random number generator. If a value is given, the seed will
      *        be set, and will produce deterministic runs. If null is given, a random seed will be chosen.
      */
-    // TODO: Move all components to an object to make constructor smaller.
-    // TODO: Allow custom initialisation method for initialisation components.
-    // TODO: Default value provider and fitness function could be given in configuration?
+    @Deprecated("This constructor is deprecated.", ReplaceWith("Environment(specification)", "nz.co.jedsimson.lgp.core.environment"), DeprecationLevel.WARNING)
     constructor(
         configurationLoader: ConfigurationLoader,
         constantLoader: ConstantLoader<TProgram>,
@@ -75,7 +110,6 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
         resultAggregator: ResultAggregator<TProgram>? = null,
         randomStateSeed: Long? = null
     ) {
-
         this.configurationLoader = configurationLoader
         this.constantLoader = constantLoader
         this.operationLoader = operationLoader
@@ -160,13 +194,15 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
     override fun copy(): Environment<TProgram, TOutput, TTarget> {
         // Construct a copy with the correct construction/initialised components.
         val copy = Environment(
-            this.configurationLoader,
-            this.constantLoader,
-            this.operationLoader,
-            this.defaultValueProvider,
-            this.fitnessFunctionProvider,
-            this.resultAggregator,
-            this.randomState.nextLong()
+            EnvironmentSpecification(
+                this.configurationLoader,
+                this.constantLoader,
+                this.operationLoader,
+                this.defaultValueProvider,
+                this.fitnessFunctionProvider,
+                this.resultAggregator,
+                this.randomState.nextLong()
+            )
         )
 
         // Now, the tricky part. We have to ensure that the containers modules

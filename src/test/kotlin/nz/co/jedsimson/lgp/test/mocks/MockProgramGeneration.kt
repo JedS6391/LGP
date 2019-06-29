@@ -10,6 +10,7 @@ import nz.co.jedsimson.lgp.core.program.instructions.*
 import nz.co.jedsimson.lgp.core.program.registers.Arguments
 import nz.co.jedsimson.lgp.core.program.registers.ArrayRegisterSet
 import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
+import nz.co.jedsimson.lgp.core.program.registers.RegisterIndex
 import java.util.*
 
 class MockInstruction(

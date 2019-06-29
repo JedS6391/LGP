@@ -18,17 +18,16 @@ package nz.co.jedsimson.lgp.core.program.registers
  * val cos: (List<Argument<Double>>) -> Double = { args -> Math.cos(args.get(0)) }
  * ```
  *
- * @param T The type of the arguments.
+ * @param TData The type of the arguments.
  * @property arguments A collection of [Argument]s to wrap.
  */
-class Arguments<T>(val arguments: List<Argument<T>>) {
+class Arguments<TData>(val arguments: List<Argument<TData>>) {
 
     /**
      * How many arguments there are.
      */
-    fun size(): Int {
-        return this.arguments.size
-    }
+    val size: Int
+        get() = this.arguments.size
 
     /**
      * Gets the value of an argument at the position given by [index].
@@ -37,7 +36,7 @@ class Arguments<T>(val arguments: List<Argument<T>>) {
      * @throws IndexOutOfBoundsException When the index is not in the bounds of the argument collection.
      * @returns The value of the argument at [index].
      */
-    fun get(index: Int): T {
+    fun get(index: Int): TData {
         return this.arguments[index].value
     }
 }
