@@ -15,6 +15,7 @@ import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
 import nz.co.jedsimson.lgp.core.program.ProgramGenerator
+import kotlin.NoSuchElementException
 
 /**
  * A model for evolution using a steady-state algorithm.

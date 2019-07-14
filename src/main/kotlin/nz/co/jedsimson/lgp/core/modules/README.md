@@ -1,17 +1,15 @@
 # Package nz.co.jedsimson.lgp.core.modules
 
-## About
-
-The `nz.co.jedsimson.lgp.core.modules` API provides two main components:
+Provides the main components for defining an interacting with modules in the system.
   
   - Interfaces to define a module in the system, as well as metadata about modules:
     - `Module`
     - `ModuleInformation`
-  - Definitions for managing collections of `Module`s and creating instance of a `Module`.
+  - Definitions for managing collections of `Module`s and creating instances of a `Module`.
     - `ModuleContainer`
     - `ModuleFactory`
     
-`Module`s are core to the system, as any number of them can be registered and then used in different parts 
+Modules are core to the system, as any number of them can be registered and then used in different parts 
 of the system. This extensible design allows control of all the aspects of the system. 
 
 The goal of the `nz.co.jedsimson.lgp.core` package is to provide a base set of modules for general purpose

@@ -1,9 +1,6 @@
 # Package nz.co.jedsimson.lgp.core.program
 
-## About
-
-The `nz.co.jedsimson.lgp.core.program` API contains the main interfaces and implementations for a program that 
-is evolved by the Linear Genetic Programming algorithms.
+Contains the main interfaces and implementations for a program that is evolved by the Linear Genetic Programming algorithms.
 
 LGP describes a program as a sequence of instructions that operate on a set of registers. This definition is modelled
 in this package with the following primitives:
