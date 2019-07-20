@@ -4,6 +4,13 @@
 
 **Breaking changes:**
 
+*Type definitions*
+
+- The majority of the core library has been modified to accept a generic target type parameter, to allow the target
+  of the data set to be strongly-typed through the system. Previously, only the program data type and type of program
+  output was generic. The main benefit of the introduced target type parameter, is to simplify the usage and
+  implementation of fitness functions.
+
 *Modules*
 
 - `ModuleContainer` has been moved to the `nz.co.jedsimson.lgp.core.modules` package. 

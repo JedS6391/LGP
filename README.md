@@ -42,6 +42,16 @@ dependencies {
 }
 ```
 
+## Tests
+
+The test suite for the system can be run with the following gradle command:
+
+```bash
+./gradlew test --info --rerun-tasks
+```
+
+<small>*Note: Adding tests is an on-going process.*</small>
+
 ## Usage
 
 ### Examples
