@@ -8,6 +8,17 @@
 <a href="./index.html">nz.co.jedsimson.lgp.core.program</a><br/>
 <br/>
 <h2>Package nz.co.jedsimson.lgp.core.program</h2>
+<p>Contains the main interfaces and implementations for a program that is evolved by the Linear Genetic Programming algorithms.</p>
+<p>LGP describes a program as a sequence of instructions that operate on a set of registers. This definition is modelled
+in this package with the following primitives:</p>
+<ul><li><code>Operation</code>: An action on a set of arguments.</li>
+<li><code>Instruction</code>: An instruction in a program. Each instructions performs a specific operation.</li>
+<li><code>Register</code>: A register that has an index and some value.</li>
+<li><code>RegisterSet</code>: A set of registers. The set is split up into different sections for different types of registers.</li>
+<li><code>Program</code>: A composition of a sequence of instructions and a register set that can be executed to produce an output.</li>
+</ul>
+  
+<p>There are a few other components that are used to build these main primitives, but are not detailed here.</p>
 <h3>Types</h3>
 <table>
 <tbody>
@@ -43,7 +54,7 @@
 <p><a href="-program-generator/index.html">ProgramGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
 <p>Generates <a href="-program/index.html">Program</a> instances to be used in an LGP population.</p>
 </td>
 </tr>

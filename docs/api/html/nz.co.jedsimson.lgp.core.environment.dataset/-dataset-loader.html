@@ -8,7 +8,7 @@
 <a href="index.html">nz.co.jedsimson.lgp.core.environment.dataset</a>&nbsp;/&nbsp;<a href="./-dataset-loader.html">DatasetLoader</a><br/>
 <br/>
 <h1>DatasetLoader</h1>
-<code><span class="keyword">interface </span><span class="identifier">DatasetLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="-dataset-loader.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">interface </span><span class="identifier">DatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-dataset-loader.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="-dataset-loader.html#TData"><span class="identifier">TData</span></a><span class="symbol">,</span>&nbsp;<a href="-dataset-loader.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>An extended <a href="../nz.co.jedsimson.lgp.core.environment/-component-loader/index.html">ComponentLoader</a> that loads a <a href="-dataset/index.html">Dataset</a>.</p>
 <p>The source of the data set is controllable by any implementor, all that is required is that the
 raw data is gathered into a <a href="-dataset/index.html">Dataset</a> instance, while satisfying the type constraint <a href="-dataset-loader.html#TData">TData</a> for
@@ -16,6 +16,8 @@ individual features in the data set.</p>
 <h3>Parameters</h3>
 <p><a name="TData"></a>
 <code>TData</code> - Type of features in the data set.</p>
+<p><a name="TTarget"></a>
+<code>TTarget</code> - Type of targets in the data set.</p>
 <p><strong>See Also</strong><br/>
 <p><a href="-dataset/index.html">Dataset</a></p>
 </p>
@@ -41,7 +43,7 @@ individual features in the data set.</p>
 <p><a href="-csv-dataset-loader/index.html">CsvDatasetLoader</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">CsvDatasetLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./-dataset-loader.html"><span class="identifier">DatasetLoader</span></a><span class="symbol">&lt;</span><a href="-csv-dataset-loader/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">CsvDatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-csv-dataset-loader/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./-dataset-loader.html"><span class="identifier">DatasetLoader</span></a><span class="symbol">&lt;</span><a href="-csv-dataset-loader/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">,</span>&nbsp;<a href="-csv-dataset-loader/index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span></code>
 <p>Loads a collection of samples and their target values from a CSV file.</p>
 </td>
 </tr>

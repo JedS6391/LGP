@@ -1,9 +1,11 @@
 package nz.co.jedsimson.lgp.core.environment.config
 
 import com.google.gson.Gson
+import nz.co.jedsimson.lgp.core.environment.ComponentLoadException
 import java.io.FileReader
 import java.io.IOException
 import nz.co.jedsimson.lgp.core.environment.ComponentLoaderBuilder
+import nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 
 /**
@@ -16,14 +18,16 @@ import nz.co.jedsimson.lgp.core.modules.ModuleInformation
  * is immutable - that is, once it is created it can not be altered to load configuration from
  * an alternate location.
  *
- * This means that the we can cache the result of loading configuration
- * because we don't want to get changes in configuration when it is loaded in different places
- * throughout an LGP run (i.e. the result of calling [JsonConfigurationLoader.load] should be deterministic
- * in the context of an LGP run.
+ * This caching has two side-effects:
  *
+ *   - Calls to [JsonConfigurationLoader.load] are deterministic in the context of evolution.
+ *   - Any changes to configuration during evolution will not be propagated through the system.
+ *
+ * @constructor Creates an instance of [JsonConfigurationLoader].
  * @property filename JSON file to load configuration information from.
  */
 class JsonConfigurationLoader constructor(private val filename: String) : ConfigurationLoader {
+
     /**
      * Creates an instance of [JsonConfigurationLoader] using the given builder.
      *
@@ -36,12 +40,12 @@ class JsonConfigurationLoader constructor(private val filename: String) : Config
 
     // We cache the result of loading configuration so that on the first access we load
     // the configuration from disk, but subsequent loads return the cached copy.
-    private val memoizedConfig by lazy {
+    private val configurationProvider = MemoizedComponentProvider("Configuration") {
         this.gson.fromJson(FileReader(this.filename), Configuration().javaClass)
     }
 
     /**
-     * A custom [ComponentLoaderBuilder] implementation for building a [JsonConfigurationLoader] instance.
+     * A [ComponentLoaderBuilder] implementation for building a [JsonConfigurationLoader] instance.
      *
      * The builder allows for a filename to be specified, which references
      * a JSON file to load configuration data from.
@@ -59,10 +63,8 @@ class JsonConfigurationLoader constructor(private val filename: String) : Config
          * @param name The name of a JSON file.
          * @return A builder for the filename given.
          */
-        fun filename(name: String): Builder {
+        fun filename(name: String) = apply {
             this.filename = name
-
-            return this
         }
 
         /**
@@ -85,7 +87,7 @@ class JsonConfigurationLoader constructor(private val filename: String) : Config
      * @return A [Configuration] object that represents the contents of the JSON file.
      */
     override fun load(): Configuration {
-        return this.memoizedConfig
+        return this.configurationProvider.component
     }
 
     override val information = ModuleInformation(

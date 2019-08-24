@@ -1,7 +1,8 @@
 package nz.co.jedsimson.lgp.core.evolution.training
 
-import nz.co.jedsimson.lgp.core.environment.Environment
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel
 import nz.co.jedsimson.lgp.core.evolution.model.EvolutionResult
@@ -11,9 +12,9 @@ import nz.co.jedsimson.lgp.core.evolution.model.EvolutionResult
  *
  * @property evaluations A collection of results from evolution.
  */
-data class TrainingResult<TProgram, TOutput : Output<TProgram>>(
+data class TrainingResult<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
     val evaluations: List<EvolutionResult<TProgram, TOutput>>,
-    val models: List<EvolutionModel<TProgram, TOutput>>
+    val models: List<EvolutionModel<TProgram, TOutput, TTarget>>
 )
 
 /**
@@ -53,14 +54,14 @@ object TrainingMessages {
  * @param TOutput The type of the program output(s).
  * @param TMessage The type of messages sent by the [Trainer].
  */
-abstract class TrainingJob<TProgram, TOutput : Output<TProgram>, TMessage : TrainingUpdateMessage> {
+abstract class TrainingJob<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>, TMessage : TrainingUpdateMessage> {
 
     /**
      * Retrieves the result of training.
      *
      * @returns The result of the training phase(s).
      */
-    abstract suspend fun result(): TrainingResult<TProgram, TOutput>
+    abstract suspend fun result(): TrainingResult<TProgram, TOutput, TTarget>
 
     /**
      * Subscribes a [callback] function that will be executed each time a [TrainingUpdateMessage] is received.
@@ -80,13 +81,14 @@ abstract class TrainingJob<TProgram, TOutput : Output<TProgram>, TMessage : Trai
  *
  * @param TProgram The type of programs being evolved.
  * @param TOutput The type of the program output(s).
+ * @param TTarget The type of targets in the dataset.
  * @param TMessage The type of messages sent by the trainer.
  * @property environment The environment evolution is performed within.
  * @property model The model of evolution to use.
  */
-abstract class Trainer<TProgram, TOutput : Output<TProgram>, TMessage : TrainingUpdateMessage>(
-    val environment: Environment<TProgram, TOutput>,
-    val model: EvolutionModel<TProgram, TOutput>
+abstract class Trainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>, TMessage : TrainingUpdateMessage>(
+    val environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    val model: EvolutionModel<TProgram, TOutput, TTarget>
 ) {
 
     /**
@@ -94,12 +96,12 @@ abstract class Trainer<TProgram, TOutput : Output<TProgram>, TMessage : Training
      *
      * @returns The results of the training phase(s).
      */
-    abstract fun train(dataset: Dataset<TProgram>): TrainingResult<TProgram, TOutput>
+    abstract fun train(dataset: Dataset<TProgram, TTarget>): TrainingResult<TProgram, TOutput, TTarget>
 
     /**
      * Asynchronously trains the model and gathers results from training.
      *
      * @returns The results of the training phase(s).
      */
-    abstract suspend fun trainAsync(dataset: Dataset<TProgram>): TrainingJob<TProgram, TOutput, TMessage>
+    abstract suspend fun trainAsync(dataset: Dataset<TProgram, TTarget>): TrainingJob<TProgram, TOutput, TTarget, TMessage>
 }

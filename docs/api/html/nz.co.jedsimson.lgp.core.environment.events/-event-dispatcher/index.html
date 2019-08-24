@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>EventDispatcher - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.environment.events</a>&nbsp;/&nbsp;<a href="./index.html">EventDispatcher</a><br/>
+<br/>
+<h1>EventDispatcher</h1>
+<code><span class="keyword">object </span><span class="identifier">EventDispatcher</span></code>
+<p>Responsible for dispatching events to a set of registered listeners.</p>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="number-of-listeners.html">numberOfListeners</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">numberOfListeners</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>Gets the number of registered listeners.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="dispatch.html">dispatch</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">dispatch</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.environment.events.EventDispatcher$dispatch(nz.co.jedsimson.lgp.core.environment.events.Event)/event">event</span><span class="symbol">:</span>&nbsp;<a href="../-event/index.html"><span class="identifier">Event</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Dispatches <a href="dispatch.html#nz.co.jedsimson.lgp.core.environment.events.EventDispatcher$dispatch(nz.co.jedsimson.lgp.core.environment.events.Event)/event">event</a> to all currently registered listeners.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="register.html">register</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TEvent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-event/index.html"><span class="identifier">Event</span></a><span class="symbol">&gt;</span> <span class="identifier">register</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.environment.events.EventDispatcher$register(nz.co.jedsimson.lgp.core.environment.events.EventListener((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)))/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="../-event-listener/index.html"><span class="identifier">EventListener</span></a><span class="symbol">&lt;</span><a href="register.html#TEvent"><span class="identifier">TEvent</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Registers <a href="register.html#nz.co.jedsimson.lgp.core.environment.events.EventDispatcher$register(nz.co.jedsimson.lgp.core.environment.events.EventListener((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)))/listener">listener</a> for events of type <a href="register.html#TEvent">TEvent</a>.</p>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TEvent</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-event/index.html"><span class="identifier">Event</span></a><span class="symbol">&gt;</span> <span class="identifier">register</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.environment.events.EventDispatcher$register(kotlin.reflect.KClass((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)), nz.co.jedsimson.lgp.core.environment.events.EventListener((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)))/eventClass">eventClass</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html"><span class="identifier">KClass</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="register.html#TEvent"><span class="identifier">TEvent</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.environment.events.EventDispatcher$register(kotlin.reflect.KClass((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)), nz.co.jedsimson.lgp.core.environment.events.EventListener((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)))/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="../-event-listener/index.html"><span class="identifier">EventListener</span></a><span class="symbol">&lt;</span><a href="register.html#TEvent"><span class="identifier">TEvent</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Registers <a href="register.html#nz.co.jedsimson.lgp.core.environment.events.EventDispatcher$register(kotlin.reflect.KClass((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)), nz.co.jedsimson.lgp.core.environment.events.EventListener((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)))/listener">listener</a> for events that have the given <a href="register.html#nz.co.jedsimson.lgp.core.environment.events.EventDispatcher$register(kotlin.reflect.KClass((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)), nz.co.jedsimson.lgp.core.environment.events.EventListener((nz.co.jedsimson.lgp.core.environment.events.EventDispatcher.register.TEvent)))/eventClass">eventClass</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

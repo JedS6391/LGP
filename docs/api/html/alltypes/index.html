@@ -39,9 +39,23 @@ but in the context of an <a href="../nz.co.jedsimson.lgp.core.program.instructio
 </tr>
 <tr>
 <td>
+<a href="../nz.co.jedsimson.lgp.core.program.registers/-array-register-set/index.html">nz.co.jedsimson.lgp.core.program.registers.ArrayRegisterSet</a></td>
+<td>
+<p>An implementation of <a href="../nz.co.jedsimson.lgp.core.program.registers/-register-set/index.html">RegisterSet</a> that uses an array as the register store.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../nz.co.jedsimson.lgp.core.program.instructions/-base-arity/index.html">nz.co.jedsimson.lgp.core.program.instructions.BaseArity</a></td>
 <td>
 <p>A base arity implementation that provides arity for instructions with one or two arguments.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-base-fitness-context/index.html">nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext</a></td>
+<td>
+<p>A base implementation of <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-context/index.html">FitnessContext</a>.</p>
 </td>
 </tr>
 <tr>
@@ -53,15 +67,9 @@ but in the context of an <a href="../nz.co.jedsimson.lgp.core.program.instructio
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-binary-tournament-selection/index.html">nz.co.jedsimson.lgp.core.evolution.operators.BinaryTournamentSelection</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.selection/-binary-tournament-selection/index.html">nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection</a></td>
 <td>
 <p>Performs Binary Tournament Selection as described in Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).</p>
-</td>
-</tr>
-<tr>
-<td>
-<a href="../nz.co.jedsimson.lgp.core.program.instructions/-branch-operation/index.html">nz.co.jedsimson.lgp.core.program.instructions.BranchOperation</a></td>
-<td>
 </td>
 </tr>
 <tr>
@@ -76,6 +84,20 @@ but in the context of an <a href="../nz.co.jedsimson.lgp.core.program.instructio
 <a href="../nz.co.jedsimson.lgp.core.environment/-component-loader-builder/index.html">nz.co.jedsimson.lgp.core.environment.ComponentLoaderBuilder</a></td>
 <td>
 <p>A builder that can build a <a href="../nz.co.jedsimson.lgp.core.environment/-component-loader/index.html">ComponentLoader</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.environment/-component-load-exception/index.html">nz.co.jedsimson.lgp.core.environment.ComponentLoadException</a></td>
+<td>
+<p>Exception given when a <a href="../nz.co.jedsimson.lgp.core.environment/-component-loader/index.html">ComponentLoader</a> fails to load the component it is responsible for loading.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.environment/-component-provider/index.html">nz.co.jedsimson.lgp.core.environment.ComponentProvider</a></td>
+<td>
+<p>Defines a provider of <a href="../nz.co.jedsimson.lgp.core.environment/-component-provider/index.html#TComponent">TComponent</a> instances.</p>
 </td>
 </tr>
 <tr>
@@ -96,6 +118,7 @@ but in the context of an <a href="../nz.co.jedsimson.lgp.core.program.instructio
 <td>
 <a href="../nz.co.jedsimson.lgp.core.environment.config/-configuration-validity/index.html">nz.co.jedsimson.lgp.core.environment.config.ConfigurationValidity</a></td>
 <td>
+<p>Represents the validity of a given <a href="../nz.co.jedsimson.lgp.core.environment.config/-configuration/index.html">Configuration</a>.</p>
 </td>
 </tr>
 <tr>
@@ -107,21 +130,21 @@ but in the context of an <a href="../nz.co.jedsimson.lgp.core.program.instructio
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-constant-mutation-function.html">nz.co.jedsimson.lgp.core.evolution.operators.ConstantMutationFunction</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro/-constant-mutation-function.html">nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro.ConstantMutationFunction</a></td>
 <td>
 <p>A function that can be used to mutate a constant value.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-constant-mutation-functions/index.html">nz.co.jedsimson.lgp.core.evolution.operators.ConstantMutationFunctions</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro/-constant-mutation-functions/index.html">nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro.ConstantMutationFunctions</a></td>
 <td>
-<p>A collection of <a href="../nz.co.jedsimson.lgp.core.evolution.operators/-constant-mutation-function.html">ConstantMutationFunction</a> implementations for use by a <a href="../nz.co.jedsimson.lgp.core.evolution.operators/-micro-mutation-operator/index.html">MicroMutationOperator</a>.</p>
+<p>A collection of <a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro/-constant-mutation-function.html">ConstantMutationFunction</a> implementations for use by a <a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro/-micro-mutation-operator/index.html">MicroMutationOperator</a>.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.environment/-core-module-type/index.html">nz.co.jedsimson.lgp.core.environment.CoreModuleType</a></td>
+<a href="../nz.co.jedsimson.lgp.core.modules/-core-module-type/index.html">nz.co.jedsimson.lgp.core.modules.CoreModuleType</a></td>
 <td>
 <p>A mapping for core modules to a module type value.</p>
 </td>
@@ -198,6 +221,13 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation/-effective-calculation-register-resolver.html">nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolver</a></td>
+<td>
+<p>A function that will search through a <a href="../nz.co.jedsimson.lgp.core.program/-program/index.html">Program</a> to determine which calculation registers are effective at the given stop point.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../nz.co.jedsimson.lgp.core.environment/-environment/index.html">nz.co.jedsimson.lgp.core.environment.Environment</a></td>
 <td>
 <p>A central repository for core components made available to the LGP system.</p>
@@ -205,9 +235,44 @@ specified by the name of the package + class it can be found in.</p>
 </tr>
 <tr>
 <td>
+<a href="../nz.co.jedsimson.lgp.core.environment/-environment-facade/index.html">nz.co.jedsimson.lgp.core.environment.EnvironmentFacade</a></td>
+<td>
+<p>Acts as a facade for simplifying access to details of an <a href="../nz.co.jedsimson.lgp.core.environment/-environment/index.html">Environment</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.environment/-environment-specification/index.html">nz.co.jedsimson.lgp.core.environment.EnvironmentSpecification</a></td>
+<td>
+<p>A specification for building an <a href="../nz.co.jedsimson.lgp.core.environment/-environment/index.html">Environment</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-evaluation/index.html">nz.co.jedsimson.lgp.core.evolution.fitness.Evaluation</a></td>
 <td>
 <p>An evaluation of a program on a set of fitness cases.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.environment.events/-event/index.html">nz.co.jedsimson.lgp.core.environment.events.Event</a></td>
+<td>
+<p>A base primitive for building events. All events should derive from <a href="../nz.co.jedsimson.lgp.core.environment.events/-event/index.html">Event</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.environment.events/-event-dispatcher/index.html">nz.co.jedsimson.lgp.core.environment.events.EventDispatcher</a></td>
+<td>
+<p>Responsible for dispatching events to a set of registered listeners.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.environment.events/-event-listener/index.html">nz.co.jedsimson.lgp.core.environment.events.EventListener</a></td>
+<td>
+<p>Defines a listener for a particular event type.</p>
 </td>
 </tr>
 <tr>
@@ -257,6 +322,13 @@ specified by the name of the package + class it can be found in.</p>
 <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-context/index.html">nz.co.jedsimson.lgp.core.evolution.fitness.FitnessContext</a></td>
 <td>
 <p>Provides a way to map a program to fitness cases using a given fitness function.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-contexts/index.html">nz.co.jedsimson.lgp.core.evolution.fitness.FitnessContexts</a></td>
+<td>
+<p>A collection of built-in <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-context/index.html">FitnessContext</a> implementations.</p>
 </td>
 </tr>
 <tr>
@@ -311,7 +383,7 @@ specified by the name of the package + class it can be found in.</p>
 <td>
 <a href="../nz.co.jedsimson.lgp.core.program.instructions/-instruction/index.html">nz.co.jedsimson.lgp.core.program.instructions.Instruction</a></td>
 <td>
-<p>An instruction in an LGP program.</p>
+<p>An instruction in a <a href="../nz.co.jedsimson.lgp.core.program/-program/index.html">Program</a>.</p>
 </td>
 </tr>
 <tr>
@@ -319,12 +391,6 @@ specified by the name of the package + class it can be found in.</p>
 <a href="../nz.co.jedsimson.lgp.core.program.instructions/-instruction-generator/index.html">nz.co.jedsimson.lgp.core.program.instructions.InstructionGenerator</a></td>
 <td>
 <p>A generator of instructions in an LGP system.</p>
-</td>
-</tr>
-<tr>
-<td>
-<a href="../nz.co.jedsimson.lgp.core.environment.config/-invalid/index.html">nz.co.jedsimson.lgp.core.environment.config.Invalid</a></td>
-<td>
 </td>
 </tr>
 <tr>
@@ -350,14 +416,15 @@ is given to a <a href="../nz.co.jedsimson.lgp.core.environment.dataset/-csv-data
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.environment.dataset/-invalid-number-of-samples-exception/index.html">nz.co.jedsimson.lgp.core.environment.dataset.InvalidNumberOfSamplesException</a></td>
+<a href="../nz.co.jedsimson.lgp.core.environment.operations/-invalid-operation-specification-exception/index.html">nz.co.jedsimson.lgp.core.environment.operations.InvalidOperationSpecificationException</a></td>
 <td>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.environment.operations/-invalid-operation-specification-exception/index.html">nz.co.jedsimson.lgp.core.environment.operations.InvalidOperationSpecificationException</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.model/-island-migration/index.html">nz.co.jedsimson.lgp.core.evolution.model.IslandMigration</a></td>
 <td>
+<p>A model for evolution using a island-migration algorithm.</p>
 </td>
 </tr>
 <tr>
@@ -369,99 +436,127 @@ is given to a <a href="../nz.co.jedsimson.lgp.core.environment.dataset/-csv-data
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-linear-crossover/index.html">nz.co.jedsimson.lgp.core.evolution.operators.LinearCrossover</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.recombination/-linear-crossover/index.html">nz.co.jedsimson.lgp.core.evolution.operators.recombination.LinearCrossover</a></td>
 <td>
-<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.operators/-recombination-operator/index.html">RecombinationOperator</a> that implements Linear Crossover for two individuals.</p>
+<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.operators.recombination/-recombination-operator/index.html">RecombinationOperator</a> that implements Linear Crossover for two individuals.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.model/kotlin.collections.-list/index.html">kotlin.collections.List</a> (extensions in package nz.co.jedsimson.lgp.core.evolution.model)</td>
+<a href="../nz.co.jedsimson.lgp.core.evolution/kotlin.collections.-list/index.html">kotlin.collections.List</a> (extensions in package nz.co.jedsimson.lgp.core.evolution)</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-macro-mutation-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.MacroMutationOperator</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro/-macro-mutation-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro.MacroMutationOperator</a></td>
 <td>
-<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.operators/-mutation-operator/index.html">MutationOperator</a> implementation that performs effective macro mutations.</p>
+<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation/-mutation-operator/index.html">MutationOperator</a> implementation that performs effective macro mutations.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-micro-mutation-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.MicroMutationOperator</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.model/-master-slave/index.html">nz.co.jedsimson.lgp.core.evolution.model.MasterSlave</a></td>
 <td>
-<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.operators/-mutation-operator/index.html">MutationOperator</a> implementation that performs effective micro mutations.</p>
+<p>A model for evolution using a steady-state algorithm. The evaluation and mutation processes are
+parallelised in a master-slave based technique.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.environment/-missing-module-exception/index.html">nz.co.jedsimson.lgp.core.environment.MissingModuleException</a></td>
+<a href="../nz.co.jedsimson.lgp.core.environment/-memoized-component-provider/index.html">nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider</a></td>
 <td>
-<p>Exception thrown when no <a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html">Module</a> is registered for a requested <a href="../nz.co.jedsimson.lgp.core.environment/-registered-module-type.html">RegisteredModuleType</a>.</p>
+<p>An implementation of <a href="../nz.co.jedsimson.lgp.core.environment/-component-provider/index.html">ComponentProvider</a> that will cache the component after initialisation.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.model/-models/index.html">nz.co.jedsimson.lgp.core.evolution.model.Models</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro/-micro-mutation-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro.MicroMutationOperator</a></td>
 <td>
-<p>A collection of built-in evolution models.</p>
+<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation/-mutation-operator/index.html">MutationOperator</a> implementation that performs effective micro mutations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.modules/-missing-module-exception/index.html">nz.co.jedsimson.lgp.core.modules.MissingModuleException</a></td>
+<td>
+<p>Exception thrown when no <a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html">Module</a> is registered for a requested <a href="../nz.co.jedsimson.lgp.core.modules/-registered-module-type.html">RegisteredModuleType</a>.</p>
 </td>
 </tr>
 <tr>
 <td>
 <a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html">nz.co.jedsimson.lgp.core.modules.Module</a></td>
 <td>
-<p>A module in the LGP system.</p>
+<p>A module in the system.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.environment/-module-cast-exception/index.html">nz.co.jedsimson.lgp.core.environment.ModuleCastException</a></td>
+<a href="../nz.co.jedsimson.lgp.core.modules/-module-builder.html">nz.co.jedsimson.lgp.core.modules.ModuleBuilder</a></td>
+<td>
+<p>A function that can be used to build a given <a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html">Module</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.modules/-module-cast-exception/index.html">nz.co.jedsimson.lgp.core.modules.ModuleCastException</a></td>
 <td>
 <p>Exception thrown when a <a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html">Module</a> is cast as a type that is not valid for it.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.environment/-module-container/index.html">nz.co.jedsimson.lgp.core.environment.ModuleContainer</a></td>
+<a href="../nz.co.jedsimson.lgp.core.modules/-module-container/index.html">nz.co.jedsimson.lgp.core.modules.ModuleContainer</a></td>
 <td>
 <p>A container that provides modules that need to be registered with an environment.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.modules/-module-information/index.html">nz.co.jedsimson.lgp.core.modules.ModuleInformation</a></td>
+<a href="../nz.co.jedsimson.lgp.core.modules/-module-factory/index.html">nz.co.jedsimson.lgp.core.modules.ModuleFactory</a></td>
 <td>
-<p>Each <a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html">Module</a> should have some information with it describing what the Module
-does/what it is for.</p>
+<p>Facilitates access to modules that have been registered in a <a href="../nz.co.jedsimson.lgp.core.modules/-module-container/index.html">ModuleContainer</a>.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-multiple-output-fitness-context/index.html">nz.co.jedsimson.lgp.core.evolution.fitness.MultipleOutputFitnessContext</a></td>
+<a href="../nz.co.jedsimson.lgp.core.modules/-module-information/index.html">nz.co.jedsimson.lgp.core.modules.ModuleInformation</a></td>
 <td>
-<p>Facilitates fitness evaluation for programs which have multiple outputs.</p>
+<p>Provides information about a <a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html">Module</a> (e.g. what it does/what it is for).</p>
 </td>
 </tr>
 <tr>
 <td>
 <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-multiple-output-fitness-function.html">nz.co.jedsimson.lgp.core.evolution.fitness.MultipleOutputFitnessFunction</a></td>
 <td>
-<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-function/index.html">FitnessFunction</a> for <a href="#">lgp.core.program.Program</a>s with multiple outputs.</p>
+<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-function/index.html">FitnessFunction</a> for <a href="#">Program</a>s with multiple outputs.</p>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/kotlin.collections.-mutable-list/index.html">kotlin.collections.MutableList</a> (extensions in package nz.co.jedsimson.lgp.core.evolution.operators)</td>
+<a href="../nz.co.jedsimson.lgp.core.evolution/kotlin.collections.-mutable-list/index.html">kotlin.collections.MutableList</a> (extensions in package nz.co.jedsimson.lgp.core.evolution)</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-mutation-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.MutationOperator</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation/-mutation-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator</a></td>
 <td>
 <p>A search operator used during evolution to mutate an individual from a population.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy/-mutation-strategy/index.html">nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy</a></td>
+<td>
+<p>Defines a strategy that can be used to perform a mutation on a <a href="../nz.co.jedsimson.lgp.core.program/-program/index.html">Program</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy/-mutation-strategy-factory/index.html">nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory</a></td>
+<td>
+<p>Responsible for creating <a href="../nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy/-mutation-strategy/index.html">MutationStrategy</a> instances to be used to perform macro-mutations.*</p>
 </td>
 </tr>
 <tr>
@@ -474,7 +569,7 @@ does/what it is for.</p>
 <td>
 <a href="../nz.co.jedsimson.lgp.core.program.instructions/-operation/index.html">nz.co.jedsimson.lgp.core.program.instructions.Operation</a></td>
 <td>
-<p>An operation has an <a href="../nz.co.jedsimson.lgp.core.program.instructions/-arity/index.html">Arity</a> and some function that it can perform on <a href="../nz.co.jedsimson.lgp.core.program.registers/-arguments/index.html">Arguments</a> given to it.</p>
+<p>A primitive that encapsulates the action of executing a function on a set of arguments.</p>
 </td>
 </tr>
 <tr>
@@ -543,7 +638,7 @@ been completely initialised.</p>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/java.util.-random/index.html">java.util.Random</a> (extensions in package nz.co.jedsimson.lgp.core.evolution.operators)</td>
+<a href="../nz.co.jedsimson.lgp.core.environment/kotlin.random.-random/index.html">kotlin.random.Random</a> (extensions in package nz.co.jedsimson.lgp.core.environment)</td>
 <td>
 </td>
 </tr>
@@ -556,7 +651,7 @@ been completely initialised.</p>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-recombination-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.RecombinationOperator</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.recombination/-recombination-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.recombination.RecombinationOperator</a></td>
 <td>
 <p>A search operator used during evolution to combine two individuals from a population.</p>
 </td>
@@ -577,8 +672,22 @@ been completely initialised.</p>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.program.instructions/-register-index.html">nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex</a></td>
+<a href="../nz.co.jedsimson.lgp.core.modules/-registered-module-type.html">nz.co.jedsimson.lgp.core.modules.RegisteredModuleType</a></td>
 <td>
+<p>Represents the different modules that are able to be registered with an environment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.program.registers/-register-index.html">nz.co.jedsimson.lgp.core.program.registers.RegisterIndex</a></td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.program.registers/-register-read-exception/index.html">nz.co.jedsimson.lgp.core.program.registers.RegisterReadException</a></td>
+<td>
+<p>Thrown when the read of a <a href="../nz.co.jedsimson.lgp.core.program.registers/-register/index.html">Register</a> from a <a href="../nz.co.jedsimson.lgp.core.program.registers/-register-set/index.html">RegisterSet</a> fails.</p>
 </td>
 </tr>
 <tr>
@@ -586,6 +695,13 @@ been completely initialised.</p>
 <a href="../nz.co.jedsimson.lgp.core.program.registers/-register-set/index.html">nz.co.jedsimson.lgp.core.program.registers.RegisterSet</a></td>
 <td>
 <p>Represents a collection of <a href="../nz.co.jedsimson.lgp.core.program.registers/-register/index.html">Register</a>s.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.program.registers/-register-set-initialisation-exception/index.html">nz.co.jedsimson.lgp.core.program.registers.RegisterSetInitialisationException</a></td>
+<td>
+<p>Thrown when a <a href="../nz.co.jedsimson.lgp.core.program.registers/-register-set/index.html">RegisterSet</a> cannot be initialised.</p>
 </td>
 </tr>
 <tr>
@@ -601,13 +717,6 @@ been completely initialised.</p>
 <td>
 <p>Thrown when the number of values being written to a particular register range,
 does not match the size of the range.</p>
-</td>
-</tr>
-<tr>
-<td>
-<a href="../nz.co.jedsimson.lgp.core.environment/-registered-module-type.html">nz.co.jedsimson.lgp.core.environment.RegisteredModuleType</a></td>
-<td>
-<p>Represents the different modules that are able to be registered with an environment.</p>
 </td>
 </tr>
 <tr>
@@ -660,7 +769,7 @@ does not match the size of the range.</p>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-selection-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.SelectionOperator</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.selection/-selection-operator/index.html">nz.co.jedsimson.lgp.core.evolution.operators.selection.SelectionOperator</a></td>
 <td>
 <p>A search operator used during evolution to select a subset of individuals from a population.</p>
 </td>
@@ -688,16 +797,9 @@ does not match the size of the range.</p>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-single-output-fitness-context/index.html">nz.co.jedsimson.lgp.core.evolution.fitness.SingleOutputFitnessContext</a></td>
-<td>
-<p>Facilitates fitness evaluation for programs which have a single output.</p>
-</td>
-</tr>
-<tr>
-<td>
 <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-single-output-fitness-function.html">nz.co.jedsimson.lgp.core.evolution.fitness.SingleOutputFitnessFunction</a></td>
 <td>
-<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-function/index.html">FitnessFunction</a> for <a href="#">lgp.core.program.Program</a>s with a single output.</p>
+<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-function/index.html">FitnessFunction</a> for <a href="#">Program</a>s with a single output.</p>
 </td>
 </tr>
 <tr>
@@ -705,6 +807,13 @@ does not match the size of the range.</p>
 <a href="../nz.co.jedsimson.lgp.core.evolution/-solution/index.html">nz.co.jedsimson.lgp.core.evolution.Solution</a></td>
 <td>
 <p>Represents a solution to a problem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.model/-steady-state/index.html">nz.co.jedsimson.lgp.core.evolution.model.SteadyState</a></td>
+<td>
+<p>A model for evolution using a steady-state algorithm.</p>
 </td>
 </tr>
 <tr>
@@ -730,9 +839,9 @@ does not match the size of the range.</p>
 </tr>
 <tr>
 <td>
-<a href="../nz.co.jedsimson.lgp.core.evolution.operators/-tournament-selection/index.html">nz.co.jedsimson.lgp.core.evolution.operators.TournamentSelection</a></td>
+<a href="../nz.co.jedsimson.lgp.core.evolution.operators.selection/-tournament-selection/index.html">nz.co.jedsimson.lgp.core.evolution.operators.selection.TournamentSelection</a></td>
 <td>
-<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.operators/-selection-operator/index.html">SelectionOperator</a> implementation that selects individuals using Tournament Selection.</p>
+<p>A <a href="../nz.co.jedsimson.lgp.core.evolution.operators.selection/-selection-operator/index.html">SelectionOperator</a> implementation that selects individuals using Tournament Selection.</p>
 </td>
 </tr>
 <tr>
@@ -782,12 +891,6 @@ does not match the size of the range.</p>
 <a href="../nz.co.jedsimson.lgp.core.environment.dataset/-uniformly-distributed-generator/index.html">nz.co.jedsimson.lgp.core.environment.dataset.UniformlyDistributedGenerator</a></td>
 <td>
 <p>Can generate a number of uniformly distributed values.</p>
-</td>
-</tr>
-<tr>
-<td>
-<a href="../nz.co.jedsimson.lgp.core.environment.config/-valid/index.html">nz.co.jedsimson.lgp.core.environment.config.Valid</a></td>
-<td>
 </td>
 </tr>
 </tbody>

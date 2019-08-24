@@ -1,0 +1,23 @@
+{
+  "initialMinimumProgramLength": 20,
+  "initialMaximumProgramLength": 40,
+  "minimumProgramLength": 20,
+  "maximumProgramLength": 400,
+  "operations": [
+    "nz.co.jedsimson.lgp.lib.operations.Addition",
+    "nz.co.jedsimson.lgp.lib.operations.Subtraction"
+  ],
+  "constantsRate": 0.2,
+  "constants": ["0.0", "0.1", "1.0"],
+  "numCalculationRegisters": 5,
+  "populationSize": 500,
+  "numFeatures": 2,
+  "crossoverRate": 0.2,
+  "microMutationRate": 0.2,
+  "macroMutationRate": 0.8,
+  "generations": 100,
+  "numOffspring": 10,
+  "branchInitialisationRate": 0.1,
+  "stoppingCriterion": 0.0001,
+  "numberOfRuns": 2
+}

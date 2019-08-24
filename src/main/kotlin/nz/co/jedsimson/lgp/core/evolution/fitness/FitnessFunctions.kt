@@ -1,54 +1,9 @@
 package nz.co.jedsimson.lgp.core.evolution.fitness
 
 import nz.co.jedsimson.lgp.core.environment.dataset.Targets
-import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Outputs
-
-/**
- * A [FitnessFunction] for [lgp.core.program.Program]s with a single output.
- */
-typealias SingleOutputFitnessFunction<TData> = FitnessFunction<TData, Outputs.Single<TData>>
-
-/**
- * A [FitnessFunction] for [lgp.core.program.Program]s with multiple outputs.
- */
-typealias MultipleOutputFitnessFunction<TData> = FitnessFunction<TData, Outputs.Multiple<TData>>
-
-/**
- * Provides the functionality to compute the fitness of an individual program on a set of input-output examples.
- *
- * The fitness value should always be a simple double but the way in which the value
- * is determined can be customised depending on the type of program/fitness cases.
- *
- * A fitness function is really just a function that maps a set of program outputs
- * with a set of examples in some way. It is encapsulated in a class to make the interaction
- * with it slightly nicer and more straightforward (especially when used from Java).
- *
- * An implementation of the class can be directly queried for fitness using the `()` operator.
- */
-abstract class FitnessFunction<TData, TOutput : Output<TData>> {
-
-    /**
-     * Computes the fitness based on the given [outputs] and [cases].
-     *
-     * @param outputs A set of predicted program outputs.
-     * @param cases A set of expected outputs.
-     * @return A double value that represents the error measure between the predicted/expected outputs.
-     */
-    abstract fun fitness(outputs: List<TOutput>, cases: List<FitnessCase<TData>>): Double
-
-    /**
-     * Allows [fitness] to be called directly using `()` syntax (e.g. `fitnessFunctionInstance(outputs, cases)`).
-     */
-    operator fun invoke(outputs: List<TOutput>, cases: List<FitnessCase<TData>>): Double {
-        return this.fitness(outputs, cases)
-    }
-}
-
-/**
- * A function that provides a [FitnessFunction] implementation on request.
- */
-typealias FitnessFunctionProvider<TData, TOutput> = () -> FitnessFunction<TData, TOutput>
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 /**
  * A collection of standard fitness functions.
@@ -71,15 +26,11 @@ object FitnessFunctions {
     @JvmStatic
     val MAE: SingleOutputFitnessFunction<Double> = object : SingleOutputFitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double, Targets.Single<Double>>>): Double {
             val fitness = cases.zip(outputs).map { (case, actual) ->
-                // Assumption is that this is a single-output data set
-                // TODO: This is a bit naff, especially having to do it for every fitness function implementation.
-                // I'm hesitant to introduce another type parameter (e.g. TTarget) but at the moment I can't
-                // think of a better solution - so we'll leave it...
-                val expected = (case.target as Targets.Single).value
+                val expected = case.target.value
 
-                Math.abs(actual.value - expected)
+                abs(actual.value - expected)
             }.sum()
 
             return when {
@@ -97,9 +48,9 @@ object FitnessFunctions {
     @JvmStatic
     val SSE: SingleOutputFitnessFunction<Double> = object : SingleOutputFitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double, Targets.Single<Double>>>): Double {
             val fitness = cases.zip(outputs).map { (case, actual) ->
-                val expected = (case.target as Targets.Single).value
+                val expected = case.target.value
 
                 Math.pow((actual.value - expected), 2.0)
             }.sum()
@@ -119,9 +70,9 @@ object FitnessFunctions {
     @JvmStatic
     val MSE: SingleOutputFitnessFunction<Double> = object : SingleOutputFitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double, Targets.Single<Double>>>): Double {
             val fitness = cases.zip(outputs).map { (case, actual) ->
-                val expected = (case.target as Targets.Single).value
+                val expected = case.target.value
 
                 Math.pow((actual.value - expected), 2.0)
             }.sum()
@@ -141,9 +92,9 @@ object FitnessFunctions {
     @JvmStatic
     val RMSE: SingleOutputFitnessFunction<Double> = object : SingleOutputFitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double, Targets.Single<Double>>>): Double {
             val fitness = cases.zip(outputs).map { (case, actual) ->
-                val expected = (case.target as Targets.Single).value
+                val expected = case.target.value
 
                 Math.pow((actual.value - expected), 2.0)
             }.sum()
@@ -151,7 +102,7 @@ object FitnessFunctions {
             val mse = ((1.0 / cases.size.toDouble()) * fitness)
 
             return when {
-                fitness.isFinite() -> Math.sqrt(mse)
+                fitness.isFinite() -> sqrt(mse)
                 else               -> UNDEFINED_FITNESS
             }
         }
@@ -164,9 +115,9 @@ object FitnessFunctions {
      */
     private class ClassificationError(val mappingFunction: (Double) -> Double) : SingleOutputFitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double, Targets.Single<Double>>>): Double {
             return cases.zip(outputs).map { (case, output) ->
-                val expected = (case.target as Targets.Single).value
+                val expected = case.target.value
                 val actual = this.mappingFunction(output.value)
 
                 if (actual != expected) 1.0 else 0.0
@@ -192,13 +143,13 @@ object FitnessFunctions {
      */
     private class ThresholdClassificationError(val threshold: Double) : SingleOutputFitnessFunction<Double>() {
 
-        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double>>): Double {
+        override fun fitness(outputs: List<Outputs.Single<Double>>, cases: List<FitnessCase<Double, Targets.Single<Double>>>): Double {
             return cases.zip(outputs).filter { (case, output) ->
-                val expected = (case.target as Targets.Single).value
+                val expected = case.target.value
 
                 // Program is correct when the distance between the actual
                 // and expected values is within some threshold.
-                Math.abs(output.value - expected) > this.threshold
+                abs(output.value - expected) > this.threshold
             }.count().toDouble()
         }
     }

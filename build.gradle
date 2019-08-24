@@ -1,16 +1,19 @@
 group 'nz.co.jedsimson.lgp'
-version '4.2'
+version '5.0'
 
 buildscript {
-    ext.kotlin_version = '1.3.11'
-    ext.dokka_version = '0.9.17'
-    ext.kotlinx_coroutines_version = '1.0.1'
+    ext.kotlin_version = '1.3.40'
+    ext.dokka_version = '0.9.18'
+    ext.kotlinx_coroutines_version = '1.2.2'
 
     repositories {
         mavenCentral()
         jcenter()
         maven {
             url "http://dl.bintray.com/kotlin/kotlin-eap"
+        }
+        maven {
+            url "https://dl.bintray.com/spekframework/spek-dev"
         }
     }
     dependencies {
@@ -22,6 +25,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.dokka'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
 
@@ -30,6 +34,9 @@ repositories {
     jcenter()
     maven {
         url "http://dl.bintray.com/kotlin/kotlin-eap"
+    }
+    maven {
+        url "https://dl.bintray.com/spekframework/spek-dev"
     }
 }
 
@@ -43,22 +50,38 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.opencsv/opencsv
     compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
+
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.3.1')
+    testCompile('org.junit.jupiter:junit-jupiter-params:5.3.1')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.3.1')
+
+    testImplementation ('org.spekframework.spek2:spek-dsl-jvm:2.0.0-alpha.1')  {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testRuntimeOnly ('org.spekframework.spek2:spek-runner-junit5:2.0.0-alpha.1') {
+        exclude group: 'org.junit.platform'
+        exclude group: 'org.jetbrains.kotlin'
+    }
+
+    // spek requires kotlin-reflect, can be omitted if already in the classpath
+    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
 }
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint:unchecked"      \
-                         << "-Xlint:all"            \
-                         << "-Xlint:-processing"    \
-                         << "-Xlint:-serial"        \
-                         << "-Werror"
-}
 
 // Dokka tasks
 task dokkaApiHtml(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = 'html'
     outputDirectory = "$buildDir/../docs/api/html"
-}
 
+    includes = [
+        'src/main/kotlin/nz/co/jedsimson/lgp/core/environment/README.md',
+        'src/main/kotlin/nz/co/jedsimson/lgp/core/evolution/README.md',
+        'src/main/kotlin/nz/co/jedsimson/lgp/core/modules/README.md',
+        'src/main/kotlin/nz/co/jedsimson/lgp/core/program/README.md'
+    ]
+}
 
 task dokkaApiJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = 'javadoc'
@@ -93,6 +116,16 @@ task coreJar(type: Jar) {
 task printVersion {
     doLast {
         println project.version
+    }
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'spek2'
+    }
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams true
     }
 }
 
@@ -164,5 +197,12 @@ uploadArchives {
                 }
             }
         }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
     }
 }

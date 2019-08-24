@@ -1,6 +1,7 @@
 package nz.co.jedsimson.lgp.core.environment.constants
 
 import nz.co.jedsimson.lgp.core.environment.ComponentLoaderBuilder
+import nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 
 /**
@@ -18,9 +19,10 @@ import nz.co.jedsimson.lgp.core.modules.ModuleInformation
  * @property constants A collection of raw constants.
  * @property parseFunction A function that maps a raw constant to some value in the domain of this loaders type.
  */
-open class GenericConstantLoader<out T> constructor(private val constants: List<String>,
-                                                    private val parseFunction: (String) -> T)
-    : ConstantLoader<T> {
+open class GenericConstantLoader<out T>(
+    private val constants: List<String>,
+    private val parseFunction: (String) -> T
+) : ConstantLoader<T> {
 
     /**
      * Creates an instance of [GenericConstantLoader] using the given builder.
@@ -30,7 +32,7 @@ open class GenericConstantLoader<out T> constructor(private val constants: List<
     private constructor(builder: Builder<T>) : this(builder.constants, builder.parseFunction)
 
     // We only evaluate the constants once and then the result is cached for further loads.
-    private val memoizedConstants by lazy {
+    private val constantProvider = MemoizedComponentProvider("Constant") {
         this.constants.map { value ->
             this.parseFunction(value)
         }
@@ -53,10 +55,8 @@ open class GenericConstantLoader<out T> constructor(private val constants: List<
          * @param values The constant values as strings.
          * @return A builder with the updated information.
          */
-        fun constants(values: List<String>): Builder<U> {
+        fun constants(values: List<String>) = apply {
             this.constants = values
-
-            return this
         }
 
         /**
@@ -65,10 +65,8 @@ open class GenericConstantLoader<out T> constructor(private val constants: List<
          * @param func A function to parse raw constants.
          * @return A builder with the updated information.
          */
-        fun parseFunction(func: (String) -> U): Builder<U> {
+        fun parseFunction(func: (String) -> U) = apply {
             this.parseFunction = func
-
-            return this
         }
 
         /**
@@ -88,7 +86,7 @@ open class GenericConstantLoader<out T> constructor(private val constants: List<
      * @return A collection of constants parsed to the correct type.
      */
     override fun load(): List<T> {
-        return this.memoizedConstants
+        return this.constantProvider.component
     }
 
     override val information = ModuleInformation(

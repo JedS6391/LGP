@@ -8,8 +8,9 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
-import nz.co.jedsimson.lgp.core.environment.Environment
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel
@@ -31,12 +32,12 @@ import java.util.concurrent.Executors
  * @param models The set of models that are being trained, used in the final result.
  * @param aggregator The [ResultAggregator] used by the [DistributedTrainer].
  */
-class DistributedTrainingJob<TProgram, TOutput : Output<TProgram>> internal constructor(
+class DistributedTrainingJob<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>> internal constructor(
     private val trainingUpdateChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>,
     private val trainers: List<Deferred<EvolutionResult<TProgram, TOutput>>>,
-    private val models: List<EvolutionModel<TProgram, TOutput>>,
+    private val models: List<EvolutionModel<TProgram, TOutput, TTarget>>,
     private val aggregator: ResultAggregator<TProgram>
-) : TrainingJob<TProgram, TOutput, ProgressUpdate<TProgram, TOutput>>() {
+) : TrainingJob<TProgram, TOutput, TTarget, ProgressUpdate<TProgram, TOutput>>() {
 
     private var trainingCompleted: Boolean = false
 
@@ -48,7 +49,7 @@ class DistributedTrainingJob<TProgram, TOutput : Output<TProgram>> internal cons
      *
      * @returns The result of the training phase(s).
      */
-    override suspend fun result(): TrainingResult<TProgram, TOutput> {
+    override suspend fun result(): TrainingResult<TProgram, TOutput, TTarget> {
         if (trainingCompleted) {
             val results = trainers.map { trainer -> trainer.getCompleted() }
 
@@ -101,11 +102,11 @@ class DistributedTrainingJob<TProgram, TOutput : Output<TProgram>> internal cons
  *
  *  @property runs The number of times to train the given model.
  */
-class DistributedTrainer<TProgram, TOutput : Output<TProgram>>(
-    environment: Environment<TProgram, TOutput>,
-    model: EvolutionModel<TProgram, TOutput>,
+class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    model: EvolutionModel<TProgram, TOutput, TTarget>,
     val runs: Int
-) : Trainer<TProgram, TOutput, ProgressUpdate<TProgram, TOutput>>(environment, model) {
+) : Trainer<TProgram, TOutput, TTarget, ProgressUpdate<TProgram, TOutput>>(environment, model) {
 
     // Construct `runs` deep copies of the models. We need deep copies so that
     // each model can have its own environment. This is necessary for providing
@@ -128,10 +129,10 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>>(
      *
      * @suppress
      */
-    class ModelTrainerTask<TProgram, TOutput : Output<TProgram>>(
+    class ModelTrainerTask<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
         private val run: Int,
-        private val model: EvolutionModel<TProgram, TOutput>,
-        private val dataset: Dataset<TProgram>,
+        private val model: EvolutionModel<TProgram, TOutput, TTarget>,
+        private val dataset: Dataset<TProgram, TTarget>,
         private val aggregator: ResultAggregator<TProgram>
     ) : Callable<EvolutionResult<TProgram, TOutput>> {
 
@@ -158,7 +159,7 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>>(
     /**
      * Builds [runs] different models on the training set, training them in parallel.
      */
-    override fun train(dataset: Dataset<TProgram>): TrainingResult<TProgram, TOutput> {
+    override fun train(dataset: Dataset<TProgram, TTarget>): TrainingResult<TProgram, TOutput, TTarget> {
         // Submit all tasks to the executor. Each model will have a task created for it
         // that the executor is responsible for executing.
         val futures = this.models.mapIndexed { run, model ->
@@ -188,7 +189,7 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>>(
     /**
      * Asynchronously builds [runs] different models on the training set, training them in parallel.
      */
-    override suspend fun trainAsync(dataset: Dataset<TProgram>): DistributedTrainingJob<TProgram, TOutput> {
+    override suspend fun trainAsync(dataset: Dataset<TProgram, TTarget>): DistributedTrainingJob<TProgram, TOutput, TTarget> {
         // This channel will be used to communicate updates to any training progress subscribers.
         val progressChannel = ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>()
 
@@ -242,8 +243,8 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>>(
      */
     private fun initialiseTrainingJob(
         run: Int,
-        model: EvolutionModel<TProgram, TOutput>,
-        dataset: Dataset<TProgram>,
+        model: EvolutionModel<TProgram, TOutput, TTarget>,
+        dataset: Dataset<TProgram, TTarget>,
         progressActor: SendChannel<ProgressUpdate<TProgram, TOutput>>
     ) = GlobalScope.async {
         val task = ModelTrainerTask(run, model, dataset, this@DistributedTrainer.aggregator)

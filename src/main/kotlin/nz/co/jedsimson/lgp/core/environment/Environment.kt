@@ -2,168 +2,38 @@ package nz.co.jedsimson.lgp.core.environment
 
 import nz.co.jedsimson.lgp.core.environment.config.*
 import nz.co.jedsimson.lgp.core.environment.constants.ConstantLoader
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregators
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessFunctionProvider
+import nz.co.jedsimson.lgp.core.modules.*
 import nz.co.jedsimson.lgp.core.program.instructions.Operation
 import nz.co.jedsimson.lgp.core.program.registers.RegisterSet
-import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.program.Output
-import java.util.Random
+import nz.co.jedsimson.lgp.core.program.registers.ArrayRegisterSet
+import kotlin.random.Random
 
 /**
- * Exception thrown when no [Module] is registered for a requested [RegisteredModuleType].
- */
-class MissingModuleException(message: String) : Exception(message)
-
-/**
- * Exception thrown when a [Module] is cast as a type that is not valid for it.
- */
-class ModuleCastException(message: String) : Exception(message)
-
-/**
- * Represents the different modules that are able to be registered with an environment.
+ * A specification for building an [Environment].
  *
- * Any module that is able to be registered with the [Environment] as a *registered component*
- * should have a module type defined for it using this interface.
- *
- * @see [CoreModuleType] for an example implementation.
+ * @property configurationLoader A component that can load configuration information.
+ * @property constantLoader A component that can load constants.
+ * @property operationLoader A component that can load operations for the LGP system.
+ * @property defaultValueProvider A component that provides default values for the registers in the register set.
+ * @property fitnessFunctionProvider A function used to evaluate the fitness of LGP programs.
+ * @property randomStateSeed Sets the seed of the random number generator. If a value is given, the seed will
+ *           be set, and will produce deterministic runs. If null is given, a random seed will be chosen.
  */
-interface RegisteredModuleType
-
-/**
- * A mapping for core modules to a module type value.
- */
-enum class CoreModuleType : RegisteredModuleType {
-
-    /**
-     * An [InstructionGenerator] implementation.
-     */
-    InstructionGenerator,
-
-    /**
-     * A [ProgramGenerator] implementation.
-     */
-    ProgramGenerator,
-
-    /**
-     * A [SelectionOperator] implementation.
-     */
-    SelectionOperator,
-
-    /**
-     * A [RecombinationOperator] implementation.
-     */
-    RecombinationOperator,
-
-    /**
-     * A [MacroMutationOperator] implementation.
-     */
-    MacroMutationOperator,
-
-    /**
-     * A [MicroMutationOperator] implementation.
-     */
-    MicroMutationOperator,
-
-    /**
-     * A [FitnessContext] implementation.
-     */
-    FitnessContext
-}
-
-/**
- * A container that provides modules that need to be registered with an environment.
- *
- * @property modules A mapping of modules that can be registered to a function that constructs that module.
- */
-data class ModuleContainer<T, TOutput : Output<T>>(
-    val modules: MutableMap<RegisteredModuleType, (Environment<T, TOutput>) -> Module>
-) {
-
-    lateinit var environment: Environment<T, TOutput>
-
-    // All instances are provided as singletons
-    val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
-
-    /**
-     * Provides an instance of the module [type] given.
-     *
-     * The module will be loaded and cast to the type given if possible to cast to that type. This method is able to
-     * perform safe casts due to Kotlin's reified generics. If the cast can't be done safely, a [ModuleCastException]
-     * will be thrown and contains details about the failed cast. Due to the use of reified generics, callers of this
-     * function can be assured that a [ClassCastException] won't occur.
-     *
-     * **NOTE:** This function cannot be used from Java; use the [instanceUnsafe] function instead.
-     *
-     * @param type The type of of module to get an instance of.
-     * @param TModule The type to cast the module as.
-     * @return An instance of the module registered for the given module type.
-     * @throws MissingModuleException When no builder has been registered for the type of module requested.
-     * @throws ModuleCastException When the requested module can't be cast to the type given.
-     */
-    inline fun <reified TModule : Module> instance(type: RegisteredModuleType): TModule {
-        if (type in instanceCache)
-            return instanceCache[type] as TModule
-
-        // If no module builder exists (i.e. it is null) then we can assume that
-        // no module builder has been registered for this module type, despite it
-        // being requested by from somewhere.
-        val moduleBuilder = this.modules[type]
-                ?: throw MissingModuleException("No module builder registered for $type.")
-
-        // At this stage, we at least know that the module builder is valid so we can go ahead and execute it.
-        // However, we need to check that the module can actually be cast as the type requested.
-        // Doing this means that we don't have to do unchecked casts anywhere and gives protection against
-        // invalid casts from calling code.
-        val module = moduleBuilder(this.environment) as? TModule
-                ?: throw ModuleCastException("Unable to cast $type module as ${TModule::class.java.simpleName}.")
-
-        // Cache this instance for later usages since it is valid when cast to the type given.
-        instanceCache[type] = module
-
-        return module
-    }
-
-    /**
-     * Provides an instance of the module [type] given (for Java interoperability).
-     *
-     * **TL;DR:** Java users -- beware! This function implements [instance] for Java callers, but unlike the Kotlin
-     * equivalent, provides no guarantee that a [ClassCastException] will not occur.
-     *
-     * This method exists to aid Java interoperability: the [instance] method cannot be used from Java
-     * as it is both inlined and makes use of reified generics. With this method, Java users can query for
-     * [RegisteredModuleType] instances.
-     *
-     * The reason it is unsafe is that there is no guarantee that the cast will be correct: if the type requested
-     * can be cast to [Module] then the cast will succeed and a [ClassCastException] will be given where the call is
-     * made (i.e. the function will return with no error until an assignment type is checked). With the normal (and
-     * safe) [instance] function, the invalid cast can be caught before the function returns and dealt with appropriately.
-     *
-     * @param type The type of of module to get an instance of.
-     * @param TModule The type to cast the module as.
-     * @return An instance of the module registered for the given module type.
-     * @throws MissingModuleException When no builder has been registered for the type of module requested.
-     * @throws ModuleCastException When the requested module can't be cast to the type given.
-     */
-    fun <TModule : Module> instanceUnsafe(type: RegisteredModuleType): TModule {
-        @Suppress("UNCHECKED_CAST")
-        if (type in instanceCache)
-            return instanceCache[type] as TModule
-
-        val moduleBuilder = this.modules[type]
-                ?: throw MissingModuleException("No module builder registered for $type.")
-
-        @Suppress("UNCHECKED_CAST")
-        val module = moduleBuilder(this.environment) as? TModule
-                ?: throw ModuleCastException("Unable to cast $type module to given type.")
-
-        instanceCache[type] = module
-
-        return module
-    }
-}
+data class EnvironmentSpecification<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    val configurationLoader: ConfigurationLoader,
+    val constantLoader: ConstantLoader<TProgram>,
+    val operationLoader: OperationLoader<TProgram>,
+    val defaultValueProvider: DefaultValueProvider<TProgram>,
+    val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>,
+    val resultAggregator: ResultAggregator<TProgram>? = null,
+    val randomStateSeed: Long? = null
+)
 
 /**
  * A central repository for core components made available to the LGP system.
@@ -180,58 +50,49 @@ data class ModuleContainer<T, TOutput : Output<T>>(
  * After an environment is built and all components are resolved, it can be used to initiate the core
  * evolution process of LGP.
  */
-open class Environment<TProgram, TOutput : Output<TProgram>> {
+class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>
+    : EnvironmentFacade<TProgram, TOutput, TTarget> {
 
-    // Dependencies that we require at construction time and are used during initialisation
-    // but aren't needed after that.
-    private val configLoader: ConfigurationLoader
+    // These dependencies are generally initialised when the environment is constructed.
+    // Access to these are moderated through the EnvironmentFacade.
+    private val configurationLoader: ConfigurationLoader
     private val constantLoader: ConstantLoader<TProgram>
     private val operationLoader: OperationLoader<TProgram>
     private val defaultValueProvider: DefaultValueProvider<TProgram>
     private val randomStateSeed: Long?
-    var randomState: Random
+    private var container: ModuleContainer<TProgram, TOutput, TTarget>
+
+    // The public environment interface
+    // Some dependencies are initialised late as they are created during the environment construction.
+    override val randomState: Random
+    override val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>
+    override lateinit var configuration: Configuration
+    override lateinit var constants: List<TProgram>
+    override lateinit var operations: List<Operation<TProgram>>
+    override lateinit var registerSet: RegisterSet<TProgram>
+    override val resultAggregator: ResultAggregator<TProgram>
+    override var moduleFactory: ModuleFactory<TProgram, TOutput, TTarget>
 
     /**
-     * A provider for a function that can measure the fitness of a program.
+     * Builds an [Environment] from the given [EnvironmentSpecification].
      *
-     * This property should be provided at construction time.
+     * @param specification A specification for an [Environment].
      */
-    val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>
-
-    // Dependencies that come from the loaders given to the environment and are not necessarily
-    // needed until the environment is initialised.
-
-    /**
-     * Contains the various configuration options available to the LGP system.
-     */
-    lateinit var configuration: Configuration
-
-    /**
-     * A set of constants loaded using the [ConstantLoader] given at construction time.
-     */
-    lateinit var constants: List<TProgram>
-
-    /**
-     * A set of operations loaded using the [OperationLoader] given at construction time.
-     */
-    lateinit var operations: List<Operation<TProgram>>
-
-    /**
-     * A set of registers that is built at initialisation time.
-     */
-    lateinit var registerSet: RegisterSet<TProgram>
-
-    /**
-     * A container for the various registered component modules that the environment maintains.
-     */
-    var container: ModuleContainer<TProgram, TOutput>
-
-    val resultAggregator: ResultAggregator<TProgram>
+    constructor(specification: EnvironmentSpecification<TProgram, TOutput, TTarget>)
+        : this(
+            specification.configurationLoader,
+            specification.constantLoader,
+            specification.operationLoader,
+            specification.defaultValueProvider,
+            specification.fitnessFunctionProvider,
+            specification.resultAggregator,
+            specification.randomStateSeed
+        )
 
     /**
      * Builds an environment with the specified construction components.
      *
-     * @param configLoader A component that can load configuration information.
+     * @param configurationLoader A component that can load configuration information.
      * @param constantLoader A component that can load constants.
      * @param operationLoader A component that can load operations for the LGP system.
      * @param defaultValueProvider A component that provides default values for the registers in the register set.
@@ -239,20 +100,17 @@ open class Environment<TProgram, TOutput : Output<TProgram>> {
      * @param randomStateSeed Sets the seed of the random number generator. If a value is given, the seed will
      *        be set, and will produce deterministic runs. If null is given, a random seed will be chosen.
      */
-    // TODO: Move all components to an object to make constructor smaller.
-    // TODO: Allow custom initialisation method for initialisation components.
-    // TODO: Default value provider and fitness function could be given in configuration?
+    @Deprecated("This constructor is deprecated.", ReplaceWith("Environment(specification)", "nz.co.jedsimson.lgp.core.environment"), DeprecationLevel.WARNING)
     constructor(
-            configLoader: ConfigurationLoader,
-            constantLoader: ConstantLoader<TProgram>,
-            operationLoader: OperationLoader<TProgram>,
-            defaultValueProvider: DefaultValueProvider<TProgram>,
-            fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>,
-            resultAggregator: ResultAggregator<TProgram>? = null,
-            randomStateSeed: Long? = null
+        configurationLoader: ConfigurationLoader,
+        constantLoader: ConstantLoader<TProgram>,
+        operationLoader: OperationLoader<TProgram>,
+        defaultValueProvider: DefaultValueProvider<TProgram>,
+        fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>,
+        resultAggregator: ResultAggregator<TProgram>? = null,
+        randomStateSeed: Long? = null
     ) {
-
-        this.configLoader = configLoader
+        this.configurationLoader = configurationLoader
         this.constantLoader = constantLoader
         this.operationLoader = operationLoader
         this.defaultValueProvider = defaultValueProvider
@@ -264,11 +122,12 @@ open class Environment<TProgram, TOutput : Output<TProgram>> {
         // Determine whether we need to seed the RNG or not.
         when (this.randomStateSeed) {
             is Long -> this.randomState = Random(this.randomStateSeed)
-            else    -> this.randomState = Random()
+            else    -> this.randomState = Random.Default
         }
 
         // Empty module container to begin
         this.container = ModuleContainer(modules = mutableMapOf())
+        this.moduleFactory = CachingModuleFactory(this.container)
 
         // Kick off initialisation
         this.initialise()
@@ -276,15 +135,13 @@ open class Environment<TProgram, TOutput : Output<TProgram>> {
 
     private fun initialise() {
         // Load the components each loader is responsible for.
-        this.configuration = this.configLoader.load()
+        this.configuration = this.configurationLoader.load()
         this.constants = this.constantLoader.load()
         this.operations = this.operationLoader.load()
 
         // Early exit if the configuration provided is invalid
-        val configValidity = this.configuration.isValid()
-
-        when (configValidity) {
-            is Invalid -> throw InvalidConfigurationException(configValidity.reason)
+        when (val configValidity = this.configuration.isValid()) {
+            is ConfigurationValidity.Invalid -> throw InvalidConfigurationException(configValidity.reason)
             else -> { /* No-op */ }
         }
 
@@ -300,100 +157,52 @@ open class Environment<TProgram, TOutput : Output<TProgram>> {
         // This means that anything that can access the environment has access to a blank register set.
         // TODO: Pass environment to register set and make it a dependency that must be registered.
 
-        this.registerSet = RegisterSet(
-                inputRegisters = this.configuration.numFeatures,
-                calculationRegisters = this.configuration.numCalculationRegisters,
-                constants = this.constants,
-                defaultValueProvider = this.defaultValueProvider
+        this.registerSet = ArrayRegisterSet(
+            inputRegisters = this.configuration.numFeatures,
+            calculationRegisters = this.configuration.numCalculationRegisters,
+            constants = this.constants,
+            defaultValueProvider = this.defaultValueProvider
         )
     }
 
-    /**
-     * Registers the modules given by a container.
-     *
-     * @param container A container that specifies modules to be registered.
-     */
-    fun registerModules(container: ModuleContainer<TProgram, TOutput>) {
+    override fun registerModules(container: ModuleContainer<TProgram, TOutput, TTarget>) {
         this.container = container
+        this.moduleFactory = CachingModuleFactory(this.container)
 
         // Update the containers environment dependency.
         this.container.environment = this
     }
 
-    /**
-     * Register a module builder with a particular module type.
-     *
-     * @param type The type of module to associate this builder with.
-     * @param builder A function that can create the module.
-     */
-    fun registerModule(type: RegisteredModuleType, builder: (Environment<TProgram, TOutput>) -> Module) {
+    override fun registerModule(type: RegisteredModuleType, builder: (EnvironmentFacade<TProgram, TOutput, TTarget>) -> Module) {
         this.container.modules[type] = builder
     }
 
     /**
-     * Fetches an instance of the module registered for a particular module type.
-     *
-     * The environment assumes that a module type will have a builder registered to
-     * if it is being requested. If this fails, then a [MissingModuleException] will
-     * be thrown, indicating that an instance of a particular module type was requested
-     * but could not fulfilled.
-     *
-     * Usually, the type parameter needn't be explicitly given, as it can be inferred
-     * from the type of value the result is being assigned to.
-     *
-     * @param type The type of registered module to fetch.
-     * @param TModule The type the module will be cast as.
-     * @return An instance of the module registered for the given module type.
-     * @throws MissingModuleException When no builder has been registered for the type of module requested.
-     */
-    inline fun <reified TModule : Module> registeredModule(type: RegisteredModuleType): TModule {
-        return this.container.instance(type)
-    }
-
-    /**
-     * Similar to [registeredModule], but may give a [ClassCastException] at the call site.
-     *
-     * The internals of the module retrieval system cannot guarantee that any casting will be
-     * done safely, and thus this method should be used with caution. The reason for its existence
-     * is to make life easier for those using the API through Java.
-     *
-     * @param type The type of registered module to fetch.
-     * @param TModule The type the module will be cast as.
-     * @return An instance of the module registered for the given module type.
-     * @throws MissingModuleException When no builder has been registered for the type of module requested.
-     */
-    fun <TModule : Module> registeredModuleUnsafe(type: RegisteredModuleType): TModule {
-        return this.container.instanceUnsafe(type)
-    }
-
-    /**
-     * Produces a clone of the current environment.
-     *
      * It should be noted that because an environment instance has its own RNG associated with it,
      * when making a copy, it is required that the copied environment have its own RNG too.
      * To fulfil this requirement, when an environment is copied, it will initialise a new RNG that is
      * seeded with a seed given from the RNG of the environment instance performing the copy (confusing -- yes!).
      *
      * The main reason behind this complication is to ensure that there are no contention issues when multiple
-     * environment instances are operating in a multi-threaded context (e.g. through a [lgp.core.evolution.Trainers.DistributedTrainer]).
+     * environment instances are operating in a multi-threaded context (e.g. through a [DistributedTrainer]).
      *
      * Furthermore, any modules that are registered with the environment being copied, will be updated so
      * that the reference the correct environment instance (i.e. the copy). This ensures that while the
      * module registrations themselves are shared between copies, when a module is accessed, it gets initialised
      * correctly.
-     *
-     * @return A new [Environment] instance that is a copy of that the method is called on.
      */
-    fun copy(): Environment<TProgram, TOutput> {
+    override fun copy(): Environment<TProgram, TOutput, TTarget> {
         // Construct a copy with the correct construction/initialised components.
         val copy = Environment(
-                this.configLoader,
+            EnvironmentSpecification(
+                this.configurationLoader,
                 this.constantLoader,
                 this.operationLoader,
                 this.defaultValueProvider,
                 this.fitnessFunctionProvider,
                 this.resultAggregator,
                 this.randomState.nextLong()
+            )
         )
 
         // Now, the tricky part. We have to ensure that the containers modules
@@ -406,7 +215,7 @@ open class Environment<TProgram, TOutput : Output<TProgram>> {
         // We also need to clear any cached modules, just in case there are any references
         // to the previous environment laying around. Generally, any environment instances
         // would be copied before modules are accessed -- but it doesn't hurt to be cautious!
-        copy.container.instanceCache.clear()
+        copy.moduleFactory = CachingModuleFactory(container)
 
         return copy
     }

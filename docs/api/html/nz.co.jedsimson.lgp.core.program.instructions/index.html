@@ -40,18 +40,11 @@
 </tr>
 <tr>
 <td>
-<p><a href="-branch-operation/index.html">BranchOperation</a></p>
-</td>
-<td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BranchOperation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-binary-operation/index.html"><span class="identifier">BinaryOperation</span></a><span class="symbol">&lt;</span><a href="-branch-operation/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code></td>
-</tr>
-<tr>
-<td>
 <p><a href="-instruction/index.html">Instruction</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Instruction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
-<p>An instruction in an LGP program.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Instruction</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>An instruction in a <a href="../nz.co.jedsimson.lgp.core.program/-program/index.html">Program</a>.</p>
 </td>
 </tr>
 <tr>
@@ -59,7 +52,7 @@
 <p><a href="-instruction-generator/index.html">InstructionGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">InstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-instruction-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">InstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-instruction-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-instruction-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
 <p>A generator of instructions in an LGP system.</p>
 </td>
 </tr>
@@ -68,8 +61,8 @@
 <p><a href="-operation/index.html">Operation</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Operation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
-<p>An operation has an <a href="-arity/index.html">Arity</a> and some function that it can perform on <a href="../nz.co.jedsimson.lgp.core.program.registers/-arguments/index.html">Arguments</a> given to it.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Operation</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<p>A primitive that encapsulates the action of executing a function on a set of arguments.</p>
 </td>
 </tr>
 <tr>
@@ -108,13 +101,6 @@
 <code><span class="keyword">typealias </span><span class="identifier">Function</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<span class="symbol">(</span><span class="identifier">arguments</span><span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program.registers/-arguments/index.html"><span class="identifier">Arguments</span></a><span class="symbol">&lt;</span><a href="-function.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="-function.html#T"><span class="identifier">T</span></a></code>
 <p>The type of function that operations perform.</p>
 </td>
-</tr>
-<tr>
-<td>
-<p><a href="-register-index.html">RegisterIndex</a></p>
-</td>
-<td>
-<code><span class="keyword">typealias </span><span class="identifier">RegisterIndex</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
 </tr>
 </tbody>
 </table>

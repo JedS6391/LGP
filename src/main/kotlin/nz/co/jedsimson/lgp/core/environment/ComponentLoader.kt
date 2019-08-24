@@ -24,6 +24,7 @@ interface ComponentLoaderBuilder<out TComponentLoader> {
  * @param TComponent The type of component that this loader is able to load.
  */
 interface ComponentLoader<out TComponent> : Module {
+
     /**
      * Loads a component.
      *
@@ -31,3 +32,11 @@ interface ComponentLoader<out TComponent> : Module {
      */
     fun load(): TComponent
 }
+
+/**
+ * Exception given when a [ComponentLoader] fails to load the component it is responsible for loading.
+ *
+ * @param message A message that describes what caused the component loading to fail.
+ * @param innerException An optional exception that was the cause of the component load failure.
+ */
+class ComponentLoadException(message: String, innerException: Exception?) : Exception(message, innerException)
