@@ -1,6 +1,7 @@
 package nz.co.jedsimson.lgp.test.environment
 
 import nz.co.jedsimson.lgp.core.environment.ComponentLoadException
+import nz.co.jedsimson.lgp.core.environment.constants.DoubleConstantLoader
 import nz.co.jedsimson.lgp.core.environment.constants.GenericConstantLoader
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
@@ -8,10 +9,8 @@ import java.lang.NumberFormatException
 
 object ConstantLoaderFeature : Spek({
 
-    // Because DoubleConstantLoader is just a sub-class of GenericConstantLoader with the parse function
-    // String::toDouble, we are kind of indirectly testing that implementation here.
     Feature("Loading constants using a custom parse function") {
-        Scenario("Load double constants from valid list") {
+        Scenario("Load double constants from valid list (generic constant loader)") {
             lateinit var constantsRaw: List<String>
             var constantsParsed: List<Double>? = null
             lateinit var constantLoader: GenericConstantLoader<Double>
@@ -22,6 +21,29 @@ object ConstantLoaderFeature : Spek({
 
             And("A GenericConstantLoader with the parse function String::toDouble") {
                 constantLoader = GenericConstantLoader(constantsRaw, String::toDouble)
+            }
+
+            When("The constants are loaded") {
+                constantsParsed = constantLoader.load()
+            }
+
+            Then("The constants are loaded successfully") {
+                assert(constantsParsed != null) { "Parsed constant list is null" }
+                assert(constantsParsed == listOf(0.0, 0.1, 1.0)) { "Parsed constant list does not match expected" }
+            }
+        }
+
+        Scenario("Load double constants from valid list (double constant loader") {
+            lateinit var constantsRaw: List<String>
+            var constantsParsed: List<Double>? = null
+            lateinit var constantLoader: DoubleConstantLoader
+
+            Given("The list of constants [\"0.0\", \"0.1\", \"1.0\"]") {
+                constantsRaw = listOf("0.0", "0.1", "1.0")
+            }
+
+            And("A DoubleConstantLoader") {
+                constantLoader = DoubleConstantLoader(constantsRaw)
             }
 
             When("The constants are loaded") {

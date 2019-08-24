@@ -18,14 +18,16 @@ import nz.co.jedsimson.lgp.core.modules.ModuleInformation
  * is immutable - that is, once it is created it can not be altered to load configuration from
  * an alternate location.
  *
- * This means that the we can cache the result of loading configuration
- * because we don't want to get changes in configuration when it is loaded in different places
- * throughout an LGP run (i.e. the result of calling [JsonConfigurationLoader.load] should be deterministic
- * in the context of an LGP run.
+ * This caching has two side-effects:
  *
+ *   - Calls to [JsonConfigurationLoader.load] are deterministic in the context of evolution.
+ *   - Any changes to configuration during evolution will not be propagated through the system.
+ *
+ * @constructor Creates an instance of [JsonConfigurationLoader].
  * @property filename JSON file to load configuration information from.
  */
 class JsonConfigurationLoader constructor(private val filename: String) : ConfigurationLoader {
+
     /**
      * Creates an instance of [JsonConfigurationLoader] using the given builder.
      *
@@ -43,7 +45,7 @@ class JsonConfigurationLoader constructor(private val filename: String) : Config
     }
 
     /**
-     * A custom [ComponentLoaderBuilder] implementation for building a [JsonConfigurationLoader] instance.
+     * A [ComponentLoaderBuilder] implementation for building a [JsonConfigurationLoader] instance.
      *
      * The builder allows for a filename to be specified, which references
      * a JSON file to load configuration data from.
@@ -61,10 +63,8 @@ class JsonConfigurationLoader constructor(private val filename: String) : Config
          * @param name The name of a JSON file.
          * @return A builder for the filename given.
          */
-        fun filename(name: String): Builder {
+        fun filename(name: String) = apply {
             this.filename = name
-
-            return this
         }
 
         /**

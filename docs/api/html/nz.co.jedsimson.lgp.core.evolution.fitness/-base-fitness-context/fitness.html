@@ -1,0 +1,21 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>BaseFitnessContext.fitness - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.evolution.fitness</a>&nbsp;/&nbsp;<a href="index.html">BaseFitnessContext</a>&nbsp;/&nbsp;<a href="./fitness.html">fitness</a><br/>
+<br/>
+<h1>fitness</h1>
+<a name="nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext$fitness(nz.co.jedsimson.lgp.core.program.Program((nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TData, nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TOutput)), kotlin.collections.List((nz.co.jedsimson.lgp.core.evolution.fitness.FitnessCase((nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TData, nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TTarget)))))"></a>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">fitness</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext$fitness(nz.co.jedsimson.lgp.core.program.Program((nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TData, nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TOutput)), kotlin.collections.List((nz.co.jedsimson.lgp.core.evolution.fitness.FitnessCase((nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TData, nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TTarget)))))/program">program</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext$fitness(nz.co.jedsimson.lgp.core.program.Program((nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TData, nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TOutput)), kotlin.collections.List((nz.co.jedsimson.lgp.core.evolution.fitness.FitnessCase((nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TData, nz.co.jedsimson.lgp.core.evolution.fitness.BaseFitnessContext.TTarget)))))/fitnessCases">fitnessCases</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-fitness-case/index.html"><span class="identifier">FitnessCase</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a></code>
+<p>Overrides <a href="../-fitness-context/fitness.html">FitnessContext.fitness</a></p>
+<p>Evaluates the fitness by performing the following steps:</p>
+<ol><li>Finds the effective program</li>
+<li>Writes each fitness case to the programs register set</li>
+<li>Executes the program and collects the output from each fitness case</li>
+<li>Executes the fitness function from the given environment</li>
+</ol>
+</BODY>
+</HTML>

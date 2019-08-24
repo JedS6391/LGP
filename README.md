@@ -42,6 +42,16 @@ dependencies {
 }
 ```
 
+## Tests
+
+The test suite for the system can be run with the following gradle command:
+
+```bash
+./gradlew test --info --rerun-tasks
+```
+
+<small>*Note: Adding tests is an on-going process.*</small>
+
 ## Usage
 
 ### Examples
@@ -124,5 +134,5 @@ Please refer to the [usage guide](http://lgp.readthedocs.io/en/latest/guide/usag
 [maven-image]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP.svg?label=Maven%20Central&style=flat
 [maven-url]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP%22
 [code-coverage-image]:https://img.shields.io/codecov/c/github/JedS6391/LGP.svg
-[code-coverage-url]:https://codecov.io/gh/JedS6391/LGP/branch/develop/graph/badge.svg
+[code-coverage-url]:https://codecov.io/gh/JedS6391/LGP/branch/develop/
 

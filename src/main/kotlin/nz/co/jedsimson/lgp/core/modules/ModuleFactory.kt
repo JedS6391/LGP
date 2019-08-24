@@ -1,7 +1,70 @@
 package nz.co.jedsimson.lgp.core.modules
 
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.program.Output
 import java.lang.ClassCastException
+
+/**
+ * Exception thrown when no [Module] is registered for a requested [RegisteredModuleType].
+ */
+class MissingModuleException(message: String) : Exception(message)
+
+/**
+ * Exception thrown when a [Module] is cast as a type that is not valid for it.
+ */
+class ModuleCastException(message: String) : Exception(message)
+
+/**
+ * Represents the different modules that are able to be registered with an environment.
+ *
+ * Any module that is able to be registered with the [EnvironmentFacade] as a *registered component*
+ * should have a module type defined for it using this interface.
+ *
+ * @see [CoreModuleType] for an example implementation.
+ */
+interface RegisteredModuleType
+
+/**
+ * A mapping for core modules to a module type value.
+ */
+enum class CoreModuleType : RegisteredModuleType {
+
+    /**
+     * An [InstructionGenerator] implementation.
+     */
+    InstructionGenerator,
+
+    /**
+     * A [ProgramGenerator] implementation.
+     */
+    ProgramGenerator,
+
+    /**
+     * A [SelectionOperator] implementation.
+     */
+    SelectionOperator,
+
+    /**
+     * A [RecombinationOperator] implementation.
+     */
+    RecombinationOperator,
+
+    /**
+     * A [MacroMutationOperator] implementation.
+     */
+    MacroMutationOperator,
+
+    /**
+     * A [MicroMutationOperator] implementation.
+     */
+    MicroMutationOperator,
+
+    /**
+     * A [FitnessContext] implementation.
+     */
+    FitnessContext
+}
 
 /**
  * Facilitates access to modules that have been registered in a [ModuleContainer].
@@ -9,11 +72,11 @@ import java.lang.ClassCastException
  * The main goal is to separate the building of a module container (a public operation)
  * and retrieving instances of a module.
  *
- * @constructor Creates a new [ModuleFactory] with the given [ModuleContainer].
  * @property container A [ModuleContainer] that this factory manages.
+ * @constructor Creates a new [ModuleFactory] with the given [ModuleContainer].
  */
-abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>>(
-    internal val container: ModuleContainer<TProgram, TOutput>
+abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    internal val container: ModuleContainer<TProgram, TOutput, TTarget>
 ) {
 
     /**
@@ -76,9 +139,12 @@ abstract class ModuleFactory<TProgram, TOutput : Output<TProgram>>(
     internal abstract fun resolveModuleFromType(type: RegisteredModuleType): Module
 }
 
-internal class CachingModuleFactory<TProgram, TOutput : Output<TProgram>>(
-    container: ModuleContainer<TProgram, TOutput>
-) : ModuleFactory<TProgram, TOutput>(container) {
+/**
+ * An implementation of [ModuleFactory] that will cache [Module] instances after the first instantiation.
+ */
+internal class CachingModuleFactory<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    container: ModuleContainer<TProgram, TOutput, TTarget>
+) : ModuleFactory<TProgram, TOutput, TTarget>(container) {
 
     // All instances are provided as singletons
     private val instanceCache = mutableMapOf<RegisteredModuleType, Module>()

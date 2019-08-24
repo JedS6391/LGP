@@ -23,7 +23,7 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">Program</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.program.Program$<init>(kotlin.collections.MutableList((nz.co.jedsimson.lgp.core.program.instructions.Instruction((nz.co.jedsimson.lgp.core.program.Program.TData)))), nz.co.jedsimson.lgp.core.program.registers.RegisterSet((nz.co.jedsimson.lgp.core.program.Program.TData)), kotlin.collections.List((kotlin.Int)))/instructions">instructions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.program.Program$<init>(kotlin.collections.MutableList((nz.co.jedsimson.lgp.core.program.instructions.Instruction((nz.co.jedsimson.lgp.core.program.Program.TData)))), nz.co.jedsimson.lgp.core.program.registers.RegisterSet((nz.co.jedsimson.lgp.core.program.Program.TData)), kotlin.collections.List((kotlin.Int)))/registers">registers</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.program.Program$<init>(kotlin.collections.MutableList((nz.co.jedsimson.lgp.core.program.instructions.Instruction((nz.co.jedsimson.lgp.core.program.Program.TData)))), nz.co.jedsimson.lgp.core.program.registers.RegisterSet((nz.co.jedsimson.lgp.core.program.Program.TData)), kotlin.collections.List((kotlin.Int)))/outputRegisterIndices">outputRegisterIndices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-register-index.html"><span class="identifier">RegisterIndex</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<code><span class="identifier">Program</span><span class="symbol">(</span><span class="symbol">)</span></code>
 <p>An LGP program that is composed of instructions that operate on registers.</p>
 </td>
 </tr>
@@ -37,8 +37,8 @@
 <p><a href="effective-instructions.html">effectiveInstructions</a></p>
 </td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">effectiveInstructions</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
-<p>The instructions of this program that are effective.</p>
+<code><span class="keyword">open</span> <span class="keyword">var </span><span class="identifier">effectiveInstructions</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>The instructions in this <a href="./index.html">Program</a> that are effective.</p>
 </td>
 </tr>
 <tr>
@@ -47,7 +47,7 @@
 </td>
 <td>
 <code><span class="keyword">var </span><span class="identifier">fitness</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><span class="identifier">Double</span></a></code>
-<p>Used to keep state of the programs fitness value.</p>
+<p>Represents the fitness of this <a href="./index.html">Program</a>.</p>
 </td>
 </tr>
 <tr>
@@ -55,8 +55,8 @@
 <p><a href="instructions.html">instructions</a></p>
 </td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">instructions</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
-<p>A collection of instructions that can be modified.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">var </span><span class="identifier">instructions</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction/index.html"><span class="identifier">Instruction</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>The instructions in this <a href="./index.html">Program</a>.</p>
 </td>
 </tr>
 <tr>
@@ -64,7 +64,7 @@
 <p><a href="output-register-indices.html">outputRegisterIndices</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">outputRegisterIndices</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-register-index.html"><span class="identifier">RegisterIndex</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">outputRegisterIndices</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.registers/-register-index.html"><span class="identifier">RegisterIndex</span></a><span class="symbol">&gt;</span></code>
 <p>The indices of register(s) that the program uses as output.</p>
 </td>
 </tr>
@@ -73,8 +73,8 @@
 <p><a href="registers.html">registers</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">registers</span><span class="symbol">: </span><a href="../../nz.co.jedsimson.lgp.core.program.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span></code>
-<p>A set of registers.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">registers</span><span class="symbol">: </span><a href="../../nz.co.jedsimson.lgp.core.program.registers/-register-set/index.html"><span class="identifier">RegisterSet</span></a><span class="symbol">&lt;</span><a href="index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span></code>
+<p>The set of registers that this <a href="./index.html">Program</a> runs against.</p>
 </td>
 </tr>
 </tbody>

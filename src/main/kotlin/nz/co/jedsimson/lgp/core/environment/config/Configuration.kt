@@ -2,24 +2,46 @@ package nz.co.jedsimson.lgp.core.environment.config
 
 import java.util.ArrayList
 
+/**
+ * Represents the validity of a given [Configuration].
+ */
 sealed class ConfigurationValidity {
+
+    /**
+     * A value that can be used to determine whether the [Configuration] is valid or not.
+     */
     abstract val isValid: Boolean
+
+    /**
+     * A valid configuration.
+     */
+    class Valid : ConfigurationValidity() {
+        override val isValid = true
+    }
+
+    /**
+     * An invalid configuration.
+     *
+     * @property reason A reason why the configuration is not valid.
+     */
+    class Invalid(val reason: String) : ConfigurationValidity() {
+        override val isValid = false
+    }
 }
 
-class Valid : ConfigurationValidity() {
-    override val isValid = true
-}
-
-class Invalid(val reason: String) : ConfigurationValidity() {
-    override val isValid = false
-}
-
+/**
+ * Exception given when an [nz.co.jedsimson.lgp.core.environment.Environment] is initialised with an invalid [Configuration].
+ *
+ * @property message A message describing why the configuration is invalid.
+ */
 class InvalidConfigurationException(message: String) : Exception(message)
 
 /**
  * Represents the parameters that can be set for the an LGP environment.
  *
- * An implementation of [ConfigurationLoader] can load [Configuration]s from a specified source.
+ * An implementation of [ConfigurationLoader] can load [Configuration] instances from a specific source.
+ *
+ * @constructor Initialises a new [Configuration] instance.
  */
 class Configuration {
 
@@ -130,31 +152,36 @@ class Configuration {
      */
     var numberOfRuns = 1
 
+    /**
+     * Provides a representation of the configuration validity.
+     *
+     * @return A [ConfigurationValidity] which can be used to determine whether the configuration is valid or not.
+     */
     fun isValid(): ConfigurationValidity {
         return when {
             // Need at least one feature in the data set.
-            numFeatures <= 0 -> Invalid("numFeatures: At least one feature variable should be specified.")
+            numFeatures <= 0 -> ConfigurationValidity.Invalid("numFeatures: At least one feature variable should be specified.")
             // If no constants are provided then a rate of constants can't be specified.
-            constants.isEmpty() && constantsRate > 0.0 -> Invalid(
+            constants.isEmpty() && constantsRate > 0.0 -> ConfigurationValidity.Invalid(
                 "constants/constantsRate: No constants were provided but a constant rate greater than 0 was given."
             )
             // Constant rate should be positive.
-            constantsRate < 0.0 -> Invalid("constantsRate: Constant rate should be a positive value.")
+            constantsRate < 0.0 -> ConfigurationValidity.Invalid("constantsRate: Constant rate should be a positive value.")
             // Program lengths should be greater than 0.
-            !this.programLengthsAreValid() -> Invalid(
+            !this.programLengthsAreValid() -> ConfigurationValidity.Invalid(
                 "programLengths: All program lengths should be greater than 0."
             )
             // Need at least one operation in order to create programs.
-            operations.isEmpty() -> Invalid("operations: At least one operation is needed in order to create programs.")
+            operations.isEmpty() -> ConfigurationValidity.Invalid("operations: At least one operation is needed in order to create programs.")
             // There is no point in configuring the system with no population or generations.
-            populationSize <= 0 || generations <= 0 -> Invalid(
+            populationSize <= 0 || generations <= 0 -> ConfigurationValidity.Invalid(
                 "populationSize/generations: A positive population size and number of generations is needed."
             )
-            numberOfRuns < 1 -> Invalid(
+            numberOfRuns < 1 -> ConfigurationValidity.Invalid(
                 "At least one run needs to be performed."
             )
             // In all other cases, the configuration is valid.
-            else -> Valid()
+            else -> ConfigurationValidity.Valid()
         }
     }
 

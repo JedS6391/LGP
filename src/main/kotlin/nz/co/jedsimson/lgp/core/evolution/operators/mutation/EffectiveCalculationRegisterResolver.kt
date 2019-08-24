@@ -2,7 +2,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation
 
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
-import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
+import nz.co.jedsimson.lgp.core.program.registers.RegisterIndex
 import nz.co.jedsimson.lgp.core.program.registers.RegisterType
 
 /**

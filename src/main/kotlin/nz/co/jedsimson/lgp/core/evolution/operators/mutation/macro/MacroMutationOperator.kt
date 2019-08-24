@@ -1,6 +1,7 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
@@ -22,12 +23,12 @@ import java.lang.IllegalArgumentException
  * @property mutationStrategyFactory A factory that can be used to get a [MutationStrategy] to delegate the mutation to.
  * @constructor Creates a new [MacroMutationOperator] with the given [environment], [insertionRate], [deletionRate], and [mutationStrategyFactory].
  */
-class MacroMutationOperator<TProgram, TOutput : Output<TProgram>>(
-    environment: EnvironmentDefinition<TProgram, TOutput>,
-    private val insertionRate: Double,      // p_ins
-    private val deletionRate: Double,       // p_del
-    private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput>
-) : MutationOperator<TProgram, TOutput>(environment) {
+class MacroMutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+        private val insertionRate: Double,      // p_ins
+        private val deletionRate: Double,       // p_del
+        private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput, TTarget>
+) : MutationOperator<TProgram, TOutput, TTarget>(environment) {
 
     init {
         if ((insertionRate + deletionRate) != 1.0) {
@@ -43,7 +44,7 @@ class MacroMutationOperator<TProgram, TOutput : Output<TProgram>>(
      * The [MacroMutationOperator] will use the default mutation strategy factory ([MacroMutationStrategyFactory]).
      */
     constructor(
-        environment: EnvironmentDefinition<TProgram, TOutput>,
+        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
         insertionRate: Double,
         deletionRate: Double
     ) : this(

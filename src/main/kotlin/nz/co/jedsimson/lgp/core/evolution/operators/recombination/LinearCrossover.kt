@@ -1,12 +1,12 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.recombination
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.randInt
-import nz.co.jedsimson.lgp.core.evolution.operators.slice
+import nz.co.jedsimson.lgp.core.evolution.slice
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
-
 
 /**
  * A [RecombinationOperator] that implements Linear Crossover for two individuals.
@@ -18,12 +18,12 @@ import nz.co.jedsimson.lgp.core.program.Program
  * @property maximumSegmentLengthDifference An upper bound on the difference between the two segment lengths.
  * @see <a href="http://www.springer.com/gp/book/9780387310299">http://www.springer.com/gp/book/9780387310299</a>
  */
-class LinearCrossover<TProgram, TOutput : Output<TProgram>>(
-    environment: EnvironmentDefinition<TProgram, TOutput>,
+class LinearCrossover<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
     private val maximumSegmentLength: Int,
     private val maximumCrossoverDistance: Int,
     private val maximumSegmentLengthDifference: Int
-) : RecombinationOperator<TProgram, TOutput>(environment) {
+) : RecombinationOperator<TProgram, TOutput, TTarget>(environment) {
 
     private val random = this.environment.randomState
 

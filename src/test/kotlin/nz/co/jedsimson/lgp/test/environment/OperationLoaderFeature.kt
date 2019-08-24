@@ -7,10 +7,10 @@ import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.instructions.BinaryOperation
 import nz.co.jedsimson.lgp.core.program.instructions.Operation
-import nz.co.jedsimson.lgp.core.program.instructions.RegisterIndex
 import nz.co.jedsimson.lgp.core.program.instructions.UnaryOperation
 import nz.co.jedsimson.lgp.core.program.registers.Argument
 import nz.co.jedsimson.lgp.core.program.registers.Arguments
+import nz.co.jedsimson.lgp.core.program.registers.RegisterIndex
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 

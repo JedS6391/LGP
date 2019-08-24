@@ -30,12 +30,13 @@ fun <T> Random.sample(population: List<T>, k: Int): List<T> {
     val n = population.size
     val log = { a: Double, b: Double -> (Math.log(a) / Math.log(b)) }
 
-    if (k < 0 || k > n)
+    if (k < 0 || k > n) {
         throw IllegalArgumentException("Negative sample or sample larger than population given.")
+    }
 
     val result = mutableListOf<T>()
 
-    (0..(k - 1)).map { idx ->
+    (0 until k).map { idx ->
         // Just fill the list with the first element of the population as a placeholder.
         result.add(idx, population[0])
     }

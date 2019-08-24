@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>BinaryTournamentSelection - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.evolution.operators.selection</a>&nbsp;/&nbsp;<a href="./index.html">BinaryTournamentSelection</a><br/>
+<br/>
+<h1>BinaryTournamentSelection</h1>
+<code><span class="keyword">class </span><span class="identifier">BinaryTournamentSelection</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-selection-operator/index.html"><span class="identifier">SelectionOperator</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span></code>
+<p>Performs Binary Tournament Selection as described in Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).</p>
+<p>The steps involved are:</p>
+<ol><li>Randomly select 2 * N_ts individuals from the population without replacement.</li>
+<li>Perform two fitness tournaments of size N_ts.</li>
+</ol>
+<p>The algorithm removes each tournament winner from the population, meaning that the original
+population given will have it's size decreased by 2 (due to two fitness tournaments),
+and 2 winners will be produced.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">BinaryTournamentSelection</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection$<init>(nz.co.jedsimson.lgp.core.environment.EnvironmentFacade((nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection.TProgram, nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection.TOutput, nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection.TTarget)), kotlin.Int)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment/-environment-facade/index.html"><span class="identifier">EnvironmentFacade</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection$<init>(nz.co.jedsimson.lgp.core.environment.EnvironmentFacade((nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection.TProgram, nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection.TOutput, nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection.TTarget)), kotlin.Int)/tournamentSize">tournamentSize</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span></code>
+<p>Performs Binary Tournament Selection as described in Linear Genetic Programming (Brameier, M., Banzhaf, W. 2001).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="information.html">information</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">information</span><span class="symbol">: </span><a href="../../nz.co.jedsimson.lgp.core.modules/-module-information/index.html"><span class="identifier">ModuleInformation</span></a></code>
+<p>Provides information about the module.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-selection-operator/environment.html">environment</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../nz.co.jedsimson.lgp.core.environment/-environment-facade/index.html"><span class="identifier">EnvironmentFacade</span></a><span class="symbol">&lt;</span><a href="../-selection-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="../-selection-operator/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="../-selection-operator/index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span></code>
+<p>The environment evolution is being performed within.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="select.html">select</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">select</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection$select(kotlin.collections.MutableList((nz.co.jedsimson.lgp.core.program.Program((nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection.TProgram, nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection.TOutput)))))/population">population</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Selects two individuals from the population given using tournament selection.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

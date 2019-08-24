@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>MutationStrategy - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy</a>&nbsp;/&nbsp;<a href="./index.html">MutationStrategy</a><br/>
+<br/>
+<h1>MutationStrategy</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">MutationStrategy</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Defines a strategy that can be used to perform a mutation on a <a href="../../nz.co.jedsimson.lgp.core.program/-program/index.html">Program</a>.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">MutationStrategy</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy$<init>(nz.co.jedsimson.lgp.core.environment.EnvironmentFacade((nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy.TProgram, nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy.TOutput, nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy.TTarget)))/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment/-environment-facade/index.html"><span class="identifier">EnvironmentFacade</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<p>Defines a strategy that can be used to perform a mutation on a <a href="../../nz.co.jedsimson.lgp.core.program/-program/index.html">Program</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="environment.html">environment</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">environment</span><span class="symbol">: </span><a href="../../nz.co.jedsimson.lgp.core.environment/-environment-facade/index.html"><span class="identifier">EnvironmentFacade</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="mutate.html">mutate</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">mutate</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy$mutate(nz.co.jedsimson.lgp.core.program.Program((nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy.TProgram, nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy.TOutput)))/individual">individual</span><span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-program/index.html"><span class="identifier">Program</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Mutates the individual given using some mutation method.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

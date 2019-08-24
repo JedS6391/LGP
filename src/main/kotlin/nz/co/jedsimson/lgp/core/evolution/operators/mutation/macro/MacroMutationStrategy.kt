@@ -1,7 +1,8 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.choice
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.randInt
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolver
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
@@ -19,14 +20,15 @@ internal object MacroMutationStrategies {
      * A [MutationStrategy] that can insert random instructions into a [Program].
      *
      * @param environment An environment that the mutation is occurring in.
+     * @property effectiveCalculationRegisterResolver A function that can be used to resolve effective calculation registers.
      */
-    internal class MacroMutationInsertionStrategy<TProgram, TOutput : Output<TProgram>>(
-        private val environment: EnvironmentDefinition<TProgram, TOutput>,
+    internal class MacroMutationInsertionStrategy<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
         private val effectiveCalculationRegisterResolver: EffectiveCalculationRegisterResolver<TProgram, TOutput>
-    ) : MutationStrategy<TProgram, TOutput>() {
+    ) : MutationStrategy<TProgram, TOutput, TTarget>(environment) {
 
         private val random = this.environment.randomState
-        private val instructionGenerator = this.environment.moduleFactory.instance<InstructionGenerator<TProgram, TOutput>>(
+        private val instructionGenerator = this.environment.moduleFactory.instance<InstructionGenerator<TProgram, TOutput, TTarget>>(
             CoreModuleType.InstructionGenerator
         )
 
@@ -58,9 +60,9 @@ internal object MacroMutationStrategies {
      *
      * @param environment An environment that the mutation is occurring in.
      */
-    internal class MacroMutationDeletionStrategy<TProgram, TOutput : Output<TProgram>>(
-        private val environment: EnvironmentDefinition<TProgram, TOutput>
-    ) : MutationStrategy<TProgram, TOutput>() {
+    internal class MacroMutationDeletionStrategy<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+        environment: EnvironmentFacade<TProgram, TOutput, TTarget>
+    ) : MutationStrategy<TProgram, TOutput, TTarget>(environment) {
 
         private val random = this.environment.randomState
 

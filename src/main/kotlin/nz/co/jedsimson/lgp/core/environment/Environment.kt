@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.environment
 
 import nz.co.jedsimson.lgp.core.environment.config.*
 import nz.co.jedsimson.lgp.core.environment.constants.ConstantLoader
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregators
@@ -14,91 +15,25 @@ import nz.co.jedsimson.lgp.core.program.registers.ArrayRegisterSet
 import kotlin.random.Random
 
 /**
- * Acts as a facade for simplifying access to details of an [Environment].
+ * A specification for building an [Environment].
  *
- * This contract also helps to mock out the [Environment] as it is a relatively costly object to build.
+ * @property configurationLoader A component that can load configuration information.
+ * @property constantLoader A component that can load constants.
+ * @property operationLoader A component that can load operations for the LGP system.
+ * @property defaultValueProvider A component that provides default values for the registers in the register set.
+ * @property fitnessFunctionProvider A function used to evaluate the fitness of LGP programs.
+ * @property randomStateSeed Sets the seed of the random number generator. If a value is given, the seed will
+ *           be set, and will produce deterministic runs. If null is given, a random seed will be chosen.
  */
-interface EnvironmentDefinition<TProgram, TOutput : Output<TProgram>>  {
-
-    /**
-     * Provides access to the environments random state.
-     *
-     * This allows the entire framework to share the random state (as a singleton) to allow deterministic runs.
-     */
-    val randomState: Random
-
-    /**
-     * A provider for a function that can measure the fitness of a program.
-     *
-     * This property should be provided at construction time.
-     */
-    val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>
-
-    /**
-     * Contains the various configuration options available to the LGP system.
-     */
-    val configuration: Configuration
-
-    /**
-     * A set of constants loaded using the [ConstantLoader] given at construction time.
-     */
-    val constants: List<TProgram>
-
-    /**
-     * A set of operations loaded using the [OperationLoader] given at construction time.
-     */
-    val operations: List<Operation<TProgram>>
-
-    /**
-     * Provides mechanisms for collecting results during the lifetime of an environment.
-     */
-    val resultAggregator: ResultAggregator<TProgram>
-
-    /**
-     * Provides access to modules that are registered in the environment.
-     */
-    val moduleFactory: ModuleFactory<TProgram, TOutput>
-
-    /**
-     * Provides access to the set of registers that programs in the environment will use.
-     */
-    val registerSet: RegisterSet<TProgram>
-
-    /**
-     * Registers the modules given by a container.
-     *
-     * @param container A container that specifies modules to be registered.
-     */
-    fun registerModules(container: ModuleContainer<TProgram, TOutput>)
-
-    /**
-     * Register a module builder with a particular module type.
-     *
-     * @param type The type of module to associate this builder with.
-     * @param builder A function that can create the module.
-     */
-    fun registerModule(type: RegisteredModuleType, builder: (EnvironmentDefinition<TProgram, TOutput>) -> Module)
-
-    /**
-     * Produces a clone of the current environment.
-     *
-     * It should be noted that because an environment instance has its own RNG associated with it,
-     * when making a copy, it is required that the copied environment have its own RNG too.
-     * To fulfil this requirement, when an environment is copied, it will initialise a new RNG that is
-     * seeded with a seed given from the RNG of the environment instance performing the copy (confusing -- yes!).
-     *
-     * The main reason behind this complication is to ensure that there are no contention issues when multiple
-     * environment instances are operating in a multi-threaded context (e.g. through a [lgp.core.evolution.Trainers.DistributedTrainer]).
-     *
-     * Furthermore, any modules that are registered with the environment being copied, will be updated so
-     * that the reference the correct environment instance (i.e. the copy). This ensures that while the
-     * module registrations themselves are shared between copies, when a module is accessed, it gets initialised
-     * correctly.
-     *
-     * @return A new [Environment] instance that is a copy of that the method is called on.
-     */
-    fun copy(): EnvironmentDefinition<TProgram, TOutput>
-}
+data class EnvironmentSpecification<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    val configurationLoader: ConfigurationLoader,
+    val constantLoader: ConstantLoader<TProgram>,
+    val operationLoader: OperationLoader<TProgram>,
+    val defaultValueProvider: DefaultValueProvider<TProgram>,
+    val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>,
+    val resultAggregator: ResultAggregator<TProgram>? = null,
+    val randomStateSeed: Long? = null
+)
 
 /**
  * A central repository for core components made available to the LGP system.
@@ -115,27 +50,44 @@ interface EnvironmentDefinition<TProgram, TOutput : Output<TProgram>>  {
  * After an environment is built and all components are resolved, it can be used to initiate the core
  * evolution process of LGP.
  */
-class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<TProgram, TOutput> {
+class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>
+    : EnvironmentFacade<TProgram, TOutput, TTarget> {
 
     // These dependencies are generally initialised when the environment is constructed.
-    // Access to these is moderated through the EnvironmentDefinition facade.
+    // Access to these are moderated through the EnvironmentFacade.
     private val configurationLoader: ConfigurationLoader
     private val constantLoader: ConstantLoader<TProgram>
     private val operationLoader: OperationLoader<TProgram>
     private val defaultValueProvider: DefaultValueProvider<TProgram>
     private val randomStateSeed: Long?
-    private var container: ModuleContainer<TProgram, TOutput>
+    private var container: ModuleContainer<TProgram, TOutput, TTarget>
 
     // The public environment interface
     // Some dependencies are initialised late as they are created during the environment construction.
     override val randomState: Random
-    override val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>
+    override val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>
     override lateinit var configuration: Configuration
     override lateinit var constants: List<TProgram>
     override lateinit var operations: List<Operation<TProgram>>
     override lateinit var registerSet: RegisterSet<TProgram>
     override val resultAggregator: ResultAggregator<TProgram>
-    override var moduleFactory: ModuleFactory<TProgram, TOutput>
+    override var moduleFactory: ModuleFactory<TProgram, TOutput, TTarget>
+
+    /**
+     * Builds an [Environment] from the given [EnvironmentSpecification].
+     *
+     * @param specification A specification for an [Environment].
+     */
+    constructor(specification: EnvironmentSpecification<TProgram, TOutput, TTarget>)
+        : this(
+            specification.configurationLoader,
+            specification.constantLoader,
+            specification.operationLoader,
+            specification.defaultValueProvider,
+            specification.fitnessFunctionProvider,
+            specification.resultAggregator,
+            specification.randomStateSeed
+        )
 
     /**
      * Builds an environment with the specified construction components.
@@ -148,19 +100,16 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
      * @param randomStateSeed Sets the seed of the random number generator. If a value is given, the seed will
      *        be set, and will produce deterministic runs. If null is given, a random seed will be chosen.
      */
-    // TODO: Move all components to an object to make constructor smaller.
-    // TODO: Allow custom initialisation method for initialisation components.
-    // TODO: Default value provider and fitness function could be given in configuration?
+    @Deprecated("This constructor is deprecated.", ReplaceWith("Environment(specification)", "nz.co.jedsimson.lgp.core.environment"), DeprecationLevel.WARNING)
     constructor(
         configurationLoader: ConfigurationLoader,
         constantLoader: ConstantLoader<TProgram>,
         operationLoader: OperationLoader<TProgram>,
         defaultValueProvider: DefaultValueProvider<TProgram>,
-        fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput>,
+        fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>,
         resultAggregator: ResultAggregator<TProgram>? = null,
         randomStateSeed: Long? = null
     ) {
-
         this.configurationLoader = configurationLoader
         this.constantLoader = constantLoader
         this.operationLoader = operationLoader
@@ -191,10 +140,8 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
         this.operations = this.operationLoader.load()
 
         // Early exit if the configuration provided is invalid
-        val configValidity = this.configuration.isValid()
-
-        when (configValidity) {
-            is Invalid -> throw InvalidConfigurationException(configValidity.reason)
+        when (val configValidity = this.configuration.isValid()) {
+            is ConfigurationValidity.Invalid -> throw InvalidConfigurationException(configValidity.reason)
             else -> { /* No-op */ }
         }
 
@@ -218,7 +165,7 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
         )
     }
 
-    override fun registerModules(container: ModuleContainer<TProgram, TOutput>) {
+    override fun registerModules(container: ModuleContainer<TProgram, TOutput, TTarget>) {
         this.container = container
         this.moduleFactory = CachingModuleFactory(this.container)
 
@@ -226,20 +173,36 @@ class Environment<TProgram, TOutput : Output<TProgram>> : EnvironmentDefinition<
         this.container.environment = this
     }
 
-    override fun registerModule(type: RegisteredModuleType, builder: (EnvironmentDefinition<TProgram, TOutput>) -> Module) {
+    override fun registerModule(type: RegisteredModuleType, builder: (EnvironmentFacade<TProgram, TOutput, TTarget>) -> Module) {
         this.container.modules[type] = builder
     }
 
-    override fun copy(): Environment<TProgram, TOutput> {
+    /**
+     * It should be noted that because an environment instance has its own RNG associated with it,
+     * when making a copy, it is required that the copied environment have its own RNG too.
+     * To fulfil this requirement, when an environment is copied, it will initialise a new RNG that is
+     * seeded with a seed given from the RNG of the environment instance performing the copy (confusing -- yes!).
+     *
+     * The main reason behind this complication is to ensure that there are no contention issues when multiple
+     * environment instances are operating in a multi-threaded context (e.g. through a [DistributedTrainer]).
+     *
+     * Furthermore, any modules that are registered with the environment being copied, will be updated so
+     * that the reference the correct environment instance (i.e. the copy). This ensures that while the
+     * module registrations themselves are shared between copies, when a module is accessed, it gets initialised
+     * correctly.
+     */
+    override fun copy(): Environment<TProgram, TOutput, TTarget> {
         // Construct a copy with the correct construction/initialised components.
         val copy = Environment(
-            this.configurationLoader,
-            this.constantLoader,
-            this.operationLoader,
-            this.defaultValueProvider,
-            this.fitnessFunctionProvider,
-            this.resultAggregator,
-            this.randomState.nextLong()
+            EnvironmentSpecification(
+                this.configurationLoader,
+                this.constantLoader,
+                this.operationLoader,
+                this.defaultValueProvider,
+                this.fitnessFunctionProvider,
+                this.resultAggregator,
+                this.randomState.nextLong()
+            )
         )
 
         // Now, the tricky part. We have to ensure that the containers modules

@@ -9,11 +9,14 @@
 <br/>
 <h1>get</h1>
 <a name="nz.co.jedsimson.lgp.core.program.registers.RegisterSet$get(kotlin.Int)"></a>
-<code><span class="keyword">operator</span> <span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.program.registers.RegisterSet$get(kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">operator</span> <span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.program.registers.RegisterSet$get(kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="index.html#TData"><span class="identifier">TData</span></a></code>
 <p>Get the value the of the register at the given index.</p>
 <h3>Parameters</h3>
 <p><a name="index"></a>
 <code>index</code> - The register to read from.</p>
+<h3>Exceptions</h3>
+<p><a name="RegisterReadException"></a>
+<code>RegisterReadException</code> - When <a href="get.html#nz.co.jedsimson.lgp.core.program.registers.RegisterSet$get(kotlin.Int)/index">index</a> is out-of-bounds of the register set.</p>
 <p><strong>Returns</strong><br/>
 The value of the register at the given index.</p>
 </BODY>

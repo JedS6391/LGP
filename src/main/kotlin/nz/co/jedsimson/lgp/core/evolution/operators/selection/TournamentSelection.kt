@@ -1,7 +1,8 @@
 package nz.co.jedsimson.lgp.core.evolution.operators.selection
 
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.choice
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.sample
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
 import nz.co.jedsimson.lgp.core.program.Output
@@ -21,10 +22,10 @@ import kotlin.random.Random
  *
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  */
-class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>>(
-    environment: EnvironmentDefinition<TProgram, TOutput>,
-    private val tournamentSize: Int
-) : SelectionOperator<TProgram, TOutput>(environment) {
+class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+        private val tournamentSize: Int
+) : SelectionOperator<TProgram, TOutput, TTarget>(environment) {
 
     private val random = this.environment.randomState
 
@@ -62,10 +63,10 @@ class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>>(
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  * @see <a href="https://en.wikipedia.org/wiki/Tournament_selection"></a>
  */
-class TournamentSelection<TProgram, TOutput : Output<TProgram>>(
-    environment: EnvironmentDefinition<TProgram, TOutput>,
-    private val tournamentSize: Int
-) : SelectionOperator<TProgram, TOutput>(environment) {
+class TournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+        private val tournamentSize: Int
+) : SelectionOperator<TProgram, TOutput, TTarget>(environment) {
 
     private val random = this.environment.randomState
 
@@ -73,7 +74,7 @@ class TournamentSelection<TProgram, TOutput : Output<TProgram>>(
      * Selects individuals by performing 2 * `numOffspring` tournaments of size [tournamentSize].
      */
     override fun select(population: MutableList<Program<TProgram, TOutput>>): List<Program<TProgram, TOutput>> {
-        return (0..(2 * this.environment.configuration.numOffspring - 1)).map {
+        return (0 until (2 * this.environment.configuration.numOffspring)).map {
             val result = tournament(population, this.random, this.tournamentSize)
 
             // TODO: Do we need to return a copy?
@@ -103,10 +104,10 @@ private data class TournamentResult<TProgram, TOutput : Output<TProgram>>(
  * @property replacement Determines whether winning individuals remain in the population.
  */
 private fun <TProgram, TOutput : Output<TProgram>> tournament(
-        individuals: MutableList<Program<TProgram, TOutput>>,
-        random: Random,
-        tournamentSize: Int,
-        replacement: Boolean = false
+    individuals: MutableList<Program<TProgram, TOutput>>,
+    random: Random,
+    tournamentSize: Int,
+    replacement: Boolean = false
 ): TournamentResult<TProgram, TOutput> {
 
     var winner = random.choice(individuals)

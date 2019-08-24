@@ -6,9 +6,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
-import nz.co.jedsimson.lgp.core.environment.Environment
-import nz.co.jedsimson.lgp.core.environment.EnvironmentDefinition
+import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
+import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel
@@ -26,10 +26,10 @@ import nz.co.jedsimson.lgp.core.evolution.training.TrainingMessages.ProgressUpda
  * @param trainingUpdateChannel A channel that can be used to communicate from the trainer to subscribers.
  * @param training A deferred training result.
  */
-class SequentialTrainingJob<TProgram, TOutput : Output<TProgram>> internal constructor(
+class SequentialTrainingJob<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>> internal constructor(
     private val trainingUpdateChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>,
-    private val training: Deferred<TrainingResult<TProgram, TOutput>>
-) : TrainingJob<TProgram, TOutput, ProgressUpdate<TProgram, TOutput>>() {
+    private val training: Deferred<TrainingResult<TProgram, TOutput, TTarget>>
+) : TrainingJob<TProgram, TOutput, TTarget, ProgressUpdate<TProgram, TOutput>>() {
 
     /**
      * Retrieves the result of training.
@@ -39,7 +39,7 @@ class SequentialTrainingJob<TProgram, TOutput : Output<TProgram>> internal const
      *
      * @returns The result of the training phase(s).
      */
-    override suspend fun result(): TrainingResult<TProgram, TOutput> {
+    override suspend fun result(): TrainingResult<TProgram, TOutput, TTarget> {
         // Don't need to block if the job is complete already.
         if (training.isCompleted) {
             return training.getCompleted()
@@ -69,11 +69,11 @@ class SequentialTrainingJob<TProgram, TOutput : Output<TProgram>> internal const
  *
  * @property runs The number of times to train the given model.
  */
-class SequentialTrainer<TProgram, TOutput : Output<TProgram>>(
-    environment: EnvironmentDefinition<TProgram, TOutput>,
-    model: EvolutionModel<TProgram, TOutput>,
+class SequentialTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    model: EvolutionModel<TProgram, TOutput, TTarget>,
     val runs: Int
-) : Trainer<TProgram, TOutput, ProgressUpdate<TProgram, TOutput>>(environment, model) {
+) : Trainer<TProgram, TOutput, TTarget, ProgressUpdate<TProgram, TOutput>>(environment, model) {
 
     private val models = (0 until runs).map {
         // Create `runs` untrained models.
@@ -88,7 +88,7 @@ class SequentialTrainer<TProgram, TOutput : Output<TProgram>>(
      * **Note:** This function will block until the training is complete.
      * To training in a non-blocking fashion, use the [trainAsync] function.
      */
-    override fun train(dataset: Dataset<TProgram>): TrainingResult<TProgram, TOutput> {
+    override fun train(dataset: Dataset<TProgram, TTarget>): TrainingResult<TProgram, TOutput, TTarget> {
 
         val results = aggregator.use {
             this.models.mapIndexed { run, model ->
@@ -114,7 +114,7 @@ class SequentialTrainer<TProgram, TOutput : Output<TProgram>>(
      * This implementation will still run each training task sequentially, but it allows the training
      * execution to be suspended so that other tasks can be performed.
      */
-    override suspend fun trainAsync(dataset: Dataset<TProgram>) : SequentialTrainingJob<TProgram, TOutput> {
+    override suspend fun trainAsync(dataset: Dataset<TProgram, TTarget>) : SequentialTrainingJob<TProgram, TOutput, TTarget> {
         // This channel will be used to communicate updates to any training progress subscribers.
         val progressChannel = ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>()
 

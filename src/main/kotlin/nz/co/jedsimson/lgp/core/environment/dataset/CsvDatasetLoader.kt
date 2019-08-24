@@ -20,75 +20,69 @@ class InvalidCsvFileException(message: String) : Exception(message)
 /**
  * Loads a collection of samples and their target values from a CSV file.
  *
- * @param T Type of the features in the samples.
+ * @param TData Type of the features in the samples.
+ * @param TTarget Type of the outputs in the dataset.
  * @property reader A reader that will provide the contents of a CSV file.
  * @property featureParseFunction A function to parse the features of each row in the CSV file.
  * @property targetParseFunction A function to parse the target of each row in the CSV file.
  */
-class CsvDatasetLoader<out TData> constructor(
-        val reader: Reader,
-        val featureParseFunction: (Header, Row) -> Sample<TData>,
-        val targetParseFunction: (Header, Row) -> Target<TData>
-) : DatasetLoader<TData> {
+class CsvDatasetLoader<TData, TTarget : Target<TData>> constructor(
+    val reader: Reader,
+    val featureParseFunction: (Header, Row) -> Sample<TData>,
+    val targetParseFunction: (Header, Row) -> TTarget
+) : DatasetLoader<TData, TTarget> {
 
-    private constructor(builder: Builder<TData>)
-            : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
+    private constructor(builder: Builder<TData, TTarget>)
+        : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
 
     private val datasetProvider = MemoizedComponentProvider("Dataset") { this.initialiseDataset() }
 
     /**
      * Builds an instance of [CsvDatasetLoader].
      *
-     * @param U the type that the [CsvDatasetLoader] will load features as.
+     * @param UData the type that the [CsvDatasetLoader] will load features as.
+     * @param UData the type that the [CsvDatasetLoader] will load features as.
      */
-    class Builder<U> : ComponentLoaderBuilder<CsvDatasetLoader<U>> {
+    class Builder<UData, UTarget : Target<UData>> : ComponentLoaderBuilder<CsvDatasetLoader<UData, UTarget>> {
 
         lateinit var reader: Reader
-        lateinit var featureParseFunction: (Header, Row) -> Sample<U>
-        lateinit var targetParseFunction: (Header, Row) -> Target<U>
+        lateinit var featureParseFunction: (Header, Row) -> Sample<UData>
+        lateinit var targetParseFunction: (Header, Row) -> UTarget
 
         /**
          * Sets the filename of the CSV file to load the data set from.
          *
          * A reader will be automatically created for the file with the name given.
          */
-        fun filename(name: String): Builder<U> {
+        fun filename(name: String) = apply {
             this.reader = FileReader(name)
-
-            return this
         }
 
         /**
          * Sets the reader that provides a CSV files contents.
          */
-        fun reader(reader: Reader): Builder<U> {
+        fun reader(reader: Reader) = apply {
             this.reader = reader
-
-            return this
         }
 
         /**
          * Sets the function to use when parsing features from the data set file.
          */
-        fun featureParseFunction(function: (Header, Row) -> Sample<U>): Builder<U> {
+        fun featureParseFunction(function: (Header, Row) -> Sample<UData>) = apply {
             this.featureParseFunction = function
-
-            return this
         }
 
         /**
          * Sets the function to use when parsing target values from the data set file.
          */
-        fun targetParseFunction(function: (Header, Row) -> Target<U>): Builder<U> {
+        fun targetParseFunction(function: (Header, Row) -> UTarget) = apply {
             this.targetParseFunction = function
-
-            return this
         }
 
         /**
          * Builds the instance with the given configuration information.
          */
-        override fun build(): CsvDatasetLoader<U> {
+        override fun build(): CsvDatasetLoader<UData, UTarget> {
             return CsvDatasetLoader(this)
         }
     }
@@ -99,11 +93,11 @@ class CsvDatasetLoader<out TData> constructor(
      * @throws [java.io.IOException] when the file given does not exist.
      * @returns a data set containing values parsed appropriately.
      */
-    override fun load(): Dataset<TData> {
+    override fun load(): Dataset<TData, TTarget> {
         return this.datasetProvider.component
     }
 
-    private fun initialiseDataset(): Dataset<TData> {
+    private fun initialiseDataset(): Dataset<TData, TTarget> {
         val reader = CSVReader(this.reader)
         val lines: MutableList<Array<String>> = reader.readAll()
 
