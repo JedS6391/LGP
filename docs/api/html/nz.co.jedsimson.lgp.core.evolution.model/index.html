@@ -16,7 +16,7 @@
 <p><a href="-evolution-model/index.html">EvolutionModel</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a></code>
 <p>A model that can be used to perform evolution within in a specific environment.</p>
 </td>
 </tr>
@@ -40,11 +40,21 @@
 </tr>
 <tr>
 <td>
-<p><a href="-models/index.html">Models</a></p>
+<p><a href="-island-migration/index.html">IslandMigration</a></p>
 </td>
 <td>
-<code><span class="keyword">object </span><span class="identifier">Models</span></code>
-<p>A collection of built-in evolution models.</p>
+<code><span class="keyword">class </span><span class="identifier">IslandMigration</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-island-migration/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-island-migration/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="-island-migration/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-island-migration/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="-island-migration/index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span></code>
+<p>A model for evolution using a island-migration algorithm.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-master-slave/index.html">MasterSlave</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">MasterSlave</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-master-slave/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-master-slave/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="-master-slave/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-master-slave/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="-master-slave/index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span></code>
+<p>A model for evolution using a steady-state algorithm. The evaluation and mutation processes are
+parallelised in a master-slave based technique.</p>
 </td>
 </tr>
 <tr>
@@ -58,23 +68,20 @@
 </tr>
 <tr>
 <td>
+<p><a href="-steady-state/index.html">SteadyState</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SteadyState</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-steady-state/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-steady-state/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-evolution-model/index.html"><span class="identifier">EvolutionModel</span></a><span class="symbol">&lt;</span><a href="-steady-state/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="-steady-state/index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="-steady-state/index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span></code>
+<p>A model for evolution using a steady-state algorithm.</p>
+</td>
+</tr>
+<tr>
+<td>
 <p><a href="-test-result/index.html">TestResult</a></p>
 </td>
 <td>
 <code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">TestResult</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-test-result/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>A result given when calling <a href="-evolution-model/test.html">EvolutionModel.test</a>.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3>Extensions for External Classes</h3>
-<table>
-<tbody>
-<tr>
-<td>
-<p><a href="kotlin.collections.-list/index.html">kotlin.collections.List</a></p>
-</td>
-<td>
 </td>
 </tr>
 </tbody>

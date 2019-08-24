@@ -8,6 +8,27 @@
 <a href="./index.html">nz.co.jedsimson.lgp.core.evolution</a><br/>
 <br/>
 <h2>Package nz.co.jedsimson.lgp.core.evolution</h2>
+<p>Contains core system components that perform the evolution process.</p>
+<h2>Fitness</h2>
+<p>Defines modules for evaluating fitness as well as the generic definition of a fitness function for programs in the system. 
+A fitness function is the main driving force for determining the <em>best</em> program in a population of individuals.</p>
+<p>A set of built-in fitness functions are also provided from the core library.</p>
+<h2>Model</h2>
+<p>Provides an abstraction for the primary model of evolution. The main LGP algorithms are implemented in three variants:</p>
+<ul><li><code>SteadyState</code>: The classic LGP algorithm.</li>
+<li><code>MasterSlave</code>: The classic LGP algorithm, but performs evaluation in parallel.</li>
+<li><code>IslandMigration</code>: Runs independent instances of the classic LGP algorithm on subsets of an overall population
+       and uses an island migration technique to share individuals between populations. </li>
+</ul>
+<h2>Operators</h2>
+<p>Contains interfaces and implementations for the primary evolutionary operators available to the system:</p>
+<ul><li>Mutation: Defines how individuals from the population will be mutated to form new individuals. </li>
+<li>Recombination: Defines how two individuals from the population will be combined.</li>
+<li>Selection: Defines how individuals will be selected from the population before being subjected to mutation and recombination.</li>
+</ul>
+<h2>Training</h2>
+<p>Provides a set of interfaces and implementations for performing aggregate evolution (training). It is often desirable to build
+and evaluate a model multiple times in succession/parallel, which the training abstractions allow.</p>
 <h3>Types</h3>
 <table>
 <tbody>
@@ -32,7 +53,7 @@
 <p><a href="-problem/index.html">Problem</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Problem</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-problem/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Problem</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="-problem/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-problem/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>Defines a problem and the components that should be used to solve that problem.</p>
 </td>
 </tr>
@@ -41,7 +62,7 @@
 <p><a href="-result-aggregator/index.html">ResultAggregator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ResultAggregator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html"><span class="identifier">AutoCloseable</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ResultAggregator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.modules/-module/index.html"><span class="identifier">Module</span></a><span class="symbol">, </span><a href="https://docs.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html"><span class="identifier">AutoCloseable</span></a></code>
 <p>A module that can collect <a href="-exportable-result/index.html">ExportableResult</a> instances for later export from the system.</p>
 </td>
 </tr>
@@ -94,6 +115,25 @@
 <code><span class="keyword">class </span><span class="identifier">ProblemNotInitialisedException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html"><span class="identifier">Exception</span></a></code>
 <p>Exception given when a problem is attempted to be solved when it hasn't
 been completely initialised.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extensions for External Classes</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="kotlin.collections.-list/index.html">kotlin.collections.List</a></p>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="kotlin.collections.-mutable-list/index.html">kotlin.collections.MutableList</a></p>
+</td>
+<td>
 </td>
 </tr>
 </tbody>

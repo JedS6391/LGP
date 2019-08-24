@@ -29,13 +29,19 @@ sealed class ConfigurationValidity {
     }
 }
 
-
+/**
+ * Exception given when an [nz.co.jedsimson.lgp.core.environment.Environment] is initialised with an invalid [Configuration].
+ *
+ * @property message A message describing why the configuration is invalid.
+ */
 class InvalidConfigurationException(message: String) : Exception(message)
 
 /**
  * Represents the parameters that can be set for the an LGP environment.
  *
- * An implementation of [ConfigurationLoader] can load [Configuration]s from a specified source.
+ * An implementation of [ConfigurationLoader] can load [Configuration] instances from a specific source.
+ *
+ * @constructor Initialises a new [Configuration] instance.
  */
 class Configuration {
 
@@ -146,6 +152,11 @@ class Configuration {
      */
     var numberOfRuns = 1
 
+    /**
+     * Provides a representation of the configuration validity.
+     *
+     * @return A [ConfigurationValidity] which can be used to determine whether the configuration is valid or not.
+     */
     fun isValid(): ConfigurationValidity {
         return when {
             // Need at least one feature in the data set.

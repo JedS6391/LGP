@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>MemoizedComponentProvider - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.environment</a>&nbsp;/&nbsp;<a href="./index.html">MemoizedComponentProvider</a><br/>
+<br/>
+<h1>MemoizedComponentProvider</h1>
+<code><span class="keyword">class </span><span class="identifier">MemoizedComponentProvider</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TComponent</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-component-provider/index.html"><span class="identifier">ComponentProvider</span></a><span class="symbol">&lt;</span><a href="index.html#TComponent"><span class="identifier">TComponent</span></a><span class="symbol">&gt;</span></code>
+<p>An implementation of <a href="../-component-provider/index.html">ComponentProvider</a> that will cache the component after initialisation.</p>
+<h3>Parameters</h3>
+<p><a name="TComponent"></a>
+<code>TComponent</code> - The type of the component that this provider is responsible for.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">MemoizedComponentProvider</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider$<init>(kotlin.String, kotlin.Function0((nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider.TComponent)))/componentName">componentName</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider$<init>(kotlin.String, kotlin.Function0((nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider.TComponent)))/componentInitialisationFunction">componentInitialisationFunction</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="index.html#TComponent"><span class="identifier">TComponent</span></a><span class="symbol">)</span></code>
+<p>Creates a new <a href="./index.html">MemoizedComponentProvider</a> for components with the given <a href="#">componentName</a>,
+    which can be created using the given <a href="#">componentInitialisationFunction</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="component.html">component</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">component</span><span class="symbol">: </span><a href="index.html#TComponent"><span class="identifier">TComponent</span></a></code>
+<p>The component that this provider is responsible for.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -16,7 +16,7 @@
 <p><a href="-csv-dataset-loader/index.html">CsvDatasetLoader</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">CsvDatasetLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-dataset-loader.html"><span class="identifier">DatasetLoader</span></a><span class="symbol">&lt;</span><a href="-csv-dataset-loader/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">CsvDatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-csv-dataset-loader/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-dataset-loader.html"><span class="identifier">DatasetLoader</span></a><span class="symbol">&lt;</span><a href="-csv-dataset-loader/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">,</span>&nbsp;<a href="-csv-dataset-loader/index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span></code>
 <p>Loads a collection of samples and their target values from a CSV file.</p>
 </td>
 </tr>
@@ -25,7 +25,7 @@
 <p><a href="-dataset/index.html">Dataset</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Dataset</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Dataset</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-dataset/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>A basic data set composed of a vector of input <a href="-sample/index.html">Sample</a>s and a collection of output <a href="-target/index.html">Target</a>s.</p>
 </td>
 </tr>
@@ -34,7 +34,7 @@
 <p><a href="-dataset-loader.html">DatasetLoader</a></p>
 </td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">DatasetLoader</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="-dataset-loader.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">interface </span><span class="identifier">DatasetLoader</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="-dataset-loader.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../nz.co.jedsimson.lgp.core.environment/-component-loader/index.html"><span class="identifier">ComponentLoader</span></a><span class="symbol">&lt;</span><a href="-dataset/index.html"><span class="identifier">Dataset</span></a><span class="symbol">&lt;</span><a href="-dataset-loader.html#TData"><span class="identifier">TData</span></a><span class="symbol">,</span>&nbsp;<a href="-dataset-loader.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
 <p>An extended <a href="../nz.co.jedsimson.lgp.core.environment/-component-loader/index.html">ComponentLoader</a> that loads a <a href="-dataset/index.html">Dataset</a>.</p>
 </td>
 </tr>
@@ -43,7 +43,7 @@
 <p><a href="-feature/index.html">Feature</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Feature</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Feature</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
 <p>A feature of a sample in some data set.</p>
 </td>
 </tr>
@@ -52,7 +52,7 @@
 <p><a href="-nominal-feature/index.html">NominalFeature</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">NominalFeature</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-feature/index.html"><span class="identifier">Feature</span></a><span class="symbol">&lt;</span><a href="-nominal-feature/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">class </span><span class="identifier">NominalFeature</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-feature/index.html"><span class="identifier">Feature</span></a><span class="symbol">&lt;</span><a href="-nominal-feature/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
@@ -68,7 +68,7 @@
 <p><a href="-sample/index.html">Sample</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">Sample</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">TData</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">Sample</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span></code>
 <p>A sample in a <a href="-dataset/index.html">Dataset</a> made up of a collection of <a href="-feature/index.html">Feature</a>s.</p>
 </td>
 </tr>
@@ -122,13 +122,6 @@
 <p>Exception given when a CSV file that does not match the criteria the system expects
 is given to a <a href="-csv-dataset-loader/index.html">CsvDatasetLoader</a> instance.</p>
 </td>
-</tr>
-<tr>
-<td>
-<p><a href="-invalid-number-of-samples-exception/index.html">InvalidNumberOfSamplesException</a></p>
-</td>
-<td>
-<code><span class="keyword">class </span><span class="identifier">InvalidNumberOfSamplesException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html"><span class="identifier">Exception</span></a></code></td>
 </tr>
 </tbody>
 </table>

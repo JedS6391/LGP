@@ -9,10 +9,9 @@
 <br/>
 <h1>Module</h1>
 <code><span class="keyword">interface </span><span class="identifier">Module</span></code>
-<p>A module in the LGP system.</p>
-<p>An implementation of <a href="./index.html">Module</a> can be used in the appropriate
-place in the system, meaning that custom modules can be built
-to provide custom functionality to the system.</p>
+<p>A module in the system.</p>
+<p>An implementation of <a href="./index.html">Module</a> can be used in different areas of the system, allowing custom modules to be
+built which can provide custom functionality to the system.</p>
 <h3>Properties</h3>
 <table>
 <tbody>
@@ -44,7 +43,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html">EvolutionModel</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">EvolutionModel</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A model that can be used to perform evolution within in a specific environment.</p>
 </td>
 </tr>
@@ -53,7 +52,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-context/index.html">FitnessContext</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">FitnessContext</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-context/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">FitnessContext</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-context/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.fitness/-fitness-context/index.html#TData"><span class="identifier">TData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>Provides a way to map a program to fitness cases using a given fitness function.</p>
 </td>
 </tr>
@@ -62,8 +61,8 @@ to provide custom functionality to the system.</p>
 <p><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction/index.html">Instruction</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Instruction</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
-<p>An instruction in an LGP program.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Instruction</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<p>An instruction in a <a href="../../nz.co.jedsimson.lgp.core.program/-program/index.html">Program</a>.</p>
 </td>
 </tr>
 <tr>
@@ -71,16 +70,16 @@ to provide custom functionality to the system.</p>
 <p><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction-generator/index.html">InstructionGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">InstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">InstructionGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-instruction-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A generator of instructions in an LGP system.</p>
 </td>
 </tr>
 <tr>
 <td>
-<p><a href="../../nz.co.jedsimson.lgp.core.evolution.operators/-mutation-operator/index.html">MutationOperator</a></p>
+<p><a href="../../nz.co.jedsimson.lgp.core.evolution.operators.mutation/-mutation-operator/index.html">MutationOperator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">MutationOperator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.operators/-mutation-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">MutationOperator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.operators.mutation/-mutation-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.operators.mutation/-mutation-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A search operator used during evolution to mutate an individual from a population.</p>
 </td>
 </tr>
@@ -89,8 +88,8 @@ to provide custom functionality to the system.</p>
 <p><a href="../../nz.co.jedsimson.lgp.core.program.instructions/-operation/index.html">Operation</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Operation</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
-<p>An operation has an <a href="../../nz.co.jedsimson.lgp.core.program.instructions/-arity/index.html">Arity</a> and some function that it can perform on <a href="../../nz.co.jedsimson.lgp.core.program.registers/-arguments/index.html">Arguments</a> given to it.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Operation</span><span class="symbol">&lt;</span><span class="identifier">TData</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<p>A primitive that encapsulates the action of executing a function on a set of arguments.</p>
 </td>
 </tr>
 <tr>
@@ -107,7 +106,7 @@ to provide custom functionality to the system.</p>
 <p><a href="../../nz.co.jedsimson.lgp.core.program/-program-generator/index.html">ProgramGenerator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program/-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ProgramGenerator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program/-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.program/-program-generator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>Generates <a href="../../nz.co.jedsimson.lgp.core.program/-program/index.html">Program</a> instances to be used in an LGP population.</p>
 </td>
 </tr>
@@ -122,10 +121,10 @@ to provide custom functionality to the system.</p>
 </tr>
 <tr>
 <td>
-<p><a href="../../nz.co.jedsimson.lgp.core.evolution.operators/-recombination-operator/index.html">RecombinationOperator</a></p>
+<p><a href="../../nz.co.jedsimson.lgp.core.evolution.operators.recombination/-recombination-operator/index.html">RecombinationOperator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">RecombinationOperator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.operators/-recombination-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">RecombinationOperator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.operators.recombination/-recombination-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.operators.recombination/-recombination-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A search operator used during evolution to combine two individuals from a population.</p>
 </td>
 </tr>
@@ -134,16 +133,16 @@ to provide custom functionality to the system.</p>
 <p><a href="../../nz.co.jedsimson.lgp.core.evolution/-result-aggregator/index.html">ResultAggregator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ResultAggregator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html"><span class="identifier">AutoCloseable</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ResultAggregator</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a><span class="symbol">, </span><a href="https://docs.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html"><span class="identifier">AutoCloseable</span></a></code>
 <p>A module that can collect <a href="../../nz.co.jedsimson.lgp.core.evolution/-exportable-result/index.html">ExportableResult</a> instances for later export from the system.</p>
 </td>
 </tr>
 <tr>
 <td>
-<p><a href="../../nz.co.jedsimson.lgp.core.evolution.operators/-selection-operator/index.html">SelectionOperator</a></p>
+<p><a href="../../nz.co.jedsimson.lgp.core.evolution.operators.selection/-selection-operator/index.html">SelectionOperator</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SelectionOperator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.operators/-selection-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SelectionOperator</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.operators.selection/-selection-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="../../nz.co.jedsimson.lgp.core.evolution.operators.selection/-selection-operator/index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Module</span></a></code>
 <p>A search operator used during evolution to select a subset of individuals from a population.</p>
 </td>
 </tr>

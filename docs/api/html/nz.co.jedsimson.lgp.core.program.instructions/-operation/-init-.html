@@ -8,19 +8,18 @@
 <a href="../index.html">nz.co.jedsimson.lgp.core.program.instructions</a>&nbsp;/&nbsp;<a href="index.html">Operation</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
 <br/>
 <h1>&lt;init&gt;</h1>
-<a name="nz.co.jedsimson.lgp.core.program.instructions.Operation$&lt;init&gt;(nz.co.jedsimson.lgp.core.program.instructions.Arity, kotlin.Function1((nz.co.jedsimson.lgp.core.program.registers.Arguments((nz.co.jedsimson.lgp.core.program.instructions.Operation.T)), )))"></a>
-<code><span class="identifier">Operation</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.program.instructions.Operation$<init>(nz.co.jedsimson.lgp.core.program.instructions.Arity, kotlin.Function1((nz.co.jedsimson.lgp.core.program.registers.Arguments((nz.co.jedsimson.lgp.core.program.instructions.Operation.T)), )))/arity">arity</span><span class="symbol">:</span>&nbsp;<a href="../-arity/index.html"><span class="identifier">Arity</span></a><span class="symbol">, </span><span class="identifier" id="nz.co.jedsimson.lgp.core.program.instructions.Operation$<init>(nz.co.jedsimson.lgp.core.program.instructions.Arity, kotlin.Function1((nz.co.jedsimson.lgp.core.program.registers.Arguments((nz.co.jedsimson.lgp.core.program.instructions.Operation.T)), )))/func">func</span><span class="symbol">:</span>&nbsp;<a href="../-function.html"><span class="identifier">Function</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
-<p>An operation has an <a href="../-arity/index.html">Arity</a> and some function that it can perform on <a href="../../nz.co.jedsimson.lgp.core.program.registers/-arguments/index.html">Arguments</a> given to it.</p>
+<a name="nz.co.jedsimson.lgp.core.program.instructions.Operation$&lt;init&gt;()"></a>
+<code><span class="identifier">Operation</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>A primitive that encapsulates the action of executing a function on a set of arguments.</p>
+<p>An operation is the composition of an <a href="../-arity/index.html">Arity</a> and some function that it can perform on <a href="../../nz.co.jedsimson.lgp.core.program.registers/-arguments/index.html">Arguments</a> given to it.</p>
 <p>Operations are specified as <a href="../../nz.co.jedsimson.lgp.core.modules/-module/index.html">Module</a>s, meaning that custom operations can be implemented and use
 when generating instructions for an individual in the population.</p>
-<p>Operations should have some representation with them, so that the operation that they convey can
+<p>It is generally expected that operations will be loaded using an <a href="../../nz.co.jedsimson.lgp.core.environment.operations/-operation-loader.html">OperationLoader</a>, but they could also be
+resolved using a <a href="../../nz.co.jedsimson.lgp.core.modules/-module-factory/index.html">ModuleFactory</a>, like other modules.</p>
+<p>Operations should have some representation associated with them, so that the action that they convey can
 be expressed in a textual form.</p>
 <h3>Parameters</h3>
-<p><a name="T"></a>
-<code>T</code> - Type of arguments that the operation operates on.</p>
-<p><a name="arity"></a>
-<code>arity</code> - How many arguments the operations function takes.</p>
-<p><a name="func"></a>
-<code>func</code> - A function mapping arguments to some value.</p>
+<p><a name="TData"></a>
+<code>TData</code> - Type of arguments that the operation operates on.</p>
 </BODY>
 </HTML>

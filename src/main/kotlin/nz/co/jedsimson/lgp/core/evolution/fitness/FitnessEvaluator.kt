@@ -48,14 +48,18 @@ class FitnessEvaluator<TData, TOutput : Output<TData>, TTarget : Target<TData>>(
     ): Evaluation<TData, TOutput> {
 
         // Request access to a fitness context implementation.
-        val context: FitnessContext<TData, TOutput, TTarget> = this.environment.moduleFactory.instance(CoreModuleType.FitnessContext)
+        val context = this.environment.moduleFactory.instance<FitnessContext<TData, TOutput, TTarget>>(
+            CoreModuleType.FitnessContext
+        )
+
+        val fitnessCases = dataset.inputs.zip(dataset.outputs).map { (features, target) ->
+            FitnessCase(features, target)
+        }
 
         // Use the context to evaluate this programs fitness
         val fitness = context.fitness(
             program = program,
-            fitnessCases = dataset.inputs.zip(dataset.outputs).map { (features, target) ->
-                FitnessCase(features, target)
-            }
+            fitnessCases = fitnessCases
         )
 
         return Evaluation(fitness, program)

@@ -76,6 +76,8 @@ task dokkaApiHtml(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputDirectory = "$buildDir/../docs/api/html"
 
     includes = [
+        'src/main/kotlin/nz/co/jedsimson/lgp/core/environment/README.md',
+        'src/main/kotlin/nz/co/jedsimson/lgp/core/evolution/README.md',
         'src/main/kotlin/nz/co/jedsimson/lgp/core/modules/README.md',
         'src/main/kotlin/nz/co/jedsimson/lgp/core/program/README.md'
     ]

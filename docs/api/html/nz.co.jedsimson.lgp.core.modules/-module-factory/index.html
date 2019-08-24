@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ModuleFactory - </title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">nz.co.jedsimson.lgp.core.modules</a>&nbsp;/&nbsp;<a href="./index.html">ModuleFactory</a><br/>
+<br/>
+<h1>ModuleFactory</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">ModuleFactory</span><span class="symbol">&lt;</span><span class="identifier">TProgram</span><span class="symbol">, </span><span class="identifier">TOutput</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.program/-output.html"><span class="identifier">Output</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">TTarget</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html"><span class="identifier">Target</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Facilitates access to modules that have been registered in a <a href="../-module-container/index.html">ModuleContainer</a>.</p>
+<p>The main goal is to separate the building of a module container (a public operation)
+and retrieving instances of a module.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">ModuleFactory</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.modules.ModuleFactory$<init>(nz.co.jedsimson.lgp.core.modules.ModuleContainer((nz.co.jedsimson.lgp.core.modules.ModuleFactory.TProgram, nz.co.jedsimson.lgp.core.modules.ModuleFactory.TOutput, nz.co.jedsimson.lgp.core.modules.ModuleFactory.TTarget)))/container">container</span><span class="symbol">:</span>&nbsp;<a href="../-module-container/index.html"><span class="identifier">ModuleContainer</span></a><span class="symbol">&lt;</span><a href="index.html#TProgram"><span class="identifier">TProgram</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TOutput"><span class="identifier">TOutput</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#TTarget"><span class="identifier">TTarget</span></a><span class="symbol">&gt;</span><span class="symbol">)</span></code>
+<p>Creates a new <a href="./index.html">ModuleFactory</a> with the given <a href="../-module-container/index.html">ModuleContainer</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="instance.html">instance</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">instance</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.modules.ModuleFactory$instance(nz.co.jedsimson.lgp.core.modules.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="instance.html#TModule"><span class="identifier">TModule</span></a></code>
+<p>Provides an instance of the <a href="../-module/index.html">Module</a> registered for the given <a href="instance.html#nz.co.jedsimson.lgp.core.modules.ModuleFactory$instance(nz.co.jedsimson.lgp.core.modules.RegisteredModuleType)/type">type</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="instance-unsafe.html">instanceUnsafe</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">TModule</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-module/index.html"><span class="identifier">Module</span></a><span class="symbol">&gt;</span> <span class="identifier">instanceUnsafe</span><span class="symbol">(</span><span class="identifier" id="nz.co.jedsimson.lgp.core.modules.ModuleFactory$instanceUnsafe(nz.co.jedsimson.lgp.core.modules.RegisteredModuleType)/type">type</span><span class="symbol">:</span>&nbsp;<a href="../-registered-module-type.html"><span class="identifier">RegisteredModuleType</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="instance-unsafe.html#TModule"><span class="identifier">TModule</span></a></code>
+<p>Provides an instance of the module <a href="instance-unsafe.html#nz.co.jedsimson.lgp.core.modules.ModuleFactory$instanceUnsafe(nz.co.jedsimson.lgp.core.modules.RegisteredModuleType)/type">type</a> given (for Java interoperability).</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
