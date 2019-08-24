@@ -3,7 +3,7 @@
 branch_name=$(echo $1 | sed -e 's/\//-/g')
 tag_name=$2
 now=$(date +%Y-%m-%d)
-version=$(gradle -q printVersion)
+version=$(./gradlew -q -Dorg.gradle.internal.launcher.welcomeMessageEnabled=false printVersion)
 release_branch_regex="^release.*$"
 feature_branch_regex="^feature.*$"
 
