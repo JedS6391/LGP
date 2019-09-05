@@ -5,7 +5,6 @@ import nz.co.jedsimson.lgp.core.environment.choice
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolver
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
-import nz.co.jedsimson.lgp.core.evolution.slice
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
 import nz.co.jedsimson.lgp.core.program.registers.RandomRegisterGenerator
@@ -103,7 +102,7 @@ internal object MicroMutationStrategies {
             // If the arity of the operations is the same, then nothing needs to be done.
             if (instruction.operands.size > operation.arity.number) {
                 // If we're going to a reduced arity instruction, we can just truncate the operands
-                instruction.operands = instruction.operands.slice(0 until operation.arity.number)
+                instruction.operands = instruction.operands.slice(0 until operation.arity.number).toMutableList()
             } else if (instruction.operands.size < operation.arity.number) {
                 // Otherwise, if we're increasing the arity, just add random input
                 // and calculation registers until the arity is met.

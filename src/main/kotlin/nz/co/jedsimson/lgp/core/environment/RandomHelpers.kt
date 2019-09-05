@@ -6,7 +6,9 @@ import kotlin.random.Random
  * Return a random element from the given list.
  */
 fun <T> Random.choice(list: List<T>): T {
-    return list[(this.nextDouble() * list.size).toInt()]
+    val randomMultiplier = this.nextDouble()
+
+    return list[(randomMultiplier * list.size).toInt()]
 }
 
 /**
