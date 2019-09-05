@@ -49,4 +49,4 @@ typealias SingleOutputFitnessFunction<TData> = FitnessFunction<TData, Outputs.Si
 /**
  * A [FitnessFunction] for [Program]s with multiple outputs.
  */
-typealias MultipleOutputFitnessFunction<TData> = FitnessFunction<TData, Outputs.Multiple<TData>, Targets.Single<TData>>
+typealias MultipleOutputFitnessFunction<TData> = FitnessFunction<TData, Outputs.Multiple<TData>, Targets.Multiple<TData>>
