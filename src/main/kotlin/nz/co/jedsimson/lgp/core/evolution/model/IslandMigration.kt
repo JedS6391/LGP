@@ -195,7 +195,7 @@ class IslandMigration<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
                 this.fitnessEvaluator.evaluate(individual, dataset)
             }.toList()
 
-            var best = initialEvaluations.sortedBy(Evaluation<TProgram, TOutput>::fitness).first()
+            var best = initialEvaluations.minBy(Evaluation<TProgram, TOutput>::fitness)!!
             this.bestIndividual = best.individual
 
             (0 until numGenerations).forEach { _ ->
@@ -268,7 +268,7 @@ class IslandMigration<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
             }
         }
 
-        var best = bestIndividuals.sortedBy(Program<TProgram, TOutput>::fitness).first()
+        var best = bestIndividuals.minBy(Program<TProgram, TOutput>::fitness)!!
 
         var individuals = mutableListOf<Program<TProgram, TOutput>>()
 
@@ -358,7 +358,7 @@ class IslandMigration<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
                 }
             }
 
-            bestIndividuals = mutableListOf<Program<TProgram, TOutput>>()
+            bestIndividuals = mutableListOf()
 
             (0 until this@IslandMigration.islands.rows()).map { row ->
                 (0 until this@IslandMigration.islands.columns()).map { col ->
@@ -366,13 +366,13 @@ class IslandMigration<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
 
                     val sortedIslandIndividuals = island.individuals.sortedBy { it.fitness }
 
-                    val best = sortedIslandIndividuals.first()
+                    val bestIndividual = sortedIslandIndividuals.first()
 
-                    bestIndividuals.add(best)
+                    bestIndividuals.add(bestIndividual)
                 }
             }
 
-            best = bestIndividuals.sortedBy(Program<TProgram, TOutput>::fitness).first()
+            best = bestIndividuals.minBy(Program<TProgram, TOutput>::fitness)!!
 
             statistics.add(this.statistics(generation, this.fitnessEvaluator.evaluate(best, dataset)))
 
@@ -380,7 +380,6 @@ class IslandMigration<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
 
         // We've reached the maximum number of generations, so choose the best individual from
         // all of the islands as our overall best.
-
         return EvolutionResult(best, individuals, statistics)
     }
 
