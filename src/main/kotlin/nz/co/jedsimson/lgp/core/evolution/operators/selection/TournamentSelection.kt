@@ -53,28 +53,35 @@ class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : 
 /**
  * A [SelectionOperator] implementation that selects individuals using Tournament Selection.
  *
- * The number of tournaments held is determined by the configuration parameter
- * [nz.co.jedsimson.lgp.core.environment.config.Configuration.numOffspring], meaning that `numOffspring`
- * individuals will be chosen from the population using tournaments of the given size.
+ * The number of tournaments held is determined by the configuration parameter [numberOfOffspring], meaning that many
+ * individuals will be chosen from the population using tournaments of the supplied [tournamentSize].
 
  * The size of the tournaments is determined by [tournamentSize]. Each winner of a tournament
  * is removed from the set of individuals selected to participate in the tournaments.
  *
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
+ * @property numberOfOffspring The number of offspring to select.
  * @see <a href="https://en.wikipedia.org/wiki/Tournament_selection"></a>
  */
 class TournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
-        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
-        private val tournamentSize: Int
+    environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    private val tournamentSize: Int,
+    private val numberOfOffspring: Int
 ) : SelectionOperator<TProgram, TOutput, TTarget>(environment) {
 
     private val random = this.environment.randomState
 
+    init {
+        if (numberOfOffspring >= this.environment.configuration.populationSize) {
+            throw IllegalArgumentException("Number of offspring must be less than the population size.")
+        }
+    }
+
     /**
-     * Selects individuals by performing 2 * `numOffspring` tournaments of size [tournamentSize].
+     * Selects individuals by performing 2 * [numberOfOffspring] tournaments of size [tournamentSize].
      */
     override fun select(population: MutableList<Program<TProgram, TOutput>>): List<Program<TProgram, TOutput>> {
-        return (0 until (2 * this.environment.configuration.numOffspring)).map {
+        return (0 until (2 * this.numberOfOffspring)).map {
             val result = tournament(population, this.random, this.tournamentSize)
 
             // TODO: Do we need to return a copy?
@@ -110,6 +117,10 @@ private fun <TProgram, TOutput : Output<TProgram>> tournament(
     replacement: Boolean = false
 ): TournamentResult<TProgram, TOutput> {
 
+    if (individuals.isEmpty()) {
+        throw IllegalArgumentException("Population has been exhausted while performing tournament.")
+    }
+
     var winner = random.choice(individuals)
 
     for (it in 0..tournamentSize - 2) {
@@ -120,8 +131,9 @@ private fun <TProgram, TOutput : Output<TProgram>> tournament(
         }
     }
 
-    if (!replacement)
+    if (!replacement) {
         individuals.remove(winner)
+    }
 
     // We return the original individual and a copy of it.
     return TournamentResult(winner, winner.copy())
