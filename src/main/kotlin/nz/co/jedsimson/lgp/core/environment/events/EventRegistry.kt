@@ -41,6 +41,7 @@ object EventRegistry {
     fun <TEvent : Event> register(eventClass: KClass<out TEvent>, listener: EventListener<TEvent>) {
         val eventListeners = listeners.getOrPut(eventClass) { ArrayList() }
 
+        @Suppress("UNCHECKED_CAST")
         eventListeners.add(listener as EventListener<Event>)
     }
 }

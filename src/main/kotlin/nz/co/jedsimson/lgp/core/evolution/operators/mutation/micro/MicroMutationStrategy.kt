@@ -3,6 +3,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.choice
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolver
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.program.Output
@@ -36,6 +37,10 @@ internal object MicroMutationStrategies {
         private val random = this.environment.randomState
 
         override fun mutate(individual: Program<TProgram, TOutput>) {
+            Diagnostics.debug("RegisterMicroMutation-start", mapOf(
+                "individual" to individual
+            ))
+
             val instruction = this.random.choice(individual.effectiveInstructions)
             val registerPositions = mutableListOf(instruction.destination) + instruction.operands
 
@@ -72,6 +77,10 @@ internal object MicroMutationStrategies {
 
                 instruction.operands[operand] = replacementRegister.index
             }
+
+            Diagnostics.debug("RegisterMicroMutation-end", mapOf(
+                "individual" to individual
+            ))
         }
     }
 
@@ -93,6 +102,10 @@ internal object MicroMutationStrategies {
         private val operations = this.environment.operations
 
         override fun mutate(individual: Program<TProgram, TOutput>) {
+            Diagnostics.debug("OperatorMicroMutation-start", mapOf(
+                "individual" to individual
+            ))
+
             val instruction = this.random.choice(individual.effectiveInstructions)
 
             // 4. If operator mutation then select a different instruction operation randomly
@@ -122,6 +135,10 @@ internal object MicroMutationStrategies {
             }
 
             instruction.operation = operation
+
+            Diagnostics.debug("OperatorMicroMutation-end", mapOf(
+                "individual" to individual
+            ))
         }
     }
 
@@ -142,6 +159,10 @@ internal object MicroMutationStrategies {
         private val random = this.environment.randomState
 
         override fun mutate(individual: Program<TProgram, TOutput>) {
+            Diagnostics.debug("ConstantMicroMutation-start", mapOf(
+                "individual" to individual
+            ))
+
             // 5. If constant mutation then
             // (a) Randomly select an (effective) instruction with a constant c.
             // Unfortunately the way of searching for an instruction that uses a constant is not
@@ -184,7 +205,10 @@ internal object MicroMutationStrategies {
                 // TODO: Perhaps better to keep original constants for diversity?
                 individual.registers.overwrite(register, newValue)
             }
-        }
 
+            Diagnostics.debug("ConstantMicroMutation-end", mapOf(
+                "individual" to individual
+            ))
+        }
     }
 }

@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.recombination
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
 import nz.co.jedsimson.lgp.core.environment.randInt
 import nz.co.jedsimson.lgp.core.evolution.copy
 import nz.co.jedsimson.lgp.core.evolution.removeRange
@@ -52,6 +53,11 @@ class LinearCrossover<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
             )
         }
 
+        Diagnostics.debug("LinearCrossover-start", mapOf(
+            "mother" to mother,
+            "father" to father
+        ))
+
         // First make sure that the mother is shorter than the father, since we are treating the mother as gp[1]
         // and the father as gp[2]. We also take a copy to ensure that the mother and father stay unmodified until the end of the operation.
         var firstIndividual = mother.instructions.copy()
@@ -93,6 +99,13 @@ class LinearCrossover<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
         // changes made using linear crossover.
         mother.instructions = firstNewIndividual
         father.instructions = secondNewIndividual
+
+        Diagnostics.debug("LinearCrossover-end", mapOf(
+            "crossoverPoints" to crossoverPoints,
+            "segments" to segments,
+            "mother" to mother,
+            "father" to father
+        ))
     }
 
     private fun determineCrossoverPoints(

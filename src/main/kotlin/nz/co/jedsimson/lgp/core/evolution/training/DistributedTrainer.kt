@@ -8,6 +8,7 @@ import kotlinx.coroutines.channels.consumeEach
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel
@@ -112,9 +113,11 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
     // each model can have its own environment. This is necessary for providing
     // deterministic runs when using a fixed seed, otherwise there will be contention
     // issues between a single environments RNG (e.g. non-deterministic request order)
-    private val models = (0 until runs).map {
-        this.model.deepCopy()
-    }.toList()
+    private val models by lazy {
+        (0 until runs).map {
+            this.model.deepCopy()
+        }.toList()
+    }
 
     private val aggregator: ResultAggregator<TProgram> = this.environment.resultAggregator
 
@@ -141,9 +144,13 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
          */
         override fun call(): EvolutionResult<TProgram, TOutput> {
             // Give this trainer a unique name
-            Thread.currentThread().name = "trainer-$run"
+            Thread.currentThread().name = "trainer-${run + 1}"
+
+            Diagnostics.trace("DistributedTrainer:ModelTrainerTask:start-run-${run + 1}")
 
             val result = this.model.train(this.dataset)
+
+            Diagnostics.trace("DistributedTrainer:ModelTrainerTask:end-run-${run + 1}")
 
             // Aggregate results for this thread.
             val generationalResults = result.statistics.map { generation ->

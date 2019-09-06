@@ -3,6 +3,7 @@ package nz.co.jedsimson.lgp.core.evolution.model
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
 import nz.co.jedsimson.lgp.core.evolution.fitness.Evaluation
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessEvaluator
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
@@ -46,16 +47,22 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
     }
 
     override fun train(dataset: Dataset<TProgram, TTarget>): EvolutionResult<TProgram, TOutput> {
+        Diagnostics.trace("SteadyState:train-start")
+
         val rg = this.environment.randomState
 
         // Roughly follows Algorithm 2.1 in Linear Genetic Programming (Brameier. M, Banzhaf W.)
         // 1. Initialise a population of random programs
-        this.initialise()
+        Diagnostics.traceWithTime("SteadyState:train-initialise") {
+            this.initialise()
+        }
 
         // Determine the initial fitness of the individuals in the population
-        val initialEvaluations = this.individuals.map { individual ->
-            this.fitnessEvaluator.evaluate(individual, dataset)
-        }.toList()
+        val initialEvaluations = Diagnostics.traceWithTime("SteadyState:train-initial-evaluations") {
+            this.individuals.map { individual ->
+                this.fitnessEvaluator.evaluate(individual, dataset)
+            }.toList()
+        }
 
         var best = initialEvaluations.minBy(Evaluation<TProgram, TOutput>::fitness)
             ?: throw NoSuchElementException("No individuals in the initial evaluation list.")
@@ -64,8 +71,14 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
         val statistics = mutableListOf<EvolutionStatistics>()
 
         (0 until this.environment.configuration.generations).forEach { generation ->
+            Diagnostics.trace("SteadyState:train-generation-$generation")
+
             // Stop early whenever we can.
             if (best.fitness <= this.environment.configuration.stoppingCriterion) {
+                Diagnostics.debug("SteadyState:train-early-exit", mapOf(
+                    "best" to best
+                ))
+
                 // Make sure to add at least one set of statistics.
                 statistics.add(this.statistics(generation, best))
 
@@ -74,32 +87,46 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
                 return EvolutionResult(best.individual, this.individuals, statistics)
             }
 
-            val children = this.select.select(this.individuals)
+            val children = Diagnostics.traceWithTime("SteadyState:train-selection") {
+                this.select.select(this.individuals)
+            }
 
             children.pairwise().map { (mother, father) ->
                 // Combine mother and father with some prob.
                 if (rg.nextDouble() < this.environment.configuration.crossoverRate) {
-                    this.combine.combine(mother, father)
+                    Diagnostics.traceWithTime("SteadyState:train-recombination") {
+                        this.combine.combine(mother, father)
+                    }
                 }
 
                 // Mutate mother or father (or both) with some prob.
                 if (rg.nextDouble() < this.environment.configuration.microMutationRate) {
-                    this.microMutate.mutate(mother)
+                    Diagnostics.traceWithTime("SteadyState:train-micro-mutate-mother") {
+                        this.microMutate.mutate(mother)
+                    }
                 } else if (rg.nextDouble() < this.environment.configuration.macroMutationRate) {
-                    this.macroMutate.mutate(mother)
+                    Diagnostics.traceWithTime("SteadyState:train-macro-mutate-mother") {
+                        this.macroMutate.mutate(mother)
+                    }
                 }
 
                 if (rg.nextDouble() < this.environment.configuration.microMutationRate) {
-                    this.microMutate.mutate(father)
+                    Diagnostics.traceWithTime("SteadyState:train-micro-mutate-father") {
+                        this.microMutate.mutate(father)
+                    }
                 } else if (rg.nextDouble() < this.environment.configuration.macroMutationRate) {
-                    this.macroMutate.mutate(father)
+                    Diagnostics.traceWithTime("SteadyState:train-macro-mutate-father") {
+                        this.macroMutate.mutate(father)
+                    }
                 }
             }
 
             // TODO: Do validation step
-            val evaluations = children.map { individual ->
-                this.fitnessEvaluator.evaluate(individual, dataset)
-            }.sortedBy(Evaluation<TProgram, TOutput>::fitness)
+            val evaluations = Diagnostics.traceWithTime("SteadyState:train-children-evaluations") {
+                children.map { individual ->
+                    this.fitnessEvaluator.evaluate(individual, dataset)
+                }.sortedBy(Evaluation<TProgram, TOutput>::fitness)
+            }
 
             val bestChild = evaluations.first()
 
@@ -114,6 +141,8 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
         }
 
         this.bestProgram = best.individual
+
+        Diagnostics.trace("SteadyState:train-end")
 
         return EvolutionResult(best.individual, this.individuals, statistics)
     }

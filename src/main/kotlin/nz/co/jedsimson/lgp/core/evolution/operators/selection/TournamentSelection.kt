@@ -28,15 +28,16 @@ class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : 
 ) : SelectionOperator<TProgram, TOutput, TTarget>(environment) {
 
     private val random = this.environment.randomState
+    private val sampleSize = 2 * this.tournamentSize
 
     /**
      * Selects two individuals from the population given using tournament selection.
      */
     override fun select(population: MutableList<Program<TProgram, TOutput>>): List<Program<TProgram, TOutput>> {
         // Select individuals from the population without replacement.
-        val selected = random.sample(population, 2 * this.tournamentSize).toMutableList()
+        val selected = random.sample(population, this.sampleSize).toMutableList()
 
-        // Perform two fitness tournaments of size tournamentSize.
+        // Perform two fitness tournaments of given tournament size.
         return (0..1).map {
             val (original, winner) = tournament(selected, this.random, this.tournamentSize)
 
@@ -72,8 +73,8 @@ class TournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : Target
     private val random = this.environment.randomState
 
     init {
-        if (numberOfOffspring >= this.environment.configuration.populationSize) {
-            throw IllegalArgumentException("Number of offspring must be less than the population size.")
+        require(numberOfOffspring < this.environment.configuration.populationSize) {
+            "Number of offspring must be less than the population size."
         }
     }
 
@@ -117,9 +118,7 @@ private fun <TProgram, TOutput : Output<TProgram>> tournament(
     replacement: Boolean = false
 ): TournamentResult<TProgram, TOutput> {
 
-    if (individuals.isEmpty()) {
-        throw IllegalArgumentException("Population has been exhausted while performing tournament.")
-    }
+    require(individuals.isNotEmpty()) { "Population has been exhausted while performing tournament." }
 
     var winner = random.choice(individuals)
 

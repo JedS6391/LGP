@@ -150,9 +150,10 @@ internal class CachingModuleFactory<TProgram, TOutput : Output<TProgram>, TTarge
     private val instanceCache = mutableMapOf<RegisteredModuleType, Module>()
 
     override fun resolveModuleFromType(type: RegisteredModuleType): Module {
-        if (type in instanceCache)
+        if (type in instanceCache) {
             return instanceCache[type]!!
-
+        }
+        
         val moduleBuilder = this.container.modules[type]
                 ?: throw MissingModuleException("No module builder registered for $type.")
 

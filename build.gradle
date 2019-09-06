@@ -69,7 +69,6 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
 }
 
-
 // Dokka tasks
 task dokkaApiHtml(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = 'html'
