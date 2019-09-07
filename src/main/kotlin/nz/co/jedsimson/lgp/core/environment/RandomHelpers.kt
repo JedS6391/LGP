@@ -1,5 +1,8 @@
 package nz.co.jedsimson.lgp.core.environment
 
+import kotlin.math.ceil
+import kotlin.math.ln
+import kotlin.math.pow
 import kotlin.random.Random
 
 /**
@@ -30,7 +33,7 @@ fun Random.randInt(min: Int, max: Int): Int {
 fun <T> Random.sample(population: List<T>, k: Int): List<T> {
 
     val n = population.size
-    val log = { a: Double, b: Double -> (Math.log(a) / Math.log(b)) }
+    val log = { a: Double, b: Double -> (ln(a) / ln(b)) }
 
     if (k < 0 || k > n) {
         throw IllegalArgumentException("Negative sample or sample larger than population given.")
@@ -46,9 +49,9 @@ fun <T> Random.sample(population: List<T>, k: Int): List<T> {
     var setSize = 21
 
     if (k > 5) {
-        val power = Math.ceil(log((k * 3).toDouble(), 4.0))
+        val power = ceil(log((k * 3).toDouble(), 4.0))
 
-        setSize += Math.pow(4.0, power).toInt()
+        setSize += 4.0.pow(power).toInt()
     }
 
     if (n <= setSize) {
