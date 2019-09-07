@@ -106,6 +106,17 @@ internal object Diagnostics {
     }
 }
 
+/**
+ * Provides a default [DiagnosticEventContext] that can be supplemented with additional contextual information.
+ *
+ * The default information provided is:
+ *   - Timestamp
+ *   - Thread ID
+ *   - Thread name
+ *   - Stack trace
+ *
+ * @return A [DiagnosticEventContext] with a default set of contextual information.
+ */
 private fun defaultContext(): DiagnosticEventContext {
     return mapOf(
         "timestamp" to LocalDateTime.now(),
@@ -115,6 +126,9 @@ private fun defaultContext(): DiagnosticEventContext {
     )
 }
 
+/**
+ * Converts a stack trace to a string, excluding some unnecessary elements.
+ */
 private fun Array<StackTraceElement>.asString(): String {
     val sb = StringBuilder()
 
@@ -129,6 +143,12 @@ private fun Array<StackTraceElement>.asString(): String {
     return sb.toString()
 }
 
+/**
+ * Measures the time taken to perform [action] in nano-seconds, and returns the result of [action].
+ *
+ * @param action An action to measure.
+ * @return A pair containing the time taken to execute [action] and the result of executing [action].
+ */
 private fun <T> measureNanoTimeWithResult(action: () -> T): Pair<Long, T> {
     val start = System.nanoTime()
     val result = action()
