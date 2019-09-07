@@ -14,31 +14,32 @@ typealias DiagnosticEventContext = Map<String, Any>
 /**
  * Defines an event for diagnostic information.
  *
+ * @property key A key to describe the event (e.g. Component:action-performed).
  * @property context Contextual information from when/where this event was raised.
  */
-sealed class DiagnosticEvent(val context: DiagnosticEventContext) : Event() {
+sealed class DiagnosticEvent(val key: String, val context: DiagnosticEventContext) : Event() {
 
     /**
      * Defines a diagnostic event that provides debug information.
      *
-     * @property message A message detailing the event.
+     * @param key A key to describe the event.
      * @param context Optional contextual information from when/where this event was raised.
      */
-    class Debug(val message: String, context: DiagnosticEventContext = mapOf()) : DiagnosticEvent(defaultContext() + context) {
+    class Debug(key: String, context: DiagnosticEventContext = mapOf()) : DiagnosticEvent(key, defaultContext() + context) {
         override fun toString(): String {
-            return "Debug($message, $context)"
+            return "Debug($key, $context)"
         }
     }
 
     /**
      * Defines a diagnostic event that provides trace information.
      *
-     * @property message A message detailing the event.
+     * @param key A key to describe the event.
      * @param context Optional contextual information from when/where this event was raised.
      */
-    class Trace(val message: String, context: DiagnosticEventContext = mapOf()): DiagnosticEvent(defaultContext() + context) {
+    class Trace(key: String, context: DiagnosticEventContext = mapOf()): DiagnosticEvent(key, defaultContext() + context) {
         override fun toString(): String {
-            return "Trace($message, $context)"
+            return "Trace($key, $context)"
         }
     }
 }
