@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.verify
 import nz.co.jedsimson.lgp.core.environment.events.Event
 import nz.co.jedsimson.lgp.core.environment.events.EventDispatcher
 import nz.co.jedsimson.lgp.core.environment.events.EventListener
+import nz.co.jedsimson.lgp.core.environment.events.EventRegistry
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 
@@ -16,7 +17,7 @@ object EventsFeature : Spek({
         Scenario("Event listeners can be registered") {
 
             Given("An event listener is registered") {
-                EventDispatcher.register(object : EventListener<TestEvent> {
+                EventRegistry.register(object : EventListener<TestEvent> {
                     override fun handle(event: TestEvent) {
                         println(event.identifier)
                     }
@@ -24,13 +25,13 @@ object EventsFeature : Spek({
             }
 
             Then("The event dispatcher has a single event listener registered") {
-                val numberOfListeners = EventDispatcher.numberOfListeners
+                val numberOfListeners = EventRegistry.numberOfListeners
 
                 assert(numberOfListeners == 1) { "Expected 1 listener but got $numberOfListeners"}
             }
 
             Given("An event listener is registered") {
-                EventDispatcher.register(object : EventListener<TestEvent> {
+                EventRegistry.register(object : EventListener<TestEvent> {
                     override fun handle(event: TestEvent) {
                         println(event.identifier)
                     }
@@ -38,7 +39,7 @@ object EventsFeature : Spek({
             }
 
             Then("The event dispatcher has two event listeners registered") {
-                val numberOfListeners = EventDispatcher.numberOfListeners
+                val numberOfListeners = EventRegistry.numberOfListeners
 
                 assert(numberOfListeners == 2) { "Expected 2 listeners but got $numberOfListeners"}
             }
@@ -48,7 +49,7 @@ object EventsFeature : Spek({
             val listener = mock<EventListener<TestEvent>>()
 
             Given("An event listener is registered") {
-                EventDispatcher.register(listener)
+                EventRegistry.register(listener)
             }
 
             When("An event that the listener is not listening for is dispatched") {
@@ -74,9 +75,9 @@ object EventsFeature : Spek({
             val listener3 = mock<EventListener<SecondaryTestEvent>>()
 
             Given("Multiple event listeners are registered") {
-                EventDispatcher.register(listener1)
-                EventDispatcher.register(listener2)
-                EventDispatcher.register(listener3)
+                EventRegistry.register(listener1)
+                EventRegistry.register(listener2)
+                EventRegistry.register(listener3)
             }
 
             When("An event that the listeners are listening for is dispatched") {
@@ -95,8 +96,8 @@ object EventsFeature : Spek({
             val listener2 = mock<EventListener<SecondaryTestEvent>>()
 
             Given("Multiple event listeners are registered") {
-                EventDispatcher.register(listener1)
-                EventDispatcher.register(listener2)
+                EventRegistry.register(listener1)
+                EventRegistry.register(listener2)
             }
 
             When("An event that each listener is listening for is dispatched") {

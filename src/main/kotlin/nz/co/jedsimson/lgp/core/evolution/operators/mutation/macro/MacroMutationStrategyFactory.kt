@@ -7,7 +7,6 @@ import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationSt
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.program.Program
-import java.lang.IllegalStateException
 
 private enum class MacroMutationType {
     Insertion,
@@ -57,6 +56,8 @@ internal class MacroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>
         }
 
         // This shouldn't happen.
-        throw IllegalStateException("Unexpected macro-mutation strategy criteria.")
+        throw IllegalArgumentException(
+            "The provided individual is not suitable for any of the built-in macro-mutation strategies."
+        )
     }
 }

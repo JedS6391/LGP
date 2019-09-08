@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
@@ -24,10 +25,10 @@ import java.lang.IllegalArgumentException
  * @constructor Creates a new [MacroMutationOperator] with the given [environment], [insertionRate], [deletionRate], and [mutationStrategyFactory].
  */
 class MacroMutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
-        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
-        private val insertionRate: Double,      // p_ins
-        private val deletionRate: Double,       // p_del
-        private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput, TTarget>
+    environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    private val insertionRate: Double,      // p_ins
+    private val deletionRate: Double,       // p_del
+    private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput, TTarget>
 ) : MutationOperator<TProgram, TOutput, TTarget>(environment) {
 
     init {
@@ -60,11 +61,15 @@ class MacroMutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Targ
     override fun mutate(individual: Program<TProgram, TOutput>) {
         // Make sure the individuals effective program is found before mutating, since
         // we need it to perform effective mutations.
-        individual.findEffectiveProgram()
+        Diagnostics.traceWithTime("MacroMutationOperator:find-effective-program") {
+            individual.findEffectiveProgram()
+        }
 
         val mutationStrategy = this.mutationStrategyFactory.getStrategyForIndividual(individual)
 
-        mutationStrategy.mutate(individual)
+        Diagnostics.traceWithTime("MacroMutationOperator:mutation-strategy-execution") {
+            mutationStrategy.mutate(individual)
+        }
     }
 
     override val information = ModuleInformation("Algorithm 6.1 ((effective) instruction mutation).")

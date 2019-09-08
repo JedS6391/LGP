@@ -1,11 +1,8 @@
 package nz.co.jedsimson.lgp.core.evolution.training
 
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
@@ -26,6 +23,7 @@ import nz.co.jedsimson.lgp.core.evolution.training.TrainingMessages.ProgressUpda
  * @param trainingUpdateChannel A channel that can be used to communicate from the trainer to subscribers.
  * @param training A deferred training result.
  */
+@ExperimentalCoroutinesApi
 class SequentialTrainingJob<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>> internal constructor(
     private val trainingUpdateChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>,
     private val training: Deferred<TrainingResult<TProgram, TOutput, TTarget>>
@@ -69,6 +67,7 @@ class SequentialTrainingJob<TProgram, TOutput : Output<TProgram>, TTarget : Targ
  *
  * @property runs The number of times to train the given model.
  */
+@ExperimentalCoroutinesApi
 class SequentialTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
     environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
     model: EvolutionModel<TProgram, TOutput, TTarget>,

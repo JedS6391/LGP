@@ -3,6 +3,7 @@ package nz.co.jedsimson.lgp.core.environment
 import nz.co.jedsimson.lgp.core.environment.config.*
 import nz.co.jedsimson.lgp.core.environment.constants.ConstantLoader
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
 import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregators
@@ -49,8 +50,13 @@ data class EnvironmentSpecification<TProgram, TOutput : Output<TProgram>, TTarge
  *
  * After an environment is built and all components are resolved, it can be used to initiate the core
  * evolution process of LGP.
+ *
+ * @param specification A specification for an [Environment].
+ * @constructor Builds an [Environment] from the given [EnvironmentSpecification].
  */
-class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>
+class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    private val specification: EnvironmentSpecification<TProgram, TOutput, TTarget>
+)
     : EnvironmentFacade<TProgram, TOutput, TTarget> {
 
     // These dependencies are generally initialised when the environment is constructed.
@@ -71,23 +77,7 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
     override lateinit var operations: List<Operation<TProgram>>
     override lateinit var registerSet: RegisterSet<TProgram>
     override val resultAggregator: ResultAggregator<TProgram>
-    override var moduleFactory: ModuleFactory<TProgram, TOutput, TTarget>
-
-    /**
-     * Builds an [Environment] from the given [EnvironmentSpecification].
-     *
-     * @param specification A specification for an [Environment].
-     */
-    constructor(specification: EnvironmentSpecification<TProgram, TOutput, TTarget>)
-        : this(
-            specification.configurationLoader,
-            specification.constantLoader,
-            specification.operationLoader,
-            specification.defaultValueProvider,
-            specification.fitnessFunctionProvider,
-            specification.resultAggregator,
-            specification.randomStateSeed
-        )
+    override lateinit var moduleFactory: ModuleFactory<TProgram, TOutput, TTarget>
 
     /**
      * Builds an environment with the specified construction components.
@@ -109,15 +99,27 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
         fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>,
         resultAggregator: ResultAggregator<TProgram>? = null,
         randomStateSeed: Long? = null
-    ) {
-        this.configurationLoader = configurationLoader
-        this.constantLoader = constantLoader
-        this.operationLoader = operationLoader
-        this.defaultValueProvider = defaultValueProvider
-        this.fitnessFunctionProvider = fitnessFunctionProvider
-        this.randomStateSeed = randomStateSeed
+    ) : this(EnvironmentSpecification(
+        configurationLoader = configurationLoader,
+        constantLoader = constantLoader,
+        operationLoader = operationLoader,
+        defaultValueProvider = defaultValueProvider,
+        fitnessFunctionProvider = fitnessFunctionProvider,
+        resultAggregator = resultAggregator,
+        randomStateSeed = randomStateSeed
+    ))
+
+    init {
+        Diagnostics.trace("Environment:construction-start")
+
+        this.configurationLoader = this.specification.configurationLoader
+        this.constantLoader = this.specification.constantLoader
+        this.operationLoader = this.specification.operationLoader
+        this.defaultValueProvider = this.specification.defaultValueProvider
+        this.fitnessFunctionProvider = this.specification.fitnessFunctionProvider
+        this.randomStateSeed = this.specification.randomStateSeed
         // If no result aggregator is provided then use the default aggregator which doesn't collect results.
-        this.resultAggregator = resultAggregator ?: ResultAggregators.DefaultResultAggregator()
+        this.resultAggregator = this.specification.resultAggregator ?: ResultAggregators.DefaultResultAggregator()
 
         // Determine whether we need to seed the RNG or not.
         when (this.randomStateSeed) {
@@ -130,14 +132,26 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
         this.moduleFactory = CachingModuleFactory(this.container)
 
         // Kick off initialisation
-        this.initialise()
+        Diagnostics.traceWithTime("Environment:initialise") {
+            this.initialise()
+        }
+
+        Diagnostics.trace("Environment:construction-end")
     }
 
     private fun initialise() {
         // Load the components each loader is responsible for.
-        this.configuration = this.configurationLoader.load()
-        this.constants = this.constantLoader.load()
-        this.operations = this.operationLoader.load()
+        this.configuration = Diagnostics.traceWithTime("Environment:initialise-configuration") {
+            this.configurationLoader.load()
+        }
+
+        this.constants = Diagnostics.traceWithTime("Environment:initialise-constants") {
+            this.constantLoader.load()
+        }
+
+        this.operations = Diagnostics.traceWithTime("Environment:initialise-operations") {
+            this.operationLoader.load()
+        }
 
         // Early exit if the configuration provided is invalid
         when (val configValidity = this.configuration.isValid()) {
@@ -146,7 +160,9 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
         }
 
         // TODO: Instead of initialising, allow user to register?
-        this.initialiseRegisterSet()
+        Diagnostics.traceWithTime("Environment:initialise-register-set") {
+            this.initialiseRegisterSet()
+        }
 
         // Make sure the modules have access to this environment.
         this.container.environment = this

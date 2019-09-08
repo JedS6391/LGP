@@ -1,16 +1,14 @@
 package nz.co.jedsimson.lgp.core.evolution.training
 
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel
@@ -32,6 +30,7 @@ import java.util.concurrent.Executors
  * @param models The set of models that are being trained, used in the final result.
  * @param aggregator The [ResultAggregator] used by the [DistributedTrainer].
  */
+@ExperimentalCoroutinesApi
 class DistributedTrainingJob<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>> internal constructor(
     private val trainingUpdateChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>,
     private val trainers: List<Deferred<EvolutionResult<TProgram, TOutput>>>,
@@ -102,6 +101,8 @@ class DistributedTrainingJob<TProgram, TOutput : Output<TProgram>, TTarget : Tar
  *
  *  @property runs The number of times to train the given model.
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
     environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
     model: EvolutionModel<TProgram, TOutput, TTarget>,
@@ -112,24 +113,26 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
     // each model can have its own environment. This is necessary for providing
     // deterministic runs when using a fixed seed, otherwise there will be contention
     // issues between a single environments RNG (e.g. non-deterministic request order)
-    private val models = (0 until runs).map {
-        this.model.deepCopy()
-    }.toList()
+    private val models by lazy {
+        (0 until runs).map {
+            this.model.deepCopy()
+        }.toList()
+    }
 
     private val aggregator: ResultAggregator<TProgram> = this.environment.resultAggregator
 
-    // We use an ExecutorService to execute the runs in different threads.
+    // We use an ExecutorService to execute the runs in different threads when training synchronously.
     private val executor = Executors.newFixedThreadPool(runs)
 
     /**
-     * Encapsulates the training of a model so it can be executed by an [ExecutorService] implementation.
+     * Encapsulates the training of a model so it can be executed by an executor.
      *
      * @param model An [EvolutionModel] instance that will be trained.
      * @param dataset The [Dataset] instance that will be used to train the model.
      *
      * @suppress
      */
-    class ModelTrainerTask<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
+    private class ModelTrainerTask<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
         private val run: Int,
         private val model: EvolutionModel<TProgram, TOutput, TTarget>,
         private val dataset: Dataset<TProgram, TTarget>,
@@ -141,9 +144,13 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
          */
         override fun call(): EvolutionResult<TProgram, TOutput> {
             // Give this trainer a unique name
-            Thread.currentThread().name = "trainer-$run"
+            Thread.currentThread().name = "trainer-${run + 1}"
+
+            Diagnostics.trace("DistributedTrainer:ModelTrainerTask:start-run-${run + 1}")
 
             val result = this.model.train(this.dataset)
+
+            Diagnostics.trace("DistributedTrainer:ModelTrainerTask:end-run-${run + 1}")
 
             // Aggregate results for this thread.
             val generationalResults = result.statistics.map { generation ->
@@ -210,7 +217,7 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
 
         // Fire off all of the training co-routines.
         val jobs = this.models.mapIndexed { run, model ->
-            initialiseTrainingJob(run, model, dataset, progressActor)
+            initialiseTrainingJobAsync(run, model, dataset, progressActor)
         }
 
         return DistributedTrainingJob(progressChannel, jobs, this.models, this.aggregator)
@@ -241,7 +248,7 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
      * @param dataset The training dataset.
      * @param progressActor An actor that co-ordinates training progress update messages.
      */
-    private fun initialiseTrainingJob(
+    private fun initialiseTrainingJobAsync(
         run: Int,
         model: EvolutionModel<TProgram, TOutput, TTarget>,
         dataset: Dataset<TProgram, TTarget>,
@@ -273,6 +280,7 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
  * @param totalRuns The total number of training runs (i.e. trainers).
  * @param progressChannel A channel to communicate training progress updates to subscribers on.
  */
+@ExperimentalCoroutinesApi
 private class TrainingProgressUpdateActor<TProgram, TOutput : Output<TProgram>>(
     private val totalRuns: Int,
     private val progressChannel: ConflatedBroadcastChannel<ProgressUpdate<TProgram, TOutput>>

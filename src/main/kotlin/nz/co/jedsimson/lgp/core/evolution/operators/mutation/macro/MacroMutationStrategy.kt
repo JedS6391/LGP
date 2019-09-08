@@ -3,6 +3,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation.macro
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.choice
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
 import nz.co.jedsimson.lgp.core.environment.randInt
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.EffectiveCalculationRegisterResolver
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
@@ -33,6 +34,10 @@ internal object MacroMutationStrategies {
         )
 
         override fun mutate(individual: Program<TProgram, TOutput>) {
+            Diagnostics.debug("MacroMutationInsert-start", mapOf(
+                "individual" to individual
+            ))
+
             val programLength = individual.instructions.size
 
             // 2. Randomly select an instruction at a position i (mutation point) in program gp.
@@ -52,6 +57,10 @@ internal object MacroMutationStrategies {
 
                 individual.instructions.add(mutationPoint, instruction)
             }
+
+            Diagnostics.debug("MacroMutationInsert-end", mapOf(
+                "individual" to individual
+            ))
         }
     }
 
@@ -67,6 +76,10 @@ internal object MacroMutationStrategies {
         private val random = this.environment.randomState
 
         override fun mutate(individual: Program<TProgram, TOutput>) {
+            Diagnostics.debug("MacroMutationDelete-start", mapOf(
+                "individual" to individual
+            ))
+
             // 4.
             // (a) Select an effective instruction i (if existent)
             if (individual.effectiveInstructions.isNotEmpty()) {
@@ -75,6 +88,10 @@ internal object MacroMutationStrategies {
                 // (b) Delete instruction i
                 individual.instructions.remove(instruction)
             }
+
+            Diagnostics.debug("MacroMutationDelete-end", mapOf(
+                "individual" to individual
+            ))
         }
     }
 }
