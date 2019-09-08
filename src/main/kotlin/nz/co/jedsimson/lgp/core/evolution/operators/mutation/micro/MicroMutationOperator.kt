@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.evolution.operators.mutation.micro
 
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.MutationOperator
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategy
 import nz.co.jedsimson.lgp.core.evolution.operators.mutation.strategy.MutationStrategyFactory
@@ -24,11 +25,11 @@ import nz.co.jedsimson.lgp.core.program.Program
  * @constructor Creates a new [MicroMutationOperator] with the given [environment], [registerMutationRate], [operatorMutationRate], [constantMutationFunc], and [mutationStrategyFactory].
  */
 class MicroMutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
-        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
-        private val registerMutationRate: Double,
-        private val operatorMutationRate: Double,
-        private val constantMutationFunc: ConstantMutationFunction<TProgram>,
-        private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput, TTarget>
+    environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    private val registerMutationRate: Double,
+    private val operatorMutationRate: Double,
+    private val constantMutationFunc: ConstantMutationFunction<TProgram>,
+    private val mutationStrategyFactory: MutationStrategyFactory<TProgram, TOutput, TTarget>
 ) : MutationOperator<TProgram, TOutput, TTarget>(environment) {
 
     init {
@@ -45,10 +46,10 @@ class MicroMutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Targ
      * The [MicroMutationOperator] will use the default mutation strategy factory ([MicroMutationStrategyFactory]).
      */
     constructor(
-            environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
-            registerMutationRate: Double,
-            operatorMutationRate: Double,
-            constantMutationFunc: ConstantMutationFunction<TProgram>
+        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+        registerMutationRate: Double,
+        operatorMutationRate: Double,
+        constantMutationFunc: ConstantMutationFunction<TProgram>
     ) : this(
         environment,
         registerMutationRate,
@@ -67,7 +68,9 @@ class MicroMutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Targ
      */
     override fun mutate(individual: Program<TProgram, TOutput>) {
         // 1. Randomly select an (effective) instruction from program gp.
-        individual.findEffectiveProgram()
+        Diagnostics.traceWithTime("MicroMutationOperator:find-effective-program") {
+            individual.findEffectiveProgram()
+        }
 
         // Can't do anything if there are no effective instructions
         if (individual.effectiveInstructions.isEmpty()) {
@@ -76,7 +79,9 @@ class MicroMutationOperator<TProgram, TOutput : Output<TProgram>, TTarget : Targ
 
         val mutationStrategy = this.mutationStrategyFactory.getStrategyForIndividual(individual)
 
-        mutationStrategy.mutate(individual)
+        Diagnostics.traceWithTime("MicroMutationOperator:mutation-strategy-execution") {
+            mutationStrategy.mutate(individual)
+        }
     }
 
     override val information = ModuleInformation("Algorithm 6.2 ((effective) micro mutation).")

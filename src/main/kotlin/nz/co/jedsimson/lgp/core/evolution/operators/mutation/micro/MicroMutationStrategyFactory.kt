@@ -24,10 +24,10 @@ private enum class MicroMutationType {
  * @property constantMutationFunc A function that can mutate values in the domain of [TProgram].
  */
 internal class MicroMutationStrategyFactory<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
-        private val environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
-        private val registerMutationRate: Double,
-        private val operatorMutationRate: Double,
-        private val constantMutationFunc: ConstantMutationFunction<TProgram>
+    private val environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    private val registerMutationRate: Double,
+    private val operatorMutationRate: Double,
+    private val constantMutationFunc: ConstantMutationFunction<TProgram>
 ) : MutationStrategyFactory<TProgram, TOutput, TTarget>() {
 
     private val random = this.environment.randomState

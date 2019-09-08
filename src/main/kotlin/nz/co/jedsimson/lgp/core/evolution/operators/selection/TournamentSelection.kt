@@ -23,27 +23,34 @@ import kotlin.random.Random
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
  */
 class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
-        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
-        private val tournamentSize: Int
+    environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    private val tournamentSize: Int
 ) : SelectionOperator<TProgram, TOutput, TTarget>(environment) {
 
     private val random = this.environment.randomState
+    private val sampleSize = 2 * this.tournamentSize
+
+    init {
+        require(tournamentSize > 0) {
+            "Tournament size must be greater than zero."
+        }
+    }
 
     /**
      * Selects two individuals from the population given using tournament selection.
      */
     override fun select(population: MutableList<Program<TProgram, TOutput>>): List<Program<TProgram, TOutput>> {
         // Select individuals from the population without replacement.
-        val selected = random.sample(population, 2 * this.tournamentSize).toMutableList()
+        val selected = this.random.sample(population, this.sampleSize).toMutableList()
 
-        // Perform two fitness tournaments of size tournamentSize.
+        // Perform two fitness tournaments of given tournament size.
         return (0..1).map {
-            val (original, winner) = tournament(selected, this.random, this.tournamentSize)
+            val winner = tournament(selected, this.random::choice, this.tournamentSize)
 
-            // Remove the winners
-            population.remove(original)
+            // Remove the winner
+            population.remove(winner)
 
-            winner
+            winner.copy()
         }
     }
 
@@ -53,32 +60,47 @@ class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : 
 /**
  * A [SelectionOperator] implementation that selects individuals using Tournament Selection.
  *
- * The number of tournaments held is determined by the configuration parameter
- * [nz.co.jedsimson.lgp.core.environment.config.Configuration.numOffspring], meaning that `numOffspring`
- * individuals will be chosen from the population using tournaments of the given size.
+ * The number of tournaments held is determined by the configuration parameter [numberOfOffspring], meaning that many
+ * individuals will be chosen from the population using tournaments of the supplied [tournamentSize].
 
  * The size of the tournaments is determined by [tournamentSize]. Each winner of a tournament
  * is removed from the set of individuals selected to participate in the tournaments.
  *
+ * By default, winners will be removed from the population, but this can be controlled via the
+ * [removeWinnersFromPopulation] property.
+ *
  * @property tournamentSize The size of the tournaments to be held (selection pressure).
+ * @property numberOfOffspring The number of offspring to select.
+ * @property removeWinnersFromPopulation Determines whether or not tournament winners should be removed from the population.
  * @see <a href="https://en.wikipedia.org/wiki/Tournament_selection"></a>
  */
 class TournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
-        environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
-        private val tournamentSize: Int
+    environment: EnvironmentFacade<TProgram, TOutput, TTarget>,
+    private val tournamentSize: Int,
+    private val numberOfOffspring: Int,
+    private val removeWinnersFromPopulation: Boolean = true
 ) : SelectionOperator<TProgram, TOutput, TTarget>(environment) {
 
     private val random = this.environment.randomState
 
+    init {
+        require(tournamentSize > 0) {
+            "Tournament size must be greater than zero."
+        }
+
+        require(numberOfOffspring < this.environment.configuration.populationSize) {
+            "Number of offspring must be less than the population size."
+        }
+    }
+
     /**
-     * Selects individuals by performing 2 * `numOffspring` tournaments of size [tournamentSize].
+     * Selects individuals by performing 2 * [numberOfOffspring] tournaments of size [tournamentSize].
      */
     override fun select(population: MutableList<Program<TProgram, TOutput>>): List<Program<TProgram, TOutput>> {
-        return (0 until (2 * this.environment.configuration.numOffspring)).map {
-            val result = tournament(population, this.random, this.tournamentSize)
+        return (0 until (2 * this.numberOfOffspring)).map {
+            val winner = tournament(population, this.random::choice, this.tournamentSize, this.removeWinnersFromPopulation)
 
-            // TODO: Do we need to return a copy?
-            result.clone
+            winner.copy()
         }
     }
 
@@ -86,43 +108,45 @@ class TournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : Target
 }
 
 /**
- * Provides a way to access the winner of tournament selection as the original and
- * the cloned winner.
+ * Defines a function for selecting individuals from a population.
  */
-private data class TournamentResult<TProgram, TOutput : Output<TProgram>>(
-    val original: Program<TProgram, TOutput>,
-    val clone: Program<TProgram, TOutput>
-)
+internal typealias IndividualSelector<TProgram, TOutput> = (List<Program<TProgram, TOutput>>) -> Program<TProgram, TOutput>
 
 /**
  * Performs Tournament Selection on a population of individuals.
  *
- * If [replacement] is false, then tournament winners will be removed from the population.
+ * The given [selector] function is used to choose individuals for the tournament.
  *
- * @property individuals A population of individuals.
+ * If [removeWinnerFromPopulation] is true (the default value), then the tournament
+ * winner will be removed from the population.
+ *
+ * @property population A population of individuals.
+ * @property selector A function that can be used to select individuals for the tournament.
  * @property tournamentSize The size of the tournament.
- * @property replacement Determines whether winning individuals remain in the population.
+ * @property removeWinnerFromPopulation Determines whether the winning individual remains in the population.
  */
-private fun <TProgram, TOutput : Output<TProgram>> tournament(
-    individuals: MutableList<Program<TProgram, TOutput>>,
-    random: Random,
+internal fun <TProgram, TOutput : Output<TProgram>> tournament(
+    population: MutableList<Program<TProgram, TOutput>>,
+    selector: IndividualSelector<TProgram, TOutput>,
     tournamentSize: Int,
-    replacement: Boolean = false
-): TournamentResult<TProgram, TOutput> {
+    removeWinnerFromPopulation: Boolean = true
+): Program<TProgram, TOutput> {
 
-    var winner = random.choice(individuals)
+    require(population.isNotEmpty()) { "Population has been exhausted while performing tournament." }
 
-    for (it in 0..tournamentSize - 2) {
-        val contender = random.choice(individuals)
+    var winner = selector(population)
+
+    repeat(tournamentSize - 1) {
+        val contender = selector(population)
 
         if (contender.fitness < winner.fitness) {
             winner = contender
         }
     }
 
-    if (!replacement)
-        individuals.remove(winner)
+    if (removeWinnerFromPopulation) {
+        population.remove(winner)
+    }
 
-    // We return the original individual and a copy of it.
-    return TournamentResult(winner, winner.copy())
+    return winner
 }

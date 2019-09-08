@@ -5,15 +5,10 @@ import kotlin.streams.toList
 // Extension methods for various functionality that is nice to have.
 
 /**
- * Returns a view of a list between the range given.
- *
- * The range is mutable and will modify the underlying list.
- *
- * @param range A collection of indices that the slice should contain.
- * @return A list of elements whose indices fall between the range given.
+ * Takes a copy of this list.
  */
-fun <T> MutableList<T>.slice(range: IntRange): MutableList<T> {
-    return this.filterIndexed { idx, _ -> idx in range }.toMutableList()
+fun <T> MutableList<T>.copy(): MutableList<T> {
+    return this.toMutableList()
 }
 
 /**
@@ -46,4 +41,35 @@ fun <T> List<T>.pairwise(): List<Pair<T, T>> {
     return (0 until this.size - 1 step 2).map { idx ->
         Pair(this[idx], this[idx + 1])
     }
+}
+
+/**
+ * Removes any elements from this list with indices that fall within the given range.
+ *
+ * *Note*: The method will perform no removal if the range start and end are equal.
+ *
+ * @param range A range of indices of elements to remove from this list.
+ * @throws IndexOutOfBoundsException when:
+ * - the range start is greater than or equal to the size of the list
+ * - the range end is greater than the size of the list
+ * - the range start is greater than the range end
+ */
+fun <T> MutableList<T>.removeRange(range: IntRange) {
+    val from = range.first
+    val to = range.last
+
+    when {
+        // Nothing to do
+        from == to -> return
+        // Invalid range
+        from >= this.size -> throw IndexOutOfBoundsException("from ($from) >= size ($size)")
+        to > this.size    -> throw IndexOutOfBoundsException("to ($to) > size ($size)")
+        from > to         -> throw IndexOutOfBoundsException("from ($from) > to ($to)")
+    }
+
+    val filtered = this.filterIndexed { idx, _ -> idx !in range }
+
+    this.clear()
+
+    this.addAll(filtered)
 }

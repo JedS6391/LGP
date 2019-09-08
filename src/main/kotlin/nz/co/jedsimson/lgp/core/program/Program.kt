@@ -19,7 +19,7 @@ abstract class Program<TData, TOutput : Output<TData>> : Module {
      *
      * When a [Program] is first initialised, the value will be [FitnessFunctions.UNDEFINED_FITNESS].
      */
-    var fitness: Double = FitnessFunctions.UNDEFINED_FITNESS
+    open var fitness: Double = FitnessFunctions.UNDEFINED_FITNESS
 
     /**
      * The instructions in this [Program] that are effective.

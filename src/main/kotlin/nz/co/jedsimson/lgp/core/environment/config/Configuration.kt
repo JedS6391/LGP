@@ -128,6 +128,7 @@ class Configuration {
     /**
      * Number of individuals that should be taken from the population in each generation.
      */
+    @Deprecated("This property is no longer part of the core configuration and has been made an input to the TournamentSelection class.")
     var numOffspring = 20
 
     /**
@@ -186,8 +187,12 @@ class Configuration {
     }
 
     private fun programLengthsAreValid(): Boolean {
-        return initialMinimumProgramLength > 0 && initialMaximumProgramLength > 0
-                && minimumProgramLength > 0 && maximumProgramLength > 0
+        return (
+            initialMinimumProgramLength > 0 &&
+            initialMaximumProgramLength > 0 &&
+            minimumProgramLength > 0 &&
+            maximumProgramLength > 0
+        )
     }
 
     override fun equals(other: Any?): Boolean {
