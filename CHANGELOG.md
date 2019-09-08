@@ -1,6 +1,39 @@
 # Change Log
 
-## [v-5.0](https://github.com/JedS6391/LGP/tree/5.0) (TBD)
+## [v-5.1](https://github.com/JedS6391/LGP/tree/5.1) (2019-09-08)
+
+**Breaking changes:**
+
+- The `TournamentSelection` operator now has an additional (non-optional) property `numberOfOffspring` which supersedes
+  the old `numOffspring` `Configuration` property.
+- `EventDispatcher` no longer contains methods for register `EventListener` definitions. The registration
+  methods have been moved to `EventRegistry`.
+  
+**Changes:**
+
+- Any components which make use of the experimental co-routine APIs have been marked with the `@ExperimentalCoroutinesApi` attribute.
+- A new `DiagnosticEvent` has been exposed which allows introspection into the system. The majority of the built-in
+  components have been updated to dispatch `DiagnosticEvent`s for various actions. For example, to register a listener
+  for trace events:
+  
+  ```kotlin
+  EventRegistry.register(object : EventListener<DiagnosticEvent.Trace> {
+    override fun handle(event: DiagnosticEvent.Trace) {
+        // Do something with event
+    }
+  })
+  ```
+- Unit tests have been added for the following components (and there are more to come!):
+  - Tournament selection operator
+  - Recombination operator
+
+**Fixes:**
+
+- Address an incorrect typealias definition for `MultipleOutputFitnessFunction` (08fa90d)
+- Refactor `LinearCrossover` operator and address a bug that caused program length to fall below the configured
+  minimum program length
+
+## [v-5.0](https://github.com/JedS6391/LGP/tree/5.0) (2019-08-25)
 
 **Breaking changes:**
 
