@@ -19,7 +19,7 @@ bibliography: paper.bib
 
 # Summary
 
-The desire for a system which can automatically craft computer programs has been known in the machine learning community for some time. [@friedberg1958] experimented with a system that solved problems by randomly changing instructions in a program and favouring those changes which most frequently achieved a positive result.
+The desire for a system which can automatically craft computer programs has been known in the machine learning community for some time. @friedberg1958 experimented with a system that solved problems by randomly changing instructions in a program and favouring those changes which most frequently achieved a positive result.
 
 Linear Genetic Programming (LGP) [@brameier2007linear] is a paradigm of genetic programming that employs a representation of linearly sequenced instructions in automatically generated programs. 
 
@@ -43,10 +43,5 @@ is available to aid users in getting started solving problems.
 The creation of ``LGP`` was motivated by the apparent lack of open-source 
 Linear Genetic Programming implementations in an attempt to promote its usage.
 The project has intentions for use at the University of Waikato for future student projects and is currently in the process of being used for a research project in the image processing domain at the Max Planck Institute of Molecular Cell Biology and Genetics. The goal of ``LGP`` is to facilitate the usage of Linear Genetic Programming in solving problems in machine learning, as an alternative to other techniques.
-
-The source code for ``LGP`` and ``LGP-lib`` have been archived to Zenodo with the linked DOIs:
-
-- LGP core: [@zenodo-LGP-core]
-- LGP library: [@zenodo-LGP-lib]
 
 # References
