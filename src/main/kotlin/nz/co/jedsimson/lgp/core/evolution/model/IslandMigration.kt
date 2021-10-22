@@ -195,7 +195,8 @@ class IslandMigration<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
                 this.fitnessEvaluator.evaluate(individual, dataset)
             }.toList()
 
-            var best = initialEvaluations.minBy(Evaluation<TProgram, TOutput>::fitness)!!
+            var best = initialEvaluations.minByOrNull(Evaluation<TProgram, TOutput>::fitness)
+                ?: throw NoSuchElementException("No individuals in the initial evaluation list.")
             this.bestIndividual = best.individual
 
             (0 until numGenerations).forEach { _ ->
@@ -268,7 +269,8 @@ class IslandMigration<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
             }
         }
 
-        var best = bestIndividuals.minBy(Program<TProgram, TOutput>::fitness)!!
+        var best = bestIndividuals.minByOrNull(Program<TProgram, TOutput>::fitness)
+            ?: throw NoSuchElementException("No individuals in the initial evaluation list.")
 
         var individuals = mutableListOf<Program<TProgram, TOutput>>()
 
@@ -372,7 +374,8 @@ class IslandMigration<TProgram, TOutput : Output<TProgram>, TTarget : Target<TPr
                 }
             }
 
-            best = bestIndividuals.minBy(Program<TProgram, TOutput>::fitness)!!
+            best = bestIndividuals.minByOrNull(Program<TProgram, TOutput>::fitness)
+                ?: throw NoSuchElementException("No individuals in the initial evaluation list.")
 
             statistics.add(this.statistics(generation, this.fitnessEvaluator.evaluate(best, dataset)))
 

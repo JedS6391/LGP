@@ -136,3 +136,5 @@ docs/build
 docs/guide
 
 .env
+# Ignore Gradle build output directory
+build
