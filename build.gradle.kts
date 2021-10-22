@@ -55,12 +55,14 @@ java {
 tasks {
     val version = "5.1"
 
+    // JAR for distribution of source files.
     val sourcesJar by creating(Jar::class) {
         archiveClassifier.set("sources")
 
         from(sourceSets.main.get().allSource)
     }
 
+    // JAR for distribution of project + dependency binaries (i.e. fat JAR).
     val coreJar by creating(Jar::class) {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         archiveBaseName.set("${project.name}-core")
@@ -70,13 +72,11 @@ tasks {
             attributes["Implementation-Version"] = version
         }
 
-        from(configurations.runtimeClasspath.get()
-                .onEach { println("Add from dependencies: ${it.name}") }
+        from(configurations.runtimeClasspath
+                .get()
                 .map { if (it.isDirectory) it else zipTree(it) })
 
         val sourcesMain = sourceSets.main.get()
-
-        sourcesMain.allSource.forEach { println("Add from sources: ${it.name}") }
 
         from(sourcesMain.output)
     }
@@ -86,12 +86,29 @@ tasks {
             includeEngines("spek2")
         }
         testLogging {
-            events(TestLogEvent.FAILED, TestLogEvent.STANDARD_ERROR, TestLogEvent.SKIPPED)
+            events(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.STANDARD_ERROR, TestLogEvent.SKIPPED)
             exceptionFormat = TestExceptionFormat.FULL
             showExceptions = true
             showCauses = true
             showStackTraces = true
             showStandardStreams = true
+        }
+    }
+
+    dokkaHtml.configure {
+        outputDirectory.set(projectDir.resolve("docs/api/html"))
+
+        dokkaSourceSets {
+            named("main") {
+                reportUndocumented.set(true)
+
+                includes.from(
+                    "src/main/kotlin/nz/co/jedsimson/lgp/core/environment/README.md",
+                    "src/main/kotlin/nz/co/jedsimson/lgp/core/evolution/README.md",
+                    "src/main/kotlin/nz/co/jedsimson/lgp/core/modules/README.md",
+                    "src/main/kotlin/nz/co/jedsimson/lgp/core/program/README.md"
+                )
+            }
         }
     }
 
