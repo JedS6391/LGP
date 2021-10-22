@@ -112,6 +112,10 @@ tasks {
         }
     }
 
+    dokkaJavadoc.configure {
+        outputDirectory.set(projectDir.resolve("docs/api/javadoc"))
+    }
+
     artifacts {
         archives(sourcesJar)
     }
