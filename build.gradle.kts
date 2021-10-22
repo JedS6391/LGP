@@ -116,6 +116,15 @@ tasks {
         outputDirectory.set(projectDir.resolve("docs/api/javadoc"))
     }
 
+    jacocoTestReport {
+        dependsOn(test)
+
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
+    }
+
     artifacts {
         archives(sourcesJar)
     }
