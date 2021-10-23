@@ -59,7 +59,7 @@ java {
 
 tasks {
     val group = "nz.co.jedsimson.lgp"
-    val version = "5.2"
+    val version = "5.3"
 
     // Main library JAR.
     jar {
