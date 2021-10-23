@@ -13,7 +13,9 @@ plugins {
     // Test report generation 
     id("jacoco")
 
-    `java-library`
+    // Artifact publishing
+    `maven-publish`
+    signing
 }
 
 repositories { 
@@ -53,7 +55,15 @@ java {
 }
 
 tasks {
-    val version = "5.1"
+    val group = "nz.co.jedsimson.lgp"
+    val version = "5.2"
+
+    jar {
+        manifest {
+            attributes["Implementation-Title"] = project.name
+            attributes["Implementation-Version"] = version
+        }
+    }
 
     // JAR for distribution of source files.
     val sourcesJar by creating(Jar::class) {
@@ -79,6 +89,11 @@ tasks {
         val sourcesMain = sourceSets.main.get()
 
         from(sourcesMain.output)
+    }
+
+    val javaDocsJar by creating(Jar::class) {
+        archiveClassifier.set("javadoc")
+        from(dokkaJavadoc)
     }
 
     test {   
@@ -125,7 +140,68 @@ tasks {
         }
     }
 
+    signing {
+        setRequired({ System.getenv("GPG_KEY_ID") != null && gradle.taskGraph.hasTask("uploadArchives") })
+        sign(configurations.archives.get())
+    }
+
+    publishing {
+        publications {
+            create<MavenPublication>("LGP") {
+                setGroupId(group)
+                setVersion(version)
+
+                artifact(jar)
+                artifact(sourcesJar)
+                artifact(javaDocsJar)
+
+                pom {
+                    name.set("LGP")
+                    description.set("A robust Linear Genetic Programming implementation on the JVM using Kotlin.")
+                    url.set("https://github.com/JedS6391/LGP")
+
+                    scm {
+                         connection.set("scm:git:git://github.com/JedS6391/LGP.git")
+                         developerConnection.set("scm:git:ssh://github.com/JedS6391/LGP.git")
+                         url.set("http://github.com/JedS6391/LGP/tree/master")
+                    }
+
+                    licenses {
+                         license {
+                             name.set("MIT License")
+                             url.set("https://github.com/JedS6391/LGP/blob/master/LICENSE")
+                         }
+                    }
+
+                    developers {
+                         developer {
+                             id.set("jedsimson")
+                             name.set("Jed Simson")
+                             email.set("jed.simson@gmail.com")
+                             organization.set("jedsimson")
+                             organizationUrl.set("https://jedsimson.co.nz")
+                         }
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                val releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                val snapshotsRepoUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                url = if (version.endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+
+                authentication {
+                    credentials.username = System.getenv("SONATYPE_USERNAME")
+                    credentials.password = System.getenv("SONATYPE_PASSWORD")
+                }
+            }
+        }
+    }
+
     artifacts {
         archives(sourcesJar)
+        archives(javaDocsJar)
     }
 }
