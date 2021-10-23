@@ -156,9 +156,26 @@ tasks {
     }
 
     signing {
-        // Sign archives when GPG key is available.
-        setRequired({ System.getenv("GPG_KEY_ID") != null && gradle.taskGraph.hasTask("uploadArchives") })
+        // Sign archives when the required environment variables are available.
+        val signingEnvironmentVariableNames = listOf(
+            "ORG_GRADLE_PROJECT_signingKeyId",
+            "ORG_GRADLE_PROJECT_signingKey",
+            "ORG_GRADLE_PROJECT_signingPassword"
+        )
+
+        setRequired({
+            signingEnvironmentVariableNames.all { System.getenv(it) != null  } &&
+                gradle.taskGraph.allTasks.any { it is PublishToMavenRepository }
+        })
+        
+        val signingKeyId: String? by project
+        val signingKey: String? by project
+        val signingPassword: String? by project
+
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+
         sign(configurations.archives.get())
+        sign(publishing.publications)
     }
 
     publishing {
@@ -172,6 +189,7 @@ tasks {
                 artifact(javaDocsJar)
 
                 pom {
+                    packaging = "jar"
                     name.set("LGP")
                     description.set("A robust Linear Genetic Programming implementation on the JVM using Kotlin.")
                     url.set("https://github.com/JedS6391/LGP")
