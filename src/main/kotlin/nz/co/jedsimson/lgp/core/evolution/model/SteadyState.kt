@@ -64,7 +64,7 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
             }.toList()
         }
 
-        var best = initialEvaluations.minBy(Evaluation<TProgram, TOutput>::fitness)
+        var best = initialEvaluations.minByOrNull(Evaluation<TProgram, TOutput>::fitness)
             ?: throw NoSuchElementException("No individuals in the initial evaluation list.")
         this.bestProgram = best.individual
 
