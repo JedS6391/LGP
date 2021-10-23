@@ -4,7 +4,7 @@
 
 [![license][license-image]][license-url]
 [![docs][docs-image]][docs-url]
-[![build][travis-image]][travis-url]
+[![build][build-image]][build-url]
 [![code-coverage][code-coverage-image]][code-coverage-url]
 [![maven][maven-image]][maven-url]
 [![DOI][doi-image]][doi-url]
@@ -130,8 +130,8 @@ Please refer to the [usage guide](http://lgp.readthedocs.io/en/latest/guide/usag
 [license-url]: https://github.com/JedS6391/LGP/blob/master/LICENSE
 [docs-image]: https://readthedocs.org/projects/lgp/badge/?version=stable&style=flat
 [docs-url]: http://lgp.readthedocs.io/en/latest/
-[travis-image]: https://img.shields.io/travis/JedS6391/LGP/master.svg?style=flat
-[travis-url]: https://travis-ci.org/JedS6391/LGP
+[build-image]: https://img.shields.io/github/workflow/status/JedS6391/LGP/Release
+[build-url]: https://github.com/JedS6391/LGP/actions/workflows/release.yml
 [maven-image]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP.svg?label=Maven%20Central&style=flat
 [maven-url]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP%22
 [code-coverage-image]:https://img.shields.io/codecov/c/github/JedS6391/LGP.svg
