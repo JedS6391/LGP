@@ -58,6 +58,7 @@ tasks {
     val group = "nz.co.jedsimson.lgp"
     val version = "5.2"
 
+    // Main library JAR.
     jar {
         manifest {
             attributes["Implementation-Title"] = project.name
@@ -69,13 +70,18 @@ tasks {
     val sourcesJar by creating(Jar::class) {
         archiveClassifier.set("sources")
 
+        manifest {
+            attributes["Implementation-Title"] = project.name
+            attributes["Implementation-Version"] = version
+        }
+
         from(sourceSets.main.get().allSource)
     }
 
     // JAR for distribution of project + dependency binaries (i.e. fat JAR).
     val coreJar by creating(Jar::class) {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        archiveBaseName.set("${project.name}-core")
+        archiveClassifier.set("core")
 
         manifest {
             attributes["Implementation-Title"] = project.name
@@ -91,9 +97,16 @@ tasks {
         from(sourcesMain.output)
     }
 
+    // JAR for distribution of JavaDoc.
     val javaDocsJar by creating(Jar::class) {
         archiveClassifier.set("javadoc")
         from(dokkaJavadoc)
+    }
+
+    // JAR for distribution of KDoc.
+    val kotlinDocsJar by creating(Jar::class) {
+        archiveClassifier.set("kotlindoc")
+        from(dokkaHtml)
     }
 
     test {   
@@ -117,6 +130,7 @@ tasks {
             named("main") {
                 reportUndocumented.set(true)
 
+                // Module-level documentation
                 includes.from(
                     "src/main/kotlin/nz/co/jedsimson/lgp/core/environment/README.md",
                     "src/main/kotlin/nz/co/jedsimson/lgp/core/evolution/README.md",
@@ -132,6 +146,7 @@ tasks {
     }
 
     jacocoTestReport {
+        // Tests must be run before generating report
         dependsOn(test)
 
         reports {
@@ -141,6 +156,7 @@ tasks {
     }
 
     signing {
+        // Sign archives when GPG key is available.
         setRequired({ System.getenv("GPG_KEY_ID") != null && gradle.taskGraph.hasTask("uploadArchives") })
         sign(configurations.archives.get())
     }
@@ -198,10 +214,5 @@ tasks {
                 }
             }
         }
-    }
-
-    artifacts {
-        archives(sourcesJar)
-        archives(javaDocsJar)
     }
 }
