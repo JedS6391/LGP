@@ -213,7 +213,7 @@ tasks {
                              name.set("Jed Simson")
                              email.set("jed.simson@gmail.com")
                              organization.set("jedsimson")
-                             organizationUrl.set("https://jedsimson.co.nz")
+                             organizationUrl.set("https://www.jedsimson.co.nz")
                          }
                     }
                 }
