@@ -3,11 +3,12 @@ name: Master branch workflow
 on:
   push:
     paths:
-      - .github/**
-      - docs/**
-      - src/**            
+      - '**.kts'
+      - '.github/**'
+      - 'docs/**'
+      - 'src/**'
     branches:      
-      - master
+      - 'master'
 
 jobs:
   build:

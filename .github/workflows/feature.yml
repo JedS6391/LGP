@@ -3,11 +3,12 @@ name: Feature branch workflow
 on:
   push:
     paths:
-      - .github/**
-      - docs/**
-      - src/**            
+      - '**.kts'
+      - '.github/**'
+      - 'docs/**'
+      - 'src/**'
     branches-ignore:      
-      - master
+      - 'master'
 
 jobs:
   build:
