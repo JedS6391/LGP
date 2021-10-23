@@ -1,5 +1,14 @@
 # Change Log
 
+## [v-5.2](https://github.com/JedS6391/LGP/tree/5.2) (2021-10-23)
+
+**Changes:**
+
+- Migrate from Travis CI to GitHub Actions
+- Update to Gradle 7.x
+- Migrate build scripts from Groovy to Kotlin
+- Re-generate KDoc and JavaDoc
+
 ## [v-5.1](https://github.com/JedS6391/LGP/tree/5.1) (2019-09-08)
 
 **Breaking changes:**
