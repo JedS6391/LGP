@@ -1,0 +1,130 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>DistributedTrainer</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+  <body>
+    <div id="container">
+      <div id="leftColumn"><a href="../../../index.html">
+          <div id="logo"></div>
+        </a>
+        <div id="paneSearch"></div>
+        <div id="sideMenu"></div>
+      </div>
+      <div id="main">
+        <div id="leftToggler"><span class="icon-toggler"></span></div>
+<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="LGP::nz.co.jedsimson.lgp.core.evolution.training/DistributedTrainer///PointingToDeclaration//769193423">
+          <div class="navigation-wrapper" id="navigation-wrapper">
+            <div class="breadcrumbs"><a href="../../../index.html">LGP</a>/<a href="../index.html">nz.co.jedsimson.lgp.core.evolution.training</a>/<a href="index.html">DistributedTrainer</a></div>
+            <div class="pull-right d-flex">
+              <div id="searchBar"></div>
+            </div>
+          </div>
+          <div class="cover ">
+            <h1 class="cover"><span>Distributed</span><wbr></wbr><span><span>Trainer</span></span></h1>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<span data-unresolved-link="kotlinx.coroutines/ObsoleteCoroutinesApi///PointingToDeclaration/">ObsoleteCoroutinesApi</span></div><div class="block">@<span data-unresolved-link="kotlinx.coroutines/ExperimentalCoroutinesApi///PointingToDeclaration/">ExperimentalCoroutinesApi</span></div></div>class <a href="index.html">DistributedTrainer</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a> : <a href="../../nz.co.jedsimson.lgp.core.program/-output/index.html">Output</a>&lt;<a href="index.html">TProgram</a>&gt;, <a href="index.html">TTarget</a> : <a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html">Target</a>&lt;<a href="index.html">TProgram</a>&gt;&gt;(environment: <a href="../../nz.co.jedsimson.lgp.core.environment/-environment-facade/index.html">EnvironmentFacade</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>, <a href="index.html">TTarget</a>&gt;, model: <a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html">EvolutionModel</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>, <a href="index.html">TTarget</a>&gt;, runs: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>) : <a href="../-trainer/index.html">Trainer</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>, <a href="index.html">TTarget</a>, <a href="../-training-messages/-progress-update/index.html">TrainingMessages.ProgressUpdate</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>&gt;&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Trains the model for a given number of runs, in a parallel manner.</p><p class="paragraph">The model will be copied <a href="runs.html">runs</a> time and each copy will be trained in its own thread. The results of each model evaluation will be gathered once all the threads complete.</p><p class="paragraph">This runner has significant overhead compared to the <a href="../-sequential-trainer/index.html">SequentialTrainer</a>, due to the extra memory needed for evaluating multiple models at once, as well as the overhead of the threads used.</p><p class="paragraph">It should be noted that this trainer will create <a href="runs.html">runs</a> copies of the environment -- one for each model. This allows each model to have its own environment which can be isolated within the thread it is executed. This is mainly done to facilitate deterministic multi-threaded training, where it is necessary to make 100% sure that any state shared between threads does not affect the outcome of the training.</p></div></div>
+          </div>
+          <div class="tabbedcontent">
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+            <div class="tabs-section-body">
+              <h2 class="tabbedcontent">Constructors</h2>
+              <div class="table" data-togglable="Constructors"><a data-name="492944688%2FConstructors%2F769193423" anchor-label="DistributedTrainer" id="492944688%2FConstructors%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+                  <div class="main-subrow keyValue TabbedContent">
+                    <div class=""><span class="inline-flex"><a href="-distributed-trainer.html">DistributedTrainer</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="492944688%2FConstructors%2F769193423"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">fun &lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a> : <a href="../../nz.co.jedsimson.lgp.core.program/-output/index.html">Output</a>&lt;<a href="index.html">TProgram</a>&gt;, <a href="index.html">TTarget</a> : <a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-target/index.html">Target</a>&lt;<a href="index.html">TProgram</a>&gt;&gt; <a href="-distributed-trainer.html">DistributedTrainer</a>(environment: <a href="../../nz.co.jedsimson.lgp.core.environment/-environment-facade/index.html">EnvironmentFacade</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>, <a href="index.html">TTarget</a>&gt;, model: <a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html">EvolutionModel</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>, <a href="index.html">TTarget</a>&gt;, runs: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="">Functions</h2>
+              <div class="table" data-togglable="Functions"><a data-name="1173258881%2FFunctions%2F769193423" anchor-label="train" id="1173258881%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="train.html"><span><span>train</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1173258881%2FFunctions%2F769193423"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">open override fun <a href="train.html">train</a>(dataset: <a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-dataset/index.html">Dataset</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TTarget</a>&gt;): <a href="../-training-result/index.html">TrainingResult</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>, <a href="index.html">TTarget</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">Builds <a href="runs.html">runs</a> different models on the training set, training them in parallel.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-994614905%2FFunctions%2F769193423" anchor-label="trainAsync" id="-994614905%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="train-async.html"><span>train</span><wbr></wbr><span><span>Async</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-994614905%2FFunctions%2F769193423"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">open suspend override fun <a href="train-async.html">trainAsync</a>(dataset: <a href="../../nz.co.jedsimson.lgp.core.environment.dataset/-dataset/index.html">Dataset</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TTarget</a>&gt;): <a href="../-distributed-training-job/index.html">DistributedTrainingJob</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>, <a href="index.html">TTarget</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">Asynchronously builds <a href="runs.html">runs</a> different models on the training set, training them in parallel.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="">Properties</h2>
+              <div class="table" data-togglable="Properties"><a data-name="-437227398%2FProperties%2F769193423" anchor-label="environment" id="-437227398%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../-trainer/environment.html">environment</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-437227398%2FProperties%2F769193423"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><a data-name="-437227398%2FProperties%2F769193423" anchor-label="environment" id="-437227398%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a><div class="symbol monospace">val <a href="../-trainer/environment.html">environment</a>: <a href="../../nz.co.jedsimson.lgp.core.environment/-environment-facade/index.html">EnvironmentFacade</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>, <a href="index.html">TTarget</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-437227398%2FProperties%2F769193423" anchor-label="environment" id="-437227398%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a><p class="paragraph">The environment evolution is performed within.</p></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="366886948%2FProperties%2F769193423" anchor-label="model" id="366886948%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../-trainer/model.html">model</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="366886948%2FProperties%2F769193423"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><a data-name="366886948%2FProperties%2F769193423" anchor-label="model" id="366886948%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a><div class="symbol monospace">val <a href="../-trainer/model.html">model</a>: <a href="../../nz.co.jedsimson.lgp.core.evolution.model/-evolution-model/index.html">EvolutionModel</a>&lt;<a href="index.html">TProgram</a>, <a href="index.html">TOutput</a>, <a href="index.html">TTarget</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="366886948%2FProperties%2F769193423" anchor-label="model" id="366886948%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a><p class="paragraph">The model of evolution to use.</p></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1070233614%2FProperties%2F769193423" anchor-label="runs" id="1070233614%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="runs.html">runs</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1070233614%2FProperties%2F769193423"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><a data-name="1070233614%2FProperties%2F769193423" anchor-label="runs" id="1070233614%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a><div class="symbol monospace">val <a href="runs.html">runs</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1070233614%2FProperties%2F769193423" anchor-label="runs" id="1070233614%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a><p class="paragraph">The number of times to train the given model.</p></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+      </div>
+    </div>
+  </body>
+</html>
+
