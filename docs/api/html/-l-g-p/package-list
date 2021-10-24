@@ -147,6 +147,19 @@ $dokka.location:nz.co.jedsimson.lgp.core.environment.events/EventRegistry///Poin
 $dokka.location:nz.co.jedsimson.lgp.core.environment.events/EventRegistry/numberOfListeners/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.events/-event-registry/number-of-listeners.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment.events/EventRegistry/register/#kotlin.reflect.KClass[TypeParam(bounds=[nz.co.jedsimson.lgp.core.environment.events.Event])]#nz.co.jedsimson.lgp.core.environment.events.EventListener[TypeParam(bounds=[nz.co.jedsimson.lgp.core.environment.events.Event])]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.events/-event-registry/register.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment.events/EventRegistry/register/#nz.co.jedsimson.lgp.core.environment.events.EventListener[TypeParam(bounds=[nz.co.jedsimson.lgp.core.environment.events.Event])]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.events/-event-registry/register.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging////PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/index.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/Logger///PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger/index.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/Logger/debug/#kotlin.Function0[kotlin.Any?]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger/debug.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/Logger/error/#kotlin.Function0[kotlin.Any?]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger/error.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/Logger/error/#kotlin.Throwable#kotlin.Function0[kotlin.Any?]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger/error.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/Logger/info/#kotlin.Function0[kotlin.Any?]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger/info.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/Logger/trace/#kotlin.Function0[kotlin.Any?]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger/trace.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/Logger/warn/#kotlin.Function0[kotlin.Any?]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger/warn.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/LoggerProvider.Companion///PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger-provider/-companion/index.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/LoggerProvider.Companion/getLogger/#kotlin.String/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger-provider/-companion/get-logger.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/LoggerProvider///PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger-provider/index.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/LoggerProvider/LoggerProvider/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger-provider/-logger-provider.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/LoggerProvider/getLogger/#kotlin.String/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.logging/-logger-provider/get-logger.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment.operations////PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.operations/index.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment.operations/DefaultOperationLoader.Builder///PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.operations/-default-operation-loader/-builder/index.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment.operations/DefaultOperationLoader.Builder/Builder/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment.operations/-default-operation-loader/-builder/-builder.html
@@ -186,6 +199,7 @@ $dokka.location:nz.co.jedsimson.lgp.core.environment/Environment/configuration/#
 $dokka.location:nz.co.jedsimson.lgp.core.environment/Environment/constants/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment/constants.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/Environment/copy/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment/copy.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/Environment/fitnessFunctionProvider/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment/fitness-function-provider.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment/Environment/loggerProvider/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment/logger-provider.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/Environment/moduleFactory/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment/module-factory.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/Environment/operations/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment/operations.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/Environment/randomState/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment/random-state.html
@@ -198,6 +212,7 @@ $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentFacade/configura
 $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentFacade/constants/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment-facade/constants.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentFacade/copy/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment-facade/copy.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentFacade/fitnessFunctionProvider/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment-facade/fitness-function-provider.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentFacade/loggerProvider/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment-facade/logger-provider.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentFacade/moduleFactory/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment-facade/module-factory.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentFacade/operations/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment-facade/operations.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentFacade/randomState/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment-facade/random-state.html
@@ -215,7 +230,7 @@ $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentSpecification/op
 $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentSpecification/randomStateSeed/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment-specification/random-state-seed.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/EnvironmentSpecification/resultAggregator/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-environment-specification/result-aggregator.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/MemoizedComponentProvider///PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-memoized-component-provider/index.html
-$dokka.location:nz.co.jedsimson.lgp.core.environment/MemoizedComponentProvider/MemoizedComponentProvider/#kotlin.String#kotlin.Function0[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-memoized-component-provider/-memoized-component-provider.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment/MemoizedComponentProvider/MemoizedComponentProvider/#kotlin.String#kotlin.Function1[nz.co.jedsimson.lgp.core.environment.logging.Logger,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-memoized-component-provider/-memoized-component-provider.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment/MemoizedComponentProvider/component/#/PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.environment/-memoized-component-provider/component.html
 $dokka.location:nz.co.jedsimson.lgp.core.evolution.fitness////PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.evolution.fitness/index.html
 $dokka.location:nz.co.jedsimson.lgp.core.evolution.fitness/BaseFitnessContext///PointingToDeclaration/-l-g-p/nz.co.jedsimson.lgp.core.evolution.fitness/-base-fitness-context/index.html
@@ -623,6 +638,7 @@ nz.co.jedsimson.lgp.core.environment.config
 nz.co.jedsimson.lgp.core.environment.constants
 nz.co.jedsimson.lgp.core.environment.dataset
 nz.co.jedsimson.lgp.core.environment.events
+nz.co.jedsimson.lgp.core.environment.logging
 nz.co.jedsimson.lgp.core.environment.operations
 nz.co.jedsimson.lgp.core.evolution
 nz.co.jedsimson.lgp.core.evolution.fitness
