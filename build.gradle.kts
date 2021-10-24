@@ -38,6 +38,9 @@ dependencies {
     // Used for CSV dataset file loading
     implementation("com.opencsv:opencsv:5.5.2")
 
+    // Logging
+    implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
+
     // Tests
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.17")
     testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:2.0.17")
@@ -56,7 +59,7 @@ java {
 
 tasks {
     val group = "nz.co.jedsimson.lgp"
-    val version = "5.2"
+    val version = "5.3"
 
     // Main library JAR.
     jar {
