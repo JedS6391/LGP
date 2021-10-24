@@ -262,6 +262,14 @@ public interface <span class="typeNameLabel"><a href=EnvironmentFacade.html>Envi
                                         </tr>
                                         
                                         <tr id="i3" class="rowColor">
+                                            <td class="colFirst"><code>abstract <a href=logging/LoggerProvider.html>LoggerProvider</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=EnvironmentFacade.html#getLoggerProvider()>getLoggerProvider</a>() </code>
+                                            </th>
+                                            <td class="colLast">Provides access to the environments logger instance.</td>
+                                        </tr>
+                                        
+                                        <tr id="i4" class="altColor">
                                             <td class="colFirst"><code>abstract <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.random/-random/index.html>Random</a></code>
                                             </td>
                                             <th class="colSecond" scope="row"><code><a href=EnvironmentFacade.html#getRandomState()>getRandomState</a>() </code>
@@ -269,7 +277,7 @@ public interface <span class="typeNameLabel"><a href=EnvironmentFacade.html>Envi
                                             <td class="colLast">Provides access to the environments random state.</td>
                                         </tr>
                                         
-                                        <tr id="i4" class="altColor">
+                                        <tr id="i5" class="rowColor">
                                             <td class="colFirst"><code>abstract Function0&lt;<a href=../evolution/fitness/FitnessFunction.html>FitnessFunction</a>&lt;<a href=EnvironmentFacade.html>TProgram</a>, <a href=EnvironmentFacade.html>TOutput</a>, <a href=EnvironmentFacade.html>TTarget</a>&gt;&gt;</code>
                                             </td>
                                             <th class="colSecond" scope="row"><code><a href=EnvironmentFacade.html#getFitnessFunctionProvider()>getFitnessFunctionProvider</a>() </code>
@@ -277,7 +285,7 @@ public interface <span class="typeNameLabel"><a href=EnvironmentFacade.html>Envi
                                             <td class="colLast">Provides a function that can measure the fitness of a program.</td>
                                         </tr>
                                         
-                                        <tr id="i5" class="rowColor">
+                                        <tr id="i6" class="altColor">
                                             <td class="colFirst"><code>abstract <a href=config/Configuration.html>Configuration</a></code>
                                             </td>
                                             <th class="colSecond" scope="row"><code><a href=EnvironmentFacade.html#getConfiguration()>getConfiguration</a>() </code>
@@ -285,7 +293,7 @@ public interface <span class="typeNameLabel"><a href=EnvironmentFacade.html>Envi
                                             <td class="colLast">Contains the various configuration options available to the LGP system.</td>
                                         </tr>
                                         
-                                        <tr id="i6" class="altColor">
+                                        <tr id="i7" class="rowColor">
                                             <td class="colFirst"><code>abstract <a href=https://docs.oracle.com/javase/8/docs/api/java/util/List.html>List</a>&lt;<a href=EnvironmentFacade.html>TProgram</a>&gt;</code>
                                             </td>
                                             <th class="colSecond" scope="row"><code><a href=EnvironmentFacade.html#getConstants()>getConstants</a>() </code>
@@ -293,7 +301,7 @@ public interface <span class="typeNameLabel"><a href=EnvironmentFacade.html>Envi
                                             <td class="colLast">A set of constants loaded using the <a href=constants/ConstantLoader.html>ConstantLoader</a> given at construction time.</td>
                                         </tr>
                                         
-                                        <tr id="i7" class="rowColor">
+                                        <tr id="i8" class="altColor">
                                             <td class="colFirst"><code>abstract <a href=https://docs.oracle.com/javase/8/docs/api/java/util/List.html>List</a>&lt;<a href=../program/instructions/Operation.html>Operation</a>&lt;<a href=EnvironmentFacade.html>TProgram</a>&gt;&gt;</code>
                                             </td>
                                             <th class="colSecond" scope="row"><code><a href=EnvironmentFacade.html#getOperations()>getOperations</a>() </code>
@@ -301,7 +309,7 @@ public interface <span class="typeNameLabel"><a href=EnvironmentFacade.html>Envi
                                             <td class="colLast">A set of operations loaded using the <a href=operations/OperationLoader.html>OperationLoader</a> given at construction time.</td>
                                         </tr>
                                         
-                                        <tr id="i8" class="altColor">
+                                        <tr id="i9" class="rowColor">
                                             <td class="colFirst"><code>abstract <a href=../evolution/ResultAggregator.html>ResultAggregator</a>&lt;<a href=EnvironmentFacade.html>TProgram</a>&gt;</code>
                                             </td>
                                             <th class="colSecond" scope="row"><code><a href=EnvironmentFacade.html#getResultAggregator()>getResultAggregator</a>() </code>
@@ -309,7 +317,7 @@ public interface <span class="typeNameLabel"><a href=EnvironmentFacade.html>Envi
                                             <td class="colLast">Provides mechanisms for collecting results during the lifetime of an environment.</td>
                                         </tr>
                                         
-                                        <tr id="i9" class="rowColor">
+                                        <tr id="i10" class="altColor">
                                             <td class="colFirst"><code>abstract <a href=../modules/ModuleFactory.html>ModuleFactory</a>&lt;<a href=EnvironmentFacade.html>TProgram</a>, <a href=EnvironmentFacade.html>TOutput</a>, <a href=EnvironmentFacade.html>TTarget</a>&gt;</code>
                                             </td>
                                             <th class="colSecond" scope="row"><code><a href=EnvironmentFacade.html#getModuleFactory()>getModuleFactory</a>() </code>
@@ -317,7 +325,7 @@ public interface <span class="typeNameLabel"><a href=EnvironmentFacade.html>Envi
                                             <td class="colLast">Provides access to modules that are registered in the environment.</td>
                                         </tr>
                                         
-                                        <tr id="i10" class="altColor">
+                                        <tr id="i11" class="rowColor">
                                             <td class="colFirst"><code>abstract <a href=../program/registers/RegisterSet.html>RegisterSet</a>&lt;<a href=EnvironmentFacade.html>TProgram</a>&gt;</code>
                                             </td>
                                             <th class="colSecond" scope="row"><code><a href=EnvironmentFacade.html#getRegisterSet()>getRegisterSet</a>() </code>
@@ -431,6 +439,21 @@ public interface <span class="typeNameLabel"><a href=EnvironmentFacade.html>Envi
                                         <h4>copy</h4>
                                         <pre class="methodSignature"> abstract <a href=EnvironmentFacade.html>EnvironmentFacade</a>&lt;<a href=EnvironmentFacade.html>TProgram</a>, <a href=EnvironmentFacade.html>TOutput</a>, <a href=EnvironmentFacade.html>TTarget</a>&gt; <a href=EnvironmentFacade.html#copy()>copy</a>()</pre>
                                         <div class="block"><p>Produces a clone of the current environment.</p></div>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="getLoggerProvider()">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>getLoggerProvider</h4>
+                                        <pre class="methodSignature"> abstract <a href=logging/LoggerProvider.html>LoggerProvider</a> <a href=EnvironmentFacade.html#getLoggerProvider()>getLoggerProvider</a>()</pre>
+                                        <div class="block"><p>Provides access to the environments logger instance.</p></div>
                                         
                                         <!-- TODO missing return annotation -->
                                     </li>

@@ -9,6 +9,7 @@ $dokka.location:nz.co.jedsimson.lgp.core.environment.dataset/Targets.Multiple///
 $dokka.location:nz.co.jedsimson.lgp.core.environment.dataset/Targets.Single///PointingToDeclaration/nz/co/jedsimson/lgp/core/environment/dataset/Targets.Single.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment.events/DiagnosticEvent.Debug///PointingToDeclaration/nz/co/jedsimson/lgp/core/environment/events/DiagnosticEvent.Debug.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment.events/DiagnosticEvent.Trace///PointingToDeclaration/nz/co/jedsimson/lgp/core/environment/events/DiagnosticEvent.Trace.html
+$dokka.location:nz.co.jedsimson.lgp.core.environment.logging/LoggerProvider.Companion///PointingToDeclaration/nz/co/jedsimson/lgp/core/environment/logging/LoggerProvider.Companion.html
 $dokka.location:nz.co.jedsimson.lgp.core.environment.operations/DefaultOperationLoader.Builder///PointingToDeclaration/nz/co/jedsimson/lgp/core/environment/operations/DefaultOperationLoader.Builder.html
 $dokka.location:nz.co.jedsimson.lgp.core.evolution.fitness/FitnessContexts.MultipleOutputFitnessContext///PointingToDeclaration/nz/co/jedsimson/lgp/core/evolution/fitness/FitnessContexts.MultipleOutputFitnessContext.html
 $dokka.location:nz.co.jedsimson.lgp.core.evolution.fitness/FitnessContexts.SingleOutputFitnessContext///PointingToDeclaration/nz/co/jedsimson/lgp/core/evolution/fitness/FitnessContexts.SingleOutputFitnessContext.html
@@ -26,6 +27,7 @@ nz.co.jedsimson.lgp.core.environment.config
 nz.co.jedsimson.lgp.core.environment.constants
 nz.co.jedsimson.lgp.core.environment.dataset
 nz.co.jedsimson.lgp.core.environment.events
+nz.co.jedsimson.lgp.core.environment.logging
 nz.co.jedsimson.lgp.core.environment.operations
 nz.co.jedsimson.lgp.core.evolution
 nz.co.jedsimson.lgp.core.evolution.fitness
