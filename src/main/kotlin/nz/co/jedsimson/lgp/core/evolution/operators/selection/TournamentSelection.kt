@@ -27,6 +27,7 @@ class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : 
     private val tournamentSize: Int
 ) : SelectionOperator<TProgram, TOutput, TTarget>(environment) {
 
+    private val logger = this.environment.loggerProvider.getLogger(BinaryTournamentSelection::class.qualifiedName!!)
     private val random = this.environment.randomState
     private val sampleSize = 2 * this.tournamentSize
 
@@ -41,11 +42,17 @@ class BinaryTournamentSelection<TProgram, TOutput : Output<TProgram>, TTarget : 
      */
     override fun select(population: MutableList<Program<TProgram, TOutput>>): List<Program<TProgram, TOutput>> {
         // Select individuals from the population without replacement.
+        logger.trace { "Selecting individuals from population without replacement [Sample Size = ${this.sampleSize}]" }
+
         val selected = this.random.sample(population, this.sampleSize).toMutableList()
 
         // Perform two fitness tournaments of given tournament size.
         return (0..1).map {
+            logger.trace { "Performing tournament selection [Tournament Size = ${this.tournamentSize}]" }
+
             val winner = tournament(selected, this.random::choice, this.tournamentSize)
+
+            logger.trace { "Tournament winner [Fitness = ${winner.fitness}]" }
 
             // Remove the winner
             population.remove(winner)

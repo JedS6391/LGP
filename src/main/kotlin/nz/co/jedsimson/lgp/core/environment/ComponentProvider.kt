@@ -1,5 +1,8 @@
 package nz.co.jedsimson.lgp.core.environment
 
+import nz.co.jedsimson.lgp.core.environment.logging.Logger
+import nz.co.jedsimson.lgp.core.environment.logging.LoggerProvider
+
 /**
  * Defines a provider of [TComponent] instances.
  */
@@ -22,15 +25,21 @@ interface ComponentProvider<out TComponent> {
  */
 class MemoizedComponentProvider<out TComponent>(
     private val componentName: String,
-    private val componentInitialisationFunction: () -> TComponent
+    private val componentInitialisationFunction: (logger: Logger) -> TComponent
 ) : ComponentProvider<TComponent> {
+
+    private val logger = LoggerProvider.getLogger(MemoizedComponentProvider::class.qualifiedName!!)
 
     override val component by lazy {
         try {
-            componentInitialisationFunction()
+            logger.debug { "Initialising $componentName component" }
+
+            componentInitialisationFunction(logger)
         }
         catch (cause: Exception) {
-            throw ComponentLoadException("Failed to load a $componentName component.", cause)
+            logger.error(cause) { "Failed to load $componentName component" }
+
+            throw ComponentLoadException("Failed to load $componentName component.", cause)
         }
     }
 }

@@ -28,6 +28,7 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
     environment: EnvironmentFacade<TProgram, TOutput, TTarget>
 ) : EvolutionModel<TProgram, TOutput, TTarget>(environment) {
 
+    private val logger = this.environment.loggerProvider.getLogger(SteadyState::class.qualifiedName!!)
     private val moduleFactory = this.environment.moduleFactory
     private val select: SelectionOperator<TProgram, TOutput, TTarget>
     private val combine: RecombinationOperator<TProgram, TOutput, TTarget>
@@ -47,6 +48,7 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
     }
 
     override fun train(dataset: Dataset<TProgram, TTarget>): EvolutionResult<TProgram, TOutput> {
+        this.logger.debug { "Starting training" }
         Diagnostics.trace("SteadyState:train-start")
 
         val rg = this.environment.randomState
@@ -58,6 +60,8 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
         }
 
         // Determine the initial fitness of the individuals in the population
+        this.logger.trace { "Performing initial fitness evaluation step" }
+
         val initialEvaluations = Diagnostics.traceWithTime("SteadyState:train-initial-evaluations") {
             this.individuals.map { individual ->
                 this.fitnessEvaluator.evaluate(individual, dataset)
@@ -68,13 +72,17 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
             ?: throw NoSuchElementException("No individuals in the initial evaluation list.")
         this.bestProgram = best.individual
 
+        this.logger.trace { "Best individual [Fitness = ${this.bestProgram.fitness}]" }
+
         val statistics = mutableListOf<EvolutionStatistics>()
 
         (0 until this.environment.configuration.generations).forEach { generation ->
+            this.logger.trace { "Processing generation $generation" }
             Diagnostics.trace("SteadyState:train-generation-$generation")
 
             // Stop early whenever we can.
             if (best.fitness <= this.environment.configuration.stoppingCriterion) {
+                this.logger.debug { "Individual found that satisfies stopping criteria - stopping training [Fitness = ${best.fitness}, Stopping Criterion = ${this.environment.configuration.stoppingCriterion}]" }
                 Diagnostics.debug("SteadyState:train-early-exit", mapOf(
                     "best" to best
                 ))
@@ -87,9 +95,13 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
                 return EvolutionResult(best.individual, this.individuals, statistics)
             }
 
+            this.logger.trace { "Performing selection step" }
+
             val children = Diagnostics.traceWithTime("SteadyState:train-selection") {
                 this.select.select(this.individuals)
             }
+
+            this.logger.trace { "Performing recombination and mutation" }
 
             children.pairwise().map { (mother, father) ->
                 // Combine mother and father with some prob.
@@ -121,6 +133,8 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
                 }
             }
 
+            this.logger.trace { "Performing fitness evaluation step" }
+
             // TODO: Do validation step
             val evaluations = Diagnostics.traceWithTime("SteadyState:train-children-evaluations") {
                 children.map { individual ->
@@ -133,6 +147,8 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
             best = if (bestChild.fitness < best.fitness) bestChild else best
             this.bestProgram = best.individual
 
+            this.logger.trace { "Best individual [Fitness = ${this.bestProgram.fitness}]" }
+
             // The children are copies of individuals in the population, so add the copies
             // to the population.
             this.individuals.addAll(children)
@@ -142,6 +158,9 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
 
         this.bestProgram = best.individual
 
+        this.logger.trace { "Best individual [Fitness = ${this.bestProgram.fitness}]" }
+
+        this.logger.debug { "Ending training" }
         Diagnostics.trace("SteadyState:train-end")
 
         return EvolutionResult(best.individual, this.individuals, statistics)
@@ -182,6 +201,8 @@ class SteadyState<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
 
     private fun initialise() {
         val programGenerator = this.moduleFactory.instance<ProgramGenerator<TProgram, TOutput, TTarget>>(CoreModuleType.ProgramGenerator)
+
+        this.logger.trace { "Initialising population of ${this.environment.configuration.populationSize} individuals" }
 
         this.individuals = programGenerator.next()
             .take(this.environment.configuration.populationSize)

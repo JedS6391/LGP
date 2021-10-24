@@ -32,7 +32,9 @@ open class GenericConstantLoader<out T>(
     private constructor(builder: Builder<T>) : this(builder.constants, builder.parseFunction)
 
     // We only evaluate the constants once and then the result is cached for further loads.
-    private val constantProvider = MemoizedComponentProvider("Constant") {
+    private val constantProvider = MemoizedComponentProvider("Constant") { logger ->
+        logger.debug { "Loading constants from raw constant set ${this.constants}" }
+
         this.constants.map { value ->
             this.parseFunction(value)
         }

@@ -3,6 +3,7 @@ package nz.co.jedsimson.lgp.core.environment
 import nz.co.jedsimson.lgp.core.environment.config.Configuration
 import nz.co.jedsimson.lgp.core.environment.constants.ConstantLoader
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
+import nz.co.jedsimson.lgp.core.environment.logging.LoggerProvider
 import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.evolution.fitness.FitnessFunctionProvider
@@ -25,6 +26,11 @@ import kotlin.random.Random
  * @param TTarget The target type of the dataset.
  */
 interface EnvironmentFacade<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>  {
+
+    /**
+     * Provides access to the environments logger instance.
+     */
+    val loggerProvider: LoggerProvider
 
     /**
      * Provides access to the environments random state.
