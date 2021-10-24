@@ -1,5 +1,7 @@
 # LGP
 
+**NOTE:** This branch is used for deployment of API documentation only.
+
 > *A robust LGP implementation on the JVM using Kotlin.*
 
 [![license][license-image]][license-url]
