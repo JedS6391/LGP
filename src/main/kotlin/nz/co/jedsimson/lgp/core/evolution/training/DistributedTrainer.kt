@@ -9,6 +9,7 @@ import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.dataset.Dataset
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
+import nz.co.jedsimson.lgp.core.environment.logging.LoggerProvider
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.program.Output
 import nz.co.jedsimson.lgp.core.evolution.model.EvolutionModel
@@ -134,10 +135,13 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
      */
     private class ModelTrainerTask<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
         private val run: Int,
+        loggerProvider: LoggerProvider,
         private val model: EvolutionModel<TProgram, TOutput, TTarget>,
         private val dataset: Dataset<TProgram, TTarget>,
         private val aggregator: ResultAggregator<TProgram>
     ) : Callable<EvolutionResult<TProgram, TOutput>> {
+
+        private val logger = loggerProvider.getLogger("${ModelTrainerTask::class.qualifiedName!!}-run-${run + 1}")
 
         /**
          * Trains the model and returns the result of the evolutionary process.
@@ -146,10 +150,12 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
             // Give this trainer a unique name
             Thread.currentThread().name = "trainer-${run + 1}"
 
+            logger.debug { "Start training run ${run + 1}" }
             Diagnostics.trace("DistributedTrainer:ModelTrainerTask:start-run-${run + 1}")
 
             val result = this.model.train(this.dataset)
 
+            logger.debug { "End training run ${run + 1}" }
             Diagnostics.trace("DistributedTrainer:ModelTrainerTask:end-run-${run + 1}")
 
             // Aggregate results for this thread.
@@ -173,6 +179,7 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
             this.executor.submit(
                 ModelTrainerTask(
                     run,
+                    this.environment.loggerProvider,
                     model,
                     dataset,
                     this.aggregator
@@ -254,7 +261,12 @@ class DistributedTrainer<TProgram, TOutput : Output<TProgram>, TTarget : Target<
         dataset: Dataset<TProgram, TTarget>,
         progressActor: SendChannel<ProgressUpdate<TProgram, TOutput>>
     ) = GlobalScope.async {
-        val task = ModelTrainerTask(run, model, dataset, this@DistributedTrainer.aggregator)
+        val task = ModelTrainerTask(
+                run,
+                this@DistributedTrainer.environment.loggerProvider,
+                model,
+                dataset,
+                this@DistributedTrainer.aggregator)
 
         val result = task.call()
 

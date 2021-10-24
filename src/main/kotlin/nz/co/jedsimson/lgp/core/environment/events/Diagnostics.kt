@@ -26,9 +26,7 @@ sealed class DiagnosticEvent(val key: String, val context: DiagnosticEventContex
      * @param context Optional contextual information from when/where this event was raised.
      */
     class Debug(key: String, context: DiagnosticEventContext = mapOf()) : DiagnosticEvent(key, defaultContext() + context) {
-        override fun toString(): String {
-            return "Debug($key, $context)"
-        }
+        override fun toString(): String = "Debug($key, $context)"
     }
 
     /**
@@ -38,9 +36,7 @@ sealed class DiagnosticEvent(val key: String, val context: DiagnosticEventContex
      * @param context Optional contextual information from when/where this event was raised.
      */
     class Trace(key: String, context: DiagnosticEventContext = mapOf()): DiagnosticEvent(key, defaultContext() + context) {
-        override fun toString(): String {
-            return "Trace($key, $context)"
-        }
+        override fun toString(): String = "Trace($key, $context)"
     }
 }
 
@@ -117,14 +113,12 @@ internal object Diagnostics {
  *
  * @return A [DiagnosticEventContext] with a default set of contextual information.
  */
-private fun defaultContext(): DiagnosticEventContext {
-    return mapOf(
-        "timestamp" to LocalDateTime.now(),
-        "thread-id" to Thread.currentThread().id,
-        "thread-name" to Thread.currentThread().name,
-        "stack-trace" to Thread.currentThread().stackTrace.asString()
-    )
-}
+private fun defaultContext(): DiagnosticEventContext = mapOf(
+    "timestamp" to LocalDateTime.now(),
+    "thread-id" to Thread.currentThread().id,
+    "thread-name" to Thread.currentThread().name,
+    "stack-trace" to Thread.currentThread().stackTrace.asString()
+)
 
 /**
  * Converts a stack trace to a string, excluding some unnecessary elements.

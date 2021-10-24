@@ -2,6 +2,7 @@ package nz.co.jedsimson.lgp.core.environment.operations
 
 import nz.co.jedsimson.lgp.core.environment.ComponentLoaderBuilder
 import nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider
+import nz.co.jedsimson.lgp.core.environment.logging.Logger
 import nz.co.jedsimson.lgp.core.program.instructions.Operation
 import nz.co.jedsimson.lgp.core.modules.Module
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
@@ -18,11 +19,10 @@ class DefaultOperationLoader<T> constructor(private val operationNames: List<Str
 
     private constructor(builder: Builder<T>) : this(builder.operationNames)
 
-    private val operationProvider = MemoizedComponentProvider("Operation") {
-        this.operationNames.map {
-            name ->
-            this.loadOperation(name)
-        }
+    private val operationProvider = MemoizedComponentProvider("Operation") { logger ->
+        logger.debug { "Loading operations from operation names ${this.operationNames}" }
+
+        this.operationNames.map { name -> this.loadOperation(logger, name) }
     }
 
     /**
@@ -67,8 +67,10 @@ class DefaultOperationLoader<T> constructor(private val operationNames: List<Str
         return this.operationProvider.component
     }
 
-    private fun loadOperation(name: String): Operation<T> {
+    private fun loadOperation(logger: Logger, name: String): Operation<T> {
         try {
+            logger.trace { "Loading operation $name" }
+
             // Load the class as a raw class (i.e. Class<*>).
             val clazz = this.javaClass.classLoader.loadClass(name)
 
@@ -88,6 +90,8 @@ class DefaultOperationLoader<T> constructor(private val operationNames: List<Str
             return operation
         }
         catch (classNotFound: ClassNotFoundException) {
+            logger.error(classNotFound) { "Failed to load operation $name" }
+
             // The class specified probably doesn't exist. Wrap this error up nicely.
             throw InvalidOperationSpecificationException("The class $name could not be found.")
         }

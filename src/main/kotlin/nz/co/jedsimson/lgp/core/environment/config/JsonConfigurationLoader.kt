@@ -40,7 +40,9 @@ class JsonConfigurationLoader constructor(private val filename: String) : Config
 
     // We cache the result of loading configuration so that on the first access we load
     // the configuration from disk, but subsequent loads return the cached copy.
-    private val configurationProvider = MemoizedComponentProvider("Configuration") {
+    private val configurationProvider = MemoizedComponentProvider("Configuration") { logger ->
+        logger.debug { "Loading JSON configuration from ${this.filename}" }
+
         this.gson.fromJson(FileReader(this.filename), Configuration().javaClass)
     }
 

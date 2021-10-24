@@ -3,6 +3,7 @@ package nz.co.jedsimson.lgp.core.environment.dataset
 import com.opencsv.CSVReader
 import nz.co.jedsimson.lgp.core.environment.ComponentLoaderBuilder
 import nz.co.jedsimson.lgp.core.environment.MemoizedComponentProvider
+import nz.co.jedsimson.lgp.core.environment.logging.Logger
 import java.io.FileReader
 import java.io.Reader
 import nz.co.jedsimson.lgp.core.modules.ModuleInformation
@@ -35,7 +36,11 @@ class CsvDatasetLoader<TData, TTarget : Target<TData>> constructor(
     private constructor(builder: Builder<TData, TTarget>)
         : this(builder.reader, builder.featureParseFunction, builder.targetParseFunction)
 
-    private val datasetProvider = MemoizedComponentProvider("Dataset") { this.initialiseDataset() }
+    private val datasetProvider = MemoizedComponentProvider("Dataset") { logger ->
+        logger.debug { "Loading dataset" }
+
+        this.initialiseDataset(logger)
+    }
 
     /**
      * Builds an instance of [CsvDatasetLoader].
@@ -97,15 +102,16 @@ class CsvDatasetLoader<TData, TTarget : Target<TData>> constructor(
         return this.datasetProvider.component
     }
 
-    private fun initialiseDataset(): Dataset<TData, TTarget> {
+    private fun initialiseDataset(logger: Logger): Dataset<TData, TTarget> {
         val reader = CSVReader(this.reader)
         val lines: MutableList<Array<String>> = reader.readAll()
 
         // Make sure there is data before we continue. There should be at least two lines in the file
         // (a header and one row of data). This check will let through a file with 2 data rows, but
         // there is not much that can be done -- plus things will probably break down later on...
-        if (lines.size < 2)
+        if (lines.size < 2) {
             throw InvalidCsvFileException("CSV file should have a header row and one or more data rows.")
+        }
 
         // Assumes the header is in the first row (a reasonable assumption with CSV files).
         val header = lines.removeAt(0)
@@ -118,6 +124,8 @@ class CsvDatasetLoader<TData, TTarget : Target<TData>> constructor(
         val targets = lines.map { line ->
             this.targetParseFunction(header, line)
         }
+
+        logger.trace { "Dataset loaded [Features = $features, Targets = $targets]" }
 
         return Dataset(features, targets)
     }

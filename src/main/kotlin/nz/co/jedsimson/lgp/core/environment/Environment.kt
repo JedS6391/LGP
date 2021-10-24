@@ -4,6 +4,8 @@ import nz.co.jedsimson.lgp.core.environment.config.*
 import nz.co.jedsimson.lgp.core.environment.constants.ConstantLoader
 import nz.co.jedsimson.lgp.core.environment.dataset.Target
 import nz.co.jedsimson.lgp.core.environment.events.Diagnostics
+import nz.co.jedsimson.lgp.core.environment.logging.Logger
+import nz.co.jedsimson.lgp.core.environment.logging.LoggerProvider
 import nz.co.jedsimson.lgp.core.environment.operations.OperationLoader
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregator
 import nz.co.jedsimson.lgp.core.evolution.ResultAggregators
@@ -56,8 +58,7 @@ data class EnvironmentSpecification<TProgram, TOutput : Output<TProgram>, TTarge
  */
 class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgram>>(
     private val specification: EnvironmentSpecification<TProgram, TOutput, TTarget>
-)
-    : EnvironmentFacade<TProgram, TOutput, TTarget> {
+) : EnvironmentFacade<TProgram, TOutput, TTarget> {
 
     // These dependencies are generally initialised when the environment is constructed.
     // Access to these are moderated through the EnvironmentFacade.
@@ -67,9 +68,11 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
     private val defaultValueProvider: DefaultValueProvider<TProgram>
     private val randomStateSeed: Long?
     private var container: ModuleContainer<TProgram, TOutput, TTarget>
+    private lateinit var logger: Logger
 
     // The public environment interface
     // Some dependencies are initialised late as they are created during the environment construction.
+    override val loggerProvider: LoggerProvider
     override val randomState: Random
     override val fitnessFunctionProvider: FitnessFunctionProvider<TProgram, TOutput, TTarget>
     override lateinit var configuration: Configuration
@@ -112,6 +115,8 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
     init {
         Diagnostics.trace("Environment:construction-start")
 
+        this.loggerProvider = LoggerProvider()
+        this.logger = this.loggerProvider.getLogger(Environment::class.qualifiedName!!)
         this.configurationLoader = this.specification.configurationLoader
         this.constantLoader = this.specification.constantLoader
         this.operationLoader = this.specification.operationLoader
@@ -141,6 +146,8 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
 
     private fun initialise() {
         // Load the components each loader is responsible for.
+        logger.debug { "Initialising environment" }
+
         this.configuration = Diagnostics.traceWithTime("Environment:initialise-configuration") {
             this.configurationLoader.load()
         }
@@ -172,6 +179,7 @@ class Environment<TProgram, TOutput : Output<TProgram>, TTarget : Target<TProgra
         // The environment takes care of its own base register set that is not modified by programs.
         // This means that anything that can access the environment has access to a blank register set.
         // TODO: Pass environment to register set and make it a dependency that must be registered.
+        this.logger.debug { "Initialising register set [Input Registers = ${this.configuration.numFeatures}, Calculation Registers = ${this.configuration.numCalculationRegisters}, Constants = ${this.constants} ]" }
 
         this.registerSet = ArrayRegisterSet(
             inputRegisters = this.configuration.numFeatures,

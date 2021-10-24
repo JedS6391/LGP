@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import nz.co.jedsimson.lgp.core.environment.EnvironmentFacade
 import nz.co.jedsimson.lgp.core.environment.config.Configuration
 import nz.co.jedsimson.lgp.core.environment.dataset.Targets
+import nz.co.jedsimson.lgp.core.environment.logging.LoggerProvider
 import nz.co.jedsimson.lgp.core.evolution.operators.selection.BinaryTournamentSelection
 import nz.co.jedsimson.lgp.core.evolution.operators.selection.IndividualSelector
 import nz.co.jedsimson.lgp.core.evolution.operators.selection.TournamentSelection
@@ -23,6 +24,8 @@ object SelectionOperatorFeature : Spek({
             val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             var binaryTournamentSelection: BinaryTournamentSelection<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             var exception: Exception? = null
+
+            whenever(mockEnvironment.loggerProvider).thenReturn(LoggerProvider())
 
             When("A binary tournament selection operator is created with an invalid tournament size") {
                 try {
@@ -52,6 +55,8 @@ object SelectionOperatorFeature : Spek({
             var binaryTournamentSelection: BinaryTournamentSelection<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             var selected: List<Program<Double, Outputs.Single<Double>>>? = null
             var exception: Exception? = null
+
+            whenever(mockEnvironment.loggerProvider).thenReturn(LoggerProvider())
 
             When("A binary tournament selection operator is created with a tournament size of 2") {
                 whenever(mockEnvironment.randomState).thenReturn(Random.Default)
@@ -90,6 +95,8 @@ object SelectionOperatorFeature : Spek({
             var binaryTournamentSelection: BinaryTournamentSelection<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             var selected: List<Program<Double, Outputs.Single<Double>>>? = null
 
+            whenever(mockEnvironment.loggerProvider).thenReturn(LoggerProvider())
+
             When("A binary tournament selection operator is created with a tournament size of 2") {
                 whenever(mockEnvironment.randomState).thenReturn(Random.Default)
                 mockPopulation.forEach { individual ->
@@ -127,6 +134,8 @@ object SelectionOperatorFeature : Spek({
             var selected: List<Program<Double, Outputs.Single<Double>>>? = null
             val originalPopulationSize: Int = mockPopulation.size
 
+            whenever(mockEnvironment.loggerProvider).thenReturn(LoggerProvider())
+
             When("A binary tournament selection operator is created with a tournament size of 2") {
                 whenever(mockEnvironment.randomState).thenReturn(Random.Default)
                 mockPopulation.forEach { individual ->
@@ -159,6 +168,8 @@ object SelectionOperatorFeature : Spek({
             val mockEnvironment = mock<EnvironmentFacade<Double, Outputs.Single<Double>, Targets.Single<Double>>>()
             var tournamentSelection: TournamentSelection<Double, Outputs.Single<Double>, Targets.Single<Double>>? = null
             var exception: Exception? = null
+
+            whenever(mockEnvironment.loggerProvider).thenReturn(LoggerProvider())
 
             When("A tournament selection operator is created with an invalid tournament size") {
                 try {
