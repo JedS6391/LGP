@@ -53,4 +53,4 @@ jobs:
         with:
           branch: docs
           folder: docs/api/
-          target-folder: docs
+          target-folder: docs/api/
