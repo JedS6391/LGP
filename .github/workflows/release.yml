@@ -6,8 +6,9 @@ on:
       - '**.kts'
       - '.github/**'
       - 'docs/**'
-      - 'src/**'
-    branches:      
+      - 'core/**'
+      - 'lib/**'
+    branches:
       - 'master'
   pull_request:
     branches:
@@ -28,12 +29,15 @@ jobs:
 
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-      
-      - name: Build core JAR
-        run: ./gradlew coreJar --no-daemon --stacktrace --console=plain     
 
-      - name: Run tests
-        run: ./gradlew test --no-daemon --info --console=plain --rerun-tasks
+      - name: Build core project
+        run: ./gradlew core:build --no-daemon --stacktrace --console=plain --rerun-tasks
+
+      - name: Build core JAR
+        run: ./gradlew core:coreJar --no-daemon --stacktrace --console=plain --rerun-tasks
+
+      - name: Build lib project
+      - run: ./gradlew lib:build --no-daemon --stacktrace --console=plain --rerun-tasks
 
       - name: Generate code coverage report
         run: ./gradlew jacocoTestReport

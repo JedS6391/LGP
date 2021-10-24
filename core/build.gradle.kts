@@ -63,18 +63,21 @@ tasks {
 
     // Main library JAR.
     jar {
+        archiveBaseName.set(rootProject.name)
+
         manifest {
-            attributes["Implementation-Title"] = project.name
+            attributes["Implementation-Title"] = rootProject.name
             attributes["Implementation-Version"] = version
         }
     }
 
     // JAR for distribution of source files.
     val sourcesJar by creating(Jar::class) {
+        archiveBaseName.set(rootProject.name)
         archiveClassifier.set("sources")
 
         manifest {
-            attributes["Implementation-Title"] = project.name
+            attributes["Implementation-Title"] = rootProject.name
             attributes["Implementation-Version"] = version
         }
 
@@ -83,11 +86,12 @@ tasks {
 
     // JAR for distribution of project + dependency binaries (i.e. fat JAR).
     val coreJar by creating(Jar::class) {
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        archiveBaseName.set(rootProject.name)
         archiveClassifier.set("core")
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
         manifest {
-            attributes["Implementation-Title"] = project.name
+            attributes["Implementation-Title"] = rootProject.name
             attributes["Implementation-Version"] = version
         }
 
@@ -102,12 +106,14 @@ tasks {
 
     // JAR for distribution of JavaDoc.
     val javaDocsJar by creating(Jar::class) {
+        archiveBaseName.set(rootProject.name)
         archiveClassifier.set("javadoc")
         from(dokkaJavadoc)
     }
 
     // JAR for distribution of KDoc.
     val kotlinDocsJar by creating(Jar::class) {
+        archiveBaseName.set(rootProject.name)
         archiveClassifier.set("kotlindoc")
         from(dokkaHtml)
     }
@@ -127,12 +133,10 @@ tasks {
     }
 
     dokkaHtml.configure {
-        outputDirectory.set(projectDir.resolve("docs/api/html"))
+        outputDirectory.set(rootProject.rootDir.resolve("docs/api/html/core"))
 
         dokkaSourceSets {
             named("main") {
-                reportUndocumented.set(true)
-
                 // Module-level documentation
                 includes.from(
                     "src/main/kotlin/nz/co/jedsimson/lgp/core/environment/README.md",
@@ -145,7 +149,7 @@ tasks {
     }
 
     dokkaJavadoc.configure {
-        outputDirectory.set(projectDir.resolve("docs/api/javadoc"))
+        outputDirectory.set(rootProject.rootDir.resolve("docs/api/javadoc/core"))
     }
 
     jacocoTestReport {
