@@ -35,7 +35,7 @@ jobs:
         run: './gradlew core:coreJar --no-daemon --stacktrace --console=plain --rerun-tasks'
 
       - name: Build lib project
-      - run: './gradlew lib:build --no-daemon --stacktrace --console=plain --rerun-tasks'
+        run: './gradlew lib:build --no-daemon --stacktrace --console=plain --rerun-tasks'
 
       - name: Generate code coverage report
         run: './gradlew core:jacocoTestReport'

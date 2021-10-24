@@ -22,13 +22,13 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
 
       - name: Build core project
-        run: "./gradlew core:build --no-daemon --stacktrace --console=plain --rerun-tasks"
+        run: './gradlew core:build --no-daemon --stacktrace --console=plain --rerun-tasks'
 
       - name: Build core JAR
-        run: "./gradlew core:coreJar --no-daemon --stacktrace --console=plain --rerun-tasks"
+        run: './gradlew core:coreJar --no-daemon --stacktrace --console=plain --rerun-tasks'
 
       - name: Build lib project
-      - run: "./gradlew lib:build --no-daemon --stacktrace --console=plain --rerun-tasks"
+        run: './gradlew lib:build --no-daemon --stacktrace --console=plain --rerun-tasks'
 
       - name: Publish binaries
         uses: svenstaro/upload-release-action@v2
