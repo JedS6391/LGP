@@ -137,10 +137,10 @@ Please refer to the [usage guide](http://lgp.readthedocs.io/en/latest/guide/usag
 [docs-url]: http://lgp.readthedocs.io/en/latest/
 [build-image]: https://img.shields.io/github/workflow/status/JedS6391/LGP/Release
 [build-url]: https://github.com/JedS6391/LGP/actions/workflows/release.yml
-[maven-image-core]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP.svg?label=core&style=flat
-[maven-url-core]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP%22
-[maven-image-lib]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP-lib.svg?label=lib&style=flat
-[maven-url-lib]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP-lib%22
+[maven-image-core]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/core.svg?label=core&style=flat
+[maven-url-core]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22core%22
+[maven-image-lib]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/lib.svg?label=lib&style=flat
+[maven-url-lib]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22lib%22
 [code-coverage-image]:https://img.shields.io/codecov/c/github/JedS6391/LGP.svg
 [code-coverage-url]:https://codecov.io/gh/JedS6391/LGP/branch/develop/
 [doi-image]:https://joss.theoj.org/papers/10.21105/joss.01337/status.svg
