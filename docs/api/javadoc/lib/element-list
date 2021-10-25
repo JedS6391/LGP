@@ -1,0 +1,13 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:nz.co.jedsimson.lgp.lib.configuration/YamlConfigurationLoader.Builder///PointingToDeclaration/nz/co/jedsimson/lgp/lib/configuration/YamlConfigurationLoader.Builder.html
+$dokka.location:nz.co.jedsimson.lgp.lib.operations/Addition.Companion///PointingToDeclaration/nz/co/jedsimson/lgp/lib/operations/Addition.Companion.html
+$dokka.location:nz.co.jedsimson.lgp.lib.operations/And.Companion///PointingToDeclaration/nz/co/jedsimson/lgp/lib/operations/And.Companion.html
+$dokka.location:nz.co.jedsimson.lgp.lib.operations/ExclusiveOr.Companion///PointingToDeclaration/nz/co/jedsimson/lgp/lib/operations/ExclusiveOr.Companion.html
+$dokka.location:nz.co.jedsimson.lgp.lib.operations/Not.Companion///PointingToDeclaration/nz/co/jedsimson/lgp/lib/operations/Not.Companion.html
+$dokka.location:nz.co.jedsimson.lgp.lib.operations/Or.Companion///PointingToDeclaration/nz/co/jedsimson/lgp/lib/operations/Or.Companion.html
+nz.co.jedsimson.lgp.lib.base
+nz.co.jedsimson.lgp.lib.configuration
+nz.co.jedsimson.lgp.lib.generators
+nz.co.jedsimson.lgp.lib.operations
+

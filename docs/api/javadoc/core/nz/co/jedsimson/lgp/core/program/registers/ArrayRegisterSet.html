@@ -1,0 +1,808 @@
+<!DOCTYPE HTML>
+<!-- NewPage -->
+<html lang="en"><head>
+    <title>ArrayRegisterSet 5.3 API </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="dc.created" content="2020-03-25">
+    <link rel="stylesheet" type="text/css" href="../../../../../../../stylesheet.css" title="Style">
+    <link rel="stylesheet" type="text/css" href="../../../../../../../dokka-javadoc-stylesheet.css" title="Style">
+    <link rel="stylesheet" type="text/css" href="../../../../../../../jquery/jquery-ui.css" title="Style">
+    <script type="text/javascript" src="../../../../../../../jquery/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="../../../../../../../jquery/jquery-migrate-3.0.1.js"></script>
+    <script type="text/javascript" src="../../../../../../../jquery/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="../../../../../../../search.js"></script>
+    <script async type="text/javascript" src="../../../../../../../module-search-index.js"></script>
+    <script async type="text/javascript" src="../../../../../../../package-search-index.js"></script>
+    <script async type="text/javascript" src="../../../../../../../type-search-index.js"></script>
+    <script async type="text/javascript" src="../../../../../../../member-search-index.js"></script>
+    <script async type="text/javascript" src="../../../../../../../tag-search-index.js"></script>
+</head><body>
+<script type="text/javascript">
+var pathtoroot = "../../../../../../../";
+</script>
+<noscript>
+    <div>JavaScript is disabled on your browser.</div>
+</noscript><header role="banner">
+    <nav role="navigation">
+        <div class="fixedNav">
+            <!-- ========= START OF TOP NAVBAR ======= -->
+            <div class="topNav"><a id="navbar.top">
+                <!--   -->
+            </a>
+                <div class="skipNav"><a href="#skip.navbar.top" title="Skip navigation links">Skip navigation links</a>
+                </div>
+                <a id="navbar.top.firstrow">
+                    <!--   -->
+                </a>
+                <ul class="navList" title="Navigation">
+    <li><a href="../../../../../../../index.html">Overview</a></li>
+    
+    <li><a href="package-summary.html">Package</a></li>
+    
+    <li class="navBarCell1Rev">Class</li>
+    
+    <li><a href="package-tree.html">Tree</a></li>
+    
+    <li><a href="../../../../../../../deprecated.html">Deprecated</a></li>
+    <li><a href="../../../../../../../index-files/index-1.html">Index</a></li>
+    <li>Help</li>
+</ul></div>
+            <div class="subNav">
+<ul class="navList" id="allclasses_navbar_top" style="display: block;">
+    <li><a href="../../../../../../../allclasses.html">All&nbsp;Classes</a></li>
+</ul>
+
+<ul class="navListSearch">
+<li><label for="search">SEARCH:</label>
+<input type="text" id="search" value="search" class="ui-autocomplete-input" autocomplete="off" placeholder="Search">
+<input type="reset" id="reset" value="reset">
+</li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+</div>
+<a id="skip.navbar.top">
+<!--   -->
+</a></div><!-- ========= END OF TOP NAVBAR ========= -->
+        </div>
+        <div class="navPadding">&nbsp;</div>
+        <script type="text/javascript"><!--
+        $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
+        //-->
+        </script>
+    </nav>
+</header>
+
+<main role="main">
+    <div class="header">
+        <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html"></a></div>
+        <h2 title="Class ArrayRegisterSet" class="title">Class ArrayRegisterSet</h2>
+    </div>
+    <div class="contentContainer">
+        <!-- <ul class="inheritance">
+            <li>java.lang.Object</li>
+            <li>
+                <ul class="inheritance">
+                    <li>adaptation.Adaptation</li>
+                </ul>
+            </li>
+        </ul> TODO inheritance tree -->
+        <div class="description">
+            <ul class="blockList">
+                <li class="blockList">
+                    
+                    <dl>
+                        <dt>All Implemented Interfaces:</dt>
+                        <dd>
+                            
+                            <code>nz.co.jedsimson.lgp.core.program.registers.RegisterSet</code>
+                            
+                            
+                        </dd>
+                    </dl>
+                    
+                    <hr>
+                    <pre class="wrap-overflow">
+
+public final class <span class="typeNameLabel"><a href=ArrayRegisterSet.html>ArrayRegisterSet</a>&lt;TData extends <a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>Object</a>&gt;</span>
+ implements <a href=RegisterSet.html>RegisterSet</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt;
+                    </pre>
+                    <div class="block"><p>An implementation of <a href=RegisterSet.html>RegisterSet</a> that uses an array as the register store.</p></div>
+                </li>
+            </ul>
+        </div>
+        <div class="summary">
+            <ul class="blockList">
+                <li class="blockList">
+                <!-- ======== NESTED CLASS SUMMARY ======== -->
+                    
+                    <section role="region">
+                        <ul class="blockList">
+                            <li class="blockList"><a id="nested.class.summary">
+                                <!--   -->
+                            </a>
+                                <h3>Nested Class Summary</h3>
+                                <div class="memberSummary">
+                                    <table>
+                                        <caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+                                        <tr>
+                                            <th class="colFirst" scope="col">Modifier and Type</th>
+                                            <th class="colSecond" scope="col">Class</th>
+                                            <th class="colLast" scope="col">Description</th>
+                                        </tr>
+                                        
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    
+                    <!-- =========== FIELD SUMMARY =========== -->
+                    
+                    <section role="region">
+                        <ul class="blockList">
+                            <li class="blockList"><a id="field.summary">
+                                <!--   -->
+                            </a>
+                                <h3>Field Summary</h3>
+                                <div class="memberSummary">
+                                    <table>
+                                        <caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+                                        <tr>
+                                            <th class="colFirst" scope="col">Modifier and Type</th>
+                                            <th class="colSecond" scope="col">Field</th>
+                                            <th class="colLast" scope="col">Description</th>
+                                        </tr>
+                                        
+                                        <tr class="altColor">
+                                            <td class="colFirst"><code>private final <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html>IntRange</a></code></td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#inputRegisters>inputRegisters</a></code></th>
+                                            <td class="colLast"></td>
+                                        </tr>
+                                        
+                                        <tr class="rowColor">
+                                            <td class="colFirst"><code>private final <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html>IntRange</a></code></td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#calculationRegisters>calculationRegisters</a></code></th>
+                                            <td class="colLast"></td>
+                                        </tr>
+                                        
+                                        <tr class="altColor">
+                                            <td class="colFirst"><code>private final <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html>IntRange</a></code></td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#constantRegisters>constantRegisters</a></code></th>
+                                            <td class="colLast"></td>
+                                        </tr>
+                                        
+                                        <tr class="rowColor">
+                                            <td class="colFirst"><code>private final <a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a></code></td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#count>count</a></code></th>
+                                            <td class="colLast"></td>
+                                        </tr>
+                                        
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    
+                    <!-- ======== CONSTRUCTOR SUMMARY ======== -->
+                    
+                    <section role="region">
+                        <ul class="blockList">
+                            <li class="blockList"><a id="constructor.summary">
+                                <!--   -->
+                            </a>
+                                <h3>Constructor Summary</h3>
+                                <div class="memberSummary">
+                                    <table>
+                                        <caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+                                        <tbody>
+                                        <tr>
+                                            <th class="colFirst" scope="col">Constructor</th>
+                                            <th class="colLast" scope="col">Description</th>
+                                        </tr>
+
+                                        
+                                            <tr class="altColor">
+                                                <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a
+                                                        href="#ArrayRegisterSet(Integer,Integer,List,DefaultValueProvider)">ArrayRegisterSet</a></span>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> inputRegisters, <a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> calculationRegisters, <a href=https://docs.oracle.com/javase/8/docs/api/java/util/List.html>List</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt; constants, <a href=../../environment/DefaultValueProvider.html>DefaultValueProvider</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt; defaultValueProvider)</code></th>
+                                                <td class="colLast">Creates a new <a href=ArrayRegisterSet.html>ArrayRegisterSet</a> with the specified parameters.</td>
+                                            </tr>
+                                        
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    
+                    <!-- =========== ENUM CONSTANT SUMMARY =========== -->
+                    
+                    <section role="region">
+                        <ul class="blockList">
+                            <li class="blockList"><a id="enum.constant.summary">
+                                <!--   -->
+                            </a>
+                                <h3>Enum Constant Summary</h3>
+                                <table class="memberSummary">
+                                    <caption><span>Enum Constants</span><span class="tabEnd">&nbsp;</span></caption>
+                                    <tr>
+                                        <th class="colFirst" scope="col">Enum Constant</th>
+                                        <th class="colLast" scope="col">Description</th>
+                                    </tr>
+                                    
+                                </table>
+                            </li>
+                        </ul>
+                    </section>
+                    
+                    <!-- ========== METHOD SUMMARY =========== -->
+                    
+                    <section role="region">
+                        <ul class="blockList">
+                            <li class="blockList"><a id="method.summary">
+                                <!--   -->
+                            </a>
+                                <h3>Method Summary</h3>
+                                <div class="memberSummary">
+                                    <div role="tablist" aria-orientation="horizontal">
+                                        <button role="tab" aria-selected="true" aria-controls="memberSummary_tabpanel" tabindex="0" onkeydown="switchTab(event)" id="t0" class="activeTableTab">All Methods</button>
+                                        <!-- TODO: Instance and Concrete Methods #1118 -->
+                                    </div>
+                                    <div id="memberSummary_tabpanel" role="tabpanel">
+                                    <table aria-labelledby="t0">
+                                        <tr>
+                                            <th class="colFirst" scope="col">Modifier and Type</th>
+                                            <th class="colSecond" scope="col">Method</th>
+                                            <th class="colLast" scope="col">Description</th>
+                                        </tr>
+                                        
+                                        <tr id="i0" class="altColor">
+                                            <td class="colFirst"><code><a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html>IntRange</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#getInputRegisters()>getInputRegisters</a>() </code>
+                                            </th>
+                                            <td class="colLast">Number of <a href=RegisterType.html#Input>RegisterType.Input</a> registers.</td>
+                                        </tr>
+                                        
+                                        <tr id="i1" class="rowColor">
+                                            <td class="colFirst"><code><a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html>IntRange</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#getCalculationRegisters()>getCalculationRegisters</a>() </code>
+                                            </th>
+                                            <td class="colLast">Number of <a href=RegisterType.html#Calculation>RegisterType.Calculation</a> registers.</td>
+                                        </tr>
+                                        
+                                        <tr id="i2" class="altColor">
+                                            <td class="colFirst"><code><a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html>IntRange</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#getConstantRegisters()>getConstantRegisters</a>() </code>
+                                            </th>
+                                            <td class="colLast">Number of <a href=RegisterType.html#Constant>RegisterType.Constant</a> registers.</td>
+                                        </tr>
+                                        
+                                        <tr id="i3" class="rowColor">
+                                            <td class="colFirst"><code><a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#getCount()>getCount</a>() </code>
+                                            </th>
+                                            <td class="colLast"></td>
+                                        </tr>
+                                        
+                                        <tr id="i4" class="altColor">
+                                            <td class="colFirst"><code><a href=Register.html>Register</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt;</code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#register(Integer)>register</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index) </code>
+                                            </th>
+                                            <td class="colLast">Get the <a href=Register.html>Register</a> with the given index.</td>
+                                        </tr>
+                                        
+                                        <tr id="i5" class="rowColor">
+                                            <td class="colFirst"><code><a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#apply(Integer,Function1)>apply</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index, Function1&lt;<a href=ArrayRegisterSet.html>TData</a>, <a href=ArrayRegisterSet.html>TData</a>&gt; modifier) </code>
+                                            </th>
+                                            <td class="colLast">Applies the given <a href=ArrayRegisterSet.html#apply(Integer,Function1)>modifier</a> to the value of the <a href=Register.html>Register</a> at <a href=ArrayRegisterSet.html#apply(Integer,Function1)>index</a>.</td>
+                                        </tr>
+                                        
+                                        <tr id="i6" class="altColor">
+                                            <td class="colFirst"><code><a href=ArrayRegisterSet.html>TData</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#get(Integer)>get</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index) </code>
+                                            </th>
+                                            <td class="colLast">Get the value the of the register at the given index.</td>
+                                        </tr>
+                                        
+                                        <tr id="i7" class="rowColor">
+                                            <td class="colFirst"><code><a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#set(Integer,TData)>set</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index, <a href=ArrayRegisterSet.html>TData</a> value) </code>
+                                            </th>
+                                            <td class="colLast">Sets the value of the register at the given index.</td>
+                                        </tr>
+                                        
+                                        <tr id="i8" class="altColor">
+                                            <td class="colFirst"><code><a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#overwrite(Integer,TData)>overwrite</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index, <a href=ArrayRegisterSet.html>TData</a> value) </code>
+                                            </th>
+                                            <td class="colLast">Forcefully sets the value or the register with the given <a href=ArrayRegisterSet.html#overwrite(Integer,TData)>index</a>.</td>
+                                        </tr>
+                                        
+                                        <tr id="i9" class="rowColor">
+                                            <td class="colFirst"><code><a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#writeInstance(Sample)>writeInstance</a>(<a href=../../environment/dataset/Sample.html>Sample</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt; data) </code>
+                                            </th>
+                                            <td class="colLast">Writes an instance from some data set to the register sets input registers.</td>
+                                        </tr>
+                                        
+                                        <tr id="i10" class="altColor">
+                                            <td class="colFirst"><code><a href=RegisterType.html>RegisterType</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#registerType(Integer)>registerType</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index) </code>
+                                            </th>
+                                            <td class="colLast">Determines the type of the register with the given <a href=ArrayRegisterSet.html#registerType(Integer)>index</a>.</td>
+                                        </tr>
+                                        
+                                        <tr id="i11" class="rowColor">
+                                            <td class="colFirst"><code><a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#reset()>reset</a>() </code>
+                                            </th>
+                                            <td class="colLast">Resets the input and calculation registers to their default values.</td>
+                                        </tr>
+                                        
+                                        <tr id="i12" class="altColor">
+                                            <td class="colFirst"><code><a href=RegisterSet.html>RegisterSet</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt;</code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#copy()>copy</a>() </code>
+                                            </th>
+                                            <td class="colLast">Creates a clone of this register set.</td>
+                                        </tr>
+                                        
+                                        <tr id="i13" class="rowColor">
+                                            <td class="colFirst"><code><a href=https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>String</a></code>
+                                            </td>
+                                            <th class="colSecond" scope="row"><code><a href=ArrayRegisterSet.html#toString()>toString</a>() </code>
+                                            </th>
+                                            <td class="colLast"></td>
+                                        </tr>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <ul class="blockList">
+                                
+                                    <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
+                                        <!--   -->
+                                    </a>
+                                        <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+                                        <code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString,
+                                            wait, wait, wait</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    
+                </li>
+            </ul>
+        </div>
+        <div class="details">
+            <ul class="blockList">
+                <li class="blockList">
+                    <!-- ========= CONSTRUCTOR DETAIL ======== -->
+                    
+                    <section role="region">
+                        <ul class="blockList">
+                            <li class="blockList"><a id="constructor.detail">
+                                <!--   -->
+                            </a>
+                                <h3>Constructor Detail</h3>
+                                
+                                <a name="ArrayRegisterSet(Integer,Integer,List,DefaultValueProvider)"></a>
+                                <ul class="blockList">
+                                    <li class="blockList">
+                                        <h4>ArrayRegisterSet</h4>
+                                        <pre>ArrayRegisterSet(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> inputRegisters, <a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> calculationRegisters, <a href=https://docs.oracle.com/javase/8/docs/api/java/util/List.html>List</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt; constants, <a href=../../environment/DefaultValueProvider.html>DefaultValueProvider</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt; defaultValueProvider)</pre>
+                                        <div class="block">Creates a new <a href=ArrayRegisterSet.html>ArrayRegisterSet</a> with the specified parameters.</div>
+                                        
+                                        <dl>
+                                            <dt><span class="paramLabel">Parameters:</span></dt>
+                                            
+                                            
+                                            <dd><code>inputRegisters</code> - Number of registers reserved for input values from a data set instance.</dd>
+                                            
+                                            
+                                            
+                                            <dd><code>calculationRegisters</code> - Number of registers reserved for calculations (i.e.</dd>
+                                            
+                                            
+                                            
+                                            <dd><code>constants</code> - A collection of constants to be stored in read-only constant registers.</dd>
+                                            
+                                            
+                                            
+                                            <dd><code>defaultValueProvider</code> - An implementation that can provide default values for the calculation registers.</dd>
+                                            
+                                            
+                                        </dl>
+                                        
+                                    </li>
+                                </ul>
+                                
+                            </li>
+                        </ul>
+                    </section>
+                    
+                    <!-- ============ METHOD DETAIL ========== -->
+                    
+                    <section role="region">
+                        <ul class="blockList">
+                            <li class="blockList"><a id="method.detail">
+                                <!--   -->
+                            </a>
+                                <h3>Method Detail</h3>
+                                
+                                <a id="getInputRegisters()">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>getInputRegisters</h4>
+                                        <pre class="methodSignature"> <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html>IntRange</a> <a href=ArrayRegisterSet.html#getInputRegisters()>getInputRegisters</a>()</pre>
+                                        <div class="block"><p>Number of <a href=RegisterType.html#Input>RegisterType.Input</a> registers.</p></div>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="getCalculationRegisters()">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>getCalculationRegisters</h4>
+                                        <pre class="methodSignature"> <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html>IntRange</a> <a href=ArrayRegisterSet.html#getCalculationRegisters()>getCalculationRegisters</a>()</pre>
+                                        <div class="block"><p>Number of <a href=RegisterType.html#Calculation>RegisterType.Calculation</a> registers.</p></div>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="getConstantRegisters()">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>getConstantRegisters</h4>
+                                        <pre class="methodSignature"> <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html>IntRange</a> <a href=ArrayRegisterSet.html#getConstantRegisters()>getConstantRegisters</a>()</pre>
+                                        <div class="block"><p>Number of <a href=RegisterType.html#Constant>RegisterType.Constant</a> registers.</p></div>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="getCount()">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>getCount</h4>
+                                        <pre class="methodSignature"> <a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> <a href=ArrayRegisterSet.html#getCount()>getCount</a>()</pre>
+                                        <div class="block"></div>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="register(Integer)">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>register</h4>
+                                        <pre class="methodSignature"> <a href=Register.html>Register</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt; <a href=ArrayRegisterSet.html#register(Integer)>register</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index)</pre>
+                                        <div class="block"><p>Get the <a href=Register.html>Register</a> with the given index.</p></div>
+                                        
+                                        <dl>
+                                            <dt><span class="paramLabel">Parameters:</span></dt>
+                                            
+                                            
+                                            <dd><code>index</code> - The index of the desired register.</dd>
+                                            
+                                            
+                                        </dl>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="apply(Integer,Function1)">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>apply</h4>
+                                        <pre class="methodSignature"> <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a> <a href=ArrayRegisterSet.html#apply(Integer,Function1)>apply</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index, Function1&lt;<a href=ArrayRegisterSet.html>TData</a>, <a href=ArrayRegisterSet.html>TData</a>&gt; modifier)</pre>
+                                        <div class="block"><p>Applies the given <a href=ArrayRegisterSet.html#apply(Integer,Function1)>modifier</a> to the value of the <a href=Register.html>Register</a> at <a href=ArrayRegisterSet.html#apply(Integer,Function1)>index</a>.</p></div>
+                                        
+                                        <dl>
+                                            <dt><span class="paramLabel">Parameters:</span></dt>
+                                            
+                                            
+                                            <dd><code>index</code> - The register to modify the value of.</dd>
+                                            
+                                            
+                                            
+                                            <dd><code>modifier</code> - A function that modifies the value in the register.</dd>
+                                            
+                                            
+                                        </dl>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="get(Integer)">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>get</h4>
+                                        <pre class="methodSignature"> <a href=ArrayRegisterSet.html>TData</a> <a href=ArrayRegisterSet.html#get(Integer)>get</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index)</pre>
+                                        <div class="block"><p>Get the value the of the register at the given index.</p></div>
+                                        
+                                        <dl>
+                                            <dt><span class="paramLabel">Parameters:</span></dt>
+                                            
+                                            
+                                            <dd><code>index</code> - The register to read from.</dd>
+                                            
+                                            
+                                        </dl>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="set(Integer,TData)">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>set</h4>
+                                        <pre class="methodSignature"> <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a> <a href=ArrayRegisterSet.html#set(Integer,TData)>set</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index, <a href=ArrayRegisterSet.html>TData</a> value)</pre>
+                                        <div class="block"><p>Sets the value of the register at the given index.</p></div>
+                                        
+                                        <dl>
+                                            <dt><span class="paramLabel">Parameters:</span></dt>
+                                            
+                                            
+                                            <dd><code>index</code> - The register to write to.</dd>
+                                            
+                                            
+                                            
+                                            <dd><code>value</code> - The value to write to the register.</dd>
+                                            
+                                            
+                                        </dl>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="overwrite(Integer,TData)">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>overwrite</h4>
+                                        <pre class="methodSignature"> <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a> <a href=ArrayRegisterSet.html#overwrite(Integer,TData)>overwrite</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index, <a href=ArrayRegisterSet.html>TData</a> value)</pre>
+                                        <div class="block"><p>Forcefully sets the value or the register with the given <a href=ArrayRegisterSet.html#overwrite(Integer,TData)>index</a>.</p><p>This method has similar functionality to the RegisterSet::set method but does not check the type of the register -- allowing constant registers to be overwritten without exception.</p></div>
+                                        
+                                        <dl>
+                                            <dt><span class="paramLabel">Parameters:</span></dt>
+                                            
+                                            
+                                            <dd><code>index</code> - The register to write to.</dd>
+                                            
+                                            
+                                            
+                                            <dd><code>value</code> - The value to write to the register.</dd>
+                                            
+                                            
+                                        </dl>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="writeInstance(Sample)">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>writeInstance</h4>
+                                        <pre class="methodSignature"> <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a> <a href=ArrayRegisterSet.html#writeInstance(Sample)>writeInstance</a>(<a href=../../environment/dataset/Sample.html>Sample</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt; data)</pre>
+                                        <div class="block"><p>Writes an instance from some data set to the register sets input registers.</p><p>NOTE: The number of input registers of the set must match the number of features in the instance.</p></div>
+                                        
+                                        <dl>
+                                            <dt><span class="paramLabel">Parameters:</span></dt>
+                                            
+                                            
+                                            <dd><code>data</code> - An instance to write to the input registers.</dd>
+                                            
+                                            
+                                        </dl>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="registerType(Integer)">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>registerType</h4>
+                                        <pre class="methodSignature"> <a href=RegisterType.html>RegisterType</a> <a href=ArrayRegisterSet.html#registerType(Integer)>registerType</a>(<a href=https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>Integer</a> index)</pre>
+                                        <div class="block"><p>Determines the type of the register with the given <a href=ArrayRegisterSet.html#registerType(Integer)>index</a>.</p></div>
+                                        
+                                        <dl>
+                                            <dt><span class="paramLabel">Parameters:</span></dt>
+                                            
+                                            
+                                            <dd><code>index</code> - The index of the register whose type is desired.</dd>
+                                            
+                                            
+                                        </dl>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="reset()">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>reset</h4>
+                                        <pre class="methodSignature"> <a href=https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html>Unit</a> <a href=ArrayRegisterSet.html#reset()>reset</a>()</pre>
+                                        <div class="block"><p>Resets the input and calculation registers to their default values.</p></div>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="copy()">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockList"
+                                          >
+                                    <li class="blockList">
+                                        <h4>copy</h4>
+                                        <pre class="methodSignature"> <a href=RegisterSet.html>RegisterSet</a>&lt;<a href=ArrayRegisterSet.html>TData</a>&gt; <a href=ArrayRegisterSet.html#copy()>copy</a>()</pre>
+                                        <div class="block"><p>Creates a clone of this register set.</p></div>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                                <a id="toString()">
+                                    <!--   -->
+                                </a>
+                                <ul class=
+                                              "blockListLast"
+                                          >
+                                    <li class="blockList">
+                                        <h4>toString</h4>
+                                        <pre class="methodSignature"> <a href=https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>String</a> <a href=ArrayRegisterSet.html#toString()>toString</a>()</pre>
+                                        <div class="block"></div>
+                                        
+                                        <!-- TODO missing return annotation -->
+                                    </li>
+                                </ul>
+                                
+                            </li>
+                        </ul>
+                    </section>
+                    
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+<footer role="contentinfo">
+    <nav role="navigation">
+        <!-- ======= START OF BOTTOM NAVBAR ====== -->
+        <div class="bottomNav"><a id="navbar.bottom">
+            <!--   -->
+        </a>
+            <div class="skipNav"><a href="#skip.navbar.bottom" title="Skip navigation links">Skip navigation links</a>
+            </div>
+            <a id="navbar.bottom.firstrow">
+                <!--   -->
+            </a>
+            <ul class="navList" title="Navigation">
+    <li><a href="../../../../../../../index.html">Overview</a></li>
+    
+    <li><a href="package-summary.html">Package</a></li>
+    
+    <li class="navBarCell1Rev">Class</li>
+    
+    <li><a href="package-tree.html">Tree</a></li>
+    
+    <li><a href="../../../../../../../deprecated.html">Deprecated</a></li>
+    <li><a href="../../../../../../../index-files/index-1.html">Index</a></li>
+    <li>Help</li>
+</ul></div>
+        <a id="skip.navbar.bottom">
+            <!--   -->
+        </a>
+        <div class="subNav">
+<ul class="navList" id="allclasses_navbar_top" style="display: block;">
+    <li><a href="../../../../../../../allclasses.html">All&nbsp;Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+</div>
+<a id="skip.navbar.top">
+<!--   -->
+</a></div><!-- ======== END OF BOTTOM NAVBAR ======= -->
+    </nav>
+</footer><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-1" tabindex="0"
+    style="display: none;"></ul>
+<span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></span>
+</body>
+</html>
