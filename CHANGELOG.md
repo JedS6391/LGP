@@ -6,9 +6,12 @@
 
 - Add logging abstractions. Logging can now be configured using SLF4J to gain deeper introspection into the system.
 
-**Changes:**
+**Breaking Changes:**
 
 - Move to multi-module project structure. The main repository now includes the `core` and `lib` packages.
+- The artifacts published to Maven have changed to reflect the new structure:
+  - `nz.co.jedsimson.lgp:LGP` is now `nz.co.jedsimson.lgp:core`
+  - `nz.co.jedsimson.lgp:LGP-lib` is now `nz.co.jedsimson.lgp:lib`
 
 **Fixes:**
 
