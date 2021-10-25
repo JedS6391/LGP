@@ -1,5 +1,19 @@
 # Change Log
 
+## [v-5.3](https://github.com/JedS6391/LGP/tree/5.3) (2021-10-25)
+
+**Additions:**
+
+- Add logging abstractions. Logging can now be configured using SLF4J to gain deeper introspection into the system.
+
+**Changes:**
+
+- Move to multi-module project structure. The main repository now includes the `core` and `lib` packages.
+
+**Fixes:**
+
+- Maven publication POM did not declare dependencies in the 5.2 release. This has been resolved.
+
 ## [v-5.2](https://github.com/JedS6391/LGP/tree/5.2) (2021-10-23)
 
 **Changes:**

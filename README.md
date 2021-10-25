@@ -6,18 +6,19 @@
 [![docs][docs-image]][docs-url]
 [![build][build-image]][build-url]
 [![code-coverage][code-coverage-image]][code-coverage-url]
-[![maven][maven-image]][maven-url]
+[![maven-core][maven-image-core]][maven-url-core]
+[![maven-lib][maven-image-lib]][maven-url-lib]
 [![DOI][doi-image]][doi-url]
 
 ## About
 
 An implementation of [Linear Genetic Programming](https://en.wikipedia.org/wiki/Linear_genetic_programming) that follows that outlined by *Linear Genetic Programming* (Brameier, M. F. and Banzhaf, W. 2007).
 
-The core API is implemented in [Kotlin](https://kotlinlang.org) which allows for easily interoperability with Java (and other JVM languages), while adding the benefit of modern programming language features.
+The framework is implemented in [Kotlin](https://kotlinlang.org) which allows for easily interoperability with Java (and other JVM languages), while adding the benefit of modern programming language features.
 
-To get started with how to use the system, see the [documentation](http://lgp.readthedocs.io/en/latest/).
+To get started with how to use the framework, see the [documentation](http://lgp.readthedocs.io/en/latest/).
 
-If you find the system useful or have any queries, please feel free to:
+If you find the framework useful or have any queries, please feel free to:
 
 - Create a [new issue](https://github.com/JedS6391/LGP/issues/new)
 - Contact me via my [website](http://www.jedsimson.co.nz/contact)
@@ -45,13 +46,11 @@ dependencies {
 
 ## Tests
 
-The test suite for the system can be run with the following gradle command:
+The test suite for the framework can be run with the following gradle command:
 
 ```bash
 ./gradlew test --info --rerun-tasks
 ```
-
-<small>*Note: Adding tests is an on-going process.*</small>
 
 ## Usage
 
@@ -67,9 +66,9 @@ A set of example usages can be found in the [LGP-examples](https://github.com/Je
 
 ### Getting started
 
-The system is built using Kotlin and the easiest way to use it is through the Kotlin API. Instructions for installation and usage of the Kotlin compiler, `kotlinc`, can be found for the [Command Line](https://kotlinlang.org/docs/tutorials/command-line.html) or [IntelliJ IDEA](https://kotlinlang.org/docs/tutorials/getting-started.html). 
+The framework is built using Kotlin and the easiest way to use it is through the Kotlin API. Instructions for installation and usage of the Kotlin compiler, `kotlinc`, can be found for the [Command Line](https://kotlinlang.org/docs/tutorials/command-line.html) or [IntelliJ IDEA](https://kotlinlang.org/docs/tutorials/getting-started.html). 
 
-Here, we'll focus on how to use the system through Kotlin (particularly from the command line) but documentation is provided for using the API through Java. This guide assumes you want to directly use the JAR file and not through another build system.
+Here, we'll focus on how to use the framework through Kotlin (particularly from the command line) but documentation is provided for using the API through Java. This guide assumes you want to directly use the JAR file and not through another build system.
 
 Assuming that `kotlinc` is installed and available at the command line, the first step is to download the core API JAR file as described in the *Installation* section. You will also want to download the [LGP-lib](https://github.com/JedS6391/LGP-lib/releases) package which provides implementations of core components, particularly `BaseProblem` which we will use in this example.
 
@@ -132,8 +131,10 @@ Please refer to the [usage guide](http://lgp.readthedocs.io/en/latest/guide/usag
 [docs-url]: http://lgp.readthedocs.io/en/latest/
 [build-image]: https://img.shields.io/github/workflow/status/JedS6391/LGP/Release
 [build-url]: https://github.com/JedS6391/LGP/actions/workflows/release.yml
-[maven-image]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP.svg?label=Maven%20Central&style=flat
-[maven-url]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP%22
+[maven-image-core]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP.svg?label=core&style=flat
+[maven-url-core]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP%22
+[maven-image-lib]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP-lib.svg?label=lib&style=flat
+[maven-url-lib]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP-lib%22
 [code-coverage-image]:https://img.shields.io/codecov/c/github/JedS6391/LGP.svg
 [code-coverage-url]:https://codecov.io/gh/JedS6391/LGP/branch/develop/
 [doi-image]:https://joss.theoj.org/papers/10.21105/joss.01337/status.svg
