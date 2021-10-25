@@ -90,12 +90,14 @@ tasks {
     val coreJar by creating(Jar::class) {
         archiveBaseName.set(rootProject.name)
         archiveClassifier.set("core")
+        archiveVersion.set("")
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
         manifest {
             attributes["Implementation-Title"] = rootProject.name
             attributes["Implementation-Version"] = version
         }
+
 
         from(configurations.runtimeClasspath
                 .get()
