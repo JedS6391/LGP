@@ -13,6 +13,8 @@ plugins {
     // Test report generation 
     id("jacoco")
 
+    id("java")
+
     // Artifact publishing
     `maven-publish`
     signing
@@ -58,8 +60,8 @@ java {
 }
 
 tasks {
-    val group = "nz.co.jedsimson.lgp"
-    val version = "5.3"
+    val group = project.group.toString()
+    val version = project.version.toString()
 
     // Main library JAR.
     jar {
@@ -191,7 +193,7 @@ tasks {
                 setGroupId(group)
                 setVersion(version)
 
-                artifact(jar)
+                from(project.components["java"])
                 artifact(sourcesJar)
                 artifact(javaDocsJar)
 

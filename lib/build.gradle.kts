@@ -6,6 +6,12 @@ plugins {
 
     // Documentation generation
     id("org.jetbrains.dokka") version (kotlinVersion)
+
+    id("java")
+
+    // Artifact publishing
+    `maven-publish`
+    signing
 }
 
 repositories {
@@ -26,8 +32,8 @@ dependencies {
 
 tasks {
     val mainArtifactName = "${rootProject.name}-${project.name}"
-    val group = "nz.co.jedsimson.lgp"
-    val version = "5.3"
+    val group = project.group.toString()
+    val version = project.version.toString()
 
     // Main library JAR.
     jar {
@@ -66,71 +72,83 @@ tasks {
     dokkaJavadoc.configure {
         outputDirectory.set(rootProject.rootDir.resolve("docs/api/javadoc/lib"))
     }
+
+    signing {
+        // Sign archives when the required environment variables are available.
+        val signingEnvironmentVariableNames = listOf(
+                "ORG_GRADLE_PROJECT_signingKeyId",
+                "ORG_GRADLE_PROJECT_signingKey",
+                "ORG_GRADLE_PROJECT_signingPassword"
+        )
+
+        setRequired({
+            signingEnvironmentVariableNames.all { System.getenv(it) != null  } &&
+                gradle.taskGraph.allTasks.any { it is PublishToMavenRepository }
+        })
+
+        val signingKeyId: String? by project
+        val signingKey: String? by project
+        val signingPassword: String? by project
+
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+
+        sign(configurations.archives.get())
+        sign(publishing.publications)
+    }
+
+    publishing {
+        publications {
+            create<MavenPublication>("LGP-lib") {
+                setGroupId(group)
+                setVersion(version)
+
+                from(project.components["java"])
+                artifact(sourcesJar)
+                artifact(javaDocsJar)
+
+                pom {
+                    packaging = "jar"
+                    name.set("LGP-lib")
+                    description.set("A library of implementations for core LGP framework components.")
+                    url.set("https://github.com/JedS6391/LGP")
+
+                    scm {
+                        connection.set("scm:git:git://github.com/JedS6391/LGP.git")
+                        developerConnection.set("scm:git:ssh://github.com/JedS6391/LGP.git")
+                        url.set("http://github.com/JedS6391/LGP/tree/master")
+                    }
+
+                    licenses {
+                        license {
+                            name.set("MIT License")
+                            url.set("https://github.com/JedS6391/LGP/blob/master/LICENSE")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set("jedsimson")
+                            name.set("Jed Simson")
+                            email.set("jed.simson@gmail.com")
+                            organization.set("jedsimson")
+                            organizationUrl.set("https://www.jedsimson.co.nz")
+                        }
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                val releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                val snapshotsRepoUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                url = if (version.endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+
+                authentication {
+                    credentials.username = System.getenv("SONATYPE_USERNAME")
+                    credentials.password = System.getenv("SONATYPE_PASSWORD")
+                }
+            }
+        }
+    }
 }
-
-//// Signing and deployment
-//apply plugin: 'maven'
-//
-//// We don't want local builds to have to depend on the signing process, so we disable
-//// signing if the signing GPG key ID is not present.
-//if (System.getenv('GPG_KEY_ID')) {
-//    apply plugin: 'signing'
-//
-//    signing {
-//        required { gradle.taskGraph.hasTask("uploadArchives") }
-//        sign configurations.archives
-//        setRequired { required true }
-//    }
-//}
-
-//// Build, sign, and upload
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//
-//            // Sign POM
-//            beforeDeployment {
-//                MavenDeployment deployment -> signing.signPom(deployment)
-//            }
-//
-//            // Destination
-//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-//                authentication(userName: System.getenv('SONATYPE_USERNAME'), password: System.getenv('SONATYPE_PASSWORD'))
-//            }
-//            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-//                authentication(userName: System.getenv('SONATYPE_USERNAME'), password: System.getenv('SONATYPE_PASSWORD'))
-//            }
-//
-//            // Add required metadata to POM
-//            pom.project {
-//                name 'LGP-lib'
-//                packaging 'jar'
-//                description 'A library of implementations for core LGP framework components.'
-//                url 'https://github.com/JedS6391/LGP-lib'
-//
-//                scm {
-//                    connection 'scm:git:git://github.com/JedS6391/LGP-lib.git'
-//                    developerConnection 'scm:git:ssh://github.com/JedS6391/LGP-lib.git'
-//                    url 'http://github.com/JedS6391/LGP-lib/tree/master'
-//                }
-//
-//                licenses {
-//                    license {
-//                        name 'MIT License'
-//                        url 'https://github.com/JedS6391/LGP-lib/blob/master/LICENSE'
-//                    }
-//                }
-//
-//                developers {
-//                    developer {
-//                        id 'jedsimson'
-//                        name 'Jed Simson'
-//                        email 'jed.simson@gmail.com'
-//                        organization 'jedsimson'
-//                        organizationUrl 'https://jedsimson.co.nz'
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
