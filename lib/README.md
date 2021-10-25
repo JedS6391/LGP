@@ -95,5 +95,5 @@ A program implementation that is made up of a sequence of instructions (generall
 [license-url]: https://github.com/JedS6391/LGP/blob/master/LICENSE
 [build-image]: https://img.shields.io/github/workflow/status/JedS6391/LGP/Release
 [build-url]: https://github.com/JedS6391/LGP/actions/workflows/release.yml
-[maven-image]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/LGP-lib.svg?label=lib&style=flat
-[maven-url]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22LGP-lib%22
+[maven-image]: https://img.shields.io/maven-central/v/nz.co.jedsimson.lgp/lib.svg?label=lib&style=flat
+[maven-url]: https://search.maven.org/search?q=g:%22nz.co.jedsimson.lgp%22%20AND%20a:%22lib%22
