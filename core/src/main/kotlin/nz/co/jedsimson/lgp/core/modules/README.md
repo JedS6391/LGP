@@ -1,6 +1,6 @@
 # Package nz.co.jedsimson.lgp.core.modules
 
-Provides the main components for defining an interacting with modules in the system.
+Provides the main components for defining and interacting with modules in the system.
   
   - Interfaces to define a module in the system, as well as metadata about modules:
     - `Module`
