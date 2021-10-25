@@ -37,7 +37,7 @@ jobs:
         run: './gradlew core:coreJar --no-daemon --stacktrace --console=plain --rerun-tasks'
 
       - name: Generate code coverage report
-        run: './gradlew core:jacocoTestReport'
+        run: './gradlew core:jacocoTestReport --no-daemon'
       
       - name: Upload code coverage report
         uses: codecov/codecov-action@v1     
@@ -46,7 +46,9 @@ jobs:
 
       - name: Generate API documentation
         if: ${{github.event_name == 'push'}}
-        run: ./gradlew dokkaHtml && ./gradlew dokkaJavaDoc
+        # Note the `--no-daemon` is important here to avoid memory leaks.
+        # See https://github.com/Kotlin/dokka/issues/1405 for more details
+        run: './gradlew dokkaHtml --no-daemon && ./gradlew dokkaJavaDoc --no-daemon'
 
       - name: Publish API documentation
         if: ${{github.event_name == 'push'}}

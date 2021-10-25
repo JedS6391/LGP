@@ -38,9 +38,15 @@ repositories {
 }
 
 dependencies {
-    compile "nz.co.jedsimson.lgp:LGP:<VERSION>"
+    // Core abstractions and components of the LGP framework
+    compile "nz.co.jedsimson.lgp:core:<VERSION>"
     // To get the full source, include the sources package
-    compile "nz.co.jedsimson.lgp:LGP:<VERSION>:sources"
+    compile "nz.co.jedsimson.lgp:core:<VERSION>:sources"
+    
+    // Implementations for core LGP framework components
+    compile "nz.co.jedsimson.lgp:lib:<VERSION>"
+    // To get the full source, include the sources package
+    compile "nz.co.jedsimson.lgp:lib:<VERSION>:sources"
 }
 ```
 
