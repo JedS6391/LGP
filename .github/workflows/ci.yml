@@ -6,8 +6,9 @@ on:
       - '**.kts'
       - '.github/**'
       - 'docs/**'
-      - 'src/**'
-    branches-ignore:      
+      - 'core/**'
+      - 'lib/**'
+    branches-ignore:
       - 'master'
       - 'docs'
 
@@ -26,15 +27,15 @@ jobs:
 
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-      
-      - name: Build core JAR
-        run: ./gradlew coreJar --no-daemon --stacktrace --console=plain     
 
-      - name: Run tests
-        run: ./gradlew test --no-daemon --info --console=plain --rerun-tasks
+      - name: Build projects
+        run: './gradlew build --no-daemon --stacktrace --console=plain --rerun-tasks'
+
+      - name: Build core JAR
+        run: './gradlew core:coreJar --no-daemon --stacktrace --console=plain --rerun-tasks'
 
       - name: Generate code coverage report
-        run: ./gradlew jacocoTestReport
+        run: './gradlew core:jacocoTestReport'
       
       - name: Upload code coverage report
         uses: codecov/codecov-action@v1     

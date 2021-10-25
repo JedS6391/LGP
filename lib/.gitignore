@@ -134,7 +134,6 @@ gradle-app.setting
 
 docs/build
 docs/guide
-docs/api
 
 .env
 # Ignore Gradle build output directory
