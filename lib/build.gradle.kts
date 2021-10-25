@@ -62,7 +62,7 @@ tasks {
     val javaDocsJar by creating(Jar::class) {
         archiveBaseName.set(mainArtifactName)
         archiveClassifier.set("javadoc")
-        from(javadoc)
+        from(dokkaJavadoc)
     }
 
     dokkaHtml.configure {
